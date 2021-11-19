@@ -1,0 +1,21 @@
+# server port config
+server:
+  port: 8887
+
+# oracle driver config
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
+    username: EGV
+    password: EGV
+
+# jpa config  jpa:    generate-ddl: false
+    show-sql: true
+    database: oracle    database-platform: org.hibernate.dialect.Oracle10gDialect
+logging:  level:    '[org.hibernate]': info
+
+      
+
+
+

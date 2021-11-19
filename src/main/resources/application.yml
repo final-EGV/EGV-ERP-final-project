@@ -14,8 +14,3 @@ spring:
     show-sql: true
     database: oracle    database-platform: org.hibernate.dialect.Oracle10gDialect
 logging:  level:    '[org.hibernate]': info
-
-      
-
-
-

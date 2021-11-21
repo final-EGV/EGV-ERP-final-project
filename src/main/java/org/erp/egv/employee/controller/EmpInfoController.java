@@ -1,5 +1,6 @@
 package org.erp.egv.employee.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -27,14 +28,15 @@ public class EmpInfoController {
 	@GetMapping("/list")
 	public ModelAndView empListRequest(ModelAndView mv) {
 		
+		System.out.println("콘트롤러 오나요?");
+		
 		List<EmployeeDTO> empList = empInfoService.empListRequest();
 		
-		for(EmployeeDTO emp : empList) {
-			System.out.println(emp);
-		}
+		List emplists= new ArrayList<>();
+
 		
 		mv.addObject("empList", empList);
-		mv.setViewName("emp/list");
+		mv.setViewName("emp/emplist");
 		
 		return mv;
 	}

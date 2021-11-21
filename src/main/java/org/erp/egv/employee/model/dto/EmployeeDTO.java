@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -92,7 +93,7 @@ public class EmployeeDTO implements Serializable {
 	@Column(name = "STAMP_IMG_PATH")
 	private String stampImgPath;
 	
-	@OneToMany(mappedBy = "employee")
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	private List<EmployeeRoleDTO> employeeRoleList = new ArrayList<>();		// 회원별권한리스트(nullpointexceprion 방지를 위해 객체 선언)
 	
 	public EmployeeDTO() {

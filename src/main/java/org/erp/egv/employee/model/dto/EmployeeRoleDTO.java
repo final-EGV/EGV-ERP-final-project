@@ -3,6 +3,7 @@ package org.erp.egv.employee.model.dto;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -55,7 +56,7 @@ public class EmployeeRoleDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "EmployeeRoleDTO [employee=" + employee + ", authority=" + authority + "]";
+		return "EmployeeRoleDTO [employee=" + employee.getName() + ", authority=" + authority.getName() + "]";
 	}
 
 

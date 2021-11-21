@@ -9,7 +9,7 @@
 <meta name="description"
 	content="Main page of theater management, displaying list of movies.">
 <meta name="author" content="UnSuk Song">
-<title>theater > movie</title>
+<title>EGV: theater > movie</title>
 <!-- Custom fonts for this template-->
 <link href="/css/all.min.css" rel="stylesheet" type="text/css">
 <link
@@ -62,18 +62,20 @@
 											<th>배급사</th>
 											<th>감독</th>
 											<th>국가</th>
+											<th>개봉여부</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="movie : ${ movieList }">
-											<th th:text="${ movie.name }"></th>
-											<th th:text="${ movie.openingDate }"></th>
-											<th th:text="${ movie.runningTime }"></th>
-											<th th:text="${ movie.grade }"></th>
-											<th th:text="${ movie.genre }"></th>
-											<th th:text="${ movie.distributor }"></th>
-											<th th:text="${ movie.director }"></th>
-											<th th:text="${ movie.country }"></th>
+											<td th:text="${ movie.name }"></td>
+											<td th:text="${ movie.openingDate }"></td>
+											<td th:text="${ movie.runningTime }"></td>
+											<td th:text="${ movie.grade }"></td>
+											<td th:text="${ movie.genre }"></td>
+											<td th:text="${ movie.distributor }"></td>
+											<td th:text="${ movie.director }"></td>
+											<td th:text="${ movie.country }"></td>
+											<td th:text="${ movie.openingYn }"></td>
 										</tr>
 									</tbody>
 								</table>

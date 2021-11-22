@@ -42,8 +42,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 		/* csrf : 토큰 위조 공격을 막기 위한 것(default가 'on'인 상태) */
 		http.csrf().disable()					// 구현의 편리를 위해 disable로 함
 			.authorizeRequests()				// 요청에 대한 권한 체크를 어떻게 할 것인지
-				.antMatchers("/").authenticated()					// /menu/**에 대해서는 하나하나 권한을 등록하겠다.
-				.antMatchers("/").hasRole("Admin")	// hasRole은 ROLE_를 달아주며 ROLE_MEMBER와 일치하면 허용하겠다는 뜻
+				.antMatchers("/a").authenticated()					// /menu/**에 대해서는 하나하나 권한을 등록하겠다.
+				.antMatchers("/a").hasRole("Admin")	// hasRole은 ROLE_를 달아주며 ROLE_MEMBER와 일치하면 허용하겠다는 뜻
 //				.antMatchers(HttpMethod.POST, "/").hasRole("a")
 			.and()
 			    .formLogin()												// 로그인 form을 따로 이용해 로그인 처리를 할 것이다.

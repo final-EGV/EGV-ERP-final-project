@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,6 +27,15 @@ public class EmpInfoDAO {
 		
 		return empList;
 
+	}
+	
+	public EmployeeDTO findMemberById(String name) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, name);
+		
+		String jpql = "SELECT a FROM EmployeeRoleDTO as a WHERE a.employee.code = :code";
+		emp.setEmployeeRoleList(em.createQuery(jpql, EmployeeRoleDTO.class).setParameter("code", emp.getCode()).getResultList());
+		
+		return emp;
 	}
 	
 }

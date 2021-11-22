@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+<title>Insert title here</title>
+<style>
+div>button, input[type=submit] {
+	width: 410px;
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<script>
+	if("[[${ param.error }]]" == "fail") {
+		alert("아이디 또는 패스워드가 일치하지 않습니다. 다시 로그인 시도해주세요");
+	}
+</script>
+
+<div style="text-align: center; margin-top: 150px; margin-bottom: 40px;">
+    <img src="/img/egv_icon.PNG" style="width: 200px; height: 80px; margin-left: 20px;"/>
+</div>
+
+
+	<form action="/emp/login" method="post" id="loginForm">
+		<table align="center">
+			<tr>
+				<td>
+					<div class="input-group mb-3 input-group-lg">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width:150px"> <i class="fas fa-home" style="margin-right: 10px;"></i>사번</span>
+						</div>
+						<input type="text" class="form-control" name="username"><!-- 시큐리티에서는 반드시 username으로 name값 설정 -->
+					</div>
+				</td>
+				<td rowspan="2"></td>
+			</tr>
+			<tr>
+				<td>
+					<div class="input-group mb-3 input-group-lg">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width:150px;"> <i class="fas fa-user" style="margin-right: 10px;"></i> 비밀번호</span>
+						</div>
+						<input type="password" class="form-control" name="password"><!-- 시큐리티에서는 반드시 password으로 name값 설정 -->
+					</div>
+				</td>
+
+			</tr>
+		</table>
+	</form>
+	
+	
+	<div align="center">
+		<input type="submit" value="로그인" class="btn btn-success">
+		<br>
+		<div style="margin-left: 210px; margin-top: 15px">
+			<a href="#">아이디 찾기 &nbsp;</a> 
+			<a href="#">비밀번호 찾기</a>
+		</div>
+	</div>
+	
+	<script>
+		$(function(){
+			$("input[name=userId]").focus();
+			
+			$("input[type=submit]").click(function(){
+				$("#loginForm").submit();
+			});
+		})
+	</script>
+</body>
+</html>

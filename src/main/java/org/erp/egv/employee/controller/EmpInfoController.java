@@ -41,5 +41,8 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	@GetMapping("/login")
+	public void memberLogin() { }
+	
 	
 }

@@ -138,16 +138,20 @@
 	<script src="/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
-	<script src="/js/jquery.dataTables.min.js"></script>
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
 	<script src="/js/dataTables.bootstrap4.min.js"></script>
 
 	<!-- Page level custom scripts -->
 	<script>
 		$(document).ready(function() {
 			$('#movieTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
 				"order" : [ 1, 'desc' ]	/* 개봉일자 속성 기준으로 내림차순(최신순) */
-			});
-		})
+			}
+			);
+		});
 	</script>
 
 </body>

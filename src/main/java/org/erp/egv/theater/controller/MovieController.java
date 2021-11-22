@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/theater")
+@RequestMapping("/theater/movie")
 public class MovieController {
 	
 	private MovieService movieService;
@@ -21,7 +21,7 @@ public class MovieController {
 		this.movieService = movieService;
 	}
 
-	@GetMapping("/movie")
+	@GetMapping("/list")
 	public ModelAndView inquireAllMovieList(ModelAndView mv) {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());

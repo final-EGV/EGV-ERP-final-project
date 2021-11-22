@@ -3,6 +3,7 @@ package org.erp.egv.employee.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -34,6 +35,20 @@ public class EmpInfoDAO {
 		
 		String jpql = "SELECT a FROM EmployeeRoleDTO as a WHERE a.employee.code = :code";
 		emp.setEmployeeRoleList(em.createQuery(jpql, EmployeeRoleDTO.class).setParameter("code", emp.getCode()).getResultList());
+		
+		return emp;
+	}
+
+	public EmployeeDTO finId(String email) throws javax.persistence.NoResultException {
+		String jpql = "SELECT a FROM EmployeeDTO as a WHERE a.email = :email";
+		
+		EmployeeDTO emp = null;
+		
+		try{
+			emp = em.createQuery(jpql, EmployeeDTO.class).setParameter("email", email).getSingleResult();
+		}catch (NoResultException e){
+			
+		}
 		
 		return emp;
 	}

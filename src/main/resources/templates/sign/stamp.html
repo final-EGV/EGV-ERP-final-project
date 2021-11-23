@@ -47,19 +47,30 @@
 
 				<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h5 class="m-0 font-weight-bold text-primary">페이지 제목</h5>
+							<h5 class="m-0 font-weight-bold text-primary">도장/서명 설정</h5>
 						</div>
 						<div class="card-body">
-							<div class="table-responsive">
+							<div class="table-responsive" style="margin: 3% 30%;">
 								
-								
-								
-								
-								
-								
-								
-								
-								
+								<form action="/sign/stamp" id="stampInsertForm" method="post" encType="multipart/form-data">
+									<div>
+									<div id="stamp-img" style="float: left;">
+										<figcaption>도장 / 서명</figcaption>
+			            				<img id="stampImg" width="200" height="200">
+			            			</div>
+			            			<div class="file-area" style="float: left;">
+										<input required="required" type="file" hidden id="stampImgFile" name="stampImg" onchange="loadImg(this,1)">
+									</div>
+									<div style="width: 20%; float: left; margin: 7% 1%;">
+										<div>
+											<button type="button" class="btn btn-secondary" id="fileBtn">파일 선택하기</button>
+										</div>
+										<div style="margin: 2% 0px;">
+					            			<button type="submit" class="btn btn-primary" style="float: left;">등록하기</button>
+										</div>
+									</div>
+									</div>
+								</form>
 								
 							</div>
 						</div>
@@ -105,7 +116,17 @@
             </div>
         </div>
     </div>
-
 </body>
+<script>
+	const $stampImgArea = document.getElementById("stamp-img");
+	const $fileButton = document.getElementById("fileBtn");
+	
+	$stampImgArea.onclick = function() { 
+		document.getElementById("stampImgFile").click(); 
+	}
+	$fileButton.onclick = function() { 
+		document.getElementById("stampImgFile").click(); 
+	}
+</script>
 
 </html>

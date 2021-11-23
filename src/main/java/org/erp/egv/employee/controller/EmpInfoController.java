@@ -48,6 +48,33 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	@GetMapping("/empInfor")
+//	public ModelAndView empOneRequest(ModelAndView mv, @RequestParam String empCode) {
+	public ModelAndView empOneRequest(ModelAndView mv) {
+		String empCode = "2021100";
+		System.out.println("콘트롤러 one 오나요?");
+		
+		EmployeeDTO empInfor = empInfoService.empOneRequest(empCode);
+		
+		mv.addObject("empInfor", empInfor);
+		mv.setViewName("emp/empInfor");
+		
+		return mv;
+	}
+	
+	@GetMapping(value="departmentList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<DepartmentDTO> findDepartmentList(){
+		return empInfoService.findDepartmentList();
+	}
+	
+	@GetMapping(value="empRankList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<EmpRankDTO> findEmpRankList(){
+		return empInfoService.findEmpRankList();
+	}
+	
+	
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {
 		List<DepartmentDTO> deptList = empInfoService.empDeptList();

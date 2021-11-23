@@ -31,6 +31,20 @@ public class EmpInfoService {
 		return empInfoDAO.empListRequest();
 	}
 	
+
+	public EmployeeDTO empOneRequest(String empCode) {
+		return empInfoDAO.empOneRequest(empCode);
+	}
+
+	public List<DepartmentDTO> findDepartmentList() {
+		return empInfoDAO.findDepartmentList();
+	}
+
+	public List<EmpRankDTO> findEmpRankList() {
+		return empInfoDAO.findEmpRankList();
+	}
+	
+	
 	public List<EmployeeDTO> salaryRequest() {
 		return empInfoDAO.salaryRequest();
 	}

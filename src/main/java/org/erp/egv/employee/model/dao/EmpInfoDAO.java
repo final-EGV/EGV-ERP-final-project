@@ -33,6 +33,33 @@ public class EmpInfoDAO {
 
 	}
 	
+	public EmployeeDTO empOneRequest(String empCode) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, empCode);
+		
+		System.out.println(emp);
+		
+		return emp;
+	}
+	
+	public List<DepartmentDTO> findDepartmentList() {
+		String jpql = "SELECT a FROM DepartmentDTO as a ORDER BY a.code ASC";
+		
+		TypedQuery<DepartmentDTO> query = em.createQuery(jpql, DepartmentDTO.class);
+		List<DepartmentDTO> departmentList = query.getResultList();
+		
+		return departmentList;
+	}
+
+	
+	public List<EmpRankDTO> findEmpRankList() {
+		String jpql = "SELECT a FROM EmpRankDTO as a ORDER BY a.code ASC";
+		
+		TypedQuery<EmpRankDTO> query = em.createQuery(jpql, EmpRankDTO.class);
+		List<EmpRankDTO> empRankList = query.getResultList();
+		
+		return empRankList;
+	}
+	
 	public List<EmployeeDTO> salaryRequest() {
 		String jpql = "SELECT e FROM EmployeeDTO e ORDER BY e.entDate";	
 		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);

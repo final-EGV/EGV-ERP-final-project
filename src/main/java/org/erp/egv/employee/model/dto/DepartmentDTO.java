@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
 @Table(name = "DEPARTMENT")
+@DynamicInsert
 @SequenceGenerator(name = "DEPARTMENT_SEQ_GENERATOR",
 					sequenceName = "SEQ_DEPARTMENT_CODE",
 					initialValue = 600,
@@ -20,7 +23,6 @@ public class DepartmentDTO implements Serializable{
 	private static final long serialVersionUID = 8505484750906149300L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEPARTMENT_SEQ_GENERATOR")
 	@Column(name = "DEPT_CODE")
 	private int code;
 	

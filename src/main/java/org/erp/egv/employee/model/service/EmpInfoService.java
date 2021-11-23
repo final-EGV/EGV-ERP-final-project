@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.erp.egv.employee.model.dao.EmpInfoDAO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
@@ -23,8 +25,6 @@ public class EmpInfoService {
 		this.empInfoDAO = empInfoDAO;
 		this.passwordEncoder = passwordEncoder;
 	}
-	
-	
 
 	public List<EmployeeDTO> empListRequest() {
 		System.out.println("서비스로 오나요?");
@@ -36,10 +36,20 @@ public class EmpInfoService {
 		return empInfoDAO.empOneRequest(empCode);
 	}
 
+	/* 부서목록 리스트 */
+	@Transactional
 	public List<DepartmentDTO> findDepartmentList() {
 		return empInfoDAO.findDepartmentList();
 	}
 
+	/* 부서 등록 */
+	@Transactional
+	public void addNewDept(DepartmentDTO newDept) {
+		empInfoDAO.addNewDept(newDept);
+	}
+	
+	/* 직위/직급 리스트 */
+	@Transactional
 	public List<EmpRankDTO> findEmpRankList() {
 		return empInfoDAO.findEmpRankList();
 	}

@@ -48,7 +48,6 @@
 					<!-- DataTales -->
 					<div class="card mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary" align="center">부서목록</h6>
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeptModal">부서 추가</button>
 						</div>
 						<div class="card-body">
@@ -119,20 +118,20 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <form>
+	        <form action="/emp/dept/add" method="post">
 			  <div class="form-group">
 			    <label for="formGroupExampleInput">부서코드</label>
-			    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+			    <input type="text" class="form-control" name="code" placeholder="">
 			  </div>
 			  <div class="form-group">
 			    <label for="formGroupExampleInput2">부서명</label>
-			    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+			    <input type="text" class="form-control" name="name" placeholder="">
 			  </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		        <button type="submit" class="btn btn-primary">등록</button>
+		      </div>
 			</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary">등록</button>
 	      </div>
 	    </div>
 	  </div>

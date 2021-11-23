@@ -2,6 +2,7 @@ package org.erp.egv.employee.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.erp.egv.employee.model.dto.DepartmentDTO;
@@ -81,6 +82,15 @@ public class EmpInfoController {
 		
 		mv.addObject("deptList", deptList);
 		mv.setViewName("emp/dept/deptList");
+		
+		return mv;
+	}
+	
+	@PostMapping("/dept/add")
+	public ModelAndView addNewDept(ModelAndView mv, DepartmentDTO newDept, Locale locale) {
+		
+		empInfoService.addNewDept(newDept);
+		mv.setViewName("redirect:/emp/dept");
 		
 		return mv;
 	}

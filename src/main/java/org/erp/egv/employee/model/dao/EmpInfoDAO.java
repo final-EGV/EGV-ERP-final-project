@@ -145,6 +145,10 @@ public class EmpInfoDAO {
 		return empList;
 
 	}
+
+	public void addNewDept(DepartmentDTO newDept) {
+		em.persist(newDept);
+	}
 	
     
 }

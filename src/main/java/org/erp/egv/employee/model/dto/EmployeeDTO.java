@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -92,6 +94,14 @@ public class EmployeeDTO implements Serializable {
 	
 	@Column(name = "STAMP_IMG_PATH")
 	private String stampImgPath;
+
+	@ManyToOne
+	@JoinColumn(name = "DEPT_CODE")
+	private DepartmentDTO dept;	
+	
+	@ManyToOne
+	@JoinColumn(name = "RANK_CODE")
+	private EmpRankDTO rank;	
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	private List<EmployeeRoleDTO> employeeRoleList = new ArrayList<>();		// 회원별권한리스트(nullpointexceprion 방지를 위해 객체 선언)
@@ -103,7 +113,7 @@ public class EmployeeDTO implements Serializable {
 			String empPosition, String phoneHome, String phoneMobile, String email, String accountBank,
 			String accountNum, String accountHolder, String address, String outYN, String outDATE, String outReason,
 			String note, String profileOrigName, String profileUuidName, String profileImgName, String stampOrigName,
-			String stampUuidName, String stampImgPath, List<EmployeeRoleDTO> employeeRoleList) {
+			String stampUuidName, String stampImgPath, List<EmployeeRoleDTO> employeeRoleList, DepartmentDTO dept, EmpRankDTO rank) {
 		this.code = code;
 		this.pwd = pwd;
 		this.name = name;
@@ -130,6 +140,8 @@ public class EmployeeDTO implements Serializable {
 		this.stampUuidName = stampUuidName;
 		this.stampImgPath = stampImgPath;
 		this.employeeRoleList = employeeRoleList;
+		this.dept = dept;
+		this.rank = rank;
 	}
 
 	public String getCode() {
@@ -344,6 +356,22 @@ public class EmployeeDTO implements Serializable {
 		return serialVersionUID;
 	}
 
+	public DepartmentDTO getDept() {
+		return dept;
+	}
+
+	public EmpRankDTO getRank() {
+		return rank;
+	}
+
+	public void setRank(EmpRankDTO rank) {
+		this.rank = rank;
+	}
+
+	public void setDept(DepartmentDTO dept) {
+		this.dept = dept;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeDTO [code=" + code + ", pwd=" + pwd + ", name=" + name + ", engName=" + engName + ", rrn=" + rrn
@@ -353,7 +381,8 @@ public class EmployeeDTO implements Serializable {
 				+ ", outYN=" + outYN + ", outDATE=" + outDATE + ", outReason=" + outReason + ", note=" + note
 				+ ", profileOrigName=" + profileOrigName + ", profileUuidName=" + profileUuidName + ", profileImgName="
 				+ profileImgName + ", stampOrigName=" + stampOrigName + ", stampUuidName=" + stampUuidName
-				+ ", stampImgPath=" + stampImgPath + ", employeeRoleList=" + employeeRoleList + "]";
+				+ ", stampImgPath=" + stampImgPath + ", dept=" + dept + ", rank=" + rank + ", employeeRoleList="
+				+ employeeRoleList + "]";
 	}
 
 }

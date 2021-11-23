@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.erp.egv.employee.model.dao.EmpInfoDAO;
+import org.erp.egv.employee.model.dto.DepartmentDTO;
+import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,14 @@ public class EmpInfoService {
 	
 	public List<EmployeeDTO> salaryRequest() {
 		return empInfoDAO.salaryRequest();
+	}
+	
+	public List<DepartmentDTO> empDeptList() {
+		return empInfoDAO.empDeptList();
+	}
+	
+	public List<EmpRankDTO> empRankList() {
+		return empInfoDAO.empRankList();
 	}
 
 	public Map<String, String> finId(String name, String birtha, String email) {
@@ -77,6 +87,7 @@ public class EmpInfoService {
 	public List<EmployeeDTO> severancePayRequest() {
 		return empInfoDAO.severancePayRequest();
 	}
+
 
 
 }

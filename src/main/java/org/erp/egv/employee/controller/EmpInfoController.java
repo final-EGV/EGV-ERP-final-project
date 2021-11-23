@@ -1,18 +1,15 @@
 package org.erp.egv.employee.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
+import org.erp.egv.employee.model.dto.DepartmentDTO;
+import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +25,12 @@ import com.google.gson.GsonBuilder;
 public class EmpInfoController {
 
 	private EmpInfoService empInfoService;
-	
+
 	@Autowired
 	public EmpInfoController(EmpInfoService empInfoService) {
 		this.empInfoService = empInfoService;
 	}
-	
+
 	@GetMapping("/empTestV1")
 	public void emptest() {}
 	
@@ -44,11 +41,29 @@ public class EmpInfoController {
 		
 		List<EmployeeDTO> empList = empInfoService.empListRequest();
 		
-		List emplists= new ArrayList<>();
-
 		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/emplist");
+		
+		return mv;
+	}
+	
+	@GetMapping("/dept")
+	public ModelAndView departmentList(ModelAndView mv) {
+		List<DepartmentDTO> deptList = empInfoService.empDeptList();
+		
+		mv.addObject("deptList", deptList);
+		mv.setViewName("emp/dept/deptList");
+		
+		return mv;
+	}
+	
+	@GetMapping("/rank")
+	public ModelAndView rankList(ModelAndView mv) {
+		List<EmpRankDTO> rankList = empInfoService.empRankList();
+		
+		mv.addObject("rankList", rankList);
+		mv.setViewName("emp/rank/rankList");
 		
 		return mv;
 	}

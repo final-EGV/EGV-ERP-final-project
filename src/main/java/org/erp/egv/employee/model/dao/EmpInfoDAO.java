@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
@@ -51,6 +52,20 @@ public class EmpInfoDAO {
 		}
 		
 		return emp;
+	}
+
+	public EmployeeDTO findEmpByCode(String code) throws javax.persistence.NoResultException {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
+		
+		return emp;
+	}
+
+	@Transactional
+	public EmployeeDTO resetPw(String code, String repw) throws javax.persistence.NoResultException {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
+		emp.setPwd(repw);
+		return emp;
+		
 	}
 	
 }

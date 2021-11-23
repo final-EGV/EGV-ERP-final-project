@@ -12,14 +12,6 @@
 
 <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
 <title>Insert title here</title>
-<style>
-#subbtn {
-	width: 410px;
-	height: 45px;
-	margin-top: 10px;
-	margin-bottom: 15px;	
-}
-</style>
 </head>
 <body>
 <script>
@@ -30,11 +22,22 @@
 
 <div style="text-align: center; margin-top: 150px; margin-bottom: 40px;">
     <a onclick="location.href='/emp/login'"><img src="/img/egv_icon.PNG" style="width: 200px; height: 80px; margin-left: 20px;"/></a>
-    <h2 style="margin-top: 20px;">사번 찾기</h2>
+    <h2 style="margin-top: 20px;">비밀번호 초기화</h2>
 </div>
 
 <div id="main">
 	<table align="center">
+		<tr>
+			<td>
+				<div class="input-group mb-3 input-group-lg">
+					<div class="input-group-prepend">
+						<span class="input-group-text" style="width:150px"> <i class="fas far fa-address-card" style="margin-right: 10px;"></i>사번</span>
+					</div>
+					<input type="text" class="form-control" id="code" name="code" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+				</div>
+			</td>
+			<td rowspan="2"></td>
+		</tr>
 		<tr>
 			<td>
 				<div class="input-group mb-3 input-group-lg">
@@ -68,11 +71,9 @@
 		</tr>
 	</table>
 	
-	<div align="center">
-		<input id="subbtn" type="submit" value="확인" class="btn btn-success">
-		<br>
-			<input style="width: 200px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'"> &nbsp; 
-			<input style="width: 200px;" type="button" value="비밀번호 초기화" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/pwreset'">
+	<div align="center" style="margin-top: 10px;">
+			<input id="subbtn" style="width: 200px;" type="submit"  value="확인" class="btn btn-success col-xs-1"> &nbsp; 
+			<input style="width: 200px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'">
 	</div>
 </div>
 
@@ -80,21 +81,23 @@
 		<table class="table table-bordered w-auto" align="center" style="table-layout: fixed">
 			<thead>
 				<tr>
-		        	<th style="width: 350px;">입사일</th>
 		        	<th style="width: 350px;">사번</th>
+		        	<th style="width: 350px;">초기화 비밀번호</th>
 		    	</tr>
 			</thead>
 		    <tbody>
 		    	<tr>
-		        	<td id="entdate"></td>
 		        	<td id="empcode"></td>
+		        	<td id="repw"></td>
 		    	</tr>
 		    </tbody>
 		</table> 
+		<p> *초기 비밀번호는 사번+생년월일입니다. </p>
+		<p> *비밀번호 초기화 후에는 꼭 비밀번호를 변경해 주세요. </p>
+		  
 		
 		<div align="center" style="margin-top: 35px;">
-			<input style="width: 250px; margin-right: 30px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'">  
-			<input style="width: 250px; margin-left: 30px;" type="button" value="비밀번호 초기화" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/pwreset'">
+			<input style="width: 400px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'">  
 		</div>
 		
 	</div>
@@ -103,33 +106,30 @@
 	
 	<script>
 		$(function(){
-			$("input[name=name]").focus();
+			$("input[name=code]").focus();
 			$("#add").hide();
 		})
 		
 		
 		$("#subbtn").click(function() {
 			const param = {
+					code : $("#code").val(),
 					name : $("#name").val(),
 				 	birth : $("#birth").val(),
 				 	email : $("#email").val()
 				}
 			
-			console.log(param.name);
-			console.log(param.birth);
-			
-			if(param.name != "" && param.birth != "" && param.email != "") {
-				
+			if(param.code != "" && param.name != "" && param.birth != "" && param.email != "") {
 				$.ajax({
-	  				url: "findid",
+	  				url: "repw",
 	  				type: "post",
 	  				data: param,
 	  				success: function(data) {
-	  					if(data.code == null) {
+	  					if(data == null) {
 	  						alert("입력하신 정보와 일치하는 사원이 없습니다.");
 	  					} else {
 	  						$("#empcode").text(data.code);
-	  						$("#entdate").text(data.date);
+	  						$("#repw").text(data.newpw);
 	  						$("#add").show();
 	  						$("#main").hide();
 	  					}
@@ -140,11 +140,12 @@
 	  							+ "message:" + request.responseText + "\n"
 	  							+ "error:" + error);
 	  				}
-	  			});	        
+	  			});	   
 			} else {
 				alert("해당 내용을 전부 입력해주세요");
 			}
-        	      
+			
+        	           
 		});
 	</script>
 </body>

@@ -2,8 +2,11 @@ package org.erp.egv.employee.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
@@ -69,9 +72,39 @@ public class EmpInfoController {
 		
 		Map<String, String> result = empInfoService.finId(name, birtha, email);
 		
-		String jsonString = new Gson().toJson(result);
+		Gson gson = new GsonBuilder().create();
 		
-		return jsonString;
+		return gson.toJson(result);
+		
+	}
+	
+	@GetMapping("/pwreset")
+	public void pwreset() { }
+	
+	
+	@PostMapping(value="repw", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String resetPw(@RequestParam("code") String code, @RequestParam("name") String name,@RequestParam("birth") String birth,@RequestParam(
+			"email") String email) {
+		Map<String, String> result = null;
+		
+		String birtha = birth.substring(2, 4) + birth.substring(5, 7) + birth.substring(8, 10);
+		
+		EmployeeDTO emp = empInfoService.pwReset(code, name, birtha, email);
+		
+		if(emp != null) {
+			String code2 = emp.getCode();
+			String newpw = emp.getCode()+birtha;
+			
+			result = new HashMap<>();
+			result.put("code", code2);
+			result.put("newpw", newpw);
+		}
+		
+		Gson gson = new GsonBuilder().create();
+		
+		return gson.toJson(result);
+		
 	}
 	
 	

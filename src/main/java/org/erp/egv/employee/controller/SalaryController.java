@@ -22,21 +22,30 @@ public class SalaryController {
 		this.empInfoService = empInfoService;
 	}
 	
-	@GetMapping("/salary")
-	public void salary() {}
-	
-	@GetMapping("/list")
-	public ModelAndView salaryListRequest(ModelAndView mv) {
-		
-		System.out.println("콘트롤러 오나요?");
-		
-		List<EmployeeDTO> empList = empInfoService.empListRequest();
+	@GetMapping("/salary")	
+	public ModelAndView salaryRequest(ModelAndView mv) {
+				
+		List<EmployeeDTO> empList = empInfoService.salaryRequest();
 		
 		List emplists= new ArrayList<>();
 
 		
 		mv.addObject("empList", empList);
-		mv.setViewName("emp/emplist");
+		mv.setViewName("emp/salary/salary");
+		
+		return mv;
+	}
+	
+	@GetMapping("/severancePay")	
+	public ModelAndView severancePayRequest(ModelAndView mv) {
+				
+		List<EmployeeDTO> empList = empInfoService.severancePayRequest();
+		
+		List emplists= new ArrayList<>();
+
+		
+		mv.addObject("empList", empList);
+		mv.setViewName("emp/salary/severancePay");
 		
 		return mv;
 	}

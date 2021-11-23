@@ -28,6 +28,10 @@ public class EmpInfoService {
 		System.out.println("서비스로 오나요?");
 		return empInfoDAO.empListRequest();
 	}
+	
+	public List<EmployeeDTO> salaryRequest() {
+		return empInfoDAO.salaryRequest();
+	}
 
 	public Map<String, String> finId(String name, String birtha, String email) {
 		EmployeeDTO emp = empInfoDAO.finId(email);
@@ -68,6 +72,10 @@ public class EmpInfoService {
 		} 
 		
 		return emp;
+	}
+    
+	public List<EmployeeDTO> severancePayRequest() {
+		return empInfoDAO.severancePayRequest();
 	}
 
 

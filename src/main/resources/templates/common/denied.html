@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
-	<h1 align="center">접근 권한이 없습니다. 관리자에게 문의해 주세요</h1>
+	<script>
+	$(function(){
+		alert("접근 권한이 없습니다. 관리자에게 문의해 주세요");
+		
+		location.href="/"
+	})
+	</script>
+	
 </body>
 </html>

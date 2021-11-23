@@ -61,7 +61,7 @@ div>button, input[type=submit] {
 		<br>
 		<div style="margin-left: 210px; margin-top: 15px">
 			<a onclick="location.href='/emp/findid'" style="text-decoration: underline;">아이디 찾기</a>&nbsp; 
-			<a onclick="location.href='/emp/repw'" style="text-decoration: underline;">비밀번호 초기화</a>
+			<a onclick="location.href='/emp/pwreset'" style="text-decoration: underline;">비밀번호 초기화</a>
 		</div>
 	</div>
 	
@@ -70,7 +70,15 @@ div>button, input[type=submit] {
 			$("input[name=username]").focus();
 			
 			$("input[type=submit]").click(function(){
-				$("#loginForm").submit();
+				const param = {
+						name : $("#username").val(),
+					 	pwd : $("#password").val()
+					}
+				if(param.name != "" && param.pwd != "" ) {
+					$("#loginForm").submit();					
+				} else {
+					alert("해당 내용을 전부 입력해주세요");
+				}
 			});
 		})
 	</script>

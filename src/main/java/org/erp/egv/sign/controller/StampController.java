@@ -52,4 +52,15 @@ public class StampController {
 		mv.setViewName("/sign/stamp");
 		return mv;
 	}
+	
+	@GetMapping("/template")
+	public ModelAndView temp(ModelAndView mv) {
+		
+		String a = "템플릿 html";
+		
+		mv.addObject("test", a);
+		mv.setViewName("/sign/template");
+		return mv;
+	}
+	
 }

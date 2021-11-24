@@ -121,15 +121,4 @@ public class StampController {
 		
 		return mv;
 	}
-	
-	@GetMapping("/template")
-	public ModelAndView temp(ModelAndView mv) {
-		
-		String a = "템플릿 html";
-		
-		mv.addObject("test", a);
-		mv.setViewName("/sign/template");
-		return mv;
-	}
-	
 }

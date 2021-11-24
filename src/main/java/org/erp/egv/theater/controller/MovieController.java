@@ -14,11 +14,9 @@ import org.erp.egv.theater.model.dto.MovieDTO;
 import org.erp.egv.theater.model.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -67,20 +65,20 @@ public class MovieController {
 		request.setCharacterEncoding("UTF-8");
 		
 		/* 1. String type input parameters */
-		String movieName = new String(request.getParameter("movieName").getBytes("ISO-8859-1"), "UTF-8");
+		String movieName = request.getParameter("movieName");
 		
-		String openingDateString = new String(request.getParameter("openingDate").getBytes("ISO-8859-1"), "UTF-8");
+		String openingDateString = request.getParameter("openingDate");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date utilDate = format.parse(openingDateString);
 		java.sql.Date openingDate = new java.sql.Date(utilDate.getTime());
 		
-		int runningTime = Integer.valueOf(new String(request.getParameter("runningTime").getBytes("ISO-8859-1"), "UTF-8"));
-		String grade = new String(request.getParameter("grade").getBytes("ISO-8859-1"), "UTF-8");
-		String genre = new String(request.getParameter("genre").getBytes("ISO-8859-1"), "UTF-8");
-		String distributor = new String(request.getParameter("distributor").getBytes("ISO-8859-1"), "UTF-8");
-		String director = new String(request.getParameter("director").getBytes("ISO-8859-1"), "UTF-8");
-		String country = new String(request.getParameter("country").getBytes("ISO-8859-1"), "UTF-8");
-		String openingYn = new String(request.getParameter("openingYn").getBytes("ISO-8859-1"), "UTF-8");
+		int runningTime = Integer.valueOf(request.getParameter("runningTime"));
+		String grade = request.getParameter("grade");
+		String genre = request.getParameter("genre");
+		String distributor = request.getParameter("distributor");
+		String director = request.getParameter("director");
+		String country = request.getParameter("country");
+		String openingYn = request.getParameter("openingYn");
 		
 		/* 1-1. test print for requested parameters */
 		System.out.println("movieName : " + movieName);

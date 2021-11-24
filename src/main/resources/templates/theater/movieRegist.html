@@ -53,68 +53,116 @@
 						
 							<!-- 영화 정보 입력 폼 -->
 							<form action="/theater/movie/regist" id="movie-info" method="post" enctype="multipart/form-data">
-								<div class="custom-file">
-									<label for="posterImg" class="custom-file-label">포스터 이미지 파일 업로드</label>
-									<input class="custom-file-input" type="file" id="posterImg" name="posterImg">
-								</div>
 							
-								<label for="movieName" class="form-label">영화제목</label>
-								<input type="text" class="form-control" id="movieName" name="movieName">
+								<div class="form-row">
 								
-								<label for="openingDate" class="form-label">개봉일자</label>
-								<input type="date" class="form-control" id="openingDate" name="openingDate">
-								
-								<label for="runningTime" class="form-label">러닝타임</label>
-								<input type="number" class="form-control" id="runningTime" name="runningTime">
-								
-								<!-- http://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&csmSeq=628&ccfNo=1&cciNo=2&cnpClsNo=2#628.1.2.2.2694246 -->
-								<label for="grade" class="form-label">등급</label>
-								<select class="custom-select" id="grade" name="grade">
-									<option value="전체">전체</option>
-									<option value="12세">12세</option>
-									<option value="15세">15세</option>
-									<option value="청불">청불</option>
-									<option value="제한">제한</option>
-								</select>
-								
-								<!-- https://www.kobis.or.kr/kobis/business/stat/online/onlineGenreStat.do -->
-								<label for="genre" class="form-label">장르</label>
-								<select class="custom-select" id="genre" name="genre">
-									<option value="액션">액션</option>
-									<option value="드라마">드라마</option>
-									<option value="애니메이션">애니메이션</option>
-									<option value="멜로/로맨스">멜로/로맨스</option>
-									<option value="스릴러">스릴러</option>
-									<option value="범죄">범죄</option>
-									<option value="코미디">코미디</option>
-									<option value="공포(호러)">공포(호러)</option>
-									<option value="미스터리">미스터리</option>
-									<option value="성인물(에로)">성인물(에로)</option>
-									<option value="어드벤처">어드벤처</option>
-									<option value="SF">SF</option>
-									<option value="사극">사극</option>
-									<option value="전쟁">전쟁</option>
-									<option value="판타지">판타지</option>
-									<option value="기타">기타</option>
-								</select>
-								
-								<label for="distributor" class="form-label">배급사</label>
-								<input type="text" class="form-control" id="distributor" name="distributor">
-								
-								<label for="director" class="form-label">감독</label>
-								<input type="text" class="form-control" id="director" name="director">
-								
-								<label for="country" class="form-label">국가</label>
-								<input type="text" class="form-control" id="country" name="country">
-								
-								<label for="country" class="form-label">상영여부</label><br>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="openingYn" value="Y" checked>
-									<label class="form-check-label" for="openingYn">Y</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="openingYn" value="N">
-									<label class="form-check-label" for="openingYn">N</label>
+									<div class="form-group col-md-6 px-3">
+										<div class="form-group">
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" id="posterImg" name="posterImg"
+													onchange="fileValidityCheck(this)" accept="image/*">
+												<label class="custom-file-label" for="posterImg">포스터 파일 선택</label>
+											</div>
+										</div>
+										<div class="form-group" id="posterImgFrame">
+											<img id="posterImgArea" class="img-fluid" src="/img/default_poster.png">
+										</div>
+									</div>
+									
+									<div class="form-group col-md-6 px-3">
+										<div class="form-group">
+											<label for="movieName" class="form-label">영화제목</label>
+											<input type="text" class="form-control" id="movieName" name="movieName">
+										</div>
+										
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<div class="form-group">
+													<label for="openingDate" class="form-label">개봉일자</label>
+													<input type="date" class="form-control" id="openingDate" name="openingDate">
+												</div>
+											</div>
+											<div class="form-group col-md-6">
+												<div class="form-group">
+													<label for="runningTime" class="form-label">러닝타임</label>
+													<input type="number" class="form-control" id="runningTime" name="runningTime" placeholder="120">
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<div class="form-group">
+												<label for="grade" class="form-label">등급</label>
+													<select class="custom-select" id="grade" name="grade">
+														<option value="전체">전체</option>
+														<option value="12세">12세</option>
+														<option value="15세">15세</option>
+														<option value="청불">청불</option>
+														<option value="제한">제한</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group col-md-6">
+												<div class="form-group">
+													<label for="genre" class="form-label">장르</label>
+													<select class="custom-select" id="genre" name="genre">
+														<option value="액션">액션</option>
+														<option value="드라마">드라마</option>
+														<option value="애니메이션">애니메이션</option>
+														<option value="멜로/로맨스">멜로/로맨스</option>
+														<option value="스릴러">스릴러</option>
+														<option value="범죄">범죄</option>
+														<option value="코미디">코미디</option>
+														<option value="공포(호러)">공포(호러)</option>
+														<option value="미스터리">미스터리</option>
+														<option value="성인물(에로)">성인물(에로)</option>
+														<option value="어드벤처">어드벤처</option>
+														<option value="SF">SF</option>
+														<option value="사극">사극</option>
+														<option value="전쟁">전쟁</option>
+														<option value="판타지">판타지</option>
+														<option value="기타">기타</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label for="distributor" class="form-label">배급사</label>
+											<input type="text" class="form-control" id="distributor" name="distributor">
+										</div>
+										
+										<div class="form-row">
+											<div class="form-group col-md-8">
+												<div class="form-group">
+													<label for="director" class="form-label">감독</label>
+													<input type="text" class="form-control" id="director" name="director">
+												</div>
+											</div>
+											<div class="form-group col-md-4">
+												<div class="form-group">
+													<label for="country" class="form-label">국가</label>
+													<input type="text" class="form-control" id="country" name="country">
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-row">
+											<div class="form-check form-check-inline">
+												<label for="openingYn" class="form-label">상영여부</label><br>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" name="openingYn" value="Y" checked>
+												<label class="form-check-label" for="openingYn">Y</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" name="openingYn" value="N">
+												<label class="form-check-label" for="openingYn">N</label>
+											</div>
+										</div>
+										
+									</div>
 								</div>
 								
 							</form>
@@ -182,12 +230,74 @@
 	<!-- Page level plugins -->
 
 	<!-- Page level custom scripts -->
+	<!-- date타입 input태그 값을 현재 날짜로 자동 선택 -->
+	<script>
+		document.getElementById('openingDate').value = new Date().toISOString().substring(0, 10);;
+	</script>
+	<!-- 신규 영화 등록 결과 출력 -->
 	<script>
 		const flashMessage = "[[${ flashMessage }]]";
 		console.log(flashMessage);
 		
 		if (flashMessage) {
 			alert(flashMessage);
+		}
+	</script>
+	<!-- 이미지 미리보기 & 유효성 검사 -->
+	<script>
+	
+		const $posterImgFrame = document.getElementById("posterImgFrame");
+		
+		$posterImgFrame.onclick = function() {
+			document.getElementById("posterImg").click();
+		}
+		
+		function fileValidityCheck(obj) {
+			var pathPoint = obj.value.lastIndexOf('.');
+			var filePoint = obj.value.substring(pathPoint + 1, obj.length);
+			var fileType = filePoint.toLowerCase();
+			
+			if (fileType == 'jpg'
+					|| fileType == 'gif'
+					|| fileType == 'png'
+					|| fileType == 'jpeg'
+					|| fileType == 'bmp') {
+				// valid file extension
+				loadImg(obj);	// call the image preview function
+			} else {
+				// invalid file extension
+				alert('[Error] 이미지 파일(jpg, gif, png, jpeg, bmp)만 업로드할 수 있습니다!');
+				var parentObj = obj.parentNode;
+				var node = parentObj.replaceChild(obj.cloneNode(true), obj);
+				
+				return false;
+			}
+			
+			if (fileType == 'bmp') {
+				var upload = confirm('bmp 파일은 Web 상에서 사용하기에 적절한 이미지 포맷이 아닙니다.\n그래도 해당 파일을 사용하시겠습니까?');
+				if (!upload) {
+					return false;
+				}
+			}
+	
+		function loadImg(value) {
+			/* https://developer.mozilla.org/ko/docs/Web/API/FileReader 참고 (MDN 사이트 참고)*/
+			if (value.files && value.files[0]) {			// value.files[0]는 파일 이름
+				const reader = new FileReader();
+				/*
+					FileReader 객체는 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는 File 혹은 Blob 객체를
+					이용해 파일의 내용을(혹은 raw data버퍼로) 읽고 사용자의 컴퓨터에 저장하는 것을 가능하게 하는 것	
+					Blob(Binary large object) : 파일류의 불변하는 미가공 데이터로 텍스트와 이진 데이터의 형태로 읽을 수 있음
+				*/
+				reader.readAsDataURL(value.files[0]);		// Base64방식으로 파일을 FileReader에 전달 (Base64로 인코딩한 것은 브라우저가 원래 데이터로 만들게 됨)
+				
+				// load 이벤트의 핸들러로 읽기 동작이 성공적으로 완료 되었을 때마다 발생한다.
+				reader.onload = function(e) {				// load EventListener에 function 등록 (FileReader에서 전달 받은 파일을 다 읽으면 리스너에 등록한 function이 호출 됨)
+					console.log(e.target.result);		// e.target.result는 인코딩한 결과로 img태그의 src로 사용할 수 있음
+					document.getElementById("posterImgArea").src = e.target.result;
+				}
+			}
+		}
 		}
 	</script>
 

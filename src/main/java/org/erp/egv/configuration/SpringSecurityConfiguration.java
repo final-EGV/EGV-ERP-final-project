@@ -32,7 +32,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	/* 2. 시큐리티 설정을 무시할 정적 리소스들을 등록 (WebSecurityConfigurerAdapter의 메소드 오버라이딩(상속))*/
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**");
+		web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/stamp-img/**");
 	}
 	
 	/* 3. Http요청에 대한 권한 설정 */

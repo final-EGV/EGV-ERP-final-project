@@ -17,7 +17,7 @@
 	width: 410px;
 	height: 45px;
 	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-bottom: 15px;	
 }
 </style>
 </head>
@@ -72,21 +72,31 @@
 		<input id="subbtn" type="submit" value="확인" class="btn btn-success">
 		<br>
 			<input style="width: 200px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'"> &nbsp; 
-			<input style="width: 200px;" type="button" value="비밀번호 초기화" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/repw'">
+			<input style="width: 200px;" type="button" value="비밀번호 초기화" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/pwreset'">
 	</div>
 </div>
 
 	<div id="add" style="text-align: center; margin-left: auto; margin-right: auto;">
-		<table border=1 align="center">
-		    <tr style="width: 400px;">
-		        <th>입사일</th>
-		        <th>사번</th>
-		    </tr>
-		    <tr>
-		        <td id="entdate"></td>
-		        <td id="empcode"></td>
-		    </tr>
+		<table class="table table-bordered w-auto" align="center" style="table-layout: fixed">
+			<thead>
+				<tr>
+		        	<th style="width: 350px;">입사일</th>
+		        	<th style="width: 350px;">사번</th>
+		    	</tr>
+			</thead>
+		    <tbody>
+		    	<tr>
+		        	<td id="entdate"></td>
+		        	<td id="empcode"></td>
+		    	</tr>
+		    </tbody>
 		</table> 
+		
+		<div align="center" style="margin-top: 35px;">
+			<input style="width: 250px; margin-right: 30px;" type="button" value="로그인" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/login'">  
+			<input style="width: 250px; margin-left: 30px;" type="button" value="비밀번호 초기화" class="btn btn-secondary col-xs-1" onclick="location.href='/emp/pwreset'">
+		</div>
+		
 	</div>
 	
 
@@ -105,27 +115,36 @@
 				 	email : $("#email").val()
 				}
 			
-        	  $.ajax({
-  				url: "findid",
-  				type: "post",
-  				data: param,
-  				success: function(data) {
-  					if(data.code == null) {
-  						alert("입력하신 정보와 일치하는 사원이 없습니다.");
-  					} else {
-  						$("#empcode").text(data.code);
-  						$("#entdate").text(data.date);
-  						$("#add").show();
-  						$("#main").hide();
-  					}
-  					
-  				},
-  				error: function(request, status, error){
-  					alert("code:" + request.status + "\n" 
-  							+ "message:" + request.responseText + "\n"
-  							+ "error:" + error);
-  				}
-  			});	            
+			console.log(param.name);
+			console.log(param.birth);
+			
+			if(param.name != "" && param.birth != "" && param.email != "") {
+				
+				$.ajax({
+	  				url: "findid",
+	  				type: "post",
+	  				data: param,
+	  				success: function(data) {
+	  					if(data.code == null) {
+	  						alert("입력하신 정보와 일치하는 사원이 없습니다.");
+	  					} else {
+	  						$("#empcode").text(data.code);
+	  						$("#entdate").text(data.date);
+	  						$("#add").show();
+	  						$("#main").hide();
+	  					}
+	  					
+	  				},
+	  				error: function(request, status, error){
+	  					alert("code:" + request.status + "\n" 
+	  							+ "message:" + request.responseText + "\n"
+	  							+ "error:" + error);
+	  				}
+	  			});	        
+			} else {
+				alert("해당 내용을 전부 입력해주세요");
+			}
+        	      
 		});
 	</script>
 </body>

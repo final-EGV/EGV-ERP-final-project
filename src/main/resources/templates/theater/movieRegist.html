@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description"
+	content="Main page of theater management, displaying list of movies.">
+<meta name="author" content="UnSuk Song">
+<title>EGV: theater > movieRegist</title>
+<!-- Custom fonts for this template-->
+<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<script src="https://kit.fontawesome.com/56b47e1b72.js"
+	crossorigin="anonymous"></script>
+</head>
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Aside Menu List -->
+		<div id="sidebarMain" class="bg-gradient-info"
+			th:include="common/aside.html"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Header -->
+				<div th:include="common/header.html"></div>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+				
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">신규 영화 등록</h6>
+						</div>
+						<div class="card-body">
+						
+							<!-- 영화 정보 입력 폼 -->
+							<form action="/theater/movie/regist" id="movie-info" method="post" enctype="multipart/form-data">
+								<div class="custom-file">
+									<label for="posterImg" class="custom-file-label">포스터 이미지 파일 업로드</label>
+									<input class="custom-file-input" type="file" id="posterImg" name="posterImg">
+								</div>
+							
+								<label for="movieName" class="form-label">영화제목</label>
+								<input type="text" class="form-control" id="movieName" name="movieName">
+								
+								<label for="openingDate" class="form-label">개봉일자</label>
+								<input type="date" class="form-control" id="openingDate" name="openingDate">
+								
+								<label for="runningTime" class="form-label">러닝타임</label>
+								<input type="number" class="form-control" id="runningTime" name="runningTime">
+								
+								<!-- http://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&csmSeq=628&ccfNo=1&cciNo=2&cnpClsNo=2#628.1.2.2.2694246 -->
+								<label for="grade" class="form-label">등급</label>
+								<select class="custom-select" id="grade" name="grade">
+									<option value="전체">전체</option>
+									<option value="12세">12세</option>
+									<option value="15세">15세</option>
+									<option value="청불">청불</option>
+									<option value="제한">제한</option>
+								</select>
+								
+								<!-- https://www.kobis.or.kr/kobis/business/stat/online/onlineGenreStat.do -->
+								<label for="genre" class="form-label">장르</label>
+								<select class="custom-select" id="genre" name="genre">
+									<option value="액션">액션</option>
+									<option value="드라마">드라마</option>
+									<option value="애니메이션">애니메이션</option>
+									<option value="멜로/로맨스">멜로/로맨스</option>
+									<option value="스릴러">스릴러</option>
+									<option value="범죄">범죄</option>
+									<option value="코미디">코미디</option>
+									<option value="공포(호러)">공포(호러)</option>
+									<option value="미스터리">미스터리</option>
+									<option value="성인물(에로)">성인물(에로)</option>
+									<option value="어드벤처">어드벤처</option>
+									<option value="SF">SF</option>
+									<option value="사극">사극</option>
+									<option value="전쟁">전쟁</option>
+									<option value="판타지">판타지</option>
+									<option value="기타">기타</option>
+								</select>
+								
+								<label for="distributor" class="form-label">배급사</label>
+								<input type="text" class="form-control" id="distributor" name="distributor">
+								
+								<label for="director" class="form-label">감독</label>
+								<input type="text" class="form-control" id="director" name="director">
+								
+								<label for="country" class="form-label">국가</label>
+								<input type="text" class="form-control" id="country" name="country">
+								
+								<label for="country" class="form-label">상영여부</label><br>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="openingYn" value="Y" checked>
+									<label class="form-check-label" for="openingYn">Y</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="openingYn" value="N">
+									<label class="form-check-label" for="openingYn">N</label>
+								</div>
+								
+							</form>
+						</div>
+						<div class="card-footer py-3">
+							<button type="submit" class="btn btn-primary" form="movie-info">등록하기</button>
+						</div>
+						
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<div th:include="common/footer.html"></div>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript -->
+	<script src="js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages -->
+	<script src="js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+
+	<!-- Page level custom scripts -->
+	<script>
+		const flashMessage = "[[${ flashMessage }]]";
+		console.log(flashMessage);
+		
+		if (flashMessage) {
+			alert(flashMessage);
+		}
+	</script>
+
+</body>
+</html>

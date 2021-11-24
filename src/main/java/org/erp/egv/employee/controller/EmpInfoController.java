@@ -167,21 +167,29 @@ public class EmpInfoController {
 	
 	@PostMapping(value="findid", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String findId2(@RequestParam("name") String name,@RequestParam("birth") String birth,@RequestParam(
+	public EmployeeDTO findId2(@RequestParam("name") String name,@RequestParam("birth") String birth,@RequestParam(
 			"email") String email) {
-		
-		System.out.println(name);
-		System.out.println(birth);
-		System.out.println(email);
-		
 		String birtha = birth.substring(2, 4) + birth.substring(5, 7) + birth.substring(8, 10);
+		EmployeeDTO emp = empInfoService.finId(email);
+				
+		if(emp != null) {
+			System.out.println("이메일 일치");
+			if (emp.getName().equals(name)) {
+				System.out.println("이름 일치");
+				if(emp.getRrn().substring(0, 6).equals(birtha)) {
+					System.out.println("생일 일치");
+					emp.setEmployeeRoleList(null);
+				} else {
+					emp = null;
+				}
+			} else {
+				emp = null;
+			}
+		} else {
+			emp = null;
+		}
 		
-		Map<String, String> result = empInfoService.finId(name, birtha, email);
-		
-		Gson gson = new GsonBuilder().create();
-		
-		return gson.toJson(result);
-		
+		return emp;
 	}
 	
 	@GetMapping("/pwreset")
@@ -190,28 +198,26 @@ public class EmpInfoController {
 	
 	@PostMapping(value="repw", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public String resetPw(@RequestParam("code") String code, @RequestParam("name") String name,@RequestParam("birth") String birth,@RequestParam(
+	public EmployeeDTO resetPw(@RequestParam("code") String code, @RequestParam("name") String name,@RequestParam("birth") String birth,@RequestParam(
 			"email") String email) {
-		Map<String, String> result = null;
-		
 		String birtha = birth.substring(2, 4) + birth.substring(5, 7) + birth.substring(8, 10);
+		EmployeeDTO emp = empInfoService.empOneRequest(code);
 		
-		EmployeeDTO emp = empInfoService.pwReset(code, name, birtha, email);
+		if((emp != null)) {
+			if (!(emp.getName().equals(name) && emp.getRrn().substring(0, 6).equals(birtha) && emp.getEmail().equals(email))) {
+				emp = null;
+			} else {
+				String repw = emp.getCode() + birtha;
+				emp = empInfoService.resetPw(code, repw);
+				emp.setEmployeeRoleList(null);
+			}
+		} 
 		
-		if(emp != null) {
-			String code2 = emp.getCode();
-			String newpw = emp.getCode()+birtha;
-			
-			result = new HashMap<>();
-			result.put("code", code2);
-			result.put("newpw", newpw);
-		}
-		
-		Gson gson = new GsonBuilder().create();
-		
-		return gson.toJson(result);
+		return emp;
 		
 	}
+	
+	
 	
 	
 }

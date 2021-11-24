@@ -129,7 +129,7 @@
 	  						alert("입력하신 정보와 일치하는 사원이 없습니다.");
 	  					} else {
 	  						$("#empcode").text(data.code);
-	  						$("#repw").text(data.newpw);
+	  						$("#repw").text(data.code + data.rrn.substring(0,6));
 	  						$("#add").show();
 	  						$("#main").hide();
 	  					}

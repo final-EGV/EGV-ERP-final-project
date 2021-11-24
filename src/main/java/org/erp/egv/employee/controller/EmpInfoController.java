@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,9 +53,7 @@ public class EmpInfoController {
 	}
 	
 	@GetMapping("/empInfor")
-//	public ModelAndView empOneRequest(ModelAndView mv, @RequestParam String empCode) {
-	public ModelAndView empOneRequest(ModelAndView mv) {
-		String empCode = "2021100";
+	public ModelAndView empOneRequest(ModelAndView mv, @RequestParam String empCode) {
 		System.out.println("콘트롤러 one 오나요?");
 		
 		EmployeeDTO empInfor = empInfoService.empOneRequest(empCode);
@@ -76,6 +75,21 @@ public class EmpInfoController {
 	public List<EmpRankDTO> findEmpRankList(){
 		return empInfoService.findEmpRankList();
 	}
+	
+	@PostMapping("/registEmp")
+	public ModelAndView empRegistRequest(ModelAndView mv, EmployeeDTO newEmp, RedirectAttributes rttr) {
+		
+		System.out.println("콘트롤러 regist 오나요?");
+		System.out.println(newEmp);
+		
+		empInfoService.empRegistRequest(newEmp);
+		
+		rttr.addFlashAttribute("registSuccessMessage", "사원 등록 성공!!");
+		mv.setViewName("redirect:/emp/emplist");
+		
+		return mv;
+	}
+	
 	
 	
 	@GetMapping("/dept")

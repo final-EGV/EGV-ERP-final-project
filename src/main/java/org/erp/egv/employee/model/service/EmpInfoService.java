@@ -36,6 +36,13 @@ public class EmpInfoService {
 		return empInfoDAO.empOneRequest(empCode);
 	}
 
+	/* 사원 등록 */
+	@Transactional
+	public void empRegistRequest(EmployeeDTO newEmp) {
+		
+		empInfoDAO.empRegistRequest(newEmp);
+	}
+	
 	/* 부서목록 리스트 */
 	@Transactional
 	public List<DepartmentDTO> findDepartmentList() {

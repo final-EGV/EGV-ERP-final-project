@@ -50,6 +50,21 @@ public class EmpInfoDAO {
 		return departmentList;
 	}
 
+	/*사번 조합기 다음 사번 확인하기*/
+//	public findNextEmpNum() {
+//		String jpql = "SELECT a FROM DepartmentDTO as a ORDER BY a.code ASC";
+//		
+//		TypedQuery<DepartmentDTO> query = em.createQuery(jpql, DepartmentDTO.class);
+//		List<DepartmentDTO> departmentList = query.getResultList();
+//		
+//		return departmentList;
+//	}
+	
+	
+	/*사원 등록*/
+	public void empRegistRequest(EmployeeDTO newEmp) {
+		em.persist(newEmp);
+	}
 	
 	public List<EmpRankDTO> findEmpRankList() {
 		String jpql = "SELECT a FROM EmpRankDTO as a ORDER BY a.code ASC";
@@ -164,5 +179,7 @@ public class EmpInfoDAO {
 		selectedRank.setYn(rank.getYn());
 	}
 	
+
+
     
 }

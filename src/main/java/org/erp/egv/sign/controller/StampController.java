@@ -59,11 +59,15 @@ public class StampController {
 		
 		/* 파일을 저장할 경로 설정 */
 //		String root = request.getSession().getServletContext().getRealPath("resources");
-		String root = "C:\\springBootwork\\EGV-ERP-final-project\\src\\main\\resources\\static\\";
-		System.out.println(root);
+//		String root = "C:\\springBootwork\\EGV-ERP-final-project\\src\\main\\resources\\static\\";
+//		System.out.println(root);
 		
-		String filePath = root + "stamp-img/";
-		System.out.println(filePath);
+		String root = this.getClass().getResource("/").getPath();
+	    String root2 = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
+	    
+	    String filePath = root2 + "stamp-img/";
+	    System.out.println(filePath);
+		
 		
 		/* 폴더 생성 */
 		File mkdir = new File(filePath);

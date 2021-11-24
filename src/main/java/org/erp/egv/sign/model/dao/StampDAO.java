@@ -27,5 +27,4 @@ public class StampDAO {
 		employeeAddStamp.setStampUuidName(employee.getStampUuidName());
 	}
 
-
 }

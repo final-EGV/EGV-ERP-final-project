@@ -20,7 +20,6 @@ public class EmpRankDTO implements Serializable{
 	private static final long serialVersionUID = -2874782020541650674L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMP_RANK_SEQ_GENERATOR")
 	@Column(name = "RANK_CODE")
 	private int code;
 	

@@ -36,6 +36,13 @@ public class EmpInfoService {
 		return empInfoDAO.empOneRequest(empCode);
 	}
 
+	/* 사원 등록 */
+	@Transactional
+	public void empRegistRequest(EmployeeDTO newEmp) {
+		
+		empInfoDAO.empRegistRequest(newEmp);
+	}
+	
 	/* 부서목록 리스트 */
 	@Transactional
 	public List<DepartmentDTO> findDepartmentList() {
@@ -48,10 +55,34 @@ public class EmpInfoService {
 		empInfoDAO.addNewDept(newDept);
 	}
 	
+	/* 부서 상세 확인 */
+	@Transactional
+	public DepartmentDTO findDeptByCode(int code) {
+		return empInfoDAO.findDeptByCode(code);
+	}
+	
+	/* 부서 활성화/비활성화 */
+	@Transactional
+	public void modifyDept(DepartmentDTO dept) {
+		empInfoDAO.modifyDept(dept);
+	}
+	
 	/* 직위/직급 리스트 */
 	@Transactional
 	public List<EmpRankDTO> findEmpRankList() {
 		return empInfoDAO.findEmpRankList();
+	}
+	
+	/* 직위/직급 상세 확인 */
+	@Transactional
+	public EmpRankDTO findRankByCode(int code) {
+		return empInfoDAO.findRankByCode(code);
+	}
+	
+	/* 직위/직급 활성화/비활성화 */
+	@Transactional
+	public void modifyRank(EmpRankDTO rank) {
+		empInfoDAO.modifyRank(rank);
 	}
 	
 	
@@ -111,7 +142,6 @@ public class EmpInfoService {
 	public List<EmployeeDTO> severancePayRequest() {
 		return empInfoDAO.severancePayRequest();
 	}
-
 
 
 }

@@ -28,4 +28,8 @@ public class MovieDAO {
 		return movieList;
 	}
 
+	public void registMovie(MovieDTO movie) {
+		em.persist(movie);
+	}
+
 }

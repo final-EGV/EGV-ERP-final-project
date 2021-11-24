@@ -13,7 +13,7 @@
     <title>EGV</title>
 
     <!-- Custom fonts for this template-->
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -49,14 +49,18 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
 				<h1 align="Center">인사 페이지 내용 넣기</h1>
 				<h2 align="Center">여기는 인사팀의 테스트 페이지 입니다.!!</h2>
 				<h2 align="Center">주제?</h2>
-				<div style="background-color: blue; height: 100px; text-align:center;">
+				<div style="background-color: blue; height: 120px; text-align:center;">
 				<button onclick="location.href='/emp/list'">사원 리스트</button>
+				<div class="form-group" style="display: inline-block;">
+	    		<form action="/emp/empInfor" method="get">
+		    	    <input type="text" class="form-control" name="empCode" id="empNum" placeholder="코드를 입력하세요">
+				    <button class="btn btn-secondary" type="submit">사원 1명 선택</button>
+				</form>
+				</div>
 				<button onclick="location.href='/emp/empInfor'">사원 1명</button>
-				<button onclick="location.href='/emp/list'">테스트버튼 3</button>
 				<button onclick="location.href='/emp/list'">테스트버튼 4</button>
 				<button onclick="location.href='/emp/list'">테스트버튼 5</button>
 				</div>

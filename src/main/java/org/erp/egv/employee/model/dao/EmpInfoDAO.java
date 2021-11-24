@@ -101,10 +101,6 @@ public class EmpInfoDAO {
 		TypedQuery<DepartmentDTO> query = em.createQuery(jpql, DepartmentDTO.class);
 		List<DepartmentDTO> deptList = query.getResultList();
 		
-		for (DepartmentDTO dept : deptList) {
-			System.out.println(dept);
-		}
-		
 		return deptList;
 	}
 
@@ -148,6 +144,15 @@ public class EmpInfoDAO {
 
 	public void addNewDept(DepartmentDTO newDept) {
 		em.persist(newDept);
+	}
+
+	public DepartmentDTO findDeptByCode(int code) {
+		return em.find(DepartmentDTO.class, code);
+	}
+
+	public void modifyDept(DepartmentDTO dept) {
+		DepartmentDTO selectedDept = em.find(DepartmentDTO.class, dept.getCode());
+		selectedDept.setYn(dept.getYn());
 	}
 	
     

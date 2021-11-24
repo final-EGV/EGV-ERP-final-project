@@ -12,6 +12,8 @@ import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,6 +86,29 @@ public class EmpInfoController {
 		mv.setViewName("emp/dept/deptList");
 		
 		return mv;
+	}
+	
+	@GetMapping("/dept/{code}")
+	public ModelAndView findDeptByCode(ModelAndView mv, @PathVariable int code) {
+		DepartmentDTO dept = empInfoService.findDeptByCode(code);
+		
+		System.out.println(dept);
+		
+		mv.addObject("dept", dept);
+		mv.setViewName("/emp/dept/deptOne");
+		
+		return mv;
+	}
+	
+	@PostMapping("/dept/modify")
+	public String modifyDept(@ModelAttribute DepartmentDTO dept) {
+		System.out.println(dept.getCode());
+		System.out.println(dept.getName());
+		System.out.println(dept.getYn());
+		
+		empInfoService.modifyDept(dept);
+
+		return "redirect:/emp/dept";
 	}
 	
 	@PostMapping("/dept/add")

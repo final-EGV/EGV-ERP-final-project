@@ -48,6 +48,18 @@ public class EmpInfoService {
 		empInfoDAO.addNewDept(newDept);
 	}
 	
+	/* 부서 상세 확인 */
+	@Transactional
+	public DepartmentDTO findDeptByCode(int code) {
+		return empInfoDAO.findDeptByCode(code);
+	}
+	
+	/* 부서 활성화/비활성화 */
+	@Transactional
+	public void modifyDept(DepartmentDTO dept) {
+		empInfoDAO.modifyDept(dept);
+	}
+	
 	/* 직위/직급 리스트 */
 	@Transactional
 	public List<EmpRankDTO> findEmpRankList() {
@@ -111,7 +123,6 @@ public class EmpInfoService {
 	public List<EmployeeDTO> severancePayRequest() {
 		return empInfoDAO.severancePayRequest();
 	}
-
 
 
 }

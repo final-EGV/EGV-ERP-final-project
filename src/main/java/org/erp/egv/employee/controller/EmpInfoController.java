@@ -102,10 +102,6 @@ public class EmpInfoController {
 	
 	@PostMapping("/dept/modify")
 	public String modifyDept(@ModelAttribute DepartmentDTO dept) {
-		System.out.println(dept.getCode());
-		System.out.println(dept.getName());
-		System.out.println(dept.getYn());
-		
 		empInfoService.modifyDept(dept);
 
 		return "redirect:/emp/dept";
@@ -128,6 +124,25 @@ public class EmpInfoController {
 		mv.setViewName("emp/rank/rankList");
 		
 		return mv;
+	}
+	
+	@GetMapping("/rank/{code}")
+	public ModelAndView findRankByCode(ModelAndView mv, @PathVariable int code) {
+		EmpRankDTO rank = empInfoService.findRankByCode(code);
+		
+		System.out.println(rank);
+		
+		mv.addObject("rank", rank);
+		mv.setViewName("/emp/rank/rankOne");
+		
+		return mv;
+	}
+	
+	@PostMapping("/rank/modify")
+	public String modifyRank(@ModelAttribute EmpRankDTO rank) {
+		empInfoService.modifyRank(rank);
+		
+		return "redirect:/emp/rank";
 	}
 	
 	@GetMapping("/login")

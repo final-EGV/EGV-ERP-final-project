@@ -154,6 +154,15 @@ public class EmpInfoDAO {
 		DepartmentDTO selectedDept = em.find(DepartmentDTO.class, dept.getCode());
 		selectedDept.setYn(dept.getYn());
 	}
+
+	public EmpRankDTO findRankByCode(int code) {
+		return em.find(EmpRankDTO.class, code);
+	}
+
+	public void modifyRank(EmpRankDTO rank) {
+		EmpRankDTO selectedRank = em.find(EmpRankDTO.class, rank.getCode());
+		selectedRank.setYn(rank.getYn());
+	}
 	
     
 }

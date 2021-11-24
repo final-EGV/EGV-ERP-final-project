@@ -66,6 +66,18 @@ public class EmpInfoService {
 		return empInfoDAO.findEmpRankList();
 	}
 	
+	/* 직위/직급 상세 확인 */
+	@Transactional
+	public EmpRankDTO findRankByCode(int code) {
+		return empInfoDAO.findRankByCode(code);
+	}
+	
+	/* 직위/직급 활성화/비활성화 */
+	@Transactional
+	public void modifyRank(EmpRankDTO rank) {
+		empInfoDAO.modifyRank(rank);
+	}
+	
 	
 	public List<EmployeeDTO> salaryRequest() {
 		return empInfoDAO.salaryRequest();

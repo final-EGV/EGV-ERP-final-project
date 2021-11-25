@@ -44,4 +44,23 @@ public class MovieDAO {
 		return movie;
 	}
 
+	public void modifyMovie(MovieDTO movieNew) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		MovieDTO movieOrigin = em.find(MovieDTO.class, movieNew.getCode());
+		
+		movieOrigin.setName(movieNew.getName());
+		movieOrigin.setOpeningDate(movieNew.getOpeningDate());
+		movieOrigin.setRunningTime(movieNew.getRunningTime());
+		movieOrigin.setGrade(movieNew.getGrade());
+		movieOrigin.setGenre(movieNew.getGenre());
+		movieOrigin.setDistributor(movieNew.getDistributor());
+		movieOrigin.setDirector(movieNew.getDirector());
+		movieOrigin.setCountry(movieNew.getCountry());
+		movieOrigin.setPosterOrigName(movieNew.getPosterOrigName());
+		movieOrigin.setPosterUuidName(movieNew.getPosterUuidName());
+		movieOrigin.setPosterImgPath(movieNew.getPosterImgPath());
+		
+	}
+
 }

@@ -165,7 +165,7 @@
 											</div>
 										</div>
 										
-										<div class="form-row">
+										<div class="form-group">
 											<label for="openingYn" class="form-label">상영여부</label>
 											<select class="custom-select" id="openingYn" name="openingYn">
 												<option value="Y" th:selected="${ movie.openingYn } == 'Y'">Y</option>
@@ -181,7 +181,7 @@
 						</div>
 						<div class="card-footer py-3">
 							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
-							<button type="submit" class="btn btn-primary" form="movie-info" th:onclick="@{ # }">적용하기</button>
+							<button type="submit" class="btn btn-primary" form="movie-info">적용하기</button>
 							<button type="button" class="btn btn-danger" th:onclick="@{/theater/movie/delete(code=${ movie.code })}">삭제하기</button>
 						</div>
 
@@ -241,7 +241,7 @@
 	<!-- Page level plugins -->
 
 	<!-- Page level custom scripts -->
-	<!-- 영화 수정/삭제 결과 출력 -->
+	<!-- 영화 수정 결과 출력 -->
 	<script>
 		const flashMessage = "[[${ flashMessage }]]";
 		console.log(flashMessage);

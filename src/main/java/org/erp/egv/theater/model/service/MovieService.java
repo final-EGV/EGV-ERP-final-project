@@ -39,4 +39,11 @@ public class MovieService {
 		return movieDAO.inquireSingleMovieByCode(movieCode);
 	}
 
+	@Transactional
+	public void modifyMovie(MovieDTO movieNew) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		movieDAO.modifyMovie(movieNew);
+	}
+
 }

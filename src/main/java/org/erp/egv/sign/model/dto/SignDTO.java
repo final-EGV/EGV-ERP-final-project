@@ -2,12 +2,14 @@ package org.erp.egv.sign.model.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -40,12 +42,15 @@ public class SignDTO implements Serializable {
 	@ManyToOne()
 	@JoinColumn(name="EMP_CODE")
 	private EmployeeDTO employee;
+	
+	@OneToMany(mappedBy = "sign")
+	private List<ApproverDTO> approver;
 
 	public SignDTO() {
 	}
 
 	public SignDTO(int code, Date date, String status, String title, String contents, TemplateDTO temp,
-			EmployeeDTO employee) {
+			EmployeeDTO employee, List<ApproverDTO> approver) {
 		this.code = code;
 		this.date = date;
 		this.status = status;
@@ -53,6 +58,7 @@ public class SignDTO implements Serializable {
 		this.contents = contents;
 		this.temp = temp;
 		this.employee = employee;
+		this.approver = approver;
 	}
 
 	public int getCode() {
@@ -111,6 +117,14 @@ public class SignDTO implements Serializable {
 		this.employee = employee;
 	}
 
+	public List<ApproverDTO> getApprover() {
+		return approver;
+	}
+
+	public void setApprover(List<ApproverDTO> approver) {
+		this.approver = approver;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -118,8 +132,9 @@ public class SignDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "SignDTO [code=" + code + ", date=" + date + ", status=" + status + ", title=" + title + ", contents="
-				+ contents + ", temp=" + temp + ", employee=" + employee + "]";
+				+ contents + ", temp=" + temp + ", employee=" + employee + ", approver=" + approver + "]";
 	}
+
 	
 	
 }

@@ -21,8 +21,7 @@ private SignInsertDAO signInsertDAO;
 
 	@Transactional
 	public List<TemplateDTO> selectTempList() {
-		System.out.println("test1");
-		return signInsertDAO.selectTempList();
+		return signDAO.selectTempList();
 	}
 
 	@Transactional

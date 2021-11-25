@@ -29,7 +29,19 @@ public class MovieDAO {
 	}
 
 	public void registMovie(MovieDTO movie) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
 		em.persist(movie);
+	}
+
+	public MovieDTO inquireSingleMovieByCode(int movieCode) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		MovieDTO movie = em.find(MovieDTO.class, movieCode);
+		
+		System.out.println("movie(" + movieCode + ") : " + movie);
+		
+		return movie;
 	}
 
 }

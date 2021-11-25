@@ -94,10 +94,11 @@ public class MovieController {
 		// get root path based on this project
 		String root = this.getClass().getResource("/").getPath();
 		String rootPath = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
-		String posterImgPath = rootPath + "img/poster/";
+		// set save path based on this project
+		String posterImgPath = rootPath + "img/poster/";	// TODO 프로젝트 경로 상 /static 바로 아래부터 시작할 저장 경로
 		System.out.println("저장 경로 : " + posterImgPath);
 		
-		// create folder
+		// create folder if doesn't exist
 		File mkdir = new File(posterImgPath);
 		if (!mkdir.exists()) {
 			System.out.println("폴더 생성 : " + mkdir.mkdir());
@@ -113,7 +114,7 @@ public class MovieController {
 		
 		String pathToRedirect = "";
 		
-		// save file & prepare DTO
+		// save file & prepare DTO object
 		try {
 			
 			// save file
@@ -148,7 +149,7 @@ public class MovieController {
 			new File(posterImgPath + "\\" + posterUuidName).delete();
 			
 			/* 
-			 * TODO 2021-11-24 Wed 01:45 송언석
+			 * FIXME 2021-11-24 Wed 01:45 송언석
 			 * 영화 등록 실패시 작성한 파라미터를 다시 등록 폼으로 갖고 돌아가도록 설정할 예정.
 			 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
 			 */
@@ -157,6 +158,21 @@ public class MovieController {
 		}
 		
 		mv.setViewName("redirect:" + pathToRedirect);
+		
+		return mv;
+	}
+	
+	@GetMapping("/details")
+	public ModelAndView inquireSingleMovieByCode(ModelAndView mv, @RequestParam String code) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		int movieCode = Integer.valueOf(code);
+		
+		MovieDTO movie = movieService.inquireSingleMovieByCode(movieCode);
+		
+		mv.addObject("movie", movie);
+		mv.setViewName("theater/movieDetails");
 		
 		return mv;
 	}

@@ -27,7 +27,16 @@ public class MovieService {
 
 	@Transactional
 	public void registMovie(MovieDTO movie) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+
 		movieDAO.registMovie(movie);
+	}
+
+	@Transactional
+	public MovieDTO inquireSingleMovieByCode(int movieCode) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		return movieDAO.inquireSingleMovieByCode(movieCode);
 	}
 
 }

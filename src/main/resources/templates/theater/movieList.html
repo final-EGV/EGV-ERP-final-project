@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description"
-	content="Main page of theater management, displaying list of movies.">
-<meta name="author" content="UnSuk Song">
-<title>EGV: theater > movieList</title>
-<!-- Custom fonts for this template-->
-<link href="/css/all.min.css" rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Main page of theater management, displaying list of movies.">
+	<meta name="author" content="UnSuk Song">
+	<title>EGV: theater > movieList</title>
+	<!-- Custom fonts for this template-->
+	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
 
-<!-- Custom styles for this template-->
-<link href="/css/sb-admin-2.min.css" rel="stylesheet">
-<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<!-- Custom styles for this template-->
-<script src="https://kit.fontawesome.com/56b47e1b72.js"
-	crossorigin="anonymous"></script>
+	<!-- Custom styles for this template-->
+	<script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
 </head>
+
 <body id="page-top">
-	
+
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
 		<!-- Aside Menu List -->
-		<div id="sidebarMain" class="bg-gradient-info"
-			th:include="common/aside.html"></div>
+		<div id="sidebarMain" class="bg-gradient-info" th:include="common/aside.html"></div>
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -62,12 +60,16 @@
 											<th>배급사</th>
 											<th>감독</th>
 											<th>국가</th>
-											<th>개봉여부</th>
+											<th>상영여부</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="movie : ${ movieList }">
-											<td th:text="${ movie.name }"></td>
+											<td>
+												<a th:text="${ movie.name }"
+													th:href="@{/theater/movie/details(code=${ movie.code })}">
+												</a>
+											</td>
 											<td th:text="${ movie.openingDate }"></td>
 											<td th:text="${ movie.runningTime }"></td>
 											<td th:text="${ movie.grade }"></td>
@@ -75,7 +77,9 @@
 											<td th:text="${ movie.distributor }"></td>
 											<td th:text="${ movie.director }"></td>
 											<td th:text="${ movie.country }"></td>
-											<td th:text="${ movie.openingYn }"></td>
+											<td th:text="${ movie.openingYn }"
+												th:style="|${ movie.openingYn == 'Y' ? 'color: green;' : 'color: red;' } font-weight: bold;|">
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -85,7 +89,7 @@
 							<!-- 신규 영화 등록 버튼 -->
 							<a href="regist" class="btn btn-primary"> 등록 </a>
 						</div>
-						
+
 					</div>
 
 				</div>
@@ -105,27 +109,24 @@
 
 
 	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top"> <i
-		class="fas fa-angle-up"></i>
+	<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i>
 	</a>
 
 	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
 				<div class="modal-body">Select "Logout" below if you are ready
 					to end your current session.</div>
 				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 					<a class="btn btn-primary" href="login.html">Logout</a>
 				</div>
 			</div>
@@ -148,21 +149,21 @@
 
 	<!-- Page level custom scripts -->
 	<script>
-		$(document).ready(function() {
+		$(document).ready(function () {
 			$('#movieTable').DataTable({
 				language: {
 					url: '/i18n/ko.json'
 				},
-				"order" : [ 1, 'desc' ]	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"order": [1, 'desc']	/* 개봉일자 속성 기준으로 내림차순(최신순) */
 			}
 			);
 		});
 	</script>
-	
+
 	<script>
 		const flashMessage = "[[${ flashMessage }]]";
 		console.log(flashMessage);
-		
+
 		if (flashMessage) {
 			alert(flashMessage);
 		}

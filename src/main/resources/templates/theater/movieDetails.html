@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Main page of theater management, displaying list of movies.">
 	<meta name="author" content="UnSuk Song">
-	<title>EGV: theater > movieRegist</title>
+	<title>EGV: theater > movieDetails</title>
 	<!-- Custom fonts for this template-->
 	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
 	<link
@@ -45,47 +45,61 @@
 
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">신규 영화 등록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">영화 상세 정보</h6>
 						</div>
 						<div class="card-body">
 
 							<!-- 영화 정보 입력 폼 -->
-							<form action="/theater/movie/regist" id="movie-info" method="post" enctype="multipart/form-data">
+							<form action="/theater/movie/modify" id="movie-info" method="post" enctype="multipart/form-data">
 
 								<div class="form-row">
 
 									<div class="form-group col-md-6 px-3">
+										<div class="form-group" id="posterImgFrame">
+											<label>현재 등록된 포스터 이미지</label>
+											<img id="posterImgArea" class="img-fluid" th:src="|/img/poster/${ movie.posterUuidName }|">
+										</div>
 										<div class="form-group">
 											<div class="custom-file">
-												<input type="file" class="custom-file-input" id="posterImg"
+												<label for="posterImg">포스터 이미지 파일을 변경하려면 새로운 파일을 추가해 주세요.</label>
+												<input type="file" class="form-control-file" id="posterImg"
 													name="posterImg" onchange="fileValidityCheck(this)" accept="image/*">
-												<label class="custom-file-label" for="posterImg">포스터 이미지 파일 선택</label>
 											</div>
-										</div>
-										<div class="form-group" id="posterImgFrame">
-											<img id="posterImgArea" class="img-fluid" src="/img/default_poster.png">
 										</div>
 									</div>
 
 									<div class="form-group col-md-6 px-3">
-										<div class="form-group">
-											<label for="movieName" class="form-label">영화제목</label>
-											<input type="text" class="form-control" id="movieName" name="movieName">
+										
+										<div class="form-row">
+											<div class="form-group col-md-2">
+												<div class="form-group">
+													<label for="movieCode" class="form-label">영화코드#</label>
+													<input type="number" class="form-control" id="movieCode" name="movieCode" readonly
+													th:value="${ movie.code }">
+												</div>
+											</div>
+											<div class="form-group col-md-10">
+												<div class="form-group">
+													<label for="movieName" class="form-label">영화제목</label>
+													<input type="text" class="form-control" id="movieName" name="movieName"
+													th:value="${ movie.name }">
+												</div>
+											</div>
 										</div>
 
 										<div class="form-row">
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="openingDate" class="form-label">개봉일자</label>
-													<input type="date" class="form-control" id="openingDate"
-														name="openingDate">
+													<input type="date" class="form-control" id="openingDate" name="openingDate"
+													th:value="${ movie.openingDate }">
 												</div>
 											</div>
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="runningTime" class="form-label">러닝타임</label>
-													<input type="number" class="form-control" id="runningTime"
-														name="runningTime" value="120">
+													<input type="number" class="form-control" id="runningTime" name="runningTime" value="120"
+													th:value="${ movie.runningTime }">
 												</div>
 											</div>
 										</div>
@@ -95,11 +109,11 @@
 												<div class="form-group">
 													<label for="grade" class="form-label">등급</label>
 													<select class="custom-select" id="grade" name="grade">
-														<option value="전체">전체</option>
-														<option value="12세">12세</option>
-														<option value="15세">15세</option>
-														<option value="청불">청불</option>
-														<option value="제한">제한</option>
+														<option value="전체" th:selected="${ movie.grade } == '전체'">전체</option>
+														<option value="12세" th:selected="${ movie.grade } == '12세'">12세</option>
+														<option value="15세" th:selected="${ movie.grade } == '15세'">15세</option>
+														<option value="청불" th:selected="${ movie.grade } == '청불'">청불</option>
+														<option value="제한" th:selected="${ movie.grade } == '제한'">제한</option>
 													</select>
 												</div>
 											</div>
@@ -107,22 +121,22 @@
 												<div class="form-group">
 													<label for="genre" class="form-label">장르</label>
 													<select class="custom-select" id="genre" name="genre">
-														<option value="액션">액션</option>
-														<option value="드라마">드라마</option>
-														<option value="애니메이션">애니메이션</option>
-														<option value="멜로/로맨스">멜로/로맨스</option>
-														<option value="스릴러">스릴러</option>
-														<option value="범죄">범죄</option>
-														<option value="코미디">코미디</option>
-														<option value="공포(호러)">공포(호러)</option>
-														<option value="미스터리">미스터리</option>
-														<option value="성인물(에로)">성인물(에로)</option>
-														<option value="어드벤처">어드벤처</option>
-														<option value="SF">SF</option>
-														<option value="사극">사극</option>
-														<option value="전쟁">전쟁</option>
-														<option value="판타지">판타지</option>
-														<option value="기타">기타</option>
+														<option value="액션" th:selected="${ movie.genre } == '액션'">액션</option>
+														<option value="드라마" th:selected="${ movie.genre } == '드라마'">드라마</option>
+														<option value="애니메이션" th:selected="${ movie.genre } == '애니메이션'">애니메이션</option>
+														<option value="멜로/로맨스" th:selected="${ movie.genre } == '멜로/로맨스'">멜로/로맨스</option>
+														<option value="스릴러" th:selected="${ movie.genre } == '스릴러'">스릴러</option>
+														<option value="범죄" th:selected="${ movie.genre } == '범죄'">범죄</option>
+														<option value="코미디" th:selected="${ movie.genre } == '코미디'">코미디</option>
+														<option value="공포(호러)" th:selected="${ movie.genre } == '공포(호러)'">공포(호러)</option>
+														<option value="미스터리" th:selected="${ movie.genre } == '미스터리'">미스터리</option>
+														<option value="성인물(에로)" th:selected="${ movie.genre } == '성인물(에로)'">성인물(에로)</option>
+														<option value="어드벤처" th:selected="${ movie.genre } == '어드벤처'">어드벤처</option>
+														<option value="SF" th:selected="${ movie.genre } == 'SF'">SF</option>
+														<option value="사극" th:selected="${ movie.genre } == '사극'">사극</option>
+														<option value="전쟁" th:selected="${ movie.genre } == '전쟁'">전쟁</option>
+														<option value="판타지" th:selected="${ movie.genre } == '판타지'">판타지</option>
+														<option value="기타" th:selected="${ movie.genre } == '기타'">기타</option>
 													</select>
 												</div>
 											</div>
@@ -130,40 +144,45 @@
 
 										<div class="form-group">
 											<label for="distributor" class="form-label">배급사</label>
-											<input type="text" class="form-control" id="distributor" name="distributor">
+											<input type="text" class="form-control" id="distributor" name="distributor"
+											 th:value="${ movie.distributor }">
 										</div>
 
 										<div class="form-row">
 											<div class="form-group col-md-8">
 												<div class="form-group">
 													<label for="director" class="form-label">감독</label>
-													<input type="text" class="form-control" id="director"
-														name="director">
+													<input type="text" class="form-control" id="director" name="director"
+													th:value="${ movie.director }">
 												</div>
 											</div>
 											<div class="form-group col-md-4">
 												<div class="form-group">
 													<label for="country" class="form-label">국가</label>
-													<input type="text" class="form-control" id="country" name="country">
+													<input type="text" class="form-control" id="country" name="country"
+													th:value="${ movie.country }">
 												</div>
 											</div>
 										</div>
-
+										
 										<div class="form-row">
 											<label for="openingYn" class="form-label">상영여부</label>
 											<select class="custom-select" id="openingYn" name="openingYn">
-												<option value="Y">Y</option>
-												<option value="N">N</option>
+												<option value="Y" th:selected="${ movie.openingYn } == 'Y'">Y</option>
+												<option value="N" th:selected="${ movie.openingYn } == 'N'">N</option>
 											</select>
 										</div>
 
 									</div>
+									
 								</div>
 
 							</form>
 						</div>
 						<div class="card-footer py-3">
-							<button type="submit" class="btn btn-primary" form="movie-info">등록하기</button>
+							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
+							<button type="submit" class="btn btn-primary" form="movie-info" th:onclick="@{ # }">적용하기</button>
+							<button type="button" class="btn btn-danger" th:onclick="@{/theater/movie/delete(code=${ movie.code })}">삭제하기</button>
 						</div>
 
 					</div>
@@ -222,11 +241,7 @@
 	<!-- Page level plugins -->
 
 	<!-- Page level custom scripts -->
-	<!-- date타입 input태그 값을 현재 날짜로 자동 선택 -->
-	<script>
-		document.getElementById('openingDate').value = new Date().toISOString().substring(0, 10);;
-	</script>
-	<!-- 신규 영화 등록 결과 출력 -->
+	<!-- 영화 수정/삭제 결과 출력 -->
 	<script>
 		const flashMessage = "[[${ flashMessage }]]";
 		console.log(flashMessage);

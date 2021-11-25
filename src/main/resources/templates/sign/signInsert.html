@@ -11,13 +11,13 @@
 
     <title>EGV</title>
     
-    
     <!-- Custom fonts for this template-->
     <link href="/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <!-- Bootstrap core JavaScript-->
     <script src="/js/jquery.min.js"></script>
@@ -29,6 +29,23 @@
 	<script src="/summernote/summernote-lite.js"></script>
 	<script src="/summernote/lang/summernote-ko-KR.js"></script>
 	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
+
+	<!-- <!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+	
+	<!-- Page level plugins -->
+    <script src="/js/datatables/jquery.dataTables.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>    
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/datatables-demo.js"></script>
 
 </head>
 
@@ -49,39 +66,146 @@
                 <div class="container-fluid">
 				<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h5 class="m-0 font-weight-bold text-primary">도장/서명 설정</h5>
+							<h5 class="m-0 font-weight-bold text-primary">기안서 작성</h5>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 								
 								<form action="/sign/signInsert" method="post">
-									<div style="align-items: flex-end;">
-										<button type="submit" id="temporarySaveBtn" name="temporarySaveBtn">임시저장</button>
-										<button type="submit" id="saveBtn" name="saveBtn">저장</button>
+									
+									<div style="width: 27%; float: right;" >
+										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg">임시저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg">저장</button>
 									</div>
+									
 									<br><br>
 									<label>작성일 :</label>&emsp;&emsp;
 									<input type="date" id="writeDate" name="writeDate">
 									<br><br>
+									<label>결재자 :</label>&emsp;&emsp;
+									<input type="text" id="approver" name="approver" style="width: 20%">&nbsp;
+									<!-- 결제자 modal -->
+									<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#selectApprover">사원찾기</button>
+									<br>
+									<label>참조자 :</label>&emsp;&emsp;
+									<input type="text" id="referrer" name="referrer" style="width: 20%">&nbsp;
+									<!-- 참조자 modal -->
+									<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#selectReferrer">사원찾기</button>
+									<br><br>
 									<label>분류 :</label>&emsp;&emsp;&emsp;
-									<select name="template" id="template" >
+									<select name="template" id="template" style="width: 10%">
 										<!-- ajax로 template 조회 -->
 									</select>
 									<br>
 									<label>제목 :</label>&emsp;&emsp;&emsp;
-									<input type="text" id="documentTitle" name="documentTitle">
-									<br><br>
-									<label>결재자 :</label>&emsp;&emsp;
-									<input type="text" id="approver" name="approver">
+									<input type="text" id="documentTitle" name="documentTitle" style="width: 60%;">
 									<br>
-									<label>참조자 :</label>&emsp;&emsp;
-									<input type="text" id="referrer" name="referrer">
-									<br>
-									<hr>
+									<hr style="width: 75%">
 									<br>
 									<textarea id="summernote" name="documentContent"></textarea>
 								</form>
 
+								<!-- 결재자 select Modal-->
+								<div class="modal fade" id="selectApprover" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h4 class="modal-title" id="modalLabel">결재자 선택</h4>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">X</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+								        <form action="/emp/registEmp" method="post">
+									      	<div class="card-body">
+												<!-- DataTales Example -->
+							                    <div class="card shadow mb-4">
+							                        <div class="card-header py-3">
+							                            <h6 class="m-0 font-weight-bold text-primary">사원 목록</h6>
+							                        </div>
+							                        <div class="card-body">
+							                            <div class="table-responsive">
+							                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							                                    <thead>
+																	<tr>
+																		<th>사번</th>
+																		<th>이름</th>
+																		<th>직책</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:class="empTable" th:each="emp : ${ empList }">
+								 										<td th:class="empCode" th:text="${ emp.code }"></td>
+																		<td th:text="${ emp.name }"></td>
+																		<td th:text="${ emp.empPosition }"></td>
+																	</tr>
+																</tbody>
+							                                </table>
+							                            </div>
+							                        </div>
+							                    </div>
+						                    </div>
+									      	
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+									        <button type="submit" class="btn btn-primary">선택하기</button>
+									      </div>
+										</form>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+								<!-- 결재자 select Modal-->
+								<div class="modal fade" id="selectReferrer" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h4 class="modal-title" id="modalLabel">참조자 선택</h4>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">X</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+								        <form action="/emp/registEmp" method="post">
+									      	<div class="card-body">
+												<!-- DataTales Example -->
+							                    <div class="card shadow mb-4">
+							                        <div class="card-header py-3">
+							                            <h6 class="m-0 font-weight-bold text-primary">사원 목록</h6>
+							                        </div>
+							                        <div class="card-body">
+							                            <div class="table-responsive">
+							                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							                                    <thead>
+																	<tr>
+																		<th>사번</th>
+																		<th>이름</th>
+																		<th>직책</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:class="empTable" th:each="emp : ${ empList }">
+								 										<td th:class="empCode" th:text="${ emp.code }"></td>
+																		<td th:text="${ emp.name }"></td>
+																		<td th:text="${ emp.empPosition }"></td>
+																	</tr>
+																</tbody>
+							                                </table>
+							                            </div>
+							                        </div>
+							                    </div>
+						                    </div>
+									      	
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+									        <button type="submit" class="btn btn-primary">선택하기</button>
+									      </div>
+										</form>
+								      </div>
+								    </div>
+								  </div>
+								</div>
 								
 							</div>
 						</div>
@@ -120,6 +244,7 @@
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -130,8 +255,9 @@
 	// 작성일의 기본값을 오늘로 설정
 	document.getElementById('writeDate').value = new Date().toISOString().substring(0, 10);
 
-	// 템플릿 목록 가져오기
 	$(function(){
+		
+		/* 템플릿 목록 가져오기 */
 		$.ajax({
 			url: "/sign/signTemplate",
 			success: function(data){
@@ -142,8 +268,10 @@
 				
 				for (let index in data){
 					if (tempCode-1 == index) {
-						/* alert(tempCode); */
+						
+						/* 해당되는 템플릿을 기본값으로 선택 */
 						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
+						
 					} else {
 						$template.append($("<option>").val(data[index].code).text(data[index].name));						
 					}
@@ -153,18 +281,8 @@
 				console.log(xhr);
 			}
 		});
-	});
-	
-	// 템플릿 목록 기본값 설정
-	$(function() {
-		const tempCode = "[[${ template.code }]]";
 		
-		
-		
-    });
-</script>
-<script> 
-	$(document).ready(function() { 
+		/* summernote 기본 셋팅 */
 		$('#summernote').summernote({
 				lang: "ko-KR",
 				tabsize: 2,
@@ -186,6 +304,16 @@
 				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 		});
 		
+		/* 에디터에 template 내용 넣기 */
+		var templateContent = '[[${ template.contents }]]';
+		//alert(templateContent);
+		$('#summernote').summernote('code', templateContent);
+		
+	});
+</script>
+<script>
+	
+	$(document).ready(function() { 
 		
 	});
 </script>

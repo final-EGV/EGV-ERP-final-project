@@ -2,6 +2,8 @@ package org.erp.egv.sign.controller;
 
 import java.util.List;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.service.EmpInfoService;
 import org.erp.egv.sign.model.dto.TemplateDTO;
 import org.erp.egv.sign.model.service.SignInsertService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class SignInsertController {
 	
 private SignInsertService signInsertService;
+private EmpInfoService empInfoService;
 	
 	@Autowired
-	public SignInsertController(SignInsertService signInsertService) {
+	public SignInsertController(SignInsertService signInsertService, EmpInfoService empInfoService) {
 		this.signInsertService = signInsertService;
+		this.empInfoService = empInfoService;
 	}
 	
 	@GetMapping("template")
@@ -47,6 +51,10 @@ private SignInsertService signInsertService;
 		TemplateDTO templateDTO = signInsertService.findTemplateByCode(code);
 //		System.out.println(templateDTO);
 		
+		List<EmployeeDTO> empList = empInfoService.empListRequest();
+		
+		
+		mv.addObject("empList", empList);
 		mv.addObject("template", templateDTO);
 		mv.setViewName("/sign/signInsert");
 		

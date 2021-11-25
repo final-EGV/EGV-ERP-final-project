@@ -71,11 +71,10 @@
 									</div>
 									</div>
 								</form>
-								
+							
 							</div>
 						</div>
 					</div>
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -160,6 +159,21 @@
 	if(message){
 		alert(message);
 	}
+</script>
+
+<script>
+	//템플릿 목록 기본값 설정
+	$(function() {
+		const imgPath = "[[${ imgPath }]]";
+		
+		var imgSrc = $('#stampImg').attr('src');
+		/* alert(imgSrc); */
+
+		$("#stampImg").removeAttr("src");
+		$("#stampImg").attr("src", imgSrc);
+		
+		alert($('#stampImg').attr('src'));
+	});
 </script>
 
 </html>

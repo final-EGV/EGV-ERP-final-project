@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SIGN_TEMPLATE")
@@ -27,7 +30,8 @@ public class TemplateDTO implements Serializable {
 	@Column(name="TEMP_EX")
 	private String ex;
 
-	@OneToMany(mappedBy = "temp")
+	@JsonIgnore
+	@OneToMany(mappedBy = "temp", fetch = FetchType.LAZY)
 	private List<SignDTO> signList;
 
 	public TemplateDTO() {

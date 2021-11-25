@@ -93,7 +93,10 @@ public class MovieController {
 		
 		// get root path based on this project
 		String root = this.getClass().getResource("/").getPath();
-		String rootPath = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
+		String rootPath = root.replace("/", "\\")
+							  .substring(0, root.length() - 15)
+							  .substring(1)
+							  .concat("src\\main\\resources\\static\\");
 		// set save path based on this project
 		String posterImgPath = rootPath + "img/poster/";	// TODO 프로젝트 경로 상 /static 바로 아래부터 시작할 저장 경로
 		System.out.println("저장 경로 : " + posterImgPath);
@@ -120,28 +123,6 @@ public class MovieController {
 			// save file
 			posterImg.transferTo(new File(posterImgPath + "\\" + posterUuidName));
 			
-			// prepare DTO
-			MovieDTO movie = new MovieDTO();
-			
-			movie.setName(movieName);
-			movie.setOpeningDate(openingDate);
-			movie.setRunningTime(runningTime);
-			movie.setGrade(grade);
-			movie.setGenre(genre);
-			movie.setDistributor(distributor);
-			movie.setDirector(director);
-			movie.setCountry(country);
-			movie.setPosterOrigName(posterOrigName);
-			movie.setPosterUuidName(posterUuidName);
-			movie.setPosterImgPath(posterImgPath);
-			movie.setOpeningYn(openingYn);
-			System.out.println(movie);
-			
-			movieService.registMovie(movie);
-			
-			pathToRedirect = "list";
-			rAttr.addFlashAttribute("flashMessage", "[Success] 신규 영화 정보 등록을 성공했습니다.");
-			
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			
@@ -154,8 +135,32 @@ public class MovieController {
 			 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
 			 */
 			pathToRedirect = "list";
-			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보 등록을 실패했습니다.");
+			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보 등록중"
+													+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
+													+ " 다시 시도해 주세요.");
 		}
+		
+		// prepare DTO
+		MovieDTO movie = new MovieDTO();
+		
+		movie.setName(movieName);
+		movie.setOpeningDate(openingDate);
+		movie.setRunningTime(runningTime);
+		movie.setGrade(grade);
+		movie.setGenre(genre);
+		movie.setDistributor(distributor);
+		movie.setDirector(director);
+		movie.setCountry(country);
+		movie.setPosterOrigName(posterOrigName);
+		movie.setPosterUuidName(posterUuidName);
+		movie.setPosterImgPath(posterImgPath);
+		movie.setOpeningYn(openingYn);
+		System.out.println(movie);
+		
+		movieService.registMovie(movie);
+		
+		pathToRedirect = "list";
+		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 영화 정보 등록을 성공했습니다.");
 		
 		mv.setViewName("redirect:" + pathToRedirect);
 		
@@ -163,13 +168,11 @@ public class MovieController {
 	}
 	
 	@GetMapping("/details")
-	public ModelAndView inquireSingleMovieByCode(ModelAndView mv, @RequestParam String code) {
+	public ModelAndView inquireSingleMovieByCode(ModelAndView mv, @RequestParam int code) {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		int movieCode = Integer.valueOf(code);
-		
-		MovieDTO movie = movieService.inquireSingleMovieByCode(movieCode);
+		MovieDTO movie = movieService.inquireSingleMovieByCode(code);
 		
 		mv.addObject("movie", movie);
 		mv.setViewName("theater/movieDetails");
@@ -292,8 +295,9 @@ public class MovieController {
 					// delete file
 					new File(posterImgPath + "\\" + posterUuidName).delete();
 					
-					rAttr.addFlashAttribute("flashMessage",
-							"[Error] 포스터 이미지 파일을 업로드하는 도중 문제가 발생했습니다. 다시 시도해 주세요.");
+					rAttr.addFlashAttribute("flashMessage", "[Error] 포스터 이미지 파일을 업로드하는 도중"
+															+ " 문제가 발생했습니다."
+															+ " 다시 시도해 주세요.");
 					
 					/* 
 					 * FIXME 2021-11-26 Fri 02:15 송언석
@@ -301,6 +305,7 @@ public class MovieController {
 					 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
 					 */
 //					pathToRedirect = "backToDetailsPage";
+					
 				}
 				
 				/* 2. delete the former image file, if above task is successfully done. */

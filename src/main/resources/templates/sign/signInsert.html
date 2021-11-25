@@ -141,8 +141,8 @@
 				const tempCode = "[[${ template.code }]]";
 				
 				for (let index in data){
-					if (tempCode == index) {
-						alert(tempCode);
+					if (tempCode-1 == index) {
+						/* alert(tempCode); */
 						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
 					} else {
 						$template.append($("<option>").val(data[index].code).text(data[index].name));						

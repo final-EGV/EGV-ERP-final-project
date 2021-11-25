@@ -76,21 +76,38 @@ public class EmpInfoController {
 		return empInfoService.findEmpRankList();
 	}
 	
+	
+	/* Date : 2021/11/25
+	 * Writer : Hansoo Lee
+	 * 
+	 * 사번조합기를 사용하여 사번등록, 비밀번호는 '사번 + 생년월일'로 조합할 것이므로 새로 세팅해준다.  
+	 * 서비스에서 시큐리티로 비밀번호를 암호화 해주어야 한다.
+	 * 
+	 * 조인컬럼은 새로 객체를 만들어서 set 해주자!
+	 * */
+	
 	@PostMapping("/registEmp")
-	public ModelAndView empRegistRequest(ModelAndView mv, EmployeeDTO newEmp, RedirectAttributes rttr) {
-		
+	public ModelAndView empRegistRequest(ModelAndView mv, EmployeeDTO newEmp, @RequestParam int rankRegist, @RequestParam int deptRegist,  RedirectAttributes rttr) {
 		System.out.println("콘트롤러 regist 오나요?");
-		System.out.println(newEmp);
 		
+		DepartmentDTO departmentDTO = new DepartmentDTO();
+		EmpRankDTO empRankDTO = new EmpRankDTO();
+		
+		departmentDTO.setCode(deptRegist);
+		empRankDTO.setCode(rankRegist);
+
+		newEmp.setDept(departmentDTO);
+		newEmp.setRank(empRankDTO);
+		
+		newEmp.setCode(empInfoService.findNextEmpNum());
+		newEmp.setPwd(empInfoService.findNextEmpNum() + newEmp.getRrn().substring(0,6));
+
 		empInfoService.empRegistRequest(newEmp);
-		
 		rttr.addFlashAttribute("registSuccessMessage", "사원 등록 성공!!");
-		mv.setViewName("redirect:/emp/emplist");
+		mv.setViewName("redirect:/emp/list");
 		
 		return mv;
 	}
-	
-	
 	
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {

@@ -1,5 +1,6 @@
 package org.erp.egv.employee.model.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -50,16 +51,25 @@ public class EmpInfoDAO {
 		return departmentList;
 	}
 
-	/*사번 조합기 다음 사번 확인하기*/
-//	public findNextEmpNum() {
-//		String jpql = "SELECT a FROM DepartmentDTO as a ORDER BY a.code ASC";
-//		
-//		TypedQuery<DepartmentDTO> query = em.createQuery(jpql, DepartmentDTO.class);
-//		List<DepartmentDTO> departmentList = query.getResultList();
-//		
-//		return departmentList;
-//	}
-	
+	/* Date : 2021/11/24
+	 * Writer : Hansoo Lee
+	 * 
+	 * 사번 조합기 다음 사번 확인하기
+	 * 
+	 * jpql로 그전 MAX넘버를 조건식에 따라 가지고 온뒤 잘라서 이어붙여 식별코드로 사용할 것이다.
+	 * 자료형이 varchar2이지만 쿼리문에서 + 1 을 해주어 number형으로 바뀌었으므로 Integer.class를 사용해야 오류가 나지 않는다
+	 * 하지만 정작 DTO에서는 식별코드를 String자료형을 사용해야하므로 다시 String으로 바꿔 주어 사용해야 한다. 
+	 * 사원의 식별코드는 "해당 년도 + (MAX넘버 + 1)"을 이어붙여 사용해야 하므로, int 자료형을 변형하여 반환, 사용할 것이다. 
+	 * */
+	public int findNextEmpNum() {
+		String jpql = "SELECT nvl(MAX(a.code), 1000100) + 1 FROM EmployeeDTO a WHERE a.code LIKE TO_CHAR(SYSDATE,'YYYY') ||'%'";
+		int preNextEmpNum = em.createQuery(jpql, Integer.class).getSingleResult();
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		
+		int nextEmpNum = year*1000 + preNextEmpNum%1000; 
+		
+		return nextEmpNum;
+	}
 	
 	/*사원 등록*/
 	public void empRegistRequest(EmployeeDTO newEmp) {

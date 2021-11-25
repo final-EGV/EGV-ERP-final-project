@@ -14,7 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
+@DynamicInsert
 @Table(name = "EMPLOYEE")
 public class EmployeeDTO implements Serializable {
 	private static final long serialVersionUID = -3593135330384171300L;
@@ -97,11 +100,11 @@ public class EmployeeDTO implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "DEPT_CODE")
-	private DepartmentDTO dept;	
+	private DepartmentDTO dept;
 	
 	@ManyToOne
 	@JoinColumn(name = "RANK_CODE")
-	private EmpRankDTO rank;	
+	private EmpRankDTO rank;
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	private List<EmployeeRoleDTO> employeeRoleList = new ArrayList<>();		// 회원별권한리스트(nullpointexceprion 방지를 위해 객체 선언)

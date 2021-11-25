@@ -32,7 +32,6 @@ public class DepartmentDTO implements Serializable{
 	@Column(name = "DEPT_YN")
 	private String Yn;
 
-	
 	public DepartmentDTO() {
 	}
 	public DepartmentDTO(int code, String name, String yn) {

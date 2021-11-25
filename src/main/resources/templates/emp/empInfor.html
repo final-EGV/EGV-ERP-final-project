@@ -54,45 +54,56 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-
-				<h1 align="Center">인사 페이지 내용 넣기</h1>
 				<h2 align="Center">사원 정보</h2>
-				<h2 align="Center">주제?</h2>
 				<div align="center" class="container justify-content-end">
 				<table class="table table-striped table-bordered text-right">
 					<tbody>
 						<tr>
+							<td class="col-1" rowspan="4" colspan="2" align="center">프로필 사진
+							<!-- Date : 2021/11/25
+	 	  					   Writer : Hansoo Lee
+    							타임리프를 사용한 조건문
+								프로필 사진이 존재 할 때와 존재하지 않을때를 비교하여 사진을 넣어 준다.
+							 -->
+							<div class="card" style="width: 180px; height: 200px; overflow: hidden; text-align: center;">
+							      <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" src="https://i.imgur.com/Jvh1OQm.jpeg" style="width: 180px; height: auto;" alt="profilePic">
+							 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic">
+							</div>
+							</td>
 							<td class="col-1">사번</td>
 							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.code}" aria-label="Code" disabled readonly></td>
+						</tr>
+						<tr>
 							<td class="col-1">성명</td>
 							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.name}" aria-label="Name" disabled readonly></td>
 						</tr>
 						<tr>
 							<td class="col-1">영문성명</td>
-							<td class="col-1"><input class="form-control" type="text" th:field="*{empInfor.engName}" aria-label="EngName"></td>
+							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.engName}" aria-label="EngName"></td>
+						</tr>
+						<tr>
 							<td class="col-1">입사일</td>
-							<td class="col-1"><input class="form-control" th:field="*{empInfor.entDate}" aria-label="entDate" disabled readonly></td>
+							<td class="col-3"><input class="form-control" th:field="*{empInfor.entDate}" aria-label="entDate" disabled readonly></td>
 						</tr>
 						<tr>
 							<td class="col-1">경력직여부</td>
-							<td class="col-1">
+							<td class="col-3">
 							<select class="form-control" th:field="*{empInfor.careerYN}" th:value="${empInfor.careerYN}">
 							  <option th:value="N">무</option>
 							  <option th:value="Y">유</option>
 							</select>
 							</td>
 							<td class="col-1">직책</td>
-							<td class="col-1">
+							<td class="col-3">
 							<select class="form-control" th:field="${empInfor.rank}" th:value="${empInfor.rank.code}">
-
 							</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="col-1">연락처(집)</td>
-							<td class="col-1"><input class="form-control" type="text" th:field="*{empInfor.phoneHome}" aria-label="phoneHome" disabled readonly></td>
+							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.phoneHome}" aria-label="phoneHome"></td>
 							<td class="col-1">휴대폰</td>
-							<td class="col-4"><input class="form-control" type="text" th:field="*{empInfor.phoneMobile}" aria-label="phoneMobile" disabled readonly></td>
+							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.phoneMobile}" aria-label="phoneMobile"></td>
 						</tr>
 						<tr>
 							<td class="col-1">이메일</td>
@@ -165,7 +176,11 @@
     <!-- Page level plugins -->
 
     <!-- Page level custom scripts -->
-    <!--  현재 부서와 직급을 에이작스로 실시간 불러오기 -->
+    <!--  Date : 2021/11/22
+	 	  Writer : Hansoo Lee
+    현재 존재하는 부서와 직급을 에이작스로 실시간 불러오기 
+    
+    에이작스로 표현, 테이터를 불러온후 옵션태그에 덧붙이는 코드-->
 	<script>
 		$(function(){
 			$.ajax({

@@ -10,7 +10,8 @@
     <meta name="author" content="kimjiwon">
 
     <title>EGV</title>
-
+    
+    
     <!-- Custom fonts for this template-->
     <link href="/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -24,19 +25,14 @@
     
     <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
     
-    <!-- include libraries(jQuery, bootstrap) --> 
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet"> 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-    
-    <!-- include summernote css/js--> 
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet"> 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <!-- summernote-lite -->
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -44,7 +40,6 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
 
@@ -52,34 +47,55 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
 				<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h5 class="m-0 font-weight-bold text-primary">기안서 작성</h5>
+							<h5 class="m-0 font-weight-bold text-primary">도장/서명 설정</h5>
 						</div>
 						<div class="card-body">
-							<div class="table-responsive" style="height: 50%">
+							<div class="table-responsive">
 								
-								<div id="summernote">Hello Summernote</div>
+								<form action="/sign/signInsert" method="post">
+									<div style="align-items: flex-end;">
+										<button type="submit" id="temporarySaveBtn" name="temporarySaveBtn">임시저장</button>
+										<button type="submit" id="saveBtn" name="saveBtn">저장</button>
+									</div>
+									<br><br>
+									<label>작성일 :</label>&emsp;&emsp;
+									<input type="date" id="writeDate" name="writeDate">
+									<br><br>
+									<label>분류 :</label>&emsp;&emsp;&emsp;
+									<select name="template" id="template" >
+										<!-- ajax로 template 조회 -->
+									</select>
+									<br>
+									<label>제목 :</label>&emsp;&emsp;&emsp;
+									<input type="text" id="documentTitle" name="documentTitle">
+									<br><br>
+									<label>결재자 :</label>&emsp;&emsp;
+									<input type="text" id="approver" name="approver">
+									<br>
+									<label>참조자 :</label>&emsp;&emsp;
+									<input type="text" id="referrer" name="referrer">
+									<br>
+									<hr>
+									<br>
+									<textarea id="summernote" name="documentContent"></textarea>
+								</form>
 
 								
 							</div>
 						</div>
 					</div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
+            
             <!-- Footer -->
             <div th:include="common/footer.html"></div>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
 
@@ -108,15 +124,70 @@
         </div>
     </div>
 </body>
+<script>
+/* input 태그들 설정 */
 
+	// 작성일의 기본값을 오늘로 설정
+	document.getElementById('writeDate').value = new Date().toISOString().substring(0, 10);
+
+	// 템플릿 목록 가져오기
+	$(function(){
+		$.ajax({
+			url: "/sign/signTemplate",
+			success: function(data){
+				const $template = $("#template");
+				$template.html("");
+				
+				const tempCode = "[[${ template.code }]]";
+				
+				for (let index in data){
+					if (tempCode-1 == index) {
+						/* alert(tempCode); */
+						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
+					} else {
+						$template.append($("<option>").val(data[index].code).text(data[index].name));						
+					}
+				}
+			},
+			error: function(xhr){
+				console.log(xhr);
+			}
+		});
+	});
+	
+	// 템플릿 목록 기본값 설정
+	$(function() {
+		const tempCode = "[[${ template.code }]]";
+		
+		
+		
+    });
+</script>
 <script> 
 	$(document).ready(function() { 
 		$('#summernote').summernote({
-				placeholder: 'Hello stand alone ui',
-				tabsize: 2, 
-				height: 400
-		}); 
-	}); 
+				lang: "ko-KR",
+				tabsize: 2,
+				height: 300,
+				width : 1300,
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['fontname', ['fontname']],
+				    ['fontsize', ['fontsize']],
+				    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				    ['color', ['forecolor','color']],
+				    ['table', ['table']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']],
+				    ['insert',['picture','link','video']],
+				    ['view', ['fullscreen', 'help']]
+				  ],
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+		});
+		
+		
+	});
 </script>
 
 </html>

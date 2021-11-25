@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SIGN_TEMPLATE")
@@ -27,18 +30,14 @@ public class TemplateDTO implements Serializable {
 	@Column(name="TEMP_EX")
 	private String ex;
 
-	@OneToMany(mappedBy = "temp")
-	private List<SignDTO> signList;
-
 	public TemplateDTO() {
 	}
 
-	public TemplateDTO(int code, String name, String contents, String ex, List<SignDTO> signList) {
+	public TemplateDTO(int code, String name, String contents, String ex) {
 		this.code = code;
 		this.name = name;
 		this.contents = contents;
 		this.ex = ex;
-		this.signList = signList;
 	}
 
 	public int getCode() {
@@ -71,14 +70,6 @@ public class TemplateDTO implements Serializable {
 
 	public void setEx(String ex) {
 		this.ex = ex;
-	}
-
-	public List<SignDTO> getSignList() {
-		return signList;
-	}
-
-	public void setSignList(List<SignDTO> signList) {
-		this.signList = signList;
 	}
 
 	public static long getSerialversionuid() {

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html
+	lang="ko"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>EGV</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebarMain" class="bg-gradient-info" th:include="common/aside.html"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <div th:include="common/header.html"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                <h1 align="Center">부서관리</h1>
+
+					<!-- DataTales -->
+					<div class="card mb-4">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="departmentTable" cellspacing="0">
+									<thead>
+										<tr>
+											<th>근무코드</th>
+											<th>근무항목</th>
+											<th>사원이름</th>
+											<th>근무일자</th>
+											<th>근무시작시간</th>
+											<th>근무종료시간</th>
+											<th>초과근무시간</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr th:each="work : ${ workList }">
+ 										<td th:text="${ work.code }"></td>
+										<td th:text="${ work.categoryCode.type }"></td>
+										<td th:text="${ work.empCode.name }"></td>
+										<td th:text="${ work.workDate }"></td>
+										<td th:text="${ work.workStart }"></td>
+										<td th:text="${ work.workEnd }"></td>
+										<td th:text="${ work.workOver }"></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
+					</div>
+            	<!-- End of Main Content -->
+            <!-- Footer -->
+            <div th:include="common/footer.html"></div>
+            <!-- End of Footer -->
+			</div>
+        </div>
+        <!-- End of Content Wrapper -->
+	</div>
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript -->
+    <script src="/js/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages -->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+	<script src="/js/jquery.dataTables.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+	<script src="/js/demo/datatables-demo.js"></script>
+	
+	<!-- Page level custom scripts -->
+	<script>
+		$(document).ready(function() {
+			$('#departmentTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order" : [ 0, "asc" ]	
+			}
+			);
+		});
+	</script>
+	
+
+</body>
+
+</html>

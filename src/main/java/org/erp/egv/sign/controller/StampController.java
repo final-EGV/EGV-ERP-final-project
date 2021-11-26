@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -51,23 +52,23 @@ public class StampController {
 	}
 	
 	@PostMapping(value = "/stamp")
-	public ModelAndView singleFileUpload(HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView singleFileUpload(HttpServletRequest request,
 										 @RequestParam("stampImg") MultipartFile singleFile, 
-										 ModelAndView mv) throws UnsupportedEncodingException {
+										 ModelAndView mv,
+										 RedirectAttributes rAttr) throws UnsupportedEncodingException {
 
-		response.setContentType("application/json; charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		/* 파일을 저장할 경로 설정 */
 //		String root = request.getSession().getServletContext().getRealPath("resources");
 //		String root = "C:\\springBootwork\\EGV-ERP-final-project\\src\\main\\resources\\static\\";
-//		System.out.println(root);
+//		System.out.println(root); 
 		
 		String root = this.getClass().getResource("/").getPath();
-	    String root2 = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
+	    String srcRoot = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
+	    String targetRoot = root.replace("/", "\\").concat("static\\stamp-img\\");
 	    
-	    String filePath = root2 + "stamp-img/";
-	    System.out.println(filePath);
-		
+	    String filePath = srcRoot + "stamp-img/";
 		
 		/* 폴더 생성 */
 		File mkdir = new File(filePath);
@@ -83,15 +84,16 @@ public class StampController {
 		
 		String saveName = UUID.randomUUID().toString().replace("-", "") + ext;
 		System.out.println("변경한 이름 : " + saveName);
-		
+
 		/* 파일 저장 */
 		try {
 			singleFile.transferTo(new File(filePath + "\\" + saveName));
+//			singleFile.transferTo(new File(targetRoot + "\\" + saveName));
 			
 			//(수정하기)test용 사원코드
 			String empCode = "2021100";
 			
-			/* stamp 등록 */
+			/* stamp 등록 */ 
 			EmployeeDTO employee = new EmployeeDTO();
 			employee.setCode(empCode); 
 			employee.setStampImgPath(filePath);
@@ -107,17 +109,18 @@ public class StampController {
 			String imgPath = "/stamp-img/" + empStampinfo.getStampUuidName();
 			System.out.println("imgNewPath : " + imgPath);
 			
-			mv.addObject("message", "파일 업로드 성공!!!");
-			mv.addObject("imgPath", imgPath);
+//			mv.addObject("imgPath", imgPath);
+			
+			rAttr.addFlashAttribute("message", "파일 업로드 성공!!!");
 			
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			
 			/* 실패 시 업로드 된 파일 삭제 */
 			new File(filePath + "\\" + saveName).delete();
-			mv.addObject("message", "파일 업로드 실패!!");
+			rAttr.addFlashAttribute("message", "파일 업로드 실패!!");
 		}
-		mv.setViewName("sign/stamp");
+		mv.setViewName("redirect:/sign/stamp");
 		
 		return mv;
 	}

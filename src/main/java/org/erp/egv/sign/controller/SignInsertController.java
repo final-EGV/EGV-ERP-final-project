@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +32,7 @@ private EmpInfoService empInfoService;
 	public ModelAndView temp(ModelAndView mv) {
 		System.out.println("test");
 		List<TemplateDTO> tempList = signInsertService.selectTempList();
-		System.out.println(tempList);
+//		System.out.println(tempList);
 		
 		mv.addObject("tempList", tempList);
 		mv.setViewName("/sign/template");
@@ -58,6 +59,16 @@ private EmpInfoService empInfoService;
 		mv.addObject("template", templateDTO);
 		mv.setViewName("/sign/signInsert");
 		
+		return mv;
+	}
+	
+	@PostMapping("chooseApprover")
+	public ModelAndView chooseApprover(ModelAndView mv) {
+		
+		
+		
+		
+		mv.setViewName("/sign/signInsert");
 		return mv;
 	}
 

@@ -14,7 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 @Entity
+@DynamicInsert
 @Table(name = "EMPLOYEE")
 public class EmployeeDTO implements Serializable {
 	private static final long serialVersionUID = -3593135330384171300L;
@@ -69,7 +72,7 @@ public class EmployeeDTO implements Serializable {
 	private String outYN;
 	
 	@Column(name = "OUT_DATE")
-	private String outDATE;
+	private java.sql.Date outDate;
 	
 	@Column(name = "OUT_REASON")
 	private String outReason;
@@ -97,11 +100,11 @@ public class EmployeeDTO implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "DEPT_CODE")
-	private DepartmentDTO dept;	
+	private DepartmentDTO dept;
 	
 	@ManyToOne
 	@JoinColumn(name = "RANK_CODE")
-	private EmpRankDTO rank;	
+	private EmpRankDTO rank;
 	
 	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
 	private List<EmployeeRoleDTO> employeeRoleList = new ArrayList<>();		// 회원별권한리스트(nullpointexceprion 방지를 위해 객체 선언)
@@ -111,7 +114,7 @@ public class EmployeeDTO implements Serializable {
 
 	public EmployeeDTO(String code, String pwd, String name, String engName, String rrn, Date entDate, String careerYN,
 			String empPosition, String phoneHome, String phoneMobile, String email, String accountBank,
-			String accountNum, String accountHolder, String address, String outYN, String outDATE, String outReason,
+			String accountNum, String accountHolder, String address, String outYN, Date outDate, String outReason,
 			String note, String profileOrigName, String profileUuidName, String profileImgName, String stampOrigName,
 			String stampUuidName, String stampImgPath, List<EmployeeRoleDTO> employeeRoleList, DepartmentDTO dept, EmpRankDTO rank) {
 		this.code = code;
@@ -130,7 +133,7 @@ public class EmployeeDTO implements Serializable {
 		this.accountHolder = accountHolder;
 		this.address = address;
 		this.outYN = outYN;
-		this.outDATE = outDATE;
+		this.outDate = outDate;
 		this.outReason = outReason;
 		this.note = note;
 		this.profileOrigName = profileOrigName;
@@ -272,12 +275,12 @@ public class EmployeeDTO implements Serializable {
 		this.outYN = outYN;
 	}
 
-	public String getOutDATE() {
-		return outDATE;
+	public Date getOutDate() {
+		return outDate;
 	}
 
-	public void setOutDATE(String outDATE) {
-		this.outDATE = outDATE;
+	public void setOutDate(Date outDate) {
+		this.outDate = outDate;
 	}
 
 	public String getOutReason() {
@@ -378,7 +381,7 @@ public class EmployeeDTO implements Serializable {
 				+ ", entDate=" + entDate + ", careerYN=" + careerYN + ", empPosition=" + empPosition + ", phoneHome="
 				+ phoneHome + ", phoneMobile=" + phoneMobile + ", email=" + email + ", accountBank=" + accountBank
 				+ ", accountNum=" + accountNum + ", accountHolder=" + accountHolder + ", address=" + address
-				+ ", outYN=" + outYN + ", outDATE=" + outDATE + ", outReason=" + outReason + ", note=" + note
+				+ ", outYN=" + outYN + ", outDate=" + outDate + ", outReason=" + outReason + ", note=" + note
 				+ ", profileOrigName=" + profileOrigName + ", profileUuidName=" + profileUuidName + ", profileImgName="
 				+ profileImgName + ", stampOrigName=" + stampOrigName + ", stampUuidName=" + stampUuidName
 				+ ", stampImgPath=" + stampImgPath + ", dept=" + dept + ", rank=" + rank + ", employeeRoleList="

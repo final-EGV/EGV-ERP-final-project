@@ -24,7 +24,7 @@
 
 <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
 	<script>
-		const successMessage = "[[${ registSuccessMessage }]]";	
+		const successMessage = "[[${ successMessage }]]";	
 		
 		if(successMessage){
 			alert(successMessage);
@@ -67,18 +67,22 @@
 										<tr>
 											<th>사번</th>
 											<th>이름</th>
-											<th>주민번호</th>
 											<th>직책</th>
 											<th>집전화번호</th>
+											<th>프로필 사진등록</th>
+											<th>퇴사 진행여부</th>
 										</tr>
 									</thead>
 									<tbody>
 									<tr th:class="empTable" th:each="emp : ${ empList }">
  										<td th:class="empCode" th:text="${ emp.code }"></td>
 										<td th:text="${ emp.name }"></td>
-										<td th:text="${ emp.rrn }"></td>
 										<td th:text="${ emp.empPosition }"></td>
 										<td th:text="${ emp.phoneHome }"></td>
+										<td th:unless="${#strings.isEmpty(emp.profileImgName)}" th:text="'유'"></td>
+										<td th:if="${#strings.isEmpty(emp.profileImgName)}" th:text="'무'" th:style="'color: red'"></td>
+										<td th:unless="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'재직중'"></td>
+										<td th:if="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'퇴직 처리중'" th:style="'color: red'"></td>
 									</tr>
 									</tbody>
 								</table>
@@ -90,6 +94,7 @@
 				<div th:include="common/footer.html"></div>
 				<!-- End of Footer -->
 			</div>
+		</div>
 		</div>
 		<!-- End of Content Wrapper -->
 	</div>
@@ -122,7 +127,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- 사원등록 Modal-->
+	<!-- Date : 2021/11/22
+	   Writer : Hansoo Lee
+		사원등록 Modal
+		유효성 검사 추가
+	-->
 	<div class="modal fade" id="registEmp" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg" role="document">
 	    <div class="modal-content">
@@ -133,49 +142,69 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <form action="/emp/registEmp" method="post">
-		      	<table class="table table-striped table-bordered text-right">
+	        <form action="/emp/registEmp" class="needs-validation" method="post" novalidate>
+		      	<table class="table table-striped table-bordered text-right col-12">
 					<tbody>
 						<tr>
-							<td class="col-1">성명</td>
-							<td class="col-4"><input class="form-control" type="text" name="name" aria-label="Name"></td>
-							<td class="col-1">영문성명</td>
-							<td class="col-1"><input class="form-control" type="text" name="engName" aria-label="EngName"></td>
+							<td class="col-2">성명</td>
+							<td class="col-4"><input class="form-control" type="text" name="name" aria-label="Name" required>
+							  <div class="invalid-feedback">
+						        성명을 입력하세요
+						      </div>
+						      </td>
+							<td class="col-2" width="180">영문성명</td>
+							<td class="col-1"><input class="form-control" type="text" name="engName" aria-label="EngName" required></td>
 						</tr>
 						<tr>
 							<td class="col-1">주민등록번호</td>
-							<td class="col-1"><input class="form-control" type="number" name="rrn" aria-label="rrn"></td>
+							<td class="col-1"><input class="form-control" type="text" name="rrn" aria-label="rrn" maxlength = "13" pattern="[0-9]{13}" required>
+							  <div class="invalid-feedback text-left">
+						        주민등록번호는 숫자만 <br> 13자리를 입력하여 주세요.
+						      </div>
+							</td>
 							<td class="col-1">이메일</td>
-							<td class="col-1"><input class="form-control" type="email" name="email" aria-label="Email"></td>
+							<td class="col-1"><input class="form-control" type="email" name="email" aria-label="Email" required></td>
 						</tr>
 						<tr>
 							<td class="col-1">연락처(집)</td>
-							<td class="col-1"><input class="form-control" type="text" name="phoneHome" aria-label="phoneHome"></td>
+							<td class="col-1"><input class="form-control" type="text" name="phoneHome" aria-label="phoneHome" pattern="^[0-9]+$" max="10" required>
+							  <div class="invalid-feedback text-left">
+						        연락처는 숫자만 입력하여 주세요.
+						      </div>					
+							</td>
 							<td class="col-1">휴대폰</td>
-							<td class="col-4"><input class="form-control" type="text" name="phoneMobile" aria-label="phoneMobile"></td>
+							<td class="col-4"><input class="form-control" type="text" name="phoneMobile" aria-label="phoneMobile" pattern="^[0-9]+$" max="11" required>
+						      <div class="invalid-feedback text-left">
+						        연락처는 숫자만 입력하여 주세요.
+						      </div>	
+							</td>
 						</tr>
  						<tr>
-							<td class="col-1">직책</td>
+							<td class="col-1">직급</td>
 							<td class="col-1">
-							<select class="form-control" th:id="rank" name="rank" aria-label="rank">
+							<select class="form-control" th:id="rank" name="rankRegist" aria-label="rankRegist" required>
 							</select>
 							</td>
 							<td class="col-1">부서명</td>
 							<td class="col-1">
-							<select class="form-control" th:id="dept" name="dept" aria-label="dept">
+							<select class="form-control" th:id="dept" name="deptRegist" aria-label="deptRegist" required>
 							</select>		
 							</td>
 						</tr>
 						<tr>
+							<td class="col-1">직책</td>
+							<td class="col-1" colspan="3"><input class="form-control" type="text" name="empPosition" aria-label="empPosition" required></td>
+						</tr>
+						<tr>
 							<td class="col-1">은행명</td>
-							<td class="col-1"><input class="form-control" type="text" name="accountBank" aria-label="accountBank"></td>
+							<td class="col-1"><input class="form-control" type="text" name="accountBank" aria-label="accountBank" required></td>
 							<td class="col-1">계좌번호</td>
-							<td class="col-4"><input class="form-control" type="text" name="accountNum" aria-label="accountNum"></td>
+							<td class="col-4"><input class="form-control" type="text" name="accountNum" aria-label="accountNum" required></td>
 						</tr>
 						<tr>
 							<td class="col-1">예금주명</td>
-							<td class="col-1"><input class="form-control" type="text" name="accountHolder" aria-label="accountHolder"></td>
-							<td class="col-1">경력직여부</td>
+							<td class="col-1"><input class="form-control" type="text" name="accountHolder" aria-label="accountHolder" required></td>
+ 							<td class="col-1">경력직여부</td>
 							<td class="col-1">
 							<select class="form-control" name="careerYN" aria-label="careerYN">
 							  <option th:value="N">무</option>
@@ -185,7 +214,7 @@
 						</tr>
 						<tr>
 							<td class="col-1">주소</td>
-							<td class="col-1" colspan="3"><input class="form-control" name="address" type="text" aria-label="Address"></td>
+							<td class="col-1" colspan="3"><input class="form-control" name="address" type="text" aria-label="Address" required></td>
 						</tr>
 						<tr>
 							<td class="col-1">메모</td>
@@ -202,9 +231,6 @@
 	    </div>
 	  </div>
 	</div>
-
-
-
 	<!-- Bootstrap core JavaScript-->
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
@@ -223,7 +249,16 @@
 	<script src="/js/demo/datatables-demo.js"></script>
 	
 	
-	<!--  테이블에 링크 연결 -->
+    <!--  Date : 2021/11/22
+	 	  Writer : Hansoo Lee
+	
+	테이블에 링크 연결 
+	
+	기존 코드는 태그로 요소를 불러왔으나 중복되는 td 태그의 오류를 방지하고자,
+	클래스 네임으로 선택하여 funtion을 추가하는것으로 수정하였다.
+	
+	그래서 선택 계층 차이가 존재하여 children으로 innertext를 선택하게 되었다. 
+	-->
 	<script>
 	if(document.getElementsByClassName("empTable")) {
 		const $tds = document.getElementsByClassName("empTable");
@@ -242,7 +277,13 @@
 		}
 	}
 	</script>
-	<!--  현재 부서와 직급을 에이작스로 실시간 불러오기 -->
+    <!--  Date : 2021/11/22
+	 	  Writer : Hansoo Lee
+	
+	현재 존재하는 부서와 직급을 에이작스로 실시간 불러오기
+	
+	신규 가입이므로 셀렉트 코드는 제거
+	 -->
 	<script>
 	$(function(){
 		$.ajax({
@@ -278,6 +319,26 @@
 			}
 		});
 	});
+	
+	(function () {
+		  'use strict'
+
+		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		  var forms = document.querySelectorAll('.needs-validation')
+
+		  // Loop over them and prevent submission
+		  Array.prototype.slice.call(forms)
+		    .forEach(function (form) {
+		      form.addEventListener('submit', function (event) {
+		        if (!form.checkValidity()) {
+		          event.preventDefault()
+		          event.stopPropagation()
+		        }
+
+		        form.classList.add('was-validated')
+		      }, false)
+		    })
+		})()
 	
 </script>
 	

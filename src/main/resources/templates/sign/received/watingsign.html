@@ -64,14 +64,14 @@
 									</thead>
 									<tbody>
 										<span th:each="sign : ${ signList }">
-											<tr th:onclick="|location.href='/sign/signInsert?code=${sign.code}'|">
-												<td th:text="${ sign.code }"></td>
-												<td th:text="${ sign.title }"></td>
-												<td th:text="${ sign.temp.name }"></td>
-												<td th:text="${ sign.date }"></td>
-												<td th:text="${ sign.employee.name }"></td>
+											<tr th:onclick="|location.href='/sign/signInsert?code=${sign.sign.code}'|">
+												<td th:text="${ sign.sign.code }"></td>
+												<td th:text="${ sign.sign.title }"></td>
+												<td th:text="${ sign.sign.temp.name }"></td>
+												<td th:text="${ sign.sign.date }"></td>
+												<td th:text="${ sign.sign.employee.name }"></td>
+												<td th:text="${ sign.sign.status }"></td>
 												<td th:text="${ sign.status }"></td>
-												<td th:text="${ sign.approver[0].status }"></td>
 											</tr>
 										</span>
 									</tbody>

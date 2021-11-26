@@ -39,4 +39,18 @@ public class MovieService {
 		return movieDAO.inquireSingleMovieByCode(movieCode);
 	}
 
+	@Transactional
+	public void modifyMovie(MovieDTO movieNew) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		movieDAO.modifyMovie(movieNew);
+	}
+
+	@Transactional
+	public void deleteMovieByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		movieDAO.deleteMovieByCode(code);
+	}
+
 }

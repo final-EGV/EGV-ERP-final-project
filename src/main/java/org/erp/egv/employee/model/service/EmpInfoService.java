@@ -31,16 +31,53 @@ public class EmpInfoService {
 		return empInfoDAO.empListRequest();
 	}
 	
+	public List<EmployeeDTO> empOutListRequest() {
+		return empInfoDAO.empOutListRequest();
+	}
 
+	
 	public EmployeeDTO empOneRequest(String empCode) {
 		return empInfoDAO.empOneRequest(empCode);
 	}
 
-	/* 사원 등록 */
+	/* Date : 2021/11/24
+	 * Writer : Hansoo Lee
+	 * 사원코드 설정 전용 메소드
+	 * 
+	 * EmployeeDTO 엔티티의 식별 코드는 String 형이므로 String형으로 파싱하여 사용하자.
+	 * */
+	public String findNextEmpNum() {
+		System.out.println("서비스로 오나요?");
+		System.out.println(empInfoDAO.findNextEmpNum());
+		
+		return String.valueOf(empInfoDAO.findNextEmpNum());
+	}
+	
+	/* Date : 2021/11/25
+	 * Writer : Hansoo Lee
+	 * 
+	 *  사원 등록시 비밀번호 암호화를 위해 getPwd르 비밀번호를 빼오고 암호화 한 뒤
+	 *  setPwd로 다시 넣어주고 DB에 저장한다.
+	 * */
 	@Transactional
 	public void empRegistRequest(EmployeeDTO newEmp) {
+		String newEmpPwd = newEmp.getPwd();
+		System.out.println(newEmpPwd);
+		newEmp.setPwd(passwordEncoder.encode(newEmpPwd));
 		
 		empInfoDAO.empRegistRequest(newEmp);
+	}
+	
+	/* 사원정보 수정 */
+	@Transactional
+	public void modifyInforRequest(EmployeeDTO modifyInfor) {
+		empInfoDAO.modifyInforRequest(modifyInfor);
+	}
+	
+	/* 퇴사사유와 퇴사신청 날짜 입력 */
+	@Transactional
+	public void empOUTRequest(String code, String reason) {
+		empInfoDAO.empOUTRequest(code, reason);
 	}
 	
 	/* 부서목록 리스트 */
@@ -112,5 +149,10 @@ public class EmpInfoService {
 		return empInfoDAO.resetPw(code, passwordEncoder.encode(repw));
 	}
 
+	/* 사원 통장정보 수정 */
+	@Transactional
+	public void modifyBankBookInfor(EmployeeDTO modifyInfor) {
+		empInfoDAO.modifyBankBookInfor(modifyInfor);
+	}
 
 }

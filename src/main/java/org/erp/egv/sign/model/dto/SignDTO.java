@@ -45,12 +45,15 @@ public class SignDTO implements Serializable {
 	
 	@OneToMany(mappedBy = "sign")
 	private List<ApproverDTO> approver;
+	
+	@OneToMany(mappedBy = "sign")
+	private List<RefferrerDTO> refferrer;
 
 	public SignDTO() {
 	}
 
 	public SignDTO(int code, Date date, String status, String title, String contents, TemplateDTO temp,
-			EmployeeDTO employee, List<ApproverDTO> approver) {
+			EmployeeDTO employee, List<ApproverDTO> approver, List<RefferrerDTO> refferrer) {
 		this.code = code;
 		this.date = date;
 		this.status = status;
@@ -59,6 +62,7 @@ public class SignDTO implements Serializable {
 		this.temp = temp;
 		this.employee = employee;
 		this.approver = approver;
+		this.refferrer = refferrer;
 	}
 
 	public int getCode() {
@@ -125,6 +129,14 @@ public class SignDTO implements Serializable {
 		this.approver = approver;
 	}
 
+	public List<RefferrerDTO> getRefferrer() {
+		return refferrer;
+	}
+
+	public void setRefferrer(List<RefferrerDTO> refferrer) {
+		this.refferrer = refferrer;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -132,9 +144,8 @@ public class SignDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "SignDTO [code=" + code + ", date=" + date + ", status=" + status + ", title=" + title + ", contents="
-				+ contents + ", temp=" + temp + ", employee=" + employee + ", approver=" + approver + "]";
+				+ contents + ", temp=" + temp + ", employee=" + employee + ", approver=" + approver + ", refferrer="
+				+ refferrer + "]";
 	}
 
-	
-	
 }

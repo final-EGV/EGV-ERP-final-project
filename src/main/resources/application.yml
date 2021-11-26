@@ -11,4 +11,8 @@ spring:
 # jpa config  jpa:    generate-ddl: false
     show-sql: true
     database: oracle    database-platform: org.hibernate.dialect.Oracle10gDialect# file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MBlogging:  level:
-    '[org.hibernate]': info
+      root:
+         org:
+          erp:
+           employee: info
+#    '[org.hibernate]': info

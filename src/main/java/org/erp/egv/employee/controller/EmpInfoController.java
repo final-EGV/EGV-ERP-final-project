@@ -109,6 +109,56 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/25
+	 * Writer : Hansoo Lee
+	 * 
+	 * 회원정보수정
+	 * */
+	@PostMapping("/modifyInfor")
+	public ModelAndView empModifyInforRequest(ModelAndView mv, EmployeeDTO modifyInfor, @RequestParam int rankRegist, @RequestParam int deptRegist,  RedirectAttributes rttr) {
+		System.out.println("콘트롤러 modify 오나요?");
+		DepartmentDTO departmentDTO = new DepartmentDTO();
+		EmpRankDTO empRankDTO = new EmpRankDTO();
+		
+		empRankDTO.setCode(rankRegist);
+		departmentDTO.setCode(deptRegist);
+
+		modifyInfor.setDept(departmentDTO);
+		modifyInfor.setRank(empRankDTO);
+
+		empInfoService.modifyInforRequest(modifyInfor);
+		
+		rttr.addFlashAttribute("registSuccessMessage", "사원 정보 수정 성공!!");
+		mv.setViewName("redirect:/emp/list");
+		
+		return mv;
+	}
+	
+	/* Date : 2021/11/25
+	 * Writer : Hansoo Lee
+	 * 
+	 * 퇴사처리용 컨트롤러
+	 * 바로 퇴사되는것이 아니라 퇴직금을 받을때까지는 계류 되므로
+	 * 진짜 퇴사처리는 퇴직금 항목에서 다룰것이고,
+	 * 여기서는 퇴사신청 날자와 퇴사사유를 DB에 넣어 주는 작업을 할 것 이다.
+	 * 퇴사사유는 상당히 기므로 POST로 요청하자
+	 * */
+	@PostMapping("/out")
+	public ModelAndView empOUTRequest(ModelAndView mv, @RequestParam String code,  @RequestParam String reason, RedirectAttributes rttr) {
+		System.out.println("콘트롤러 modify 오나요?");
+		
+		
+		empInfoService.empOUTRequest(code, reason);
+		
+		rttr.addFlashAttribute("registSuccessMessage", "퇴사 신청 완료1");
+		mv.setViewName("redirect:/emp/list");
+		
+		return mv;
+	}
+	
+	
+	
+	
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {
 		List<DepartmentDTO> deptList = empInfoService.empDeptList();

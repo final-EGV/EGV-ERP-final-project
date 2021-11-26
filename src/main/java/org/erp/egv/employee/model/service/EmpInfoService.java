@@ -64,6 +64,18 @@ public class EmpInfoService {
 		empInfoDAO.empRegistRequest(newEmp);
 	}
 	
+	/* 사원정보 수정 */
+	@Transactional
+	public void modifyInforRequest(EmployeeDTO modifyInfor) {
+		empInfoDAO.modifyInforRequest(modifyInfor);
+	}
+	
+	/* 퇴사사유와 퇴사신청 날짜 입력 */
+	@Transactional
+	public void empOUTRequest(String code, String reason) {
+		empInfoDAO.empOUTRequest(code, reason);
+	}
+	
 	/* 부서목록 리스트 */
 	@Transactional
 	public List<DepartmentDTO> findDepartmentList() {
@@ -133,5 +145,7 @@ public class EmpInfoService {
 		return empInfoDAO.resetPw(code, passwordEncoder.encode(repw));
 	}
 
+
+	
 
 }

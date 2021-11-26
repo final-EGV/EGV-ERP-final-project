@@ -14,7 +14,6 @@ import org.erp.egv.theater.model.dto.MovieDTO;
 import org.erp.egv.theater.model.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,7 +108,7 @@ public class MovieController {
 		}
 		
 		// file name randomization
-		String posterOrigName = new String(posterImg.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+		String posterOrigName = posterImg.getOriginalFilename();
 		System.out.println("원본 파일명 : " + posterOrigName);
 		
 		String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
@@ -243,8 +242,7 @@ public class MovieController {
 			 * When user uploads file
 			 */
 			
-			if (new String(posterImg.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8")
-					!= movieOrigin.getPosterOrigName()) {
+			if (posterImg.getOriginalFilename() != movieOrigin.getPosterOrigName()) {
 				/*
 				 * When user uploads a different file from the original file
 				 *   1. upload new poster image file.
@@ -270,7 +268,7 @@ public class MovieController {
 				}
 				
 				// randomize file name
-				String posterOrigName = new String(posterImg.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+				String posterOrigName = posterImg.getOriginalFilename();
 				System.out.println("원본 파일명 : " + posterOrigName);
 				
 				String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));

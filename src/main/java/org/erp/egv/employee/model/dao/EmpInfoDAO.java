@@ -23,8 +23,14 @@ public class EmpInfoDAO {
 	@PersistenceContext	
 	private EntityManager em;
 	
+	/* Date : 2021/11/22
+	 * Writer : Hansoo Lee
+	 * 
+	 * 재직자조회
+	 * List로 받아와야 하므로 jpql을 사용하였다.
+	 **/
 	public List<EmployeeDTO> empListRequest() {
-		String jpql = "SELECT e FROM EmployeeDTO as e";	
+		String jpql = "SELECT e FROM EmployeeDTO as e WHERE e.outYN = 'N'";	
 		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
 		List<EmployeeDTO> empList = query.getResultList();
 
@@ -33,7 +39,18 @@ public class EmpInfoDAO {
 		}
 		
 		return empList;
+	}
+	
+	public List<EmployeeDTO> empOutListRequest() {
+		String jpql = "SELECT e FROM EmployeeDTO as e WHERE e.outYN = 'Y'";	
+		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
+		List<EmployeeDTO> empList = query.getResultList();
 
+		for (EmployeeDTO emp : empList) {
+			System.out.println(emp);
+		}
+		
+		return empList;
 	}
 	
 	public EmployeeDTO empOneRequest(String empCode) {

@@ -31,11 +31,15 @@ public class EmpInfoService {
 		return empInfoDAO.empListRequest();
 	}
 	
+	public List<EmployeeDTO> empOutListRequest() {
+		return empInfoDAO.empOutListRequest();
+	}
+
+	
 	public EmployeeDTO empOneRequest(String empCode) {
 		return empInfoDAO.empOneRequest(empCode);
 	}
 
-	
 	/* Date : 2021/11/24
 	 * Writer : Hansoo Lee
 	 * 사원코드 설정 전용 메소드
@@ -144,8 +148,5 @@ public class EmpInfoService {
 	public EmployeeDTO resetPw(String code, String repw) {
 		return empInfoDAO.resetPw(code, passwordEncoder.encode(repw));
 	}
-
-
-	
 
 }

@@ -1,9 +1,7 @@
 package org.erp.egv.employee.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
@@ -21,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 @Controller
 @RequestMapping("/emp")
 public class EmpInfoController {
@@ -38,6 +33,7 @@ public class EmpInfoController {
 	@GetMapping("/empTestV1")
 	public void emptest() {}
 	
+	/* 전체 재직 사원조회 */
 	@GetMapping("/list")
 	public ModelAndView empListRequest(ModelAndView mv) {
 		
@@ -52,6 +48,20 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* 전체 퇴사 사원조회 */
+	@GetMapping("/outEmpList")
+	public ModelAndView empOutListRequest(ModelAndView mv) {
+		
+		System.out.println("콘트롤러 오나요?");
+		List<EmployeeDTO> empList = empInfoService.empOutListRequest();
+		
+		mv.addObject("empList", empList);
+		mv.setViewName("emp/empOutList");
+		
+		return mv;
+	}
+	
+	/* 사원정보조회 */
 	@GetMapping("/empInfor")
 	public ModelAndView empOneRequest(ModelAndView mv, @RequestParam String empCode) {
 		System.out.println("콘트롤러 one 오나요?");

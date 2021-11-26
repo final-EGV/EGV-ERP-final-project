@@ -96,12 +96,21 @@
                 인사관리
             </div>
 
-            <!-- Nav Item - 사원관리 -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/empTestV1">
-                    <i class="fas fa-user"></i>
+            <!-- Nav Item - 사원관리 -->           
+            <li class="nav-item" style="margin-bottom : -17px">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmp"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-dollar-sign"></i>
                     <span>사원관리</span>
                 </a>
+                <div id="collapseEmp" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/emp/list">재직자 관리</a>
+                        <a class="collapse-item" href="/emp/outEmpList">퇴직자 관리</a>
+                        <a class="collapse-item" href="/emp/empTestV1">사원관리 테스트</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - 부서조회 -->
@@ -148,6 +157,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/emp/salary/salary">급여조회</a>
                         <a class="collapse-item" href="/emp/salary/severancePay">퇴직금조회</a>
+                        <a class="collapse-item" href="/emp/salary/salary">급여통장관리</a>
                     </div>
                 </div>
             </li>

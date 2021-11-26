@@ -149,4 +149,10 @@ public class EmpInfoService {
 		return empInfoDAO.resetPw(code, passwordEncoder.encode(repw));
 	}
 
+	/* 사원 통장정보 수정 */
+	@Transactional
+	public void modifyBankBookInfor(EmployeeDTO modifyInfor) {
+		empInfoDAO.modifyBankBookInfor(modifyInfor);
+	}
+
 }

@@ -14,6 +14,7 @@ import org.erp.egv.theater.model.dto.MovieDTO;
 import org.erp.egv.theater.model.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -338,6 +339,20 @@ public class MovieController {
 		pathToRedirect = "list";
 		
 		mv.setViewName("redirect:" + pathToRedirect);
+		
+		return mv;
+	}
+	
+	@GetMapping("/delete")
+	public ModelAndView deleteMovieByCode(ModelAndView mv,
+										  RedirectAttributes rAttr,
+										  @RequestParam int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		movieService.deleteMovieByCode(code);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 영화 삭제를 성공했습니다.");
+		mv.setViewName("redirect:list");
 		
 		return mv;
 	}

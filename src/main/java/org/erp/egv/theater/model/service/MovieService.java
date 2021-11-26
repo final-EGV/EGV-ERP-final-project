@@ -46,4 +46,11 @@ public class MovieService {
 		movieDAO.modifyMovie(movieNew);
 	}
 
+	@Transactional
+	public void deleteMovieByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		movieDAO.deleteMovieByCode(code);
+	}
+
 }

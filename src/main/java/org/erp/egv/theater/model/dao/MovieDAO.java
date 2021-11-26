@@ -63,4 +63,18 @@ public class MovieDAO {
 		
 	}
 
+	public void deleteMovieByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		MovieDTO movie = em.find(MovieDTO.class, code);
+		
+		if (movie == null) {
+			System.out.println("[Error] " + code + "번 영화는 현재 데이터베이스에 존재하지 않습니다.");
+			
+			return;
+		}
+		
+		em.remove(em.contains(movie) ? movie : em.merge(movie));
+	}
+
 }

@@ -94,21 +94,13 @@ public class SalaryController {
 	 * 이건 수정항목이 일반정보수정과 상이하므로 다시 작성하자.
 	 * */
 	@PostMapping("/modifyBankBookInfor")
-	public ModelAndView empModifyInforRequest(ModelAndView mv, EmployeeDTO modifyInfor, @RequestParam int rankRegist, @RequestParam int deptRegist,  RedirectAttributes rttr) {
+	public ModelAndView modifyBankBookInfor(ModelAndView mv, EmployeeDTO modifyInfor,  RedirectAttributes rttr) {
 		System.out.println("콘트롤러 modify 오나요?");
-		DepartmentDTO departmentDTO = new DepartmentDTO();
-		EmpRankDTO empRankDTO = new EmpRankDTO();
-		
-		empRankDTO.setCode(rankRegist);
-		departmentDTO.setCode(deptRegist);
 
-		modifyInfor.setDept(departmentDTO);
-		modifyInfor.setRank(empRankDTO);
-
-		empInfoService.modifyInforRequest(modifyInfor);
+		empInfoService.modifyBankBookInfor(modifyInfor);
 		
-		rttr.addFlashAttribute("registSuccessMessage", "사원 정보 수정 성공!!");
-		mv.setViewName("redirect:/emp/salary/salaryEmpBankBookList");
+		rttr.addFlashAttribute("successMessage", "사원 정보 수정 성공!!");
+		mv.setViewName("redirect:bankBook");
 		
 		return mv;
 	}

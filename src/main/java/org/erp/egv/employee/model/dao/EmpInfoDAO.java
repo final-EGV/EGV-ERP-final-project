@@ -252,11 +252,19 @@ public class EmpInfoDAO {
 		selectedRank.setYn(rank.getYn());
 	}
 
-
-
-
 	
-
+	/* 사원 통장 정보수정 
+	 * 메모도 변경가능하게 수정함
+	 * */
+	public void modifyBankBookInfor(EmployeeDTO modifyInfor) {
+		EmployeeDTO selectedEmp = em.find(EmployeeDTO.class, modifyInfor.getCode());
+		
+		selectedEmp.setAccountBank(modifyInfor.getAccountBank());
+		selectedEmp.setAccountNum(modifyInfor.getAccountNum());
+		selectedEmp.setAccountHolder(modifyInfor.getAccountHolder());
+		selectedEmp.setNote(modifyInfor.getNote());
+		
+	}
 
     
 }

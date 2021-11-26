@@ -113,7 +113,7 @@ public class EmpInfoController {
 		newEmp.setPwd(empInfoService.findNextEmpNum() + newEmp.getRrn().substring(0,6));
 
 		empInfoService.empRegistRequest(newEmp);
-		rttr.addFlashAttribute("registSuccessMessage", "사원 등록 성공!!");
+		rttr.addFlashAttribute("successMessage", "사원 등록 성공!!");
 		mv.setViewName("redirect:/emp/list");
 		
 		return mv;
@@ -138,7 +138,7 @@ public class EmpInfoController {
 
 		empInfoService.modifyInforRequest(modifyInfor);
 		
-		rttr.addFlashAttribute("registSuccessMessage", "사원 정보 수정 성공!!");
+		rttr.addFlashAttribute("successMessage", "사원 정보 수정 성공!!");
 		mv.setViewName("redirect:/emp/list");
 		
 		return mv;

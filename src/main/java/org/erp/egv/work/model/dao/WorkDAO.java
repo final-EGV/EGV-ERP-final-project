@@ -27,4 +27,13 @@ public class WorkDAO {
 		
 		return workList;
 	}
+
+	public WorkDTO findWorkByCode(int code) {
+		return em.find(WorkDTO.class, code);
+	}
+
+	public void modifyWorkOver(WorkDTO work) {
+		WorkDTO selectedWork = em.find(WorkDTO.class, work.getCode());
+		selectedWork.setWorkOver(work.getWorkOver());
+	}
 }

@@ -23,4 +23,14 @@ public class WorkService {
 	public List<WorkDTO> workList() {
 		return workDAO.workList();
 	}
+
+	@Transactional
+	public WorkDTO findWorkByCode(int code) {
+		return workDAO.findWorkByCode(code);
+	}
+
+	@Transactional
+	public void modifyWorkOver(WorkDTO work) {
+		workDAO.modifyWorkOver(work);
+	}
 }

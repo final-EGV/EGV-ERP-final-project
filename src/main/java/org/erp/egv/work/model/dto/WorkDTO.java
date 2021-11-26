@@ -12,8 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "EGV_WORK")
 public class WorkDTO implements Serializable{
 	private static final long serialVersionUID = 8366612674038350038L;
@@ -40,13 +44,13 @@ public class WorkDTO implements Serializable{
 	private Timestamp workEnd;
 	
 	@Column(name = "WORK_OVER")
-	private int workOver;
+	private Integer workOver;
 
 	public WorkDTO() {
 	}
 
 	public WorkDTO(int code, WorkTypeCategoryDTO categoryCode, EmployeeDTO empCode, Date workDate, Timestamp workStart,
-			Timestamp workEnd, int workOver) {
+			Timestamp workEnd, Integer workOver) {
 		this.code = code;
 		this.categoryCode = categoryCode;
 		this.empCode = empCode;
@@ -104,11 +108,11 @@ public class WorkDTO implements Serializable{
 		this.workEnd = workEnd;
 	}
 
-	public int getWorkOver() {
+	public Integer getWorkOver() {
 		return workOver;
 	}
 
-	public void setWorkOver(int workOver) {
+	public void setWorkOver(Integer workOver) {
 		this.workOver = workOver;
 	}
 
@@ -117,5 +121,4 @@ public class WorkDTO implements Serializable{
 		return "WorkDTO [code=" + code + ", categoryCode=" + categoryCode + ", empCode=" + empCode + ", workDate="
 				+ workDate + ", workStart=" + workStart + ", workEnd=" + workEnd + ", workOver=" + workOver + "]";
 	}
-
 }

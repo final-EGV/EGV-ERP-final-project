@@ -58,8 +58,8 @@
 											<th>이름</th>
 											<th>직책</th>
 											<th>휴대폰번호</th>
-											<th>퇴사 신청일</th>
-											<th>퇴사 신청사유</th>
+											<th>은행정보</th>
+											<th>계좌번호</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -68,8 +68,8 @@
 										<td th:text="${ emp.name }"></td>
 										<td th:text="${ emp.empPosition }"></td>
 										<td th:text="${ emp.phoneMobile }"></td>
-										<td th:text="${ emp.outDate }"></td>
-										<td th:text="${ emp.outReason }"></td>
+										<td th:text="${ emp.accountBank }"></td>
+										<td th:text="${ emp.accountNum }"></td>
 									</tr>
 									</tbody>
 								</table>
@@ -128,12 +128,12 @@
 			$tds[i].onclick = function() {
 				const code = this.children[0].innerText;
 				
-				location.href = 'empInfor?empCode=' + code;
+				location.href = 'bankBookInfor?empCode=' + code;
 			}
 		}
 	}
 	</script>
-	
+	 
 	<!-- Bootstrap core JavaScript-->
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>

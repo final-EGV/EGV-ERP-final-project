@@ -25,4 +25,17 @@ public class SalaryDAO {
 
 	}
 		
+	public List<EmployeeDTO> bankBookListRequest() {
+		String jpql = "SELECT e FROM EmployeeDTO as e WHERE e.outYN = 'N'";	
+		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
+		List<EmployeeDTO> empList = query.getResultList();
+
+		for (EmployeeDTO emp : empList) {
+			System.out.println(emp);
+		}
+		
+		return empList;
+	}
+	
+	
 }

@@ -52,10 +52,7 @@
 
 				<h3 align="Center">사원 정보</h3>
 				<div align="center" class="container justify-content-end">
-				
-				
-				<p th:text="${empInfor}"></p>
-			
+
 				<!-- Date : 2021/11/26
 	 			   Writer : Hansoo Lee
 					 회원정보 수정 폼 작성
@@ -106,9 +103,9 @@
 						</tr>
 						<tr>
 							<td class="col-1">이메일</td>
-							<td class="col-1"><input class="form-control" type="email" th:field="*{empInfor.email}" aria-label="Email" required></td>
+							<td class="col-3"><input class="form-control" type="email" th:field="*{empInfor.email}" aria-label="Email" required></td>
 							<td class="col-1">부서명</td>
-							<td class="col-1">
+							<td class="col-3">
 							<select class="form-control" th:id="dept" th:name="deptRegist" th:value="${empInfor.dept.code}">
 							</select>		
 							</td>
@@ -136,11 +133,11 @@
 						</tr>
 						<tr>
 							<td class="col-1">주소</td>
-							<td class="col-1" colspan="3"><input class="form-control" name="address" type="text" th:field="*{empInfor.address}" aria-label="Address" required></td>
+							<td class="col-7" colspan="3"><input class="form-control" name="address" type="text" th:field="*{empInfor.address}" aria-label="Address" required></td>
 						</tr>
 						<tr>
 							<td class="col-1">메모</td>
-							<td class="col-1" colspan="3"><textarea class="form-control" name="note" th:field="*{empInfor.note}" aria-label="Note" style="height: 120px;"></textarea></td>
+							<td class="col-7" colspan="3"><textarea class="form-control" name="note" th:field="*{empInfor.note}" aria-label="Note" style="height: 120px;"></textarea></td>
 						</tr >
 					</tbody>
 				</table>

@@ -40,13 +40,13 @@ public class WorkDTO implements Serializable{
 	private Timestamp workEnd;
 	
 	@Column(name = "WORK_OVER")
-	private String workOver;
+	private int workOver;
 
 	public WorkDTO() {
 	}
 
 	public WorkDTO(int code, WorkTypeCategoryDTO categoryCode, EmployeeDTO empCode, Date workDate, Timestamp workStart,
-			Timestamp workEnd, String workOver) {
+			Timestamp workEnd, int workOver) {
 		this.code = code;
 		this.categoryCode = categoryCode;
 		this.empCode = empCode;
@@ -104,11 +104,11 @@ public class WorkDTO implements Serializable{
 		this.workEnd = workEnd;
 	}
 
-	public String getWorkOver() {
+	public int getWorkOver() {
 		return workOver;
 	}
 
-	public void setWorkOver(String workOver) {
+	public void setWorkOver(int workOver) {
 		this.workOver = workOver;
 	}
 

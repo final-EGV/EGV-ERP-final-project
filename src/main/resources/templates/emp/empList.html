@@ -73,18 +73,22 @@
 										<tr>
 											<th>사번</th>
 											<th>이름</th>
-											<th>주민번호</th>
 											<th>직책</th>
 											<th>집전화번호</th>
+											<th>프로필 사진등록</th>
+											<th>퇴사 진행여부</th>
 										</tr>
 									</thead>
 									<tbody>
 									<tr th:class="empTable" th:each="emp : ${ empList }">
  										<td th:class="empCode" th:text="${ emp.code }"></td>
 										<td th:text="${ emp.name }"></td>
-										<td th:text="${ emp.rrn }"></td>
 										<td th:text="${ emp.empPosition }"></td>
 										<td th:text="${ emp.phoneHome }"></td>
+										<td th:unless="${#strings.isEmpty(emp.profileImgName)}" th:text="'유'"></td>
+										<td th:if="${#strings.isEmpty(emp.profileImgName)}" th:text="'무'" th:style="'color: red'"></td>
+										<td th:unless="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'재직중'"></td>
+										<td th:if="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'퇴직 처리중'" th:style="'color: red'"></td>
 									</tr>
 									</tbody>
 								</table>
@@ -96,6 +100,7 @@
 				<div th:include="common/footer.html"></div>
 				<!-- End of Footer -->
 			</div>
+		</div>
 		</div>
 		<!-- End of Content Wrapper -->
 	</div>
@@ -174,7 +179,7 @@
 						      </div>					
 							</td>
 							<td class="col-1">휴대폰</td>
-							<td class="col-4"><input class="form-control" type="text" name="phoneMobile" aria-label="phoneMobile" pattern="^[0-9]+$" max="10" required>
+							<td class="col-4"><input class="form-control" type="text" name="phoneMobile" aria-label="phoneMobile" pattern="^[0-9]+$" max="11" required>
 						      <div class="invalid-feedback text-left">
 						        연락처는 숫자만 입력하여 주세요.
 						      </div>	

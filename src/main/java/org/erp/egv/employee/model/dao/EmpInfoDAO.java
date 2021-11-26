@@ -1,5 +1,7 @@
 package org.erp.egv.employee.model.dao;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -75,6 +77,50 @@ public class EmpInfoDAO {
 	public void empRegistRequest(EmployeeDTO newEmp) {
 		em.persist(newEmp);
 	}
+	
+	/* Date : 2021/11/25
+	 * Writer : Hansoo Lee
+	 * 
+	 * jpa는 update 쿼리가 없는 대신에 영속성 컨텍스트의 변화를 인식하여
+	 * 변화가 있을시 트랙젝션이 끝났을때 업데이트를 시작한다.
+	 * 그러므로, em.find로 영속성 컨택스트를 불러오고 
+	 * setter를 통하여 영속성 컨택스트에 변화를 주면 update가 된다.
+	 * 
+	 * 그냥 엔티티를 덮어 써 보았으나. update 쿼리가 발생하지 않을걸 보아서는
+	 * 변화로 인식하지 못하는듯 하다.
+	 * 
+	 * 사원 정보수정*/
+	public void modifyInforRequest(EmployeeDTO modifyInfor) {
+		EmployeeDTO selectedEmp = em.find(EmployeeDTO.class, modifyInfor.getCode());
+		
+		selectedEmp.setCareerYN(modifyInfor.getCareerYN());
+		selectedEmp.setEmail(modifyInfor.getEmail());
+		selectedEmp.setEmpPosition(modifyInfor.getEmpPosition());
+		selectedEmp.setPhoneHome(modifyInfor.getPhoneHome());
+		selectedEmp.setPhoneMobile(modifyInfor.getPhoneMobile());
+		selectedEmp.setAddress(modifyInfor.getAddress());
+		selectedEmp.setNote(modifyInfor.getNote());
+		
+		selectedEmp.setRank(modifyInfor.getRank());
+		selectedEmp.setDept(modifyInfor.getDept());
+
+		System.out.println(selectedEmp);
+
+	}
+	
+	/* 퇴사사유와 퇴사신청 날짜 입력 */
+	public void empOUTRequest(String code, String reason) {
+		EmployeeDTO selectedEmp = em.find(EmployeeDTO.class, code);
+		
+		LocalDate currentDate = LocalDate.now(); 
+		Date sqlDate = Date.valueOf( currentDate );
+
+		selectedEmp.setOutDate(sqlDate);
+		selectedEmp.setOutReason(reason);
+		
+	}
+	
+	
 	
 	public List<EmpRankDTO> findEmpRankList() {
 		String jpql = "SELECT a FROM EmpRankDTO as a ORDER BY a.code ASC";
@@ -188,6 +234,10 @@ public class EmpInfoDAO {
 		EmpRankDTO selectedRank = em.find(EmpRankDTO.class, rank.getCode());
 		selectedRank.setYn(rank.getYn());
 	}
+
+
+
+
 	
 
 

@@ -297,7 +297,7 @@ VALUES
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김준우',
     'JunWoo Kim', '960403-1224565', SYSDATE,
     'Y', 500 , '사원',
-    '031-656-5514', '010-7147-5514', 'rlawnsdn5514@naver.com',
+    '0316565514', '01071475514', 'rlawnsdn5514@naver.com',
     100, '시티은행', '1234-12-123456', '김준우',
     '경기도 평택시', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -321,9 +321,9 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '하동훈',
-    'DongHoon Ha', '790820-1233458', SYSDATE,
+    'DongHoon Ha', '7908201233458', SYSDATE,
     'Y', 500 , '사원',
-    '031-423-6714', '010-1077-5134', 'hahahaha@naver.com',
+    '0314236714', '01010775134', 'hahahaha@naver.com',
     300, '신한은행', '110-281-480100', '하동훈',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -347,9 +347,9 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '노홍철',
-    'HongChul RHO', '790331-1065838', SYSDATE,
+    'HongChul RHO', '7903311065838', SYSDATE,
     'Y', 500 , '사원',
-    '031-304-7921', '010-3689-4794', 'positive@naver.com',
+    '0313047921', '01036894794', 'positive@naver.com',
     400, '국민은행', '110-1234-480100', '노홍철',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -373,9 +373,9 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '정형돈',
-    'HyungDon Jung', '780227-1023128', SYSDATE,
+    'HyungDon Jung', '7802271023128', SYSDATE,
     'Y', 400 , '대리',
-    '031-792-7921', '010-2316-7956', '@hyungdonjung@naver.com',
+    '0317927921', '01023167956', '@hyungdonjung@naver.com',
     200, '신한은행', '110-134-432800', '정형돈',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -399,9 +399,9 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '박명수',
-    'G Park', '700927-1234565', SYSDATE,
+    'G Park', '7009271234565', SYSDATE,
     'Y', 200 , '부장',
-    '02-222-4444', '010-3333-5555', 'Gpark@naver.com',
+    '022224444', '01033335555', 'Gpark@naver.com',
     200, '국민은행', '1234-12-123456', '박명수',
     '서울시 강남구', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -424,10 +424,10 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '유재석',
-    'Jae_seok Yu', '720927-1434565', SYSDATE,
+    'Jae_seok Yu', '7209271434565', SYSDATE,
     'Y', 100 , '관장',
-    '02-222-4444', '011-411-2222', 'Jae_seok@naver.com',
-    400, '국민은행', '7234-12-123456', '유재석',
+    '02-222-4444', '0114112222', 'Jae_seok@naver.com',
+    400, '국민은행', '723412123456', '유재석',
     '서울시 동작구', DEFAULT, NULL,
     NULL, NULL, NULL,
     NULL, NULL, NULL,
@@ -452,7 +452,7 @@ VALUES
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '황광희',
     'KwangHee Hwang', '880825-1634565', SYSDATE,
     'Y', 600 , '알바',
-    '02-722-8444', '010-6111-7222', 'KwangHH@daum.net',
+    '027228444', '01061117222', 'KwangHH@daum.net',
     400, '신한은행', '1234-42-523456', '황광희',
     '서울시 동작구', DEFAULT, NULL,
     NULL, NULL, NULL,
@@ -478,7 +478,7 @@ VALUES
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자',
     'ByeBye', '890323-1387432', SYSDATE,
     'N', 600 , '알바',
-    '02-213-8784', '010-1231-7832', 'Byebye@naver.com',
+    '022138784', '01012317832', 'Byebye@naver.com',
     400, '신한은행', '1123-72-54356', '퇴직자',
     '서울시 양천구', 'Y', SYSDATE,
     '놀고싶어요', NULL, NULL,

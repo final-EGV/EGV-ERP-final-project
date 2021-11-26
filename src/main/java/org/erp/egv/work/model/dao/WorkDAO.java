@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,10 @@ public class WorkDAO {
 		String jpql = "SELECT w FROM WorkDTO as w";
 		TypedQuery<WorkDTO> query = em.createQuery(jpql, WorkDTO.class);
 		List<WorkDTO> workList = query.getResultList();
+		
+		for (WorkDTO work : workList) {
+			System.out.println(work);
+		}
 		
 		return workList;
 	}

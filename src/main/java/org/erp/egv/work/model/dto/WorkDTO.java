@@ -2,6 +2,7 @@ package org.erp.egv.work.model.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,19 +34,19 @@ public class WorkDTO implements Serializable{
 	private Date workDate;
 	
 	@Column(name = "WORK_START")
-	private Date workStart;
+	private Timestamp workStart;
 	
 	@Column(name = "WORK_END")
-	private Date workEnd;
+	private Timestamp workEnd;
 	
 	@Column(name = "WORK_OVER")
-	private Date workOver;
+	private String workOver;
 
 	public WorkDTO() {
 	}
 
-	public WorkDTO(int code, WorkTypeCategoryDTO categoryCode, EmployeeDTO empCode, Date workDate, Date workStart,
-			Date workEnd, Date workOver) {
+	public WorkDTO(int code, WorkTypeCategoryDTO categoryCode, EmployeeDTO empCode, Date workDate, Timestamp workStart,
+			Timestamp workEnd, String workOver) {
 		this.code = code;
 		this.categoryCode = categoryCode;
 		this.empCode = empCode;
@@ -87,27 +88,27 @@ public class WorkDTO implements Serializable{
 		this.workDate = workDate;
 	}
 
-	public Date getWorkStart() {
+	public Timestamp getWorkStart() {
 		return workStart;
 	}
 
-	public void setWorkStart(Date workStart) {
+	public void setWorkStart(Timestamp workStart) {
 		this.workStart = workStart;
 	}
 
-	public Date getWorkEnd() {
+	public Timestamp getWorkEnd() {
 		return workEnd;
 	}
 
-	public void setWorkEnd(Date workEnd) {
+	public void setWorkEnd(Timestamp workEnd) {
 		this.workEnd = workEnd;
 	}
 
-	public Date getWorkOver() {
+	public String getWorkOver() {
 		return workOver;
 	}
 
-	public void setWorkOver(Date workOver) {
+	public void setWorkOver(String workOver) {
 		this.workOver = workOver;
 	}
 
@@ -116,5 +117,5 @@ public class WorkDTO implements Serializable{
 		return "WorkDTO [code=" + code + ", categoryCode=" + categoryCode + ", empCode=" + empCode + ", workDate="
 				+ workDate + ", workStart=" + workStart + ", workEnd=" + workEnd + ", workOver=" + workOver + "]";
 	}
-	
+
 }

@@ -74,9 +74,17 @@
 								<form action="/sign/signInsert" method="post">
 									
 									<div style="width: 27%; float: right;" >
-										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg">임시저장</button>
-										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg">저장</button>
+										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
+										<button type="submit" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg">저장</button>
 									</div>
+									<script>
+										function temporarySave() {
+											var signStatus = document.getElementById("signStatus");
+											signStatus.value = "임시저장";
+											
+											document.getElementById("saveBtn").click();
+										}
+									</script>
 									
 									<br><br>
 									<label>작성일 :</label>&emsp;&emsp;
@@ -86,26 +94,28 @@
 									<select name="template" id="template" style="width: 10%">
 										<!-- ajax로 template 조회 -->
 									</select>
+									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
 									<br>
 									<br>
-									<div class="input-group mb-3" style="width: 30%;">
+									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">결재자</span>
-									 	<input type="text" class="form-control" id="approver" name="approver">
+									 	<input type="text" class="form-control" id="approver" name="approver" readonly>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
 									</div>
-									<div class="input-group mb-3" style="width: 30%;">
+									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">참조자</span>
-									 	<input type="text" class="form-control" id="referrer" name="referrer">
+									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
 									</div>
-									<br>
-									<div class="input-group mb-3" style="width: 60%;">
-									  	<span class="input-group-text">제목</span>
+									<br><br>
+									<div class="input-group mb-3" style="width: 80%;">
+									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
 									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle">
 									</div>
-									<br>
+<!-- ################################################################################################################################### -->
+									<!-- <div th:utext="${template.contents}"></div> -->
 									<textarea id="summernote" name="documentContent"></textarea>
 								</form>
 
@@ -121,9 +131,9 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-									      		<div class="input-group mb-3" style="width: 80%;">
+									      		<div class="input-group mb-3">
 												  	<span class="input-group-text">결재자 순서</span>
-												  	<input type="text" class="form-control" id="approverModal" name="approverModal">
+												  	<input type="text" class="form-control" id="approverModal" name="approverModal" readonly>
 												  	<!-- 결제자 modal -->&nbsp;&nbsp;
 									 				<button type="button" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
 												</div>
@@ -144,9 +154,9 @@
 																</thead>
 																<tbody>
 																	<tr th:class="empTable" th:each="emp : ${ empList }">
-								 										<td th:class="empCode" th:text="${ emp.code }"></td>
-																		<td th:text="${ emp.name }"></td>
-																		<td th:text="${ emp.empPosition }"></td>
+								 										<td th:class="empCode" th:text="${ emp.code }" th:name="approverTd"></td>
+																		<td th:text="${ emp.name }" th:name="approverTd"></td>
+																		<td th:text="${ emp.empPosition }" th:name="approverTd"></td>
 																	</tr>
 																</tbody>
 							                                </table>
@@ -176,9 +186,9 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-									      		<div class="input-group mb-3" style="width: 80%;">
+									      		<div class="input-group mb-3">
 												  	<span class="input-group-text">참조자 목록</span>
-												  	<input type="text" class="form-control" id="referrerModal" name="referrerModal">
+												  	<input type="text" class="form-control" id="referrerModal" name="referrerModal" readonly>
 												  	<!-- 결제자 modal -->&nbsp;&nbsp;
 									 				<button type="button" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
 												</div>
@@ -199,9 +209,9 @@
 																</thead>
 																<tbody>
 																	<tr th:class="empTable" th:each="emp : ${ empList }">
-								 										<td th:class="empCode" th:text="${ emp.code }"></td>
-																		<td th:text="${ emp.name }"></td>
-																		<td th:text="${ emp.empPosition }"></td>
+								 										<td th:class="empCode" th:text="${ emp.code }" th:name="referrerTd"></td>
+																		<td th:text="${ emp.name }" th:name="referrerTd"></td>
+																		<td th:text="${ emp.empPosition }" th:name="referrerTd"></td>
 																	</tr>
 																</tbody>
 							                                </table>
@@ -265,7 +275,8 @@
 /* input 태그들 설정 */
 
 	// 작성일의 기본값을 오늘로 설정
-	document.getElementById('writeDate').value = new Date().toISOString().substring(0, 10);
+	var now = new Date();
+	document.getElementById('writeDate').value = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
 
 	$(function(){
 		
@@ -298,7 +309,6 @@
 		$('#summernote').summernote({
 				lang: "ko-KR",
 				tabsize: 2,
-				height: 300,
 				width : 1300,
 				toolbar: [
 				    // [groupName, [list of button]]
@@ -316,25 +326,20 @@
 				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 		});
 		
-		
-	});
-</script>
-<script>
-	$(function() {
-
 		/* 에디터에 template 내용 넣기 */
 		var templateContent = '[[${ template.contents }]]';
-		//alert(templateContent);
-		$('#summernote').summernote('code', templateContent);
+		
+		var change = templateContent.replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "'").replace(/&nbsp;/gi, "f");
+		console.log(change);        
+		$('#summernote').summernote('code', change);
 	});
 </script>
 <script>
-
 	function approverModalOn() {
 		
-		if(document.getElementsByTagName("td")) {
+		if(document.getElementsByName("approverTd")) {
 			
-			const $tds = document.getElementsByTagName("td");
+			const $tds = document.getElementsByName("approverTd");
 			var approverModal = document.getElementById("approverModal");
 			var approver = document.getElementById("approver");
 			
@@ -353,18 +358,20 @@
 					//onst no = this.parentNode.children[1].innerText;
 					//location.href = "${ pageContext.servletContext.contextPath }/mypage/inquiry/detail?no=" + no;
 						
+					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
 						
 					if(!approverModal.value) {
-						approverModal.value += empName;
-						approver.value += empName;
+						approverModal.value += empName+"("+empCode+")";
+						approver.value += empName+"("+empCode+")";
 					} else {					
-						approverModal.value += " → " + empName;
-						approver.value += " → " + empName;
+						approverModal.value += "→ " + empName+"("+empCode+")";
+						approver.value += "→ " + empName+"("+empCode+")";
 					}	
 				}
 			}
 		}
+		return;
 	}
 	
 	function approverReset() {
@@ -379,9 +386,9 @@
 
 	function referrerModalOn() {
 		
-		if(document.getElementsByTagName("td")) {
+		if(document.getElementsByName("referrerTd")) {
 			
-			const $tds = document.getElementsByTagName("td");
+			const $tds = document.getElementsByName("referrerTd");
 			var referrerModal = document.getElementById("referrerModal");
 			var referrer = document.getElementById("referrer");
 			
@@ -400,14 +407,15 @@
 					//onst no = this.parentNode.children[1].innerText;
 					//location.href = "${ pageContext.servletContext.contextPath }/mypage/inquiry/detail?no=" + no;
 						
+					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
 						
 					if(!referrerModal.value) {
-						referrerModal.value += empName;
-						referrer.value += empName;
+						referrerModal.value += empName+"("+empCode+")";
+						referrer.value += empName+"("+empCode+")";
 					} else {					
-						referrerModal.value += ", " + empName;
-						referrer.value += ", " + empName;
+						referrerModal.value += ", " + empName+"("+empCode+")";
+						referrer.value += ", " + empName+"("+empCode+")";
 					}	
 				}
 			}

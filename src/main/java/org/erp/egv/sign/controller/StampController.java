@@ -66,7 +66,7 @@ public class StampController {
 		
 		String root = this.getClass().getResource("/").getPath();
 	    String srcRoot = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
-	    String targetRoot = root.replace("/", "\\").concat("static\\stamp-img\\");
+//	    String targetRoot = root.replace("/", "\\").concat("static\\stamp-img\\");
 	    
 	    String filePath = srcRoot + "stamp-img/";
 		
@@ -90,7 +90,7 @@ public class StampController {
 			singleFile.transferTo(new File(filePath + "\\" + saveName));
 //			singleFile.transferTo(new File(targetRoot + "\\" + saveName));
 			
-			//(수정하기)test용 사원코드
+			//(수정하기)test용, 로그인한 사원의 사번
 			String empCode = "2021100";
 			
 			/* stamp 등록 */ 
@@ -120,7 +120,7 @@ public class StampController {
 			new File(filePath + "\\" + saveName).delete();
 			rAttr.addFlashAttribute("message", "파일 업로드 실패!!");
 		}
-		mv.setViewName("redirect:/sign/stamp");
+		mv.setViewName("redirect:/main");
 		
 		return mv;
 	}

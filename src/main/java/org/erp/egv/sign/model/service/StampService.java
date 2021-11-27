@@ -17,6 +17,7 @@ public class StampService {
 		this.stampDAO = stampDAO;
 	}
 	
+	/* 사원의 stamp 정보 조회 */
 	@Transactional
 	public EmployeeDTO selectEmpStampInfo(String empCode) {
 
@@ -25,13 +26,10 @@ public class StampService {
 		return empStampinfo;
 	}
 	
+	/* 사원에게 stamp 정보 입력 */
 	@Transactional
 	public void setStamp(EmployeeDTO employee) {
 		stampDAO.setStamp(employee);
 	}
-
-
-
-
 
 }

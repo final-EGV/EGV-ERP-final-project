@@ -41,7 +41,7 @@ public class SalaryDTO implements Serializable{
 	private int finalSal;				// 최종급여
 	
 	@Column(name = "SAL_YN")
-	private String yN;					// 급여지급여부
+	private String YN;					// 급여지급여부
 
 	public SalaryDTO() {
 		super();
@@ -57,7 +57,7 @@ public class SalaryDTO implements Serializable{
 		this.standard = standard;
 		this.over = over;
 		this.finalSal = finalSal;
-		this.yN = yN;
+		this.YN = yN;
 	}
 
 	public int getSalCode() {
@@ -117,11 +117,11 @@ public class SalaryDTO implements Serializable{
 	}
 
 	public String getyN() {
-		return yN;
+		return YN;
 	}
 
 	public void setyN(String yN) {
-		this.yN = yN;
+		this.YN = YN;
 	}
 
 	public static long getSerialversionuid() {
@@ -131,7 +131,7 @@ public class SalaryDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "SalaryDTO [salCode=" + salCode + ", employee=" + employee + ", entDate=" + entDate + ", day=" + day
-				+ ", standard=" + standard + ", over=" + over + ", finalSal=" + finalSal + ", yN=" + yN + "]";
+				+ ", standard=" + standard + ", over=" + over + ", finalSal=" + finalSal + ", YN=" + YN + "]";
 	}
 	
 	

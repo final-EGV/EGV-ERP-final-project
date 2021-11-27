@@ -1,8 +1,6 @@
 package org.erp.egv.employee.model.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +8,7 @@ import org.erp.egv.employee.model.dao.EmpInfoDAO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -153,6 +152,20 @@ public class EmpInfoService {
 	@Transactional
 	public void modifyBankBookInfor(EmployeeDTO modifyInfor) {
 		empInfoDAO.modifyBankBookInfor(modifyInfor);
+	}
+	
+	@Transactional
+	public void addNewSal(SalaryDTO newSal) {
+		empInfoDAO.addNewSal(newSal);
+	}
+
+	@Transactional
+	public EmployeeDTO findSalByCode(String code) {
+		return empInfoDAO.findSalByCode(code);
+	}
+
+	public EmployeeDTO findEntireCode(String code) {
+		return empInfoDAO.findEntireCode(code);
 	}
 
 }

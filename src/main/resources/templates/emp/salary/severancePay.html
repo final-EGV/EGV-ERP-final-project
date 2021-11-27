@@ -15,7 +15,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -63,20 +63,22 @@
 								<table class="table table-bordered" id="salaryTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
+											<th>사번</th>
 											<th>퇴직일자</th>
                                             <th>성명</th>
                                             <th>부서명</th>
                                             <th>입사일자</th>
-                                            <th>지급일</th>
+                                            <th>지급여부</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="emp : ${ empList }">
-	 										<td th:text="${ emp.outDATE }"></td>
+ 										<tr th:class="empCode" th:each="emp : ${ empList }" >
+ 											<td th:text="${ emp.code }"></td>
+	 										<td th:text="${ emp.outDate }"></td>
 											<td th:text="${ emp.name }"></td>
-											<td th:text="${ emp.rrn }"></td>
+											<td th:text="${ emp.dept.name }"></td>
 											<td th:text="${ emp.entDate }"></td>
-											<td th:text="${ emp.phoneHome }"></td>
+											<td th:text="${ emp.outYN }"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -128,7 +130,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<!-- Bootstrap core JavaScript-->
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
@@ -155,7 +157,69 @@
             }
          });
       })
+      $(function(){
+		$.ajax({
+			url: "/emp/departmentList",
+			success: function(data){
+				const $dept = $("#dept");
+				$dept.html("");
+				
+				for (let index in data){
+					$dept.append($("<option>").val(data[index].code).text(data[index].name));					
+				}
+
+			},
+			error: function(xhr){
+				console.log(xhr);
+			}
+		});
+	});
    </script>
+      
+   <script>
+		if(document.getElementsByTagName("td")) {
+			const $tds = document.getElementsByTagName("td");
+			for(let i = 0; i < $tds.length; i++) {
+				
+				$tds[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "rgb(153,102,153)";
+					this.parentNode.style.color = "rgb(255,255,204)";
+					this.parentNode.style.cursor = "pointer";
+				}
+				
+				$tds[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+					this.parentNode.style.color = "gray";
+				}
+				
+				$tds[i].onclick = function() {
+					const code = this.parentNode.children[0].innerText;
+					location.href = "severancePay/" + code;
+				}
+				
+			}
+			
+		}
+	</script>
+	
+	<script>
+		if(document.getElementsByClassName("empTable")) {
+			const $tds = document.getElementsByClassName("empTable");
+			
+			for(let i = 0; i < $tds.length; i++) {
+				
+				$tds[i].onmouseenter = function() {
+					this.style.cursor = "pointer";
+				}
+				
+				$tds[i].onclick = function() {
+					const code = this.children[0].innerText;
+					
+					location.href = 'empInfor?empCode=' + code;
+				}
+			}
+		}
+	</script>
 
 </body>
 </html>

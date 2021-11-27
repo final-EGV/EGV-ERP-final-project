@@ -2,14 +2,15 @@ package org.erp.egv.employee.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import org.erp.egv.employee.model.dto.DepartmentDTO;
-import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,12 +33,36 @@ public class SalaryController {
 				
 		List<EmployeeDTO> empList = empInfoService.salaryRequest();
 		
-		List emplists= new ArrayList<>();
-
-		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/salary/salary");
 		
+		return mv;
+	}
+	
+	@PostMapping("/salary/search")
+	public ModelAndView addNewDept(ModelAndView mv, SalaryDTO newSal, Locale locale) {
+		
+		empInfoService.addNewSal(newSal);
+		mv.setViewName("redirect:/emp/salary");
+		
+		return mv;
+	}
+	
+	@GetMapping("/salary/{code}")
+	public ModelAndView findSalByCode(ModelAndView mv, @PathVariable String code) {
+		EmployeeDTO emp = empInfoService.findSalByCode(code);
+		
+		mv.addObject("empInfor", emp);
+		mv.setViewName("emp/salary/salaryDetail");
+		return mv;
+	}
+
+	@GetMapping("/severancePay/{code}")
+	public ModelAndView findEntireCode(ModelAndView mv, @PathVariable String code) {
+		EmployeeDTO emp = empInfoService.findEntireCode(code);
+		
+		mv.addObject("empInfor", emp);
+		mv.setViewName("emp/salary/entireDetail");
 		return mv;
 	}
 	

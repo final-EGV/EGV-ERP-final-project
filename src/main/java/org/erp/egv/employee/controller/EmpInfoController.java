@@ -292,9 +292,6 @@ public class EmpInfoController {
 		
 		return emp;
 		
-	}
-	
-	
-	
+	}	
 	
 }

@@ -15,6 +15,7 @@ import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
+import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -219,7 +220,7 @@ public class EmpInfoDAO {
 	}
 
 	public List<EmployeeDTO> severancePayRequest() {
-		String jpql = "SELECT e FROM EmployeeDTO as e";	
+		String jpql = "SELECT e FROM EmployeeDTO as e where OUT_YN is 'Y'";	
 		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
 		List<EmployeeDTO> empList = query.getResultList();
 		
@@ -264,6 +265,24 @@ public class EmpInfoDAO {
 		selectedEmp.setAccountHolder(modifyInfor.getAccountHolder());
 		selectedEmp.setNote(modifyInfor.getNote());
 		
+	}
+	
+	public void addNewSal(SalaryDTO newSal) {
+		em.persist(newSal);
+		
+	}
+
+	public EmployeeDTO findSalByCode(String code) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
+		
+		System.out.println("불러온 사원 : " + emp);
+		return emp;
+	}
+
+	public EmployeeDTO findEntireCode(String code) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
+		
+		return emp;
 	}
 
     

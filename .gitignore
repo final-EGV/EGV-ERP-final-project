@@ -1,6 +1,10 @@
 ### /bin 폴더 내 바이너리 파일은 무시 ###
 bin/
 
+### 영화관 기능 관련(사용자: 송언석) ###
+**/resources/static/img/poster/
+!**/resources/static/img/poster/poster_**.jpg
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

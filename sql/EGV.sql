@@ -1694,25 +1694,25 @@ COMMENT ON COLUMN MOVIE.POSTER_IMG_PATH IS '포스터저장경로';
 COMMENT ON COLUMN MOVIE.OPENING_YN IS '우리관개봉여부';
 
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '알 포인트', TO_DATE('2008-08-13'), 108, '15세', '공포',
-'시네마 서비스', '공수창', '한국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'N');
+'시네마 서비스', '공수창', '한국', 'poster_알포인트.png', 'poster_알포인트.png', 'img/poster/', 'N');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03'), 155, '12세', '액션',
-'월트디즈니', '클로이 자오', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'월트디즈니', '클로이 자오', '미국', 'poster_이터널스.jpg', 'poster_이터널스.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '듄', TO_DATE('2021-10-20'), 155, '12세', 'SF',
-'워너 브라더스', '드니 빌뇌브', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'워너 브라더스', '드니 빌뇌브', '미국', 'poster_듄.jpg', 'poster_듄.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고장난 론', TO_DATE('2021-10-27'), 106, '전체', '애니메이션',
-'20세기 폭스', '사라 스미스', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'20세기 폭스', '사라 스미스', '미국', 'poster_고장난_론.png', 'poster_고장난_론.png', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카니지', TO_DATE('2021-10-13'), 97, '15세', '액션',
-'소니 픽처스', '댄디 서키스', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'소니 픽처스', '댄디 서키스', '미국', 'poster_베놈2.jpg', 'poster_베놈2.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '강릉', TO_DATE('2021-11-10'), 119, '청불', '범죄',
-'제이앤씨미디어', '윤영빈', '한국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'제이앤씨미디어', '윤영빈', '한국', 'poster_강릉.jpg', 'poster_강릉.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '귀멸의 칼날: 남매의 연', TO_DATE('2021-11-10'), 104, '15세', '애니메이션',
-'도호', '소토자키하루오', '일본', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'도호', '소토자키하루오', '일본', 'poster_귀멸의칼날_남매의연.jpg', 'poster_귀멸의칼날_남매의연.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고스트버스터즈 라이즈', TO_DATE('2021-12-01'), 124, '12세', '어드벤쳐',
-'소니 픽처스', '제이슨 라이트만', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'소니 픽처스', '제이슨 라이트만', '미국', 'poster_고스트버스터즈_라이즈.jpg', 'poster_고스트버스터즈_라이즈.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹메이커', TO_DATE('2021-12-01'), 120, '12세', '드라마',
-'메가박스', '변성현', '한국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'메가박스', '변성현', '한국', 'poster_킹메이커.jpg', 'poster_킹메이커.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '매트릭스: 리저렉션', TO_DATE('2021-12-22'), 140, '15세', 'SF',
-'워너 브라더스', '라나 워쇼스키', '미국', 'POSTER_ORIG_NAME', 'POSTER_UUID_NAME', 'POSTER_IMG_PATH', 'Y');
+'워너 브라더스', '라나 워쇼스키', '미국', 'poster_매트릭스_리저렉션.jpg', 'poster_매트릭스_리저렉션.jpg', 'img/poster/', 'Y');
 
 -------------------- 이벤트 EVENT --------------------
 CREATE TABLE EVENT (

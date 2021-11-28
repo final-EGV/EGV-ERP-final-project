@@ -163,6 +163,7 @@
 							</form>
 						</div>
 						<div class="card-footer py-3">
+							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
 							<button type="submit" class="btn btn-primary" form="movie-info">등록하기</button>
 						</div>
 
@@ -224,7 +225,7 @@
 	<!-- Page level custom scripts -->
 	<!-- date타입 input태그 값을 현재 날짜로 자동 선택 -->
 	<script>
-		document.getElementById('openingDate').value = new Date().toISOString().substring(0, 10);;
+		document.getElementById('openingDate').value = new Date().toISOString().substring(0, 10);
 	</script>
 	<!-- 신규 영화 등록 결과 출력 -->
 	<script>

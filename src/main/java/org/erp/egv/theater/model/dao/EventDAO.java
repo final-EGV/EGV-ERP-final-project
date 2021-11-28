@@ -13,20 +13,24 @@ public class EventDAO {
 
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	public List<EventDTO> inquireAllEventList() {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		String jpql = "SELECT e FROM EventDTO e ORDER BY e.date";
+		String jpql = "SELECT e FROM EventDTO e LEFT JOIN e.movieAndEvent m ORDER BY e.startDatetime DESC";
 		
 		List<EventDTO> eventList = em.createQuery(jpql, EventDTO.class)
-									 .getResultList();
+				 					 .getResultList();
 		
-		for (EventDTO event : eventList) {
-			System.out.println(event);
-		}
+		System.out.println("eventList's size: " + eventList.size());
 		
 		return eventList;
+	}
+
+	public void registEvent(EventDTO event) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		em.persist(event);
 	}
 	
 }

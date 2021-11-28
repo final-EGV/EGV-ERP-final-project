@@ -77,4 +77,14 @@ public class MovieDAO {
 		em.remove(em.contains(movie) ? movie : em.merge(movie));
 	}
 
+	public MovieDTO inquireSingleMovieByName(String movieName) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		MovieDTO movie = em.createQuery("SELECT m FROM MovieDTO m WHERE m.name = :movieName", MovieDTO.class)
+						   .setParameter("movieName", movieName)
+						   .getSingleResult();
+
+		return movie;
+	}
+
 }

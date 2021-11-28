@@ -2,11 +2,12 @@ package org.erp.egv.theater.model.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.erp.egv.theater.model.dao.MovieDAO;
 import org.erp.egv.theater.model.dto.MovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MovieService {
@@ -51,6 +52,13 @@ public class MovieService {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
 		movieDAO.deleteMovieByCode(code);
+	}
+
+	@Transactional
+	public MovieDTO inquireSingleMovieByName(String movieName) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+
+		return movieDAO.inquireSingleMovieByName(movieName);
 	}
 
 }

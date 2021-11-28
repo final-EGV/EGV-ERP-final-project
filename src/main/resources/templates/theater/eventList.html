@@ -49,13 +49,12 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="eventTable" width="100%" cellspacing="0">
+								<table class="table table-bordered table-hover" id="eventTable" width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>이벤트명</th>
-											<th>이벤트일자</th>
-											<th>시작시간</th>
-											<th>종료시간</th>
+											<th>시작일</th>
+											<th>종료일</th>
 											<th>대관회사</th>
 											<th>관련영화</th>
 											<th>이벤트상품</th>
@@ -68,12 +67,16 @@
 													th:href="@{/theater/event/details(code=${ event.code })}">
 												</a>
 											</td>
-											<td th:text="${ event.date }"></td>
-											<td th:text="${ event.eventStart }"></td>
-											<td th:text="${ event.eventEnd }"></td>
-											<td th:text="${ event.rentalCompany }"></td>
-											<td th:text="${ event.movie.name }"></td>
-											<td th:text="${ event.productCode }"></td>
+											<td th:text="${ #dates.format(event.startDatetime, 'yyyy-MM-dd HH:mm') }"></td>
+											<td th:text="${ #dates.format(event.endDatetime, 'yyyy-MM-dd HH:mm') }"></td>
+											<td th:text="${ event.rentalCompany } == null ? '-' : ${ event.rentalCompany }"></td>
+											<td th:if="${ event.movieAndEvent } == null">-</td>
+											<td th:unless="${ event.movieAndEvent } == null">
+												<a th:text="${ event.movieAndEvent.name }"
+													th:href="@{/theater/movie/details(code=${ event.movieAndEvent.code })}">
+												</a>
+											</td>
+											<td th:text="${ event.product } == null ? '-' : ${ event.product }"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -144,11 +147,11 @@
 	<!-- Page level custom scripts -->
 	<script>
 		$(document).ready(function () {
-			$('#movieTable').DataTable({
+			$('#eventTable').DataTable({
 				language: {
 					url: '/i18n/ko.json'
 				},
-				"order": [1, 'desc']	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"order": [1, 'desc']	/* 시작일 속성 기준으로 내림차순(최신순) */
 			}
 			);
 		});

@@ -31,14 +31,11 @@ public class EventDTO implements Serializable {
 	@Column(name = "EVENT_NAME")
 	private String name;
 
-	@Column(name = "EVENT_DATE")
-	private java.sql.Date date;
+	@Column(name = "START_DATETIME")
+	private java.util.Date startDatetime;
 
-	@Column(name = "EVENT_START")
-	private java.sql.Date eventStart;
-
-	@Column(name = "EVENT_END")
-	private java.sql.Date eventEnd;
+	@Column(name = "END_DATETIME")
+	private java.util.Date endDatetime;
 
 	@Column(name = "RENTAL_COMPANY", nullable = true)
 	private String rentalCompany;
@@ -47,22 +44,21 @@ public class EventDTO implements Serializable {
 	@JoinColumn(name = "MOVIE_CODE", nullable = true)
 	private MovieDTO movieAndEvent;
 
-	@Column(name = "PRODUCT_CODE", nullable = true)
-	private Integer productCode;
+	@Column(name = "EVENT_PRODUCT", nullable = true)
+	private String product;
 
 	public EventDTO() {
 	}
 
-	public EventDTO(int code, String name, Date date, Date eventStart, Date eventEnd, String rentalCompany,
-			MovieDTO movieAndEvent, Integer productCode) {
+	public EventDTO(int code, String name, Date startDatetime, Date endDatetime, String rentalCompany,
+			MovieDTO movieAndEvent, String product) {
 		this.code = code;
 		this.name = name;
-		this.date = date;
-		this.eventStart = eventStart;
-		this.eventEnd = eventEnd;
+		this.startDatetime = startDatetime;
+		this.endDatetime = endDatetime;
 		this.rentalCompany = rentalCompany;
 		this.movieAndEvent = movieAndEvent;
-		this.productCode = productCode;
+		this.product = product;
 	}
 
 	public int getCode() {
@@ -81,28 +77,20 @@ public class EventDTO implements Serializable {
 		this.name = name;
 	}
 
-	public java.sql.Date getDate() {
-		return date;
+	public java.util.Date getStartDatetime() {
+		return startDatetime;
 	}
 
-	public void setDate(java.sql.Date date) {
-		this.date = date;
+	public void setStartDatetime(java.util.Date startDatetime) {
+		this.startDatetime = startDatetime;
 	}
 
-	public java.sql.Date getEventStart() {
-		return eventStart;
+	public java.util.Date getEndDatetime() {
+		return endDatetime;
 	}
 
-	public void setEventStart(java.sql.Date eventStart) {
-		this.eventStart = eventStart;
-	}
-
-	public java.sql.Date getEventEnd() {
-		return eventEnd;
-	}
-
-	public void setEventEnd(java.sql.Date eventEnd) {
-		this.eventEnd = eventEnd;
+	public void setEndDatetime(java.util.Date endDatetime) {
+		this.endDatetime = endDatetime;
 	}
 
 	public String getRentalCompany() {
@@ -121,19 +109,19 @@ public class EventDTO implements Serializable {
 		this.movieAndEvent = movieAndEvent;
 	}
 
-	public Integer getProductCode() {
-		return productCode;
+	public String getProduct() {
+		return product;
 	}
 
-	public void setProductCode(Integer productCode) {
-		this.productCode = productCode;
+	public void setProduct(String product) {
+		this.product = product;
 	}
 
 	@Override
 	public String toString() {
-		return "EventDTO [code=" + code + ", name=" + name + ", date=" + date + ", eventStart=" + eventStart
-				+ ", eventEnd=" + eventEnd + ", rentalCompany=" + rentalCompany + ", movieAndEvent=" + movieAndEvent
-				+ ", productCode=" + productCode + "]";
+		return "EventDTO [code=" + code + ", name=" + name + ", startDatetime=" + startDatetime + ", endDatetime="
+				+ endDatetime + ", rentalCompany=" + rentalCompany + ", movieAndEvent=" + movieAndEvent.getName() + ", product="
+				+ product + "]";
 	}
 
 }

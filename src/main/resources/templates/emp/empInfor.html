@@ -143,7 +143,7 @@
 				</table>
 				</form>
 				<button class="btn btn-success" onclick="location.href='/emp/list'" type="button">목록으로</button>
-				<button class="btn btn-primary" onclick="location.href='#'" type="button">프로필 사진등록</button>
+				<button class="btn btn-primary" onclick="openPPWindow()" type="button">프로필 사진등록</button>
 				<button class="btn btn-secondary" type="submit" form="empModifyInfor">회원 정보 수정</button>
 				<button class="btn btn-danger" data-toggle="modal" data-target="#outEmpModal">퇴사 처리</button>
 				</div>
@@ -307,6 +307,20 @@
 			      }, false)
 			    })
 			})()
+			
+							
+	  function openPPWindow(){
+
+	        window.name = "parentForm";
+	        const code = "[[${ empInfor.code }]]";
+	        const path = "/emp/profilePic/profileInseter?empCode="
+	        
+	        window.open(path+code,
+                    "PopupNewPP", "top=200, left=500, width=550, height=350, resizable = no, scrollbars = no");
+ 
+	    }
+			
+			
 		
 	</script>
 </body>

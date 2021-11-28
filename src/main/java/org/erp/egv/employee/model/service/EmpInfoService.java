@@ -79,6 +79,14 @@ public class EmpInfoService {
 		empInfoDAO.empOUTRequest(code, reason);
 	}
 	
+	/* 프로필 사진 등록 */
+	@Transactional
+	public void empProfilePicInsert(EmployeeDTO picEmp) {
+		System.out.println(picEmp);
+		empInfoDAO.empProfilePicInsert(picEmp);
+	}
+	
+	
 	/* 부서목록 리스트 */
 	@Transactional
 	public List<DepartmentDTO> findDepartmentList() {

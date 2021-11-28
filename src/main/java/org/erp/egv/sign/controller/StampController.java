@@ -69,7 +69,7 @@ public class StampController {
 //	    String targetRoot = root.replace("/", "\\").concat("static\\stamp-img\\");
 	    
 	    String filePath = srcRoot + "stamp-img/";
-		
+	    
 		/* 폴더 생성 */
 		File mkdir = new File(filePath);
 		if (!mkdir.exists()) {

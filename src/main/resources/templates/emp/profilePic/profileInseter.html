@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+	lang="ko"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+<meta charset="UTF-8">
+<title>프로필 사진 입력기</title>
+    <!-- Custom fonts for this template-->
+    <link href="/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+<style type="text/css">
+   button {
+     height:50%;
+     vertical-align: middle;
+     transform: translateY(50%);
+     }
+</style>
+</head>
+<body>
+하하하하하하
+	<div align="Center">
+	<p th:text="${empInfor.name}+'님의 프로필사진'"></p>
+		<div class="card" style="width: 180px; height: 200px; overflow: hidden; text-align: center;">
+ 		 	  <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="https://i.imgur.com/Jvh1OQm.jpeg" style="width: 180px; height: auto;" alt="profilePic">
+		 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic">
+		</div>
+			<form action="/emp/profilePicInsert" method="post" encType="multipart/form-data">
+	            <input type="hidden" class="form-control" th:field="*{empInfor.code}">
+	            <input class="form-control" type="file" name="proPicThumb" id="proPicThumb" onChange="proPicPreview();" hidden accept="image/*"><br>
+	 		 	<label for="proPicThumb" class="btn btn-success" style="position: relative; top: -15px;">파일선택</label>
+		     	<button class="btn btn-primary" type="submit" style="position: relative; top: -38px;">프로필 사진등록</button>
+	     	</form>
+	     </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript -->
+    <script src="/js/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages -->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+
+    <!-- Page level custom scripts -->
+    
+    
+<script>
+function proPicPreview() {
+
+
+	let fileInfo = document.getElementById("proPicThumb").files[0];
+
+	let reader = new FileReader();
+
+	  reader.onload = function() {
+
+	      document.getElementById("upload_thumb").src = reader.result;
+
+	  };
+
+	if( fileInfo ) {
+
+	      reader.readAsDataURL( fileInfo );
+
+	  }
+
+	}
+</script>
+    
+    
+</body>
+</html>

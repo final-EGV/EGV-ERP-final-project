@@ -1,7 +1,11 @@
 package org.erp.egv.employee.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -160,14 +165,95 @@ public class EmpInfoController {
 		
 		empInfoService.empOUTRequest(code, reason);
 		
-		rttr.addFlashAttribute("registSuccessMessage", "퇴사 신청 완료1");
+		rttr.addFlashAttribute("successMessage", "퇴사 신청 완료!");
 		mv.setViewName("redirect:/emp/list");
 		
 		return mv;
 	}
 	
+	/* Date : 2021/11/26
+	 * Writer : Hansoo Lee
+	 * 
+	 * 프로필 사진 등록 변경룔 컨트롤러
+	 * */
+	@PostMapping("/profilePicInsert")
+	public ModelAndView empProfilePicInsert(ModelAndView mv, @RequestParam String code, @RequestParam("proPicThumb") MultipartFile singleFile,  RedirectAttributes rttr) throws UnsupportedEncodingException {
+		System.out.println("콘트롤러 modify 오나요?");
+		
+		String root = this.getClass().getResource("/").getPath();
+		String srcRootPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
+		
+		System.out.println(root);
+		System.out.println(srcRootPath);
+		
+		String filePath = srcRootPath + "profileImg/";
+		
+
+		/* 폴더 생성 */
+		File mkdir = new File(filePath);
+		if (!mkdir.exists()) {
+			System.out.println("폴더 생성 : " + mkdir.mkdir());
+		}
+		
+		/* 파일명 변경처리 */
+		String originFileName = new String(singleFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+		System.out.println("원본 이름 : " + originFileName);
+		
+		String ext = originFileName.substring(originFileName.lastIndexOf("."));
+		
+		String saveName = UUID.randomUUID().toString().replace("-", "") + ext;
+		System.out.println("변경한 이름 : " + saveName);
+
+		/* 파일 저장 */
+		try {
+			singleFile.transferTo(new File(filePath + "\\" + saveName));
+
+			/* stamp 등록 */ 
+			EmployeeDTO employee = new EmployeeDTO();
+			employee.setCode(code); 
+			employee.setProfileImgName(filePath);
+			employee.setProfileOrigName(originFileName);
+			employee.setProfileUuidName(saveName);
+			
+			empInfoService.empProfilePicInsert(employee);
+			
+			/* 회원 정보 조회 */
+			EmployeeDTO empStampinfo = empInfoService.empOneRequest(code);
+			System.out.println("프로필 등록 사원 : " + empStampinfo);
+			
+			String imgPath = "/prfile : /" + empStampinfo.getProfileUuidName();
+			System.out.println("imgNewPath : " + imgPath);
+			
+//			mv.addObject("imgPath", imgPath);
+			
+			rttr.addFlashAttribute("successMessage", "사진등록성공!!!");
+			
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			
+			/* 실패 시 업로드 된 파일 삭제 */
+			new File(filePath + "\\" + saveName).delete();
+			rttr.addFlashAttribute("message", "사진등록 실패!!");
+		}
+
+//		empInfoService.empProfilePicInsert(code);
+		
+		rttr.addFlashAttribute("successMessage", "사진등록 완료");
+		
+		
+		mv.setViewName("redirect:/emp/profilePic/profileInseter?empCode="+ code);
+		
+		return mv;
+	}
 	
-	
+	/* 프로필 사진 입력 윈도우*/
+	@GetMapping("/profilePic/profileInseter")
+	public ModelAndView empPic(ModelAndView mv, @RequestParam String empCode) {
+		EmployeeDTO empInfor = empInfoService.empOneRequest(empCode);
+		mv.addObject("empInfor", empInfor);
+		mv.setViewName("emp/profilePic/profileInseter");
+		return mv;
+	}
 	
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {

@@ -138,7 +138,16 @@ public class EmpInfoDAO {
 		
 	}
 	
+	public void empProfilePicInsert(EmployeeDTO picEmp) {
+		
+		EmployeeDTO empAddPic = em.find(EmployeeDTO.class, picEmp.getCode());
+		
+		empAddPic.setStampImgPath(picEmp.getStampImgPath());
+		empAddPic.setStampOrigName(picEmp.getStampOrigName());
+		empAddPic.setStampUuidName(picEmp.getStampUuidName());
 	
+		
+	}
 	
 	public List<EmpRankDTO> findEmpRankList() {
 		String jpql = "SELECT a FROM EmpRankDTO as a ORDER BY a.code ASC";
@@ -183,7 +192,6 @@ public class EmpInfoDAO {
 		
 		return emp;
 	}
-
 
 	public List<DepartmentDTO> empDeptList() {
 		String jpql = "SELECT d FROM DepartmentDTO as d";
@@ -284,6 +292,5 @@ public class EmpInfoDAO {
 		
 		return emp;
 	}
-
     
 }

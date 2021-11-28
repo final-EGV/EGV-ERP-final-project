@@ -26,7 +26,7 @@ public class UserImpl extends User{
 	private String address;
 	private String outYN;
 	private String empPosition;
-	private String outDATE;
+	private java.sql.Date outDATE;
 	private String outReason;
 	private String note;
 	private String profileOrigName;
@@ -60,7 +60,7 @@ public class UserImpl extends User{
 		this.address = employee.getAddress();
 		this.outYN = employee.getOutYN();
 		this.empPosition = employee.getEmpPosition();
-		this.outDATE = employee.getOutDATE();
+		this.outDATE = employee.getOutDate();
 		this.outReason = employee.getOutReason();
 		this.note = employee.getNote();
 		this.profileOrigName = employee.getProfileOrigName();
@@ -200,11 +200,11 @@ public class UserImpl extends User{
 		this.empPosition = empPosition;
 	}
 
-	public String getOutDATE() {
+	public java.sql.Date getOutDATE() {
 		return outDATE;
 	}
 
-	public void setOutDATE(String outDATE) {
+	public void setOutDATE(java.sql.Date outDATE) {
 		this.outDATE = outDATE;
 	}
 

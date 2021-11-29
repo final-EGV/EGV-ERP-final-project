@@ -77,6 +77,7 @@
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
 										<button type="submit" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg">저장</button>
 									</div>
+									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
 									<script>
 										function temporarySave() {
 											var signStatus = document.getElementById("signStatus");
@@ -85,7 +86,6 @@
 											document.getElementById("saveBtn").click();
 										}
 									</script>
-									
 									<br><br>
 									<label>작성일 :</label>&emsp;&emsp;
 									<input type="date" id="writeDate" name="writeDate">
@@ -94,25 +94,24 @@
 									<select name="template" id="template" style="width: 10%">
 										<!-- ajax로 template 조회 -->
 									</select>
-									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
 									<br>
 									<br>
 									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">결재자</span>
-									 	<input type="text" class="form-control" id="approver" name="approver" readonly>
+									 	<input type="text" class="form-control" id="approver" name="approver" readonly required>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
 									</div>
 									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">참조자</span>
-									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly>
+									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly required>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
 									</div>
 									<br><br>
-									<div class="input-group mb-3" style="width: 80%;">
+									<div class="input-group mb-3" style="width: 65%;">
 									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
-									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle">
+									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" required>
 									</div>
 <!-- ################################################################################################################################### -->
 									<!-- <div th:utext="${template.contents}"></div> -->
@@ -309,7 +308,7 @@
 		$('#summernote').summernote({
 				lang: "ko-KR",
 				tabsize: 2,
-				width : 1300,
+				width : 1100,
 				toolbar: [
 				    // [groupName, [list of button]]
 				    ['fontname', ['fontname']],

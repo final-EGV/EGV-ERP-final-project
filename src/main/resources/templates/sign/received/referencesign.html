@@ -64,7 +64,7 @@
 									</thead>
 									<tbody>
 										<span th:each="sign : ${ signList }">
-											<tr th:onclick="|location.href='/sign/signInsert?code=${sign.sign.code}'|">
+											<tr th:onclick="|location.href='/sign/detail/detail?code=${sign.sign.code}'|">
 												<td th:text="${ sign.sign.code }"></td>
 												<td th:text="${ sign.sign.title }"></td>
 												<td th:text="${ sign.sign.temp.name }"></td>

@@ -71,11 +71,11 @@
 						<div class="card-body">
 							<div class="table-responsive">
 								
-								<form action="/sign/signInsert" method="post">
+								<form action="/sign/signInsert" method="post" name="sign_form">
 									
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
-										<button type="submit" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg">저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
 									</div>
 									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
 									<script>
@@ -85,10 +85,29 @@
 											
 											document.getElementById("saveBtn").click();
 										}
+										function sign_form_check() {
+											var approverFrom = document.getElementById("approver");
+											var referrerFrom = document.getElementById("referrer");
+											var titleFrom = document.getElementById("documentTitle");
+											
+											if (!approverFrom.value) {
+												alert("결재자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!referrerFrom.value) {
+												alert("잠조자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!titleFrom.value) {
+												alert("제목을 작성해 주세요.");
+												return false;
+											}
+											document.sign_form.submit();										
+										}
 									</script>
 									<br><br>
-									<label>작성일 :</label>&emsp;&emsp;
-									<input type="date" id="writeDate" name="writeDate">
+									<!-- <label>작성일 :</label>&emsp;&emsp; -->
+									<input type="date" id="writeDate" name="writeDate" hidden>
 									<br>
 									<label>분류 :</label>&emsp;&emsp;&emsp;
 									<select name="template" id="template" style="width: 10%">
@@ -98,20 +117,20 @@
 									<br>
 									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">결재자</span>
-									 	<input type="text" class="form-control" id="approver" name="approver" readonly required>
+									 	<input type="text" class="form-control" id="approver" name="approver" readonly>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
 									</div>
 									<div class="input-group mb-3" style="width: 50%;">
 										<span class="input-group-text">참조자</span>
-									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly required>
+									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly>
 										<!-- 결제자 modal -->
 									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
 									</div>
 									<br><br>
 									<div class="input-group mb-3" style="width: 65%;">
 									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
-									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" required>
+									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle">
 									</div>
 <!-- ################################################################################################################################### -->
 									<!-- <div th:utext="${template.contents}"></div> -->

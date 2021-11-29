@@ -86,8 +86,8 @@ private EmpInfoService empInfoService;
 		String title = request.getParameter("documentTitle");
 		String contents = request.getParameter("documentContent");
 		
-		String[] approverList = request.getParameter("approver").split("\\(");
-		String[] referrerList = request.getParameter("referrer").split("\\(");
+		String[] approverList = request.getParameterValues("approverInput");
+		String[] referrerList = request.getParameterValues("referrerInput");
 		
 		/* 기안서 insert */
 		TemplateDTO templateDTO = signInsertService.findTemplateByCode(tempCode);
@@ -111,7 +111,7 @@ private EmpInfoService empInfoService;
 			int approverCode = signInsertService.findMaxApproverCode() + 1;
 			
 			if (approver.length() > 5) {
-				String approverEmpCode = approver.substring(0,7);
+				String approverEmpCode = approver.substring(4,11);
 				EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
 				
 				ApproverDTO approverDTO = new ApproverDTO();
@@ -135,7 +135,7 @@ private EmpInfoService empInfoService;
 			int referrerCode = signInsertService.findMaxReferrerCode() + 1;
 
 			if (referrer.length() > 5) {
-				String referrerEmpCode = referrer.substring(0,7);
+				String referrerEmpCode = referrer.substring(4,11);
 				EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
 				
 				RefferrerDTO refferrerDTO = new RefferrerDTO();

@@ -1,6 +1,7 @@
 package org.erp.egv.theater.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -65,10 +66,10 @@ public class EventController {
 		request.setCharacterEncoding("UTF-8");
 		
 		String eventName = request.getParameter("name");
-		java.util.Date startDatetime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("startDatetime").replace("T", " "));
-//		String startDatetime = request.getParameter("startDatetime").replace("T", " ");
-		java.util.Date endDatetime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("endDatetime").replace("T", " "));
-//		String endDatetime = request.getParameter("endDatetime").replace("T", " ");
+		Timestamp startDatetime =
+				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("startDatetime").replace("T", " ")).getTime());
+		Timestamp endDatetime =
+				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("endDatetime").replace("T", " ")).getTime());
 		String movieName = request.getParameter("movieAndEvent");
 		String rentalCompany = request.getParameter("rentalCompany");
 		String product = request.getParameter("product");

@@ -57,6 +57,7 @@ public class MovieDAO {
 		movieOrigin.setDistributor(movieNew.getDistributor());
 		movieOrigin.setDirector(movieNew.getDirector());
 		movieOrigin.setCountry(movieNew.getCountry());
+		movieOrigin.setOpeningYn(movieNew.getOpeningYn());
 		movieOrigin.setPosterOrigName(movieNew.getPosterOrigName());
 		movieOrigin.setPosterUuidName(movieNew.getPosterUuidName());
 		movieOrigin.setPosterImgPath(movieNew.getPosterImgPath());

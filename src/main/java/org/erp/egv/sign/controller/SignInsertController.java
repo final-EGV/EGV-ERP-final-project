@@ -1,5 +1,6 @@
 package org.erp.egv.sign.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.RefferrerDTO;
@@ -15,6 +17,7 @@ import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.dto.TemplateDTO;
 import org.erp.egv.sign.model.service.SignInsertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,10 +75,9 @@ private EmpInfoService empInfoService;
 	}
 	
 	@PostMapping("/signInsert")
-	public ModelAndView chooseApprover(ModelAndView mv, HttpServletRequest request, RedirectAttributes rAttr) throws ParseException {
+	public ModelAndView chooseApprover(ModelAndView mv, HttpServletRequest request, RedirectAttributes rAttr, Principal principal) throws ParseException {
 		
-		//(수정하기)test용, 로그인한 사원의 사번
-		String empCode = "2021100";
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 		
 		int tempCode = Integer.valueOf(request.getParameter("template"));
 		String dateString = request.getParameter("writeDate");

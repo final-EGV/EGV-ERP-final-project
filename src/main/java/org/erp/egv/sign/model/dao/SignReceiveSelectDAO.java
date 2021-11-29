@@ -38,7 +38,7 @@ public class SignReceiveSelectDAO {
 	}
 
 	public List<RefferrerDTO> selectReferenceSign(String code) {
-		String jpql = "SELECT a FROM RefferrerDTO as a WHERE a.emp.code = :code AND a.sign.status IN ('결재중','결재완료')";
+		String jpql = "SELECT a FROM RefferrerDTO as a WHERE a.emp.code = :code AND a.sign.status IN ('결재중','결재완료','반려')";
 		List<RefferrerDTO> tempList = em.createQuery(jpql, RefferrerDTO.class).setParameter("code", code).getResultList();
 		
 		return tempList;

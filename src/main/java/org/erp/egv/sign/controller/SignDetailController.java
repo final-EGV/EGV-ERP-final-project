@@ -1,6 +1,8 @@
 package org.erp.egv.sign.controller;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.List;
 
 import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.sign.model.dto.ApproverDTO;
@@ -26,6 +28,7 @@ public class SignDetailController {
 	@GetMapping("detail/detail")
 	public ModelAndView selectSignDetail(ModelAndView mv, @RequestParam("code") String code, Principal principal) {
 		SignDTO sign = signService.selectSign(Integer.valueOf(code));
+		Collections.sort(sign.getApprover());
 		
 		for (ApproverDTO app : sign.getApprover()) {
 			if(app.getEmp().getCode().equals(((UserImpl)((Authentication)principal).getPrincipal()).getCode())) {
@@ -51,6 +54,7 @@ public class SignDetailController {
 	public ModelAndView selectProgressSignDetail(ModelAndView mv, @RequestParam("code") String code) {
 		SignDTO sign = signService.selectSign(Integer.valueOf(code));
 		String status = null;
+		Collections.sort(sign.getApprover());
 		
 		for (ApproverDTO app : sign.getApprover()) {
 			if(app.getStatus().equals("대기")) {

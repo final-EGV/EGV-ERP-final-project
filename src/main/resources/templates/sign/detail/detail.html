@@ -37,15 +37,12 @@
    		width: 800px;
    		margin-bottom: 30px;
    }
-   .parent {
-   		position: relative;
-   }
-   
    #actiondiv {
-   		position: absolute;
-   		top: 70px; 
-      	left: 1100px;
-   		
+   		margin-left: auto;
+   		margin-right: auto;
+   		margin-bottom: -20px;
+   		max-width: 800px;
+   		text-align: right;
    }
    
 </style>
@@ -75,36 +72,45 @@
 							<h6 class="m-0 font-weight-bold text-primary">[[${ sign.title }]]</h6>
 						</div>
 						<div class="card-body">
-							
+						
 							<div class="col-3" id="actiondiv">
 								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '반려' }" th:onclick="|location.href='/sign/detail/resign?code=${sign.code}'|">재기안</button>
 								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '기안' }" th:onclick="|location.href='/sign/detail/cancle?code=${sign.code}'|">기안 취소</button>
 								<button id="approvalbtn" class="btn btn-success" th:if="${ status == '대기'}" th:onclick="|location.href='/sign/detail/approval?code=${sign.code}'|">승인</button>
 								<button id="returnbtn" class="btn btn-danger" th:if="${ status == '대기' }" th:onclick="|location.href='/sign/detail/return?code=${sign.code}'|">반려</button>
-								
 							</div>
-							
+						
 							<div style="margin-top: 50px;">
 								<table id="apptemp" border="solid: 1px">
+									<colgroup>
+										<col width = "12%">
+										<col width = "15%">
+										<col width = "12%">
+										<col width = "15%">
+										<col width = "15%">
+										<col width = "15%">
+									</colgroup>
+
+								
 							        <thead style="height: 40px;">
-							            <td style="width: 150px;">문서코드</td>
-							            <td id="lefttd" colspan="1" style="width: 130px;" th:text="${ sign.code }"></td>
-							            <td colspan="2" style="width: 260px;">기안일자</td>
-							            <td id="lefttd" class="parent" colspan="2" style="width: 260px;" th:text="${ sign.date }" ></td>
+							            <td scope="col">문서코드</td>
+							            <td scope="col" id="lefttd" th:text="${ sign.code }"></td>
+							            <td scope="col" colspan="2">기안일자</td>
+							            <td scope="col" id="lefttd" colspan="3" th:text="${ sign.date }" ></td>
 							        </thead>
 							        <tbody>
 							            <tr>
 							                <td rowspan="3">기안</td>
 							                <td style="height: 30px;" th:text="${ sign.employee.empPosition }"></td>
-							                <td rowspan="3" style="width: 130px;">결재</td>
-							                <span th:each="app:${sign.approver}">
-							                	<td th:text="${app.emp.empPosition}"></td>	
+							                <td rowspan="3">결재</td>
+							                <span class="parent" th:each="app:${sign.approver}">
+							                	<td class="parent" th:text="${app.emp.empPosition}"></td>	
 							                </span>
 							            </tr>
 							            <tr>
-							                <td style="height: 70px;" th:text="${ sign.employee.stampImgPath }"></td>
+							                <td style="height: 70px;"> <img th:src="|/stamp-img/${ sign.employee.stampUuidName }|" style="height: 100px;"> </td>
 							                <span th:each="app:${sign.approver}">
-							                	<td> <img th:if="${app.status == '승인'}" th:src="${app.emp.stampImgPath}"> </td>	
+							                	<td style="height: 100px;"> <img th:if="${app.status == '승인'}" th:src="|/stamp-img/${ app.emp.stampUuidName }|" style="height: 100px;"> <img th:if="${app.status == '반려'}" src="/stamp-img/반려.svg" style="height: 100px;"> </td>	
 							                </span>
 							            </tr>
 							            <tr>
@@ -117,7 +123,7 @@
 							        <tfoot>
 							            <tr>
 							                <td style="height: 40px;">참조</td>
-							                <td id="lefttd" colspan="6">
+							                <td id="lefttd" colspan="10">
 								                <span th:each="ref:${sign.refferrer}">
 								                	[[${ref.emp.name}]], &nbsp;
 								                </span>

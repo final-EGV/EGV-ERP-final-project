@@ -13,7 +13,7 @@ import org.erp.egv.employee.model.dto.EmployeeDTO;
 
 @Entity
 @Table(name = "APPROVER")
-public class ApproverDTO implements Serializable {
+public class ApproverDTO implements Serializable, Comparable<ApproverDTO> {
 	private static final long serialVersionUID = -403266508485015035L;
 	
 	@Id
@@ -93,6 +93,16 @@ public class ApproverDTO implements Serializable {
 	public String toString() {
 		return "ApproverDTO [code=" + code + ", order=" + order + ", status=" + status + ", emp=" + emp + ", sign="
 				+ sign + "]";
+	}
+
+	@Override
+	public int compareTo(ApproverDTO o) {
+		if (this.order < o.getOrder()) {
+		    return -1;
+		} else if (this.order > o.getOrder()) {
+		    return 1;
+		}
+		return 0;
 	}
 	
 }

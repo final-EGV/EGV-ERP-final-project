@@ -168,7 +168,7 @@ public class MovieController {
 	}
 	
 	@GetMapping("/details")
-	public ModelAndView inquireSingleMovieByCode(ModelAndView mv, @RequestParam int code) {
+	public ModelAndView getDetailsOfSingleMovie(ModelAndView mv, @RequestParam int code) {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		

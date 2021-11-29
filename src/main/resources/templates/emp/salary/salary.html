@@ -65,7 +65,6 @@
                                  <th>귀속일</th>
                                  <th>성명</th>
                                  <th>부서명</th>
-                                 <th>수당</th>
                                  <th>연차수당(만원)</th>
                                  <th>실지급액</th>
                               </tr>
@@ -76,9 +75,8 @@
                                  <td th:text="${ emp.entDate }"></td>
                                  <td th:text="${ emp.name }"></td>
                                  <td th:text="${ emp.dept.name }"></td>
-                                 <td th:text="${ emp.empPosition }"></td>
                                  <td th:text="${ emp.rank.salary }"></td>
-                                 <td th:text="${ emp.phoneHome }"></td>
+                                 <td th:text="상세보기"></td>
                               </tr>
                            </tbody>
                         </table>

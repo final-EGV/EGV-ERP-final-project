@@ -184,7 +184,6 @@
 						<div class="card-footer py-3">
 							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
 							<button type="submit" class="btn btn-primary" form="movie-info">적용하기</button>
-							<!-- <button type="button" class="btn btn-danger" th:onclick="@{/theater/movie/delete(code=${ movie.code })}">삭제하기</button> -->
 							<a th:href="@{/theater/movie/delete(code=${ movie.code })}">
 								<button type="button" class="btn btn-danger">삭제하기</button>
 							</a>

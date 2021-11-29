@@ -32,5 +32,13 @@ public class EventDAO {
 		
 		em.persist(event);
 	}
+
+	public EventDTO inquireSingleEventByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		EventDTO event = em.find(EventDTO.class, code);
+		
+		return event;
+	}
 	
 }

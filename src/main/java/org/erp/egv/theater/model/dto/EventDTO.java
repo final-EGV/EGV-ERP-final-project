@@ -1,7 +1,6 @@
 package org.erp.egv.theater.model.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;

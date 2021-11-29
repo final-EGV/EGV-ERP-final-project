@@ -7,7 +7,9 @@ import java.util.Locale;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
+import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,9 +51,31 @@ public class SalaryController {
 	}
 	
 	@GetMapping("/salary/{code}")
-	public ModelAndView findSalByCode(ModelAndView mv, @PathVariable String code) {
+	public ModelAndView findSalByCode(ModelAndView mv, @PathVariable("code") String code) {
 		EmployeeDTO emp = empInfoService.findSalByCode(code);
+		List<WorkDTO> worklist = empInfoService.findWorkByCode(code);
+		int monthSalary = (emp.getRank().getSalary())/12;
 		
+		int hourPay = (((emp.getRank().getSalary())/12)/30)/8;
+		
+		int overWork = 0;
+		for (WorkDTO work : worklist) {
+			overWork += work.getWorkOver();
+		}
+		
+		int totalPay = 0;
+		if(overWork != 0) {
+			totalPay = (monthSalary + (hourPay * overWork)) * 10000;
+		} else {
+			totalPay = monthSalary * 10000;
+		}
+		
+		String announce = monthSalary + "만원 + " + overWork + "시간 추가수당";
+		
+		mv.addObject("totalPay", totalPay);
+		mv.addObject("work", worklist);
+		mv.addObject("announce", announce);
+		mv.addObject("salary", monthSalary);
 		mv.addObject("empInfor", emp);
 		mv.setViewName("emp/salary/salaryDetail");
 		return mv;

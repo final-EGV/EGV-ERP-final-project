@@ -16,6 +16,8 @@ import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
+import org.erp.egv.work.model.dto.WorkDTO;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -283,7 +285,6 @@ public class EmpInfoDAO {
 	public EmployeeDTO findSalByCode(String code) {
 		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
 		
-		System.out.println("불러온 사원 : " + emp);
 		return emp;
 	}
 
@@ -291,6 +292,14 @@ public class EmpInfoDAO {
 		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
 		
 		return emp;
+	}
+
+	public List<WorkDTO> findWorkByCode(String code) {
+		String jpql = "SELECT w FROM WorkDTO as w WHERE EMP_CODE is " + code;
+		TypedQuery<WorkDTO> query = em.createQuery(jpql, WorkDTO.class);
+		List<WorkDTO> workList = query.getResultList();
+		
+		return workList;
 	}
     
 }

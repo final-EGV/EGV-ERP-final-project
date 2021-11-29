@@ -86,15 +86,15 @@
 											document.getElementById("saveBtn").click();
 										}
 										function sign_form_check() {
-											var approverFrom = document.getElementById("approver");
-											var referrerFrom = document.getElementById("referrer");
+											var approverFrom = document.getElementsByName("approverInput");
+											var referrerFrom = document.getElementsByName("referrerInput");
 											var titleFrom = document.getElementById("documentTitle");
 											
-											if (!approverFrom.value) {
+											if (!approverFrom[0].value) {
 												alert("결재자를 한명 이상 작성해야 합니다.");
 												return false;
 											}
-											if (!referrerFrom.value) {
+											if (!referrerFrom[0].value) {
 												alert("잠조자를 한명 이상 작성해야 합니다.");
 												return false;
 											}
@@ -115,24 +115,26 @@
 									</select>
 									<br>
 									<br>
-									<div class="input-group mb-3" style="width: 50%;">
-										<span class="input-group-text">결재자</span>
-									 	<input type="text" class="form-control" id="approver" name="approver" readonly>
-										<!-- 결제자 modal -->
-									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
-									</div>
-									<div class="input-group mb-3" style="width: 50%;">
-										<span class="input-group-text">참조자</span>
-									 	<input type="text" class="form-control" id="referrer" name="referrer" readonly>
-										<!-- 결제자 modal -->
-									 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
-									</div>
+								 	
+									<label>결재자 :</label>&emsp;
+									<!-- 결제자 modal -->
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
+									<br><br>
+<!-- ################################################################################## -->
+									<div id="addApproverMain" class="addApprover"></div>
+									<br>
+								 	<label>참조자 :</label>&emsp;
+									<!-- 결제자 modal -->
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
+								 	<br><br>
+<!-- ################################################################################## -->
+									<div id="addReferrerMain" class="addReferrer"></div>
+										
 									<br><br>
 									<div class="input-group mb-3" style="width: 65%;">
 									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
 									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle">
 									</div>
-<!-- ################################################################################################################################### -->
 									<!-- <div th:utext="${template.contents}"></div> -->
 									<textarea id="summernote" name="documentContent"></textarea>
 								</form>
@@ -149,12 +151,15 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-									      		<div class="input-group mb-3">
+									      		<!-- <div class="input-group mb-3">
 												  	<span class="input-group-text">결재자 순서</span>
 												  	<input type="text" class="form-control" id="approverModal" name="approverModal" readonly>
-												  	<!-- 결제자 modal -->&nbsp;&nbsp;
-									 				<button type="button" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
-												</div>
+												  	결제자 modal&nbsp;&nbsp;
+												  	<button type="button" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
+												</div> -->
+<!-- ################################################################################## -->
+								 				<button type="button" class="btn"onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
+								 				<div id="addApproverModal" class="addApprover"></div>
 												<!-- DataTales Example -->
 							                    <div class="card shadow mb-4">
 							                        <div class="card-header py-3">
@@ -204,12 +209,15 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-									      		<div class="input-group mb-3">
-												  	<span class="input-group-text">참조자 목록</span>
-												  	<input type="text" class="form-control" id="referrerModal" name="referrerModal" readonly>
-												  	<!-- 결제자 modal -->&nbsp;&nbsp;
-									 				<button type="button" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
-												</div>
+											  	<!-- <span class="input-group-text">참조자 목록</span> -->
+											  	<!-- <input type="text" class="form-control" id="referrerModal" name="referrerModal" readonly> -->
+												  	
+											  	<!-- 참조자 modal -->
+<!-- ################################################################################## -->
+								 				<button type="button" class="btn" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
+												<div id="addReferrerModal" class="addReferrer"></div>
+												
+												
 												<!-- DataTales Example -->
 							                    <div class="card shadow mb-4">
 							                        <div class="card-header py-3">
@@ -353,6 +361,7 @@
 	});
 </script>
 <script>
+	var index1 = 1;
 	function approverModalOn() {
 		
 		if(document.getElementsByName("approverTd")) {
@@ -373,19 +382,39 @@
 				}
 						
 				$tds[i].onclick = function() {
-					//onst no = this.parentNode.children[1].innerText;
-					//location.href = "${ pageContext.servletContext.contextPath }/mypage/inquiry/detail?no=" + no;
 						
 					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
+					
+					if(!document.getElementById("addApproverModal").innerHTML) {
+						index1 = 1;
+					}
+					
+					if(document.getElementById("addApproverModal").innerHTML) {
+						var s = document.getElementsByName("approverInput");
 						
-					if(!approverModal.value) {
-						approverModal.value += empName+"("+empCode+")";
-						approver.value += empName+"("+empCode+")";
-					} else {					
-						approverModal.value += "→ " + empName+"("+empCode+")";
-						approver.value += "→ " + empName+"("+empCode+")";
-					}	
+						console.log("===============================");
+						for (var i = 0; i < s.length/2; i++) {
+							if(s[i].value == empName+"("+empCode+")") {
+								alert('이미 결재자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					if(document.getElementById("addReferrerModal").innerHTML) {
+						var k = document.getElementsByName("referrerInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < k.length/2; i++) {
+							if(k[i].value == empName+"("+empCode+")") {
+								alert('이미 참조자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					
+					$('.addApprover').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">'+index1+'번째 결재자 : </span><input type="text" class="form-control" name="approverInput" value="' + empName+ '('+empCode+')" readonly></div>');
+					index1++;
 				}
 			}
 		}
@@ -393,15 +422,15 @@
 	}
 	
 	function approverReset() {
-		var approverModal = document.getElementById("approverModal");
-		var approver = document.getElementById("approver");
+		var addApproverModal = document.getElementById("addApproverModal");
+		var addApproverMain = document.getElementById("addApproverMain");
 		
-		approverModal.value = "";
-		approver.value = "";
+		addApproverModal.innerHTML = "";
+		addApproverMain.innerHTML = "";
 	}
 </script>
 <script>
-
+	var index2 = 1;
 	function referrerModalOn() {
 		
 		if(document.getElementsByName("referrerTd")) {
@@ -422,19 +451,40 @@
 				}
 						
 				$tds[i].onclick = function() {
-					//onst no = this.parentNode.children[1].innerText;
-					//location.href = "${ pageContext.servletContext.contextPath }/mypage/inquiry/detail?no=" + no;
-						
+					
 					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
 						
-					if(!referrerModal.value) {
-						referrerModal.value += empName+"("+empCode+")";
-						referrer.value += empName+"("+empCode+")";
-					} else {					
-						referrerModal.value += ", " + empName+"("+empCode+")";
-						referrer.value += ", " + empName+"("+empCode+")";
-					}	
+					if(!document.getElementById("addReferrerModal").innerHTML) {
+						index2 = 1;
+					}
+					
+					if(document.getElementById("addReferrerModal").innerHTML) {
+						var k = document.getElementsByName("referrerInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < k.length/2; i++) {
+							if(k[i].value == empName+"("+empCode+")") {
+								alert('이미 참조자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					if(document.getElementById("addApproverModal").innerHTML) {
+						var s = document.getElementsByName("approverInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < s.length/2; i++) {
+							if(s[i].value == empName+"("+empCode+")") {
+								alert('이미 결재자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					
+					$('.addReferrer').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">참조자 : </span><input type="text" class="form-control" name="referrerInput" value="' + empName+ '('+empCode+')" readonly></div>');
+					index2++;
+
 				}
 			}
 		}

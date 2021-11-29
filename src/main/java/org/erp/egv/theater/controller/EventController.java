@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -99,5 +100,19 @@ public class EventController {
 
 		return "redirect:list";
 	}
+	
+	@GetMapping("/details")
+	public ModelAndView getDetailsOfSingleEvent(ModelAndView mv, @RequestParam int code) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		EventDTO event = eventService.inquireSingleEventByCode(code);
+		
+		mv.addObject("event", event);
+		mv.setViewName("theater/eventDetails");
+		
+		return mv;
+	}
+	
 	
 }

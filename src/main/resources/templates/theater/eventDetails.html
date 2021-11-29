@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Main page of theater management, displaying list of movies.">
 	<meta name="author" content="UnSuk Song">
-	<title>EGV: theater > eventRegist</title>
+	<title>EGV: theater > eventDetails</title>
 	<!-- Custom fonts for this template-->
 	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
 	<link
@@ -55,13 +55,19 @@
 									<tbody>
 										<tr>
 											<td class="col-md-2">이벤트명</td>
-											<td class="col-md-10" colspan="3"><input type="text" class="form-control" name="name"></td>
+											<td class="col-md-10" colspan="3">
+												<input type="text" class="form-control" name="name" th:value="${ event.name }">
+											</td>
 										</tr>
 										<tr>
 											<td class="col-md-2">시작일</td>
-											<td class="col-md-4"><input type="datetime-local" class="form-control" name="startDatetime"></td>
+											<td class="col-md-4">
+												<input type="datetime-local" class="form-control" name="startDatetime" th:value="${ event.startDatetime }">
+											</td>
 											<td class="col-md-2">종료일</td>
-											<td class="col-md-4"><input type="datetime-local" class="form-control" name="endDatetime"></td>
+											<td class="col-md-4">
+												<input type="datetime-local" class="form-control" name="endDatetime" th:value="${ event.endDatetime }">
+											</td>
 										</tr>
 										<tr>
 											<td class="col-md-2">관련영화</td>
@@ -71,7 +77,10 @@
 														<button class="btn btn-primary" type="button"
 															data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
 													</div>
-													<input type="text" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly>
+													<input type="text" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+														th:if="${ event.movieAndEvent } == null">
+													<input type="text" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+														th:unless="${ event.movieAndEvent } == null" th:value="${ event.movieAndEvent.name }">
 													<div class="input-group-append">
 														<button class="btn btn-danger" type="button"
 															 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
@@ -81,9 +90,19 @@
 										</tr>
 										<tr>
 											<td class="col-md-2">대관회사</td>
-											<td class="col-md-4"><input type="text" class="form-control" name="rentalCompany" placeholder="(생략 가능)"></td>
+											<td class="col-md-4">
+												<input type="text" class="form-control" name="rentalCompany" placeholder="(생략 가능)"
+													th:if="${ event.rentalCompany } == null">
+												<input type="text" class="form-control" name="rentalCompany" placeholder="(생략 가능)"
+													th:unless="${ event.rentalCompany } == null" th:value="${ event.rentalCompany }">
+											</td>
 											<td class="col-md-2">이벤트상품</td>
-											<td class="col-md-4"><input type="text" class="form-control" name="product" placeholder="(생략 가능)"></td>
+											<td class="col-md-4">
+												<input type="text" class="form-control" name="product" placeholder="(생략 가능)"
+													th:if="${ event.product } == null">
+												<input type="text" class="form-control" name="product" placeholder="(생략 가능)"
+													th:unless="${ event.product } == null" th:value="${ event.product }">
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -92,7 +111,10 @@
 						</div>
 						<div class="card-footer py-3">
 							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
-							<button type="submit" class="btn btn-primary" form="event-info">등록하기</button>
+							<button type="submit" class="btn btn-primary" form="event-info">적용하기</button>
+							<a th:href="@{/theater/event/delete(code=${ event.code })}">
+								<button type="button" class="btn btn-danger">삭제하기</button>
+							</a>
 						</div>
 
 					</div>

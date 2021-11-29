@@ -32,5 +32,12 @@ public class EventService {
 		
 		eventDAO.registEvent(event);
 	}
+
+	@Transactional
+	public EventDTO inquireSingleEventByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		return eventDAO.inquireSingleEventByCode(code);
+	}
 	
 }

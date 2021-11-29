@@ -31,7 +31,7 @@ public class SignReceiveSelectDAO {
 	}
 
 	public List<ApproverDTO> selectSignHestory(String code) {
-		String jpql = "SELECT a FROM ApproverDTO as a WHERE a.emp.code = :code AND a.sign.status='결재완료'";
+		String jpql = "SELECT a FROM ApproverDTO as a WHERE a.emp.code = :code AND a.sign.status IN ('결재완료', '반려')";
 		List<ApproverDTO> tempList = em.createQuery(jpql, ApproverDTO.class).setParameter("code", code).getResultList();
 		
 		return tempList;

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description"
+	content="Main page of theater management, displaying list of movies.">
+<meta name="author" content="leesunmin">
+<title>EGV</title>
+<!-- Custom fonts for this template-->
+<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<script src="https://kit.fontawesome.com/56b47e1b72.js"
+	crossorigin="anonymous"></script>
+	
+<style>
+   table {
+       text-align: center;
+   }
+   #lefttd {
+       text-align: left;
+   }
+   #apptemp, #signtemp > table {
+   		margin-left: auto;
+   		margin-right: auto;
+   		width: 800px;
+   		margin-bottom: 30px;
+   }
+   .parent {
+   		position: relative;
+   }
+   
+   #actiondiv {
+   		position: absolute;
+   		top: 70px; 
+      	left: 1100px;
+   		
+   }
+   
+</style>
+</head>
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Aside Menu List -->
+		<div id="sidebarMain" class="bg-gradient-info"
+			th:include="common/aside.html"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Header -->
+				<div th:include="common/header.html"></div>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">[[${ sign.title }]]</h6>
+						</div>
+						<div class="card-body">
+							
+							<div class="col-3" id="actiondiv">
+								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '반려' }" th:onclick="|location.href='/sign/detail/resign?code=${sign.code}'|">재기안</button>
+								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '기안' }" th:onclick="|location.href='/sign/detail/cancle?code=${sign.code}'|">기안 취소</button>
+								<button id="approvalbtn" class="btn btn-success" th:if="${ status == '대기'}" th:onclick="|location.href='/sign/detail/approval?code=${sign.code}'|">승인</button>
+								<button id="returnbtn" class="btn btn-danger" th:if="${ status == '대기' }" th:onclick="|location.href='/sign/detail/return?code=${sign.code}'|">반려</button>
+								
+							</div>
+							
+							<div style="margin-top: 50px;">
+								<table id="apptemp" border="solid: 1px">
+							        <thead style="height: 40px;">
+							            <td style="width: 150px;">문서코드</td>
+							            <td id="lefttd" colspan="1" style="width: 130px;" th:text="${ sign.code }"></td>
+							            <td colspan="2" style="width: 260px;">기안일자</td>
+							            <td id="lefttd" class="parent" colspan="2" style="width: 260px;" th:text="${ sign.date }" ></td>
+							        </thead>
+							        <tbody>
+							            <tr>
+							                <td rowspan="3">기안</td>
+							                <td style="height: 30px;" th:text="${ sign.employee.empPosition }"></td>
+							                <td rowspan="3" style="width: 130px;">결재</td>
+							                <span th:each="app:${sign.approver}">
+							                	<td th:text="${app.emp.empPosition}"></td>	
+							                </span>
+							            </tr>
+							            <tr>
+							                <td style="height: 70px;" th:text="${ sign.employee.stampImgPath }"></td>
+							                <span th:each="app:${sign.approver}">
+							                	<td> <img th:if="${app.status == '승인'}" th:src="${app.emp.stampImgPath}"> </td>	
+							                </span>
+							            </tr>
+							            <tr>
+							                <td style="height: 30px;" th:text="${ sign.employee.name }"></td>
+							                <span th:each="app:${sign.approver}">
+							                	<td th:text="${app.emp.name}"></td>	
+							                </span>
+							            </tr>
+							        </tbody>
+							        <tfoot>
+							            <tr>
+							                <td style="height: 40px;">참조</td>
+							                <td id="lefttd" colspan="6">
+								                <span th:each="ref:${sign.refferrer}">
+								                	[[${ref.emp.name}]], &nbsp;
+								                </span>
+							                </td>
+							            </tr>
+							        </tfoot>
+							    </table>
+							</div>
+							
+							<!-- 타임리프에서 태그포한된 text를 읽고 싶을 때는 utext를 사용한다. -->
+							<div>
+								<div id="signtemp" th:utext="${ sign.contents }"></div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<div th:include="common/footer.html"></div>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('#tempTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order" : [ 1, 'desc' ]
+			}
+			);
+		});
+	</script>
+	
+</body>
+</html>

@@ -29,18 +29,31 @@
      transform: translateY(50%);
      }
 </style>
+	<script> 
+		const successMessage = "[[${ message }]]";	 
+		 
+		if(successMessage){ 
+			alert(successMessage); 
+		 	opener.location.href="/emp/list";  
+		    window.close(); 
+		} 
+	</script> 
 </head>
 <body>
 하하하하하하
 	<div align="Center">
 	<p th:text="${empInfor.name}+'님의 프로필사진'"></p>
 		<div class="card" style="width: 180px; height: 200px; overflow: hidden; text-align: center;">
- 		 	  <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="https://i.imgur.com/Jvh1OQm.jpeg" style="width: 180px; height: auto;" alt="profilePic">
-		 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic">
-		</div>
-			<form action="/emp/profilePicInsert" method="post" encType="multipart/form-data">
+ 		 	  <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" th:src="|/profileImg/${empInfor.profileUuidName}|" style="width: 180px; height: auto;" alt="profilePic"> 
+		 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic"> 
+		</div> 
+			<form action="/emp/profilePicInsert" id="submitForm" class="needs-validation" method="post" encType="multipart/form-data" novalidate> 
 	            <input type="hidden" class="form-control" th:field="*{empInfor.code}">
-	            <input class="form-control" type="file" name="proPicThumb" id="proPicThumb" onChange="proPicPreview();" hidden accept="image/*"><br>
+	            <input class="form-control" type="file" name="proPicThumb" id="proPicThumb" onChange="proPicPreview();" hidden accept="image/*" required> 
+	                <div class="invalid-feedback"> 
+				     새로운 프로필 사진을 넣어주세요 
+				    </div> 
+	            <br>
 	 		 	<label for="proPicThumb" class="btn btn-success" style="position: relative; top: -15px;">파일선택</label>
 		     	<button class="btn btn-primary" type="submit" style="position: relative; top: -38px;">프로필 사진등록</button>
 	     	</form>
@@ -82,6 +95,26 @@ function proPicPreview() {
 	  }
 
 	}
+	
+(function () { 
+	  'use strict' 
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to 
+	  var forms = document.querySelectorAll('.needs-validation') 
+
+	  // Loop over them and prevent submission 
+	  Array.prototype.slice.call(forms) 
+	    .forEach(function (form) { 
+	      form.addEventListener('submit', function (event) { 
+	        if (!form.checkValidity()) { 
+	          event.preventDefault() 
+	          event.stopPropagation() 
+	        } 
+
+	        form.classList.add('was-validated') 
+	      }, false) 
+	    }) 
+	})() 
 </script>
     
     

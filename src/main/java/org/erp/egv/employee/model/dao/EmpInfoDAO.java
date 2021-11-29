@@ -142,9 +142,9 @@ public class EmpInfoDAO {
 		
 		EmployeeDTO empAddPic = em.find(EmployeeDTO.class, picEmp.getCode());
 		
-		empAddPic.setStampImgPath(picEmp.getStampImgPath());
-		empAddPic.setStampOrigName(picEmp.getStampOrigName());
-		empAddPic.setStampUuidName(picEmp.getStampUuidName());
+		empAddPic.setProfileImgName(picEmp.getProfileImgName());
+		empAddPic.setProfileOrigName(picEmp.getProfileOrigName());
+		empAddPic.setProfileUuidName(picEmp.getProfileUuidName());
 	
 		
 	}

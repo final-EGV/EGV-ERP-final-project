@@ -68,7 +68,7 @@
 								프로필 사진이 존재 할 때와 존재하지 않을때를 비교하여 사진을 넣어 준다.
 							 -->
 							<div class="card" style="width: 180px; height: 200px; overflow: hidden; text-align: center;">
-							      <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" src="https://i.imgur.com/Jvh1OQm.jpeg" style="width: 180px; height: auto;" alt="profilePic">
+							      <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" th:src="|/profileImg/${empInfor.profileUuidName}|" style="width: 180px; height: auto;" alt="profilePic">
 							 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic">
 							</div>
 							</td>

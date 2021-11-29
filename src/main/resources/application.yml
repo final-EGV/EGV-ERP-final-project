@@ -8,6 +8,9 @@ spring:
     url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
     username: EGV
     password: EGV
+  devtools: 
+    livereload: 
+        enabled: true 
 # jpa config  jpa:    generate-ddl: false
     show-sql: true
     database: oracle    database-platform: org.hibernate.dialect.Oracle10gDialect# file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MBlogging:  level:

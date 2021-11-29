@@ -208,10 +208,10 @@ public class EmpInfoController {
 		try {
 			singleFile.transferTo(new File(filePath + "\\" + saveName));
 
-			/* stamp 등록 */ 
+			/* 사진등록 */ 
 			EmployeeDTO employee = new EmployeeDTO();
 			employee.setCode(code); 
-			employee.setProfileImgName(filePath);
+			employee.setProfileImgName(filePath+saveName);
 			employee.setProfileOrigName(originFileName);
 			employee.setProfileUuidName(saveName);
 			
@@ -238,7 +238,7 @@ public class EmpInfoController {
 
 //		empInfoService.empProfilePicInsert(code);
 		
-		rttr.addFlashAttribute("successMessage", "사진등록 완료");
+		rttr.addFlashAttribute("message", "사진등록 완료");
 		
 		
 		mv.setViewName("redirect:/emp/profilePic/profileInseter?empCode="+ code);

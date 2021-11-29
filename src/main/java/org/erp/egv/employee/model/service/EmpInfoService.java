@@ -9,9 +9,11 @@ import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
+import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class EmpInfoService {
@@ -174,6 +176,12 @@ public class EmpInfoService {
 
 	public EmployeeDTO findEntireCode(String code) {
 		return empInfoDAO.findEntireCode(code);
+	}
+
+	/* 사원의 근무 조회용 */
+	@Transactional
+	public List<WorkDTO> findWorkByCode(String code) {
+		return empInfoDAO.findWorkByCode(code);
 	}
 
 }

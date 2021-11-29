@@ -21,6 +21,8 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     
+    <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
     <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
 <style type="text/css">
    button {
@@ -59,27 +61,54 @@
 							<th class="col-1" align="center" colspan="3"><input th:field="*{empInfor.name}" disabled readonly>님의 급여</th>
 						</tr>
 						<tr>
-							<td class="col-1" align="center">직위/직급 급여(만원)</td>
-							<td class="col-1" align="center">급여 계산</td>
-							<td class="col-1" align="center">총 지급액</td>
+							<td class="col-1" align="center">월급(만원)</td>
+							<td class="col-1" align="center">급여 계산[월급 + 수당]</td>
+							<td class="col-1" align="center">총 지급액 (원)</td>
 						</tr>
 						<tr>
-							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.rank.salary}" disabled readonly></td>
-							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.name}" disabled readonly></td>
-							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.name}" disabled readonly></td>
+							<td class="col-3"><input class="form-control" type="text" th:value="*{salary}" readonly></td>
+							<td class="col-3"><input class="form-control" type="text" th:value="*{announce}" disabled readonly></td>
+							<td class="col-3"><input class="form-control" type="text" th:value="*{totalPay}" disabled readonly></td>
 						</tr>
 						
 					</tbody>
 				</table>
-				</form>
+				<div class="card mb-4">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="departmentTable" cellspacing="0">
+									<thead>
+										<tr>
+											<th>근무항목</th>
+											<th>사원이름</th>
+											<th>근무일자</th>
+											<th>근무시작시간</th>
+											<th>근무종료시간</th>
+											<th>초과근무시간</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr th:each="work : ${ work }">
+										<td th:text="${ work.categoryCode.type }"></td>
+										<td th:text="${ work.empCode.name }"></td>
+										<td th:text="${ work.workDate }"></td>
+										<td th:text="${ work.workStart }"></td>
+										<td th:text="${ work.workEnd }"></td>
+										<td th:text="${ work.workOver }"></td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						</div>
 				<button class="btn btn-success" onclick="location.href='/emp/salary/salary'" type="button">확인</button>
 				</div>
             	</div>
             	<!-- End of Main Content -->
+			</div>
             <!-- Footer -->
             <div th:include="common/footer.html"></div>
             <!-- End of Footer -->
-			</div>
         </div>
         <!-- End of Content Wrapper -->
 

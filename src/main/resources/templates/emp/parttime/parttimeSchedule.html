@@ -28,6 +28,11 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
 
+    <!-- Date : 2021/11/30
+	   Writer : Hansoo Lee
+		fullcalender에 function 추가
+		클릭시 이벤트 삭제도 가능하게 만듬
+	-->
      <script>
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -37,22 +42,27 @@
           selectable: true,
 
            eventClick : function( Info ) { 
-        	   console.log(Info.event.id);
-        	   console.log(Info.event.title);
-        	   console.log(Info.event._def.title);
-        	   console.log(Info.event.remove);
-        	   
-        	   Info.event.remove();
         	   
         	   if(confirm("진짜 삭제할 꺼야?")){
-         	   var event = calendar.getEventById(Info.event.id);
 
-        	    event.remove(); 
+        		   $.ajax({
+        				url: "/emp/parttime/delete",
+        				type: "post",
+        				data: {code : Info.event.id},
+        				success: function(data){
+        					alert(data);
+        					console.log(data);
+        				},
+        				error: function(xhr){
+        					console.log(xhr);
+        				}
+        			});
+        	   
+        	   Info.event.remove();
         	  }       	   
            },
           
         events: [
-        	
     		$.ajax({
     			url: "/emp/parttime/parttimeScheduleList",
     			success: function(data){
@@ -70,12 +80,8 @@
     				console.log(xhr);
     			}
     		})]
-        	
-        	
         }); 
         calendar.render();
-        
-        
       });
 
     </script>
@@ -188,13 +194,13 @@
 	  <div class="modal-dialog modal-lg" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h4 class="modal-title" id="modalLabel">신규사원 등록</h4>
+	        <h4 class="modal-title" id="modalLabel">아르바이트 스케줄 등록</h4>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">X</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <form action="/emp/registParttime" class="needs-validation" method="post" novalidate>
+	        <form action="/emp/registParttime" id="parttimeScheduler" class="needs-validation" method="post" novalidate>
 		      	<table class="table table-striped table-bordered text-right col-12">
 					<tbody>
 						<tr>
@@ -244,35 +250,9 @@
 
 	<!-- Page level custom scripts -->
 	<script src="/js/demo/datatables-demo.js"></script>
-	
-	
-    <!--  Date : 2021/11/22
-	 	  Writer : Hansoo Lee
-	
-	테이블에 링크 연결 
-	
-	기존 코드는 태그로 요소를 불러왔으나 중복되는 td 태그의 오류를 방지하고자,
-	클래스 네임으로 선택하여 funtion을 추가하는것으로 수정하였다.
-	
-	그래서 선택 계층 차이가 존재하여 children으로 innertext를 선택하게 되었다. 
-	-->
+
 	<script>
-	if(document.getElementsByClassName("empTable")) {
-		const $tds = document.getElementsByClassName("empTable");
-		
-		for(let i = 0; i < $tds.length; i++) {
-			
-			$tds[i].onmouseenter = function() {
-				this.style.cursor = "pointer";
-			}
-			
-			$tds[i].onclick = function() {
-				const code = this.children[0].innerText;
-				
-				location.href = 'empInfor?empCode=' + code;
-			}
-		}
-	}
+
 	</script>
     <!--  Date : 2021/11/30
 	 	  Writer : Hansoo Lee
@@ -291,21 +271,6 @@
 					$empPosition.append($("<option>").val(data[index].code).text(data[index].name));						
 				}
 
-			},
-			error: function(xhr){
-				console.log(xhr);
-			}
-		});
-	});
-	
-	$(function(){
-		$.ajax({
-			url: "/emp/parttime/parttimeScheduleList",
-			success: function(data){
-				console.log(data);
-				for (let index in data){
-				}
-				
 			},
 			error: function(xhr){
 				console.log(xhr);

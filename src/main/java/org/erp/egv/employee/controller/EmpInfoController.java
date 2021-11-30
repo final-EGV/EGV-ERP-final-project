@@ -3,8 +3,10 @@ package org.erp.egv.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import org.erp.egv.employee.model.dto.DepartmentDTO;
@@ -265,7 +267,6 @@ public class EmpInfoController {
 		mv.addObject("parttimer", parttimer);
 		mv.setViewName("emp/parttime/parttimeSchedule");
 		return mv;
-		
 	}
 	
 	/* 알바 스케줄 데이터 자져오기*/
@@ -299,7 +300,20 @@ public class EmpInfoController {
 		return empInfoService.findParttimerList();
 	}
 	
+	/* 알바 스케줄 삭제 */
+	@PostMapping("parttime/delete")
+	@ResponseBody
+	public String deleteParttime(@RequestParam int code){
 
+		empInfoService.deleteParttime(code);
+
+		 String message = "스케줄 삭제완료";
+		
+		return message;
+	}
+	
+	
+	
 	
 	/* Date : 2021/11/23
 	 * Writer : JunWoo Kim

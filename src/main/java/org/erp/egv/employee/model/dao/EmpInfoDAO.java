@@ -21,6 +21,7 @@ import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
 import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
+import org.erp.egv.theater.model.dto.MovieDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.stereotype.Repository;
 
@@ -335,11 +336,13 @@ public class EmpInfoDAO {
 			}
 		return parttimerList;
 	}
-
+	
+	/* 파트타임 등록 */
 	public void registParttimeRequest(ParttimeScheduleDTO parttimeSchedule) {
 		em.persist(parttimeSchedule);
 	}
 
+	/* 파트타임 조회 */
 	public List<ParttimeScheduleDTO> findParttimeScheduleList() {
 		String jpql = "SELECT a FROM ParttimeScheduleDTO as a ORDER BY a.code ASC";
 		
@@ -348,5 +351,11 @@ public class EmpInfoDAO {
 		System.out.println(parttimeScheduleList);
 		
 		return parttimeScheduleList;
+	}
+
+	/* 파트타임 삭제 */
+	public void registParttimeRequest(int code) {
+		ParttimeScheduleDTO parttimeScheduleDTO = em.find(ParttimeScheduleDTO.class, code);
+		em.remove(parttimeScheduleDTO);
 	}
 }

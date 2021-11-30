@@ -197,5 +197,10 @@ public class EmpInfoService {
 	public List<ParttimeScheduleDTO> findParttimeScheduleList() {
 		return empInfoDAO.findParttimeScheduleList();
 	}
+	
+	@Transactional
+	public void deleteParttime(int code) {
+		empInfoDAO.registParttimeRequest(code);
+	}
 
 }

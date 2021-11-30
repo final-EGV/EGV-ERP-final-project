@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -254,6 +255,51 @@ public class EmpInfoController {
 		mv.setViewName("emp/profilePic/profileInseter");
 		return mv;
 	}
+	
+	
+	/* 알바 스케줄 페이지 연결*/
+	@GetMapping("/parttime/parttimeSchedule")
+	public ModelAndView parttime(ModelAndView mv) {
+		
+		List<ParttimeScheduleDTO> parttimer = empInfoService.findParttimeScheduleList();
+		mv.addObject("parttimer", parttimer);
+		mv.setViewName("emp/parttime/parttimeSchedule");
+		return mv;
+		
+	}
+	
+	/* 알바 스케줄 데이터 자져오기*/
+	@GetMapping(value="/parttime/parttimeScheduleList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<ParttimeScheduleDTO> parttimeScheduleList() {
+		return empInfoService.findParttimeScheduleList();
+	}
+	
+	/* 알바 스케줄 등록 */
+	@PostMapping("registParttime")
+	public ModelAndView registParttimeRequest(ModelAndView mv, ParttimeScheduleDTO parttimeSchedule, @RequestParam String empCode, RedirectAttributes rttr){
+		
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		employeeDTO.setCode(empCode);
+		String parttimerName = empInfoService.empOneRequest(empCode).getName();
+		parttimeSchedule.setemp(employeeDTO);
+		parttimeSchedule.setTitle(parttimerName+" : " + parttimeSchedule.getParttimeDivision());
+		empInfoService.registParttimeRequest(parttimeSchedule);
+		rttr.addFlashAttribute("successMessage", "일정 등록 성공!!");
+		mv.setViewName("redirect:/emp/parttime/parttimeSchedule");
+		
+		return mv;
+	}
+	
+	/* 알바 이름 조회용 */
+	@GetMapping(value="parttimerList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Object> findParttimerList(){
+		
+		return empInfoService.findParttimerList();
+	}
+	
+
 	
 	/* Date : 2021/11/23
 	 * Writer : JunWoo Kim

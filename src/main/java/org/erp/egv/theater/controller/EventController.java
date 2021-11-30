@@ -106,9 +106,23 @@ public class EventController {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
+		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		EventDTO event = eventService.inquireSingleEventByCode(code);
 		
+		// type casting: from Timestampt to String, from server to client.
+		String startDatetime = event.getStartDatetime()
+									.toString()
+									.substring(0, 16)
+									.replace(' ', 'T');
+		String endDatetime = event.getEndDatetime()
+									.toString()
+									.substring(0, 16)
+									.replace(' ', 'T');
+		
+		mv.addObject("movieList", movieList);
 		mv.addObject("event", event);
+		mv.addObject("startDatetime", startDatetime);
+		mv.addObject("endDatetime", endDatetime);
 		mv.setViewName("theater/eventDetails");
 		
 		return mv;

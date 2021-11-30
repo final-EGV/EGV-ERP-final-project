@@ -46,5 +46,12 @@ public class EventService {
 		
 		eventDAO.modifyEvent(eventToModify);
 	}
+
+	@Transactional
+	public void deleteEventByCode(int code) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		eventDAO.deleteEventByCode(code);
+	}
 	
 }

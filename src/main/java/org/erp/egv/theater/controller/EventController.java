@@ -174,4 +174,16 @@ public class EventController {
 		return "redirect:list";
 	}
 	
+	@GetMapping("/delete")
+	public String deleteEventByCode(RedirectAttributes rAttr, @RequestParam int code) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		eventService.deleteEventByCode(code);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 이벤트 삭제를 성공했습니다.");
+		
+		return "redirect:list";
+	}
+	
 }

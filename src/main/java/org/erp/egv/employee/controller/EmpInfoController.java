@@ -255,6 +255,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/23
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 조회 컨트롤러
+	 */
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {
 		List<DepartmentDTO> deptList = empInfoService.empDeptList();
@@ -265,6 +270,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 세부 조회 컨트롤러
+	 */
 	@GetMapping("/dept/{code}")
 	public ModelAndView findDeptByCode(ModelAndView mv, @PathVariable int code) {
 		DepartmentDTO dept = empInfoService.findDeptByCode(code);
@@ -276,7 +286,12 @@ public class EmpInfoController {
 		
 		return mv;
 	}
-	
+
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 세부 조회후 수정 컨트롤러
+	 */
 	@PostMapping("/dept/modify")
 	public String modifyDept(@ModelAttribute DepartmentDTO dept) {
 		empInfoService.modifyDept(dept);
@@ -284,6 +299,11 @@ public class EmpInfoController {
 		return "redirect:/emp/dept";
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 추가 컨트롤러
+	 */
 	@PostMapping("/dept/add")
 	public ModelAndView addNewDept(ModelAndView mv, DepartmentDTO newDept, Locale locale) {
 		
@@ -293,6 +313,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/23
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 조회 컨트롤러
+	 */
 	@GetMapping("/rank")
 	public ModelAndView rankList(ModelAndView mv) {
 		List<EmpRankDTO> rankList = empInfoService.empRankList();
@@ -303,6 +328,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 세부 조회 컨트롤러
+	 */
 	@GetMapping("/rank/{code}")
 	public ModelAndView findRankByCode(ModelAndView mv, @PathVariable int code) {
 		EmpRankDTO rank = empInfoService.findRankByCode(code);
@@ -315,6 +345,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 세부 조회후 수정 컨트롤러
+	 */
 	@PostMapping("/rank/modify")
 	public String modifyRank(@ModelAttribute EmpRankDTO rank) {
 		empInfoService.modifyRank(rank);

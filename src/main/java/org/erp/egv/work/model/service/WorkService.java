@@ -33,4 +33,9 @@ public class WorkService {
 	public void modifyWorkOver(WorkDTO work) {
 		workDAO.modifyWorkOver(work);
 	}
+
+	@Transactional
+	public List<WorkDTO> workListEmp(String code) {
+		return workDAO.workListEmp(code);
+	}
 }

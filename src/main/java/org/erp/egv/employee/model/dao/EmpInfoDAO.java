@@ -161,7 +161,7 @@ public class EmpInfoDAO {
 	}
 	
 	public List<EmployeeDTO> salaryRequest() {
-		String jpql = "SELECT e FROM EmployeeDTO e ORDER BY e.entDate";	
+		String jpql = "SELECT e FROM EmployeeDTO e ORDER BY e.code ASC";	
 		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
 		List<EmployeeDTO> empList = query.getResultList();
 		

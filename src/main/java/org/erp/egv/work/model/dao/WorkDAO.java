@@ -36,4 +36,13 @@ public class WorkDAO {
 		WorkDTO selectedWork = em.find(WorkDTO.class, work.getCode());
 		selectedWork.setWorkOver(work.getWorkOver());
 	}
+
+	
+	public List<WorkDTO> workListEmp(String code) {
+		String jpql = "SELECT a FROM WorkDTO as a WHERE EMP_CODE is " + code;
+		TypedQuery<WorkDTO> query = em.createQuery(jpql, WorkDTO.class);
+		List<WorkDTO> workList = query.getResultList();
+		
+		return workList;
+	}
 }

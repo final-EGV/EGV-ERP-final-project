@@ -39,5 +39,12 @@ public class EventService {
 		
 		return eventDAO.inquireSingleEventByCode(code);
 	}
+
+	@Transactional
+	public void modifyEvent(EventDTO eventToModify) {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		eventDAO.modifyEvent(eventToModify);
+	}
 	
 }

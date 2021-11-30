@@ -45,28 +45,34 @@
 
 					<div class="card shadow mb-4 d-flex justify-content-center">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">신규 이벤트 등록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">이벤트 상세 정보</h6>
 						</div>
 						<div class="card-body">
 
 							<!-- 이벤트 정보 입력 폼 -->
-							<form action="/theater/event/regist" id="event-info" method="post" enctype="multipart/form-data">
+							<form action="/theater/event/modify" id="event-info" method="post" enctype="multipart/form-data">
 								<table class="table table-striped table-bordered text-right table-responsive-md">
 									<tbody>
 										<tr>
 											<td class="col-md-2">이벤트명</td>
 											<td class="col-md-10" colspan="3">
-												<input type="text" class="form-control" name="name" th:value="${ event.name }">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text" th:text="|code# ${ event.code }|"></span>
+													</div>
+													<input type="number" class="form-control" name="code" th:value="${ event.code }" hidden="true">
+													<input type="text" class="form-control" name="name" th:value="${ event.name }">
+												</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="col-md-2">시작일</td>
 											<td class="col-md-4">
-												<input type="datetime-local" class="form-control" name="startDatetime" th:value="${ event.startDatetime }">
+												<input type="datetime-local" class="form-control" name="startDatetime" th:value="${ startDatetime }">
 											</td>
 											<td class="col-md-2">종료일</td>
 											<td class="col-md-4">
-												<input type="datetime-local" class="form-control" name="endDatetime" th:value="${ event.endDatetime }">
+												<input type="datetime-local" class="form-control" name="endDatetime" th:value="${ endDatetime }">
 											</td>
 										</tr>
 										<tr>

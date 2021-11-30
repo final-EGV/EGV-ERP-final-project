@@ -128,5 +128,50 @@ public class EventController {
 		return mv;
 	}
 	
+	@PostMapping("/modify")
+	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr)
+			throws UnsupportedEncodingException, ParseException {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		int eventCode = Integer.valueOf(request.getParameter("code"));
+		String eventName = request.getParameter("name");
+		Timestamp startDatetime =
+				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("startDatetime").replace("T", " ")).getTime());
+		Timestamp endDatetime =
+				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("endDatetime").replace("T", " ")).getTime());
+		String movieName = request.getParameter("movieAndEvent");
+		String rentalCompany = request.getParameter("rentalCompany");
+		String product = request.getParameter("product");
+		
+		System.out.println("eventCode: " + eventCode);
+		System.out.println("eventName: " + eventName);
+		System.out.println("startDatetime: " + startDatetime);
+		System.out.println("endDatetime: " + endDatetime);
+		System.out.println("movieName: " + movieName + ", length: " + movieName.length());
+		System.out.println("rentalCompany: " + rentalCompany);
+		System.out.println("product: " + product);
+		
+		EventDTO eventToModify = new EventDTO();
+		
+		eventToModify.setCode(eventCode);
+		eventToModify.setName(eventName);
+		eventToModify.setStartDatetime(startDatetime);
+		eventToModify.setEndDatetime(endDatetime);
+		eventToModify.setRentalCompany(rentalCompany);
+		eventToModify.setProduct(product);
+
+		if (!movieName.isEmpty()) {
+			eventToModify.setMovieAndEvent(movieService.inquireSingleMovieByName(movieName));
+		}
+		
+		eventService.modifyEvent(eventToModify);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] 이벤트 정보 수정을 성공했습니다.");
+
+		return "redirect:list";
+	}
 	
 }

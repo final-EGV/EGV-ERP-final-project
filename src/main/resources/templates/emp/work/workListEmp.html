@@ -43,7 +43,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <h1 align="Center">근무근태 관리</h1>
+                <h1 align="Center">근무근태</h1>
 
 					<!-- DataTales -->
 					<div class="card mb-4">
@@ -75,6 +75,9 @@
 								</table>
 							</div>
 						</div>
+							<div class="card-footer py-3">
+							<!-- 근무 등록 버튼 (새로운 페이지로 변경) -->
+							<button type="button" class="btn btn-primary">추가근무 추가</button>
 						</div>
 					</div>
             	<!-- End of Main Content -->
@@ -162,7 +165,7 @@
 				
 				$tds[i].onclick = function() {
 					const code = this.parentNode.children[0].innerText;
-					location.href = "work/" + code;
+					location.href = "Work/" + code;
 				}
 				
 			}

@@ -50,6 +50,11 @@ public class SalaryController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/29
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 근무자 급여 상세 조회 컨트롤러
+	 */
 	@GetMapping("/salary/{code}")
 	public ModelAndView findSalByCode(ModelAndView mv, @PathVariable("code") String code) {
 		EmployeeDTO emp = empInfoService.findSalByCode(code);

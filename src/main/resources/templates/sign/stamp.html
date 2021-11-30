@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html
+	lang="ko"
 	xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -55,8 +56,9 @@
 								<form action="/sign/stamp" id="stampInsertForm" method="post" encType="multipart/form-data">
 									<div>
 									<div id="stamp-img" style="float: left;">
-										<figcaption>도장 / 서명</figcaption>
-		            				<img id="stampImg" width="200" height="200" th:src="${ imgPath }">
+										<figcaption>도장 / 서명</figcaption>		            					
+		            					<img th:if="${#strings.isEmpty(emp.stampUuidName)}" th:src="@{/stamp-img/noImage.PNG}" id="stampImg" width="200" height="200">
+		            					<img th:unless="${#strings.isEmpty(emp.stampUuidName)}" th:src="@{|/stamp-img/${emp.stampUuidName}|}" id="stampImg" width="200" height="200">
 			            			</div>
 			            			<div class="file-area" style="float: left;">
 										<input required="required" type="file" hidden id="stampImgFile" name="stampImg" onchange="loadImg(this,1)">

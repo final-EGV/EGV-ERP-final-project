@@ -3,14 +3,17 @@ package org.erp.egv.sign.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.sign.model.service.StampService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,36 +35,35 @@ public class StampController {
 	}
 	
 	@GetMapping("/stamp")
-	public ModelAndView selectStamp(ModelAndView mv) {
+	public ModelAndView selectStamp(ModelAndView mv, Principal principal) {
 		
-		//(수정하기)test용 사원코드
-		String empCode = "2021100";
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 		
 		/* 기존에 설정된 사원의 stamp정보 가져오기 */
 		EmployeeDTO emp = stampService.selectEmpStampInfo(empCode);
 		System.out.println("사원정보 : " + emp);
-				
+		
 		String imgPath = "/stamp-img/" + emp.getStampUuidName();
 		System.out.println(imgPath);
 
+		String test = emp.getStampUuidName();
 		mv.addObject("imgPath", imgPath);
+		mv.addObject("emp", emp);
+		mv.addObject("test", test);
 		mv.setViewName("sign/stamp");
 
 		return mv;
 	}
 	
-	@PostMapping(value = "/stamp")
+	@PostMapping("/stamp")
 	public ModelAndView singleFileUpload(HttpServletRequest request,
 										 @RequestParam("stampImg") MultipartFile singleFile, 
 										 ModelAndView mv,
-										 RedirectAttributes rAttr) throws UnsupportedEncodingException {
+										 RedirectAttributes rAttr,
+										 Principal principal) throws UnsupportedEncodingException {
 
 		request.setCharacterEncoding("UTF-8");
 		
-		/* 파일을 저장할 경로 설정 */
-//		String root = request.getSession().getServletContext().getRealPath("resources");
-//		String root = "C:\\springBootwork\\EGV-ERP-final-project\\src\\main\\resources\\static\\";
-//		System.out.println(root); 
 		
 		String root = this.getClass().getResource("/").getPath();
 	    String srcRoot = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
@@ -89,15 +91,14 @@ public class StampController {
 			singleFile.transferTo(new File(filePath + "\\" + saveName));
 //			singleFile.transferTo(new File(targetRoot + "\\" + saveName));
 			
-			//(수정하기)test용, 로그인한 사원의 사번
-			String empCode = "2021100";
+			String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 			
 			/* stamp 등록 */ 
 			EmployeeDTO employee = new EmployeeDTO();
 			employee.setCode(empCode); 
-			employee.setStampImgPath(filePath);
 			employee.setStampOrigName(originFileName);
 			employee.setStampUuidName(saveName);
+			employee.setStampImgPath(filePath);
 			
 			stampService.setStamp(employee);
 			
@@ -105,11 +106,11 @@ public class StampController {
 			EmployeeDTO empStampinfo = stampService.selectEmpStampInfo(empCode);
 			System.out.println("stamp 등록한 사원정보 : " + empStampinfo);
 			
-			String imgPath = "/stamp-img/" + empStampinfo.getStampUuidName();
-			System.out.println("imgNewPath : " + imgPath);
+//			String imgPath = "/stamp-img/" + empStampinfo.getStampUuidName();
+//			System.out.println("imgNewPath : " + imgPath);
 			
 //			mv.addObject("imgPath", imgPath);
-			
+			String test = empStampinfo.getStampUuidName();
 			rAttr.addFlashAttribute("message", "파일 업로드 성공!!!");
 			
 		} catch (IllegalStateException | IOException e) {

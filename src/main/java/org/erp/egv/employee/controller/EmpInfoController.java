@@ -3,13 +3,16 @@ package org.erp.egv.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -255,6 +258,68 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	
+	/* 알바 스케줄 페이지 연결*/
+	@GetMapping("/parttime/parttimeSchedule")
+	public ModelAndView parttime(ModelAndView mv) {
+		
+		List<ParttimeScheduleDTO> parttimer = empInfoService.findParttimeScheduleList();
+		mv.addObject("parttimer", parttimer);
+		mv.setViewName("emp/parttime/parttimeSchedule");
+		return mv;
+	}
+	
+	/* 알바 스케줄 데이터 자져오기*/
+	@GetMapping(value="/parttime/parttimeScheduleList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<ParttimeScheduleDTO> parttimeScheduleList() {
+		return empInfoService.findParttimeScheduleList();
+	}
+	
+	/* 알바 스케줄 등록 */
+	@PostMapping("registParttime")
+	public ModelAndView registParttimeRequest(ModelAndView mv, ParttimeScheduleDTO parttimeSchedule, @RequestParam String empCode, RedirectAttributes rttr){
+		
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		employeeDTO.setCode(empCode);
+		String parttimerName = empInfoService.empOneRequest(empCode).getName();
+		parttimeSchedule.setemp(employeeDTO);
+		parttimeSchedule.setTitle(parttimerName+" : " + parttimeSchedule.getParttimeDivision());
+		empInfoService.registParttimeRequest(parttimeSchedule);
+		rttr.addFlashAttribute("successMessage", "일정 등록 성공!!");
+		mv.setViewName("redirect:/emp/parttime/parttimeSchedule");
+		
+		return mv;
+	}
+	
+	/* 알바 이름 조회용 */
+	@GetMapping(value="parttimerList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Object> findParttimerList(){
+		
+		return empInfoService.findParttimerList();
+	}
+	
+	/* 알바 스케줄 삭제 */
+	@PostMapping("parttime/delete")
+	@ResponseBody
+	public String deleteParttime(@RequestParam int code){
+
+		empInfoService.deleteParttime(code);
+
+		 String message = "스케줄 삭제완료";
+		
+		return message;
+	}
+	
+	
+	
+	
+	/* Date : 2021/11/23
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 조회 컨트롤러
+	 */
 	@GetMapping("/dept")
 	public ModelAndView departmentList(ModelAndView mv) {
 		List<DepartmentDTO> deptList = empInfoService.empDeptList();
@@ -265,6 +330,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 세부 조회 컨트롤러
+	 */
 	@GetMapping("/dept/{code}")
 	public ModelAndView findDeptByCode(ModelAndView mv, @PathVariable int code) {
 		DepartmentDTO dept = empInfoService.findDeptByCode(code);
@@ -276,7 +346,12 @@ public class EmpInfoController {
 		
 		return mv;
 	}
-	
+
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 세부 조회후 수정 컨트롤러
+	 */
 	@PostMapping("/dept/modify")
 	public String modifyDept(@ModelAttribute DepartmentDTO dept) {
 		empInfoService.modifyDept(dept);
@@ -284,6 +359,11 @@ public class EmpInfoController {
 		return "redirect:/emp/dept";
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 부서 추가 컨트롤러
+	 */
 	@PostMapping("/dept/add")
 	public ModelAndView addNewDept(ModelAndView mv, DepartmentDTO newDept, Locale locale) {
 		
@@ -293,6 +373,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/23
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 조회 컨트롤러
+	 */
 	@GetMapping("/rank")
 	public ModelAndView rankList(ModelAndView mv) {
 		List<EmpRankDTO> rankList = empInfoService.empRankList();
@@ -303,6 +388,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 세부 조회 컨트롤러
+	 */
 	@GetMapping("/rank/{code}")
 	public ModelAndView findRankByCode(ModelAndView mv, @PathVariable int code) {
 		EmpRankDTO rank = empInfoService.findRankByCode(code);
@@ -315,6 +405,11 @@ public class EmpInfoController {
 		return mv;
 	}
 	
+	/* Date : 2021/11/24
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 직위/직급 세부 조회후 수정 컨트롤러
+	 */
 	@PostMapping("/rank/modify")
 	public String modifyRank(@ModelAttribute EmpRankDTO rank) {
 		empInfoService.modifyRank(rank);

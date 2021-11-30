@@ -8,6 +8,7 @@ import org.erp.egv.employee.model.dao.EmpInfoDAO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,6 @@ public class EmpInfoService {
 	@Transactional
 	public void empRegistRequest(EmployeeDTO newEmp) {
 		String newEmpPwd = newEmp.getPwd();
-		System.out.println(newEmpPwd);
 		newEmp.setPwd(passwordEncoder.encode(newEmpPwd));
 		
 		empInfoDAO.empRegistRequest(newEmp);
@@ -84,10 +84,8 @@ public class EmpInfoService {
 	/* 프로필 사진 등록 */
 	@Transactional
 	public void empProfilePicInsert(EmployeeDTO picEmp) {
-		System.out.println(picEmp);
 		empInfoDAO.empProfilePicInsert(picEmp);
 	}
-	
 	
 	/* 부서목록 리스트 */
 	@Transactional
@@ -182,6 +180,22 @@ public class EmpInfoService {
 	@Transactional
 	public List<WorkDTO> findWorkByCode(String code) {
 		return empInfoDAO.findWorkByCode(code);
+	}
+	
+
+	/* 아르바이트 스케줄 관련 */
+	@Transactional
+	public List<Object> findParttimerList() {
+		return empInfoDAO.findParttimerList();
+	}
+	
+	@Transactional
+	public void registParttimeRequest(ParttimeScheduleDTO parttimeSchedule) {
+		empInfoDAO.registParttimeRequest(parttimeSchedule);
+	}
+
+	public List<ParttimeScheduleDTO> findParttimeScheduleList() {
+		return empInfoDAO.findParttimeScheduleList();
 	}
 
 }

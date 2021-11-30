@@ -2,12 +2,16 @@ package org.erp.egv.employee.model.dao;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -15,9 +19,9 @@ import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -301,5 +305,48 @@ public class EmpInfoDAO {
 		
 		return workList;
 	}
-    
+
+	/* Date : 2021/11/30
+	 * Writer : Hansoo Lee
+	 * 
+	 * 파트타이머 검색
+	 * 
+	 * Ajax에 최소한의 정보만 로드하고 싶어서 Object로 로딩후
+	 * Json으로 파싱하기 위하여 Map형식으로 넣어 주었다.
+	 * */
+	public List<Object> findParttimerList() {
+		
+		String jpql = "SELECT e.code, e.name FROM EmployeeDTO as e WHERE e.outDate IS NULL AND e.rank = '600'";	
+		Query query = em.createQuery(jpql);
+		List<Object[]> empList = query.getResultList();
+		List<Object> parttimerList = new ArrayList<>();
+	
+		int index = 0;
+		for(Object[] s : empList) {
+			
+			Map<String, Object> parttimer = new HashMap<>(); 
+			
+			parttimer.put("code", s[0]);
+			parttimer.put("name", s[1]);
+
+			parttimerList.add(index, parttimer);
+			index++;
+			
+			}
+		return parttimerList;
+	}
+
+	public void registParttimeRequest(ParttimeScheduleDTO parttimeSchedule) {
+		em.persist(parttimeSchedule);
+	}
+
+	public List<ParttimeScheduleDTO> findParttimeScheduleList() {
+		String jpql = "SELECT a FROM ParttimeScheduleDTO as a ORDER BY a.code ASC";
+		
+		TypedQuery<ParttimeScheduleDTO> query = em.createQuery(jpql, ParttimeScheduleDTO.class);
+		List<ParttimeScheduleDTO> parttimeScheduleList = query.getResultList();
+		System.out.println(parttimeScheduleList);
+		
+		return parttimeScheduleList;
+	}
 }

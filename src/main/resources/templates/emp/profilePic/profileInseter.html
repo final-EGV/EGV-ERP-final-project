@@ -29,6 +29,11 @@
      transform: translateY(50%);
      }
 </style>
+    <!--  Date : 2021/11/29
+	 	  Writer : Hansoo Lee
+	
+    프로필사진 입력 메소드가 실행 종료 메세지의 유무를 확인후
+    부모창 페이지이동과 자신의 창을 닫는 메소드가 실행된다. -->
 	<script> 
 		const successMessage = "[[${ message }]]";	 
 		 
@@ -40,9 +45,8 @@
 	</script> 
 </head>
 <body>
-하하하하하하
 	<div align="Center">
-	<p th:text="${empInfor.name}+'님의 프로필사진'"></p>
+	<h3 th:text="${empInfor.name}+'님의 프로필사진'"></h3>
 		<div class="card" style="width: 180px; height: 200px; overflow: hidden; text-align: center;">
  		 	  <img th:unless="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" th:src="|/profileImg/${empInfor.profileUuidName}|" style="width: 180px; height: auto;" alt="profilePic"> 
 		 	  <img th:if="${#strings.isEmpty(empInfor.profileImgName)}" class="upload" id="upload_thumb" src="/profileImg/noImage.PNG" style="width: 180px; height: auto;" alt="profilePic"> 

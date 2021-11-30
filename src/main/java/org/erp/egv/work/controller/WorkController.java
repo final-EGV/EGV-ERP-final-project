@@ -87,4 +87,19 @@ public class WorkController {
 		
 		return mv;
 	}
+	
+	/* Date : 2021/11/30
+	 * Writer : JunWoo Kim
+	 * 
+	 * 로그인 한 사원(객체)의 근무/근태를 상세 조회하는 컨트롤러
+	 */
+	@GetMapping("/Work/{code}")
+	public ModelAndView findWorkByCodeEmp(ModelAndView mv, @PathVariable int code) {
+		WorkDTO work = workService.findWorkByCode(code);
+		
+		mv.addObject("work", work);
+		mv.setViewName("/emp/work/workOneEmp");
+		
+		return mv;
+	}
 }

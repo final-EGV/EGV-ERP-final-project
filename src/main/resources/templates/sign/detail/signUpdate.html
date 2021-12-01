@@ -308,29 +308,29 @@
 	$(function(){
 		
 		/* 템플릿 목록 가져오기 */
-		$.ajax({
-			url: "/sign/signTemplate",
-			success: function(data){
-				const $template = $("#template");
-				$template.html("");
-				
-				const tempCode = "[[${ template.code }]]";
-				
-				for (let index in data){
-					if (tempCode-1 == index) {
-						
-						/* 해당되는 템플릿을 기본값으로 선택 */
-						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
-						
-					} else {
-						$template.append($("<option>").val(data[index].code).text(data[index].name));						
-					}
-				}
-			},
-			error: function(xhr){
-				console.log(xhr);
-			}
-		});
+		//$.ajax({
+		//	url: "/sign/signTemplate",
+		//	success: function(data){
+		//		const $template = $("#template");
+		//		$template.html("");
+		//		
+		//		const tempCode = "[[${ template.code }]]";
+		//		
+		//		for (let index in data){
+		//			if (tempCode-1 == index) {
+		//				
+		//				/* 해당되는 템플릿을 기본값으로 선택 */
+		//				$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
+		//				
+		//			} else {
+		//				$template.append($("<option>").val(data[index].code).text(data[index].name));						
+		//			}
+		//		}
+		//	},
+		//	error: function(xhr){
+		//		console.log(xhr);
+		//	}
+		//});
 		
 		/* summernote 기본 셋팅 */
 		$('#summernote').summernote({

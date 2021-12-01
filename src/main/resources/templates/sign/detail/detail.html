@@ -44,6 +44,28 @@
    		max-width: 800px;
    		text-align: right;
    }
+   #commentdiv  {
+   		margin-left: auto;
+   		margin-right: auto;
+   		width: 800px;
+   		margin-bottom: 20px;
+   		text-align: center;
+   } 
+   #commentdiv2 {
+   		margin-left: auto;
+   		margin-right: auto;
+   		width: 800px;
+   		margin-bottom: 20px;
+   } 
+   
+   
+   textarea {
+   		width: 650px; 
+   		height:80px; 
+   		margin-right: 25px;
+   		resize: none;
+   		placeholder:"내용을 입력해 주세요.";
+   }
    
 </style>
 </head>
@@ -74,7 +96,7 @@
 						<div class="card-body">
 						
 							<div class="col-3" id="actiondiv">
-								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '반려' }" th:onclick="|location.href='/sign/detail/resign?code=${sign.code}'|">재기안</button>
+								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '재기안' }" th:onclick="|location.href='/sign/detail/resign?code=${sign.code}'|">재기안</button>
 								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '기안' }" th:onclick="|location.href='/sign/detail/cancle?code=${sign.code}'|">기안 취소</button>
 								<button id="approvalbtn" class="btn btn-success" th:if="${ status == '대기'}" th:onclick="|location.href='/sign/detail/approval?code=${sign.code}'|">승인</button>
 								<button id="returnbtn" class="btn btn-danger" th:if="${ status == '대기' }" th:onclick="|location.href='/sign/detail/return?code=${sign.code}'|">반려</button>
@@ -136,6 +158,30 @@
 							<!-- 타임리프에서 태그포한된 text를 읽고 싶을 때는 utext를 사용한다. -->
 							<div>
 								<div id="signtemp" th:utext="${ sign.contents }"></div>
+							</div>
+							
+							
+							<div id="commentdiv">
+								<h3 style="text-align: left; margin-left: 20px;">첨언 작성</h3>
+								<textarea id="comment" name="comment"></textarea>
+								<button id="subbtn" class="btn btn-outline-dark" style="margin-top: -70px;">작성하기</button>
+								
+							</div>
+							
+							<div id="commentdiv2">
+								<span th:each="com:${ sign.comment }">
+									<span th:id="|comment${ com.code }|">
+										[[|${ com.emp.empPosition } ${ com.emp.name } &nbsp;&nbsp; |]] &nbsp; 
+										<span th:text="${#dates.format(com.date, 'yyyy-MM-dd MM:HH')}"></span> &nbsp; &nbsp;
+										<button style="height: 35px;" class="btn btn-outline-dark" type="button" th:onclick="|btn_click(${ com.code })|" th:if="${ com.emp.code } == ${ #authentication.name }">
+											삭제
+										</button>
+										<p th:text="${ com.contents }"></p>
+										<hr style="margin-top: -10px;">
+									</span>
+								</span>
+								<div>
+								</div>
 							</div>
 							
 						</div>
@@ -210,6 +256,77 @@
 			);
 		});
 	</script>
+	
+	<script>
+		function btn_click(a) {
+			const param = {
+				 	code : a
+				}
+			
+			$.ajax({
+  				url: "delete",
+  				type: "get",
+  				data: param,
+  				success: function(data) {
+  					var asd = '#comment' + data;
+  					
+  					const comdiv = $(asd);
+  					comdiv.remove();
+  					
+  				},
+  				error: function(request, status, error){
+  					alert("code:" + request.status + "\n" 
+  							+ "message:" + request.responseText + "\n"
+  							+ "error:" + error);
+  				}
+  			});	        
+			
+			
+			
+		} 
+	
+		$("#subbtn").click(function() {
+			const param = {
+					comment : $("#comment").val(),
+				 	code : "[[${ sign.code }]]"
+				}
+			
+			if(param.comment != "") {
+				$.ajax({
+	  				url: "comment",
+	  				type: "post",
+	  				data: param,
+	  				success: function(data) {
+	  					
+	  					$("#comment").val("");
+	  					
+	  					var spanid = "<span id='comment" + data.code + "'>"
+	  					var btnid = "<button class='btn btn-outline-dark' onclick='btn_click(" + data.code + ")'>";
+	  					const comdiv = $("#commentdiv2 div");
+	  					plusdiv = $(spanid);
+	  					plusdiv.html(data.emp.empPosition + "\u00a0" + data.emp.name + "\u00a0\u00a0\u00a0" + data.date + "\u00a0\u00a0\u00a0");
+	  					comdiv.append(plusdiv);
+	  					
+	  					a = $(btnid).text("삭제")
+	  					p = $("<p>").text(data.contents);
+	  					
+	  					plusdiv.append(a);
+	  					plusdiv.append(p);
+	  					
+	  				},
+	  				error: function(request, status, error){
+	  					alert("code:" + request.status + "\n" 
+	  							+ "message:" + request.responseText + "\n"
+	  							+ "error:" + error);
+	  				}
+	  			});	        
+			} else {
+				alert("내용을 입력해주세요");
+			}
+        	      
+		});
+	</script>
+	
 	
 </body>
 </html>

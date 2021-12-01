@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.erp.egv.sign.model.dto.ApproverDTO;
+import org.erp.egv.sign.model.dto.SignCommentDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +51,14 @@ public class SignDetailDAO {
 		app.setStatus("반려");
 		app.getSign().setStatus("반려");
 		
+	}
+
+	public void insertComment(SignCommentDTO signComment) {
+		em.persist(signComment);
+	}
+
+	public void deleteComment(int code) {
+		em.remove(em.find(SignCommentDTO.class, code));
 	}
 
 }

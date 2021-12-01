@@ -203,4 +203,8 @@ public class EmpInfoService {
 		empInfoDAO.registParttimeRequest(code);
 	}
 
+	public List<EmployeeDTO> findOutWorkerByCode(String code) {
+		return empInfoDAO.findOutWorkerByCode(code);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,6 @@ private EmpInfoService empInfoService;
 		TemplateDTO templateDTO = signInsertService.findTemplateByCode(code);
 //		System.out.println(templateDTO);
 		
-//		final String unescapedText = HtmlEscape.unescapeHtml(tempContent); 
 		List<EmployeeDTO> empList = empInfoService.empListRequest();
 		
 		mv.addObject("empList", empList);
@@ -80,10 +80,16 @@ private EmpInfoService empInfoService;
 		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 		
 		int tempCode = Integer.valueOf(request.getParameter("template"));
-		String dateString = request.getParameter("writeDate");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date utilDate = format.parse(dateString);
-		java.sql.Date date = new java.sql.Date(utilDate.getTime());
+		
+//		String dateString = request.getParameter("writeDate");
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//		java.util.Date utilDate = format.parse(dateString);
+//		java.sql.Date date = new java.sql.Date(utilDate.getTime());
+//		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		
+		java.util.Date today = new java.util.Date();		
+		java.sql.Date date = new java.sql.Date(today.getTime());
+
 		String status = request.getParameter("signStatus");
 		String title = request.getParameter("documentTitle");
 		String contents = request.getParameter("documentContent");

@@ -63,11 +63,11 @@
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">근무일자</label>
-				    <input type="text" class="form-control" th:field="*{work.workDate}" th:value="*{work.workDate}" name="workDate" readonly>
+				    <input type="text" class="form-control" th:value="${#dates.format(new java.util.Date(work.workDate), 'yyyy-MM-dd')}" name="workDate" readonly>
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">근무시작시간</label>
-				    <input type="text" class="form-control" th:field="*{work.workStart}" th:value="*{work.workStart}" name="workStart" readonly>
+				    <input type="text" class="form-control" th:value="${#dates.format(new java.util.Date(work.workStart), 'yyyy-MM-dd HH:mm')}" name="workStart" readonly>
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">근무종료시간</label>

@@ -1,15 +1,16 @@
 package org.erp.egv.employee.controller;
 
-import java.util.ArrayList;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +66,9 @@ public class SalaryController {
 		
 		int overWork = 0;
 		for (WorkDTO work : worklist) {
+			if(work.getWorkOver() != null) {
 			overWork += work.getWorkOver();
+			}
 		}
 		
 		int totalPay = 0;
@@ -87,10 +90,35 @@ public class SalaryController {
 	}
 
 	@GetMapping("/severancePay/{code}")
-	public ModelAndView findEntireCode(ModelAndView mv, @PathVariable String code) {
+	public ModelAndView findEntireCode(ModelAndView mv, @PathVariable("code") String code) {
 		EmployeeDTO emp = empInfoService.findEntireCode(code);
+		List<EmployeeDTO> outWorkerList = empInfoService.findOutWorkerByCode(code);
+		
+		int dayOfSalary = (emp.getRank().getSalary())/365;		// 일일급여
+		Date outDay = emp.getOutDate();							// 퇴직일자
+		Date joinDay = emp.getEntDate();						// 입사일자
+		
+		long calDate = outDay.getTime() - joinDay.getTime();
+		
+		long calDatedays = calDate / (24 * 60 * 60 * 1000);
+		
+		calDatedays = Math.abs(calDatedays);
+		
+		int severancePay = (dayOfSalary * 30) * ((int)calDatedays) / 365;
+		
+		System.out.println("사원의 직급은 : " + emp.getRank());
+		System.out.println("근무 일자는 : " + (int)(calDatedays));
+		System.out.println("일일 임금은 : " + dayOfSalary);
+		System.out.println("퇴직금은 : " + severancePay);
+		
+		String announce = severancePay + "0000";
 		
 		mv.addObject("empInfor", emp);
+		mv.addObject("work", outWorkerList);
+		mv.addObject("payAnnounce", announce);
+		mv.addObject("dayOfSalary", dayOfSalary);
+		mv.addObject("severancePay", severancePay);
+		
 		mv.setViewName("emp/salary/entireDetail");
 		return mv;
 	}
@@ -99,9 +127,6 @@ public class SalaryController {
 	public ModelAndView severancePayRequest(ModelAndView mv) {
 				
 		List<EmployeeDTO> empList = empInfoService.severancePayRequest();
-		
-		List emplists= new ArrayList<>();
-
 		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/salary/severancePay");
@@ -164,3 +189,4 @@ public class SalaryController {
 	
 	
 }
+

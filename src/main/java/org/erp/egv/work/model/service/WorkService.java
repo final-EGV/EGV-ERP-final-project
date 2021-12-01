@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.work.model.dao.WorkDAO;
 import org.erp.egv.work.model.dto.WorkDTO;
+import org.erp.egv.work.model.dto.WorkTypeCategoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +32,27 @@ public class WorkService {
 	}
 
 	@Transactional
-	public void modifyWorkOver(WorkDTO work) {
-		workDAO.modifyWorkOver(work);
+	public void modifyWorkOver(int code, int workOver) {
+		workDAO.modifyWorkOver(code, workOver);
 	}
 
 	@Transactional
 	public List<WorkDTO> workListEmp(String code) {
 		return workDAO.workListEmp(code);
+	}
+
+	@Transactional
+	public EmployeeDTO findEmployee(String code) {
+		return workDAO.findEmployee(code);
+	}
+
+	@Transactional
+	public WorkTypeCategoryDTO findWorkType(int workType) {
+		return workDAO.findWorkType(workType);
+	}
+
+	@Transactional
+	public void addNewWork(WorkDTO newWork) {
+		workDAO.addNewWork(newWork);
 	}
 }

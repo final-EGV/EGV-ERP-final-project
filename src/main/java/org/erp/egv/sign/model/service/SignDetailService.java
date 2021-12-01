@@ -8,6 +8,7 @@ import org.erp.egv.sign.model.dao.SignDetailDAO;
 import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.SignCommentDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class SignDetailService {
 	
 	private SignDetailDAO signDAO;
 	
+	@Autowired
 	public SignDetailService(SignDetailDAO signDAO) {
 		this.signDAO = signDAO;
 	}

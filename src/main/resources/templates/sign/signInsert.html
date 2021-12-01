@@ -41,7 +41,7 @@
 	<script src="/js/dataTables.bootstrap4.min.js"></script>
 	
 	<!-- Page level plugins -->
-    <script src="/js/datatables/jquery.dataTables.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
 	<script src="/js/dataTables.bootstrap4.min.js"></script>    
 
     <!-- Page level custom scripts -->
@@ -90,11 +90,11 @@
 											var referrerFrom = document.getElementsByName("referrerInput");
 											var titleFrom = document.getElementById("documentTitle");
 											
-											if (!approverFrom[0].value) {
+											if (!approverFrom[0]) {
 												alert("결재자를 한명 이상 작성해야 합니다.");
 												return false;
 											}
-											if (!referrerFrom[0].value) {
+											if (!referrerFrom[0]) {
 												alert("잠조자를 한명 이상 작성해야 합니다.");
 												return false;
 											}

@@ -12,6 +12,7 @@ import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.SignCommentDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.service.SignDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class SignDetailController {
 	
 	private SignDetailService signService;
 	
+	@Autowired
 	public SignDetailController(SignDetailService signService) {
 		this.signService = signService;
 	}

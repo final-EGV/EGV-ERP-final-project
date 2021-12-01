@@ -41,7 +41,7 @@
 	<script src="/js/dataTables.bootstrap4.min.js"></script>
 	
 	<!-- Page level plugins -->
-    <script src="/js/datatables/jquery.dataTables.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
 	<script src="/js/dataTables.bootstrap4.min.js"></script>    
 
     <!-- Page level custom scripts -->
@@ -71,7 +71,7 @@
 						<div class="card-body">
 							<div class="table-responsive">
 								
-								<form action="/sign/signInsert" method="post" name="sign_form">
+								<form action="/sign/signUpdate" method="post" name="sign_form">
 									
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
@@ -121,19 +121,28 @@
 								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
 									<br><br>
 <!-- ################################################################################## -->
-									<div id="addApproverMain" class="addApprover"></div>
+									<div id="addApproverMain" class="addApprover" >
+										<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
+											<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
+											<input type="text" class="form-control" name="approverInput" th:value="|${ approverEmp.emp.name }(${ approverEmp.emp.code })|" readonly>
+										</div>
+									</div>
 									<br>
 								 	<label>참조자 :</label>&emsp;
 									<!-- 결제자 modal -->
 								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
 								 	<br><br>
 <!-- ################################################################################## -->
-									<div id="addReferrerMain" class="addReferrer"></div>
-										
+									<div id="addReferrerMain" class="addReferrer">
+										<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
+											<span class="input-group-text">참조자 : </span>
+											<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
+										</div>
+									</div>	
 									<br><br>
 									<div class="input-group mb-3" style="width: 65%;">
 									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
-									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle">
+									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" th:value="${sign.title}">
 									</div>
 									<!-- <div th:utext="${template.contents}"></div> -->
 									<textarea id="summernote" name="documentContent"></textarea>
@@ -159,7 +168,12 @@
 												</div> -->
 <!-- ################################################################################## -->
 								 				<button type="button" class="btn"onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
-								 				<div id="addApproverModal" class="addApprover"></div>
+								 				<div id="addApproverModal" class="addApprover">
+									 				<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
+														<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
+														<input type="text" class="form-control" name="approverInput" th:value="|${ approverEmp.emp.name }(${ approverEmp.emp.code })|" readonly>
+													</div>
+								 				</div>
 												<!-- DataTales Example -->
 							                    <div class="card shadow mb-4">
 							                        <div class="card-header py-3">
@@ -215,7 +229,10 @@
 											  	<!-- 참조자 modal -->
 <!-- ################################################################################## -->
 								 				<button type="button" class="btn" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
-												<div id="addReferrerModal" class="addReferrer"></div>
+												<div id="addReferrerModal" class="addReferrer">
+												
+												
+												</div>
 												
 												
 												<!-- DataTales Example -->
@@ -308,29 +325,29 @@
 	$(function(){
 		
 		/* 템플릿 목록 가져오기 */
-		//$.ajax({
-		//	url: "/sign/signTemplate",
-		//	success: function(data){
-		//		const $template = $("#template");
-		//		$template.html("");
-		//		
-		//		const tempCode = "[[${ template.code }]]";
-		//		
-		//		for (let index in data){
-		//			if (tempCode-1 == index) {
-		//				
-		//				/* 해당되는 템플릿을 기본값으로 선택 */
-		//				$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
-		//				
-		//			} else {
-		//				$template.append($("<option>").val(data[index].code).text(data[index].name));						
-		//			}
-		//		}
-		//	},
-		//	error: function(xhr){
-		//		console.log(xhr);
-		//	}
-		//});
+		$.ajax({
+			url: "/sign/signTemplate",
+			success: function(data){
+				const $template = $("#template");
+				$template.html("");
+				
+				const tempCode = "[[${ template.code }]]";
+				
+				for (let index in data){
+					if (tempCode-1 == index) {
+						
+						/* 해당되는 템플릿을 기본값으로 선택 */
+						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
+						
+					} else {
+						$template.append($("<option>").val(data[index].code).text(data[index].name));						
+					}
+				}
+			},
+			error: function(xhr){
+				console.log(xhr);
+			}
+		});
 		
 		/* summernote 기본 셋팅 */
 		$('#summernote').summernote({
@@ -354,15 +371,18 @@
 		});
 		
 		/* 에디터에 template 내용 넣기 */
-		var templateContent = '[[${ template.contents }]]';
+		var templateContent = '[[${ sign.contents }]]';
 		
 		var change = templateContent.replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "'").replace(/&nbsp;/gi, "f");
 		console.log(change);        
 		$('#summernote').summernote('code', change);
+		
 	});
 </script>
 <script>
-	var index1 = 1;
+	var approverListSize = '[[${ approverListSize }]]';
+	 
+	var index1 = parseInt(approverListSize) + 1;
 	function approverModalOn() {
 		
 		if(document.getElementsByName("approverTd")) {

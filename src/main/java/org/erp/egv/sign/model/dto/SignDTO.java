@@ -157,8 +157,7 @@ public class SignDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "SignDTO [code=" + code + ", date=" + date + ", status=" + status + ", title=" + title + ", contents="
-				+ contents + ", temp=" + temp + ", employee=" + employee + ", approver=" + approver + ", refferrer="
-				+ refferrer + ", comment=" + comment + "]";
+				+ contents + ", temp=" + temp + ", employee=" + employee + ", comment=" + comment + "]";
 	}
 
 }

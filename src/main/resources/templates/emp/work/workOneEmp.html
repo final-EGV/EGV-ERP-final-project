@@ -44,7 +44,7 @@
 
 
 				<h1 align="Center">근무근태관리</h1>
-				<form>
+				<form action="/emp/Work/done" method="post">
 				  <div class="mb-3">
 				    <label class="form-label">근무코드</label>
 				    <input type="text" class="form-control" th:field="*{work.code}" th:value="*{work.code}" name="code" readonly>
@@ -71,7 +71,7 @@
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">근무종료시간</label>
-				    <input type="text" class="form-control" th:field="*{work.workEnd}" th:value="*{work.workEnd}" name="workEnd" readonly>
+				    <input type="text" class="form-control" th:value="${ work.workEnd ne null } ? ${ #dates.format(new java.util.Date(work.workEnd), 'yyyy-MM-dd HH:mm') } : ${ work.workEnd }" name="workEnd" readonly>
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">초과근무시간</label>
@@ -79,6 +79,7 @@
 				  </div>
 				  <br>
 				  <button class="btn btn-success" onclick="location.href='/emp/Work'" type="button">확인</button>
+				  <button class="btn btn-primary" type="submit">근무 종료</button>
 				</form>
 
             	</div>

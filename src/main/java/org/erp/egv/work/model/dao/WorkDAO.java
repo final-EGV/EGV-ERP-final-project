@@ -1,5 +1,6 @@
 package org.erp.egv.work.model.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -61,5 +62,10 @@ public class WorkDAO {
 
 	public void addNewWork(WorkDTO newWork) {
 		em.persist(newWork);
+	}
+
+	public void modifyEmpWorkOver(int code) {
+		WorkDTO work = em.find(WorkDTO.class, code);
+		work.setWorkEnd(new Timestamp(System.currentTimeMillis()));
 	}
 }

@@ -138,4 +138,16 @@ public class WorkController {
 		
 		return mv;
 	}
+	
+	/* Date : 2021/12/01
+	 * Writer : JunWoo Kim
+	 * 
+	 * 로그인 한 사원(객체)의 근무/근태를 근무가 끝나고 난 이후 종료시간을 update하는 컨트롤러
+	 */
+	@PostMapping("/Work/done")
+	public String modifyEmpWorkOver(@Param("code") int code) {
+		workService.modifyEmpWorkOver(code);
+		
+		return "redirect:/emp/Work";
+	}
 }

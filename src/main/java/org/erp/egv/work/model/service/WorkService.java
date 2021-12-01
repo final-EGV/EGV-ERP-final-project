@@ -55,4 +55,9 @@ public class WorkService {
 	public void addNewWork(WorkDTO newWork) {
 		workDAO.addNewWork(newWork);
 	}
+
+	@Transactional
+	public void modifyEmpWorkOver(int code) {
+		workDAO.modifyEmpWorkOver(code);
+	}
 }

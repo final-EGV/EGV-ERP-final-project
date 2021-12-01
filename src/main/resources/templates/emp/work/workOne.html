@@ -71,7 +71,7 @@
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">근무종료시간</label>
-				    <input type="text" class="form-control" th:field="*{work.workEnd}" th:value="*{work.workEnd}" name="workEnd" readonly>
+				    <input type="text" class="form-control" th:value="${ work.workEnd ne null } ? ${ #dates.format(new java.util.Date(work.workEnd), 'yyyy-MM-dd HH:mm') } : ${ work.workEnd }" readonly>
 				  </div>
 				  <div class="mb-3">
 				    <label class="form-label">초과근무시간</label>

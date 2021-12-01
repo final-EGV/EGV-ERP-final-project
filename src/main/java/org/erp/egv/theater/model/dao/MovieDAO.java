@@ -88,4 +88,18 @@ public class MovieDAO {
 		return movie;
 	}
 
+	public List<MovieDTO> inquireOnlyYMovieList() {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+
+		String jpql = "SELECT m FROM MovieDTO m WHERE m.openingYn = 'Y' ORDER BY m.openingDate";
+		List<MovieDTO> movieList = em.createQuery(jpql, MovieDTO.class)
+									 .getResultList();
+		
+		for (MovieDTO movie : movieList) {
+			System.out.println(movie);
+		}
+		
+		return movieList;
+	}
+
 }

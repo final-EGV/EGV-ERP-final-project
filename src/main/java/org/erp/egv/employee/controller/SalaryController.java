@@ -65,7 +65,9 @@ public class SalaryController {
 		
 		int overWork = 0;
 		for (WorkDTO work : worklist) {
+			if(work.getWorkOver() != null) {
 			overWork += work.getWorkOver();
+			}
 		}
 		
 		int totalPay = 0;

@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
+import org.erp.egv.work.model.dto.WorkTypeCategoryDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,9 +33,9 @@ public class WorkDAO {
 		return em.find(WorkDTO.class, code);
 	}
 
-	public void modifyWorkOver(WorkDTO work) {
-		WorkDTO selectedWork = em.find(WorkDTO.class, work.getCode());
-		selectedWork.setWorkOver(work.getWorkOver());
+	public void modifyWorkOver(int code, int workOver) {
+		WorkDTO selectedWork = em.find(WorkDTO.class, code);
+		selectedWork.setWorkOver(workOver);
 	}
 
 	
@@ -44,5 +45,21 @@ public class WorkDAO {
 		List<WorkDTO> workList = query.getResultList();
 		
 		return workList;
+	}
+
+	public EmployeeDTO findEmployee(String code) {
+		EmployeeDTO employee = em.find(EmployeeDTO.class, code);
+		
+		return employee;
+	}
+
+	public WorkTypeCategoryDTO findWorkType(int workType) {
+		WorkTypeCategoryDTO workTypeCategory = em.find(WorkTypeCategoryDTO.class, workType);
+		
+		return workTypeCategory;
+	}
+
+	public void addNewWork(WorkDTO newWork) {
+		em.persist(newWork);
 	}
 }

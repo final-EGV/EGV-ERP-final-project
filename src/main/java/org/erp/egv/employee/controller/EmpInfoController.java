@@ -368,6 +368,7 @@ public class EmpInfoController {
 	public ModelAndView addNewDept(ModelAndView mv, DepartmentDTO newDept, Locale locale) {
 		
 		empInfoService.addNewDept(newDept);
+		System.out.println("newDept : " + newDept);
 		mv.setViewName("redirect:/emp/dept");
 		
 		return mv;

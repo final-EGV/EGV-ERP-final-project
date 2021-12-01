@@ -66,8 +66,8 @@
  										<td th:text="${ work.code }"></td>
 										<td th:text="${ work.categoryCode.type }"></td>
 										<td th:text="${ work.empCode.name }"></td>
-										<td th:text="${ work.workDate }"></td>
-										<td th:text="${ work.workStart }"></td>
+										<td th:text="${ #dates.format(new java.util.Date(work.workDate), 'yyyy년MM월dd일') }"></td>
+										<td th:text="${ #dates.format(new java.util.Date(work.workStart), 'yyyy년MM월dd일 HH:mm') }"></td>
 										<td th:text="${ work.workEnd }"></td>
 										<td th:text="${ work.workOver }"></td>
 									</tr>
@@ -77,15 +77,15 @@
 						</div>
 							<div class="card-footer py-3">
 							<!-- 근무 등록 버튼 (새로운 페이지로 변경) -->
-							<button type="button" class="btn btn-primary">추가근무 추가</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addWorkModal">추가근무 추가</button>
 						</div>
 					</div>
             	<!-- End of Main Content -->
 			</div>
+        </div>
             <!-- Footer -->
             <div th:include="common/footer.html"></div>
             <!-- End of Footer -->
-        </div>
         <!-- End of Content Wrapper -->
 	</div>
     </div>
@@ -115,6 +115,37 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal -->
+	<div class="modal fade" id="addWorkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">추가근무 등록하기</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">×</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form action="/emp/Work/add" method="post">
+			  <div class="form-group">
+			    <label for="formGroupExampleInput2">근무형태</label>
+			    <select class="custom-select custom-select-lg mb-3" name="workType">
+				  <option selected>근무형태를 선택해주세요.</option>
+				  <option value="1">야간근무</option>
+				  <option value="2">휴일근무</option>
+				  <option value="3">초과근무</option>
+				</select>
+			  </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		        <button type="submit" class="btn btn-primary">등록</button>
+		      </div>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
     
 
     <!-- Bootstrap core JavaScript-->

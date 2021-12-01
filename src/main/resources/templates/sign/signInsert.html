@@ -145,7 +145,7 @@
 								    <div class="modal-content">
 								      <div class="modal-header">
 								        <h4 class="modal-title" id="modalLabel">결재자 선택</h4>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="approverReset();">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								          <span aria-hidden="true">X</span>
 								        </button>
 								      </div>
@@ -158,7 +158,7 @@
 												  	<button type="button" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
 												</div> -->
 <!-- ################################################################################## -->
-								 				<button type="button" class="btn"onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
+								 				<button type="button" class="btn" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
 								 				<div id="addApproverModal" class="addApprover"></div>
 												<!-- DataTales Example -->
 							                    <div class="card shadow mb-4">
@@ -203,7 +203,7 @@
 								    <div class="modal-content">
 								      <div class="modal-header">
 								        <h4 class="modal-title" id="modalLabel">참조자 선택</h4>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="referrerReset();">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								          <span aria-hidden="true">X</span>
 								        </button>
 								      </div>
@@ -492,11 +492,11 @@
 	}
 	
 	function referrerReset() {
-		var referrerModal = document.getElementById("referrerModal");
-		var referrer = document.getElementById("referrer");
+		var addReferrerModal = document.getElementById("addReferrerModal");
+		var addReferrerMain = document.getElementById("addReferrerMain");
 		
-		referrerModal.value = "";
-		referrer.value = "";
+		addReferrerModal.innerHTML = "";
+		addReferrerMain.innerHTML = "";
 	}
 </script>
 </html>

@@ -71,8 +71,8 @@
 						<div class="card-body">
 							<div class="table-responsive">
 								
-								<form action="/sign/signUpdate" method="post" name="sign_form">
-									
+								<form action="/sign/detail/signUpdate" method="post" name="sign_form">
+									<input type="number" th:value="${ sign.code }" name="signCode" id="signCode" hidden>
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
 										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
@@ -106,8 +106,6 @@
 										}
 									</script>
 									<br><br>
-									<!-- <label>작성일 :</label>&emsp;&emsp;
-									<input type="date" id="writeDate" name="writeDate"> -->
 									<br>
 									<label>분류 :</label>&emsp;&emsp;&emsp;
 									<select name="template" id="template" style="width: 10%">
@@ -154,7 +152,7 @@
 								    <div class="modal-content">
 								      <div class="modal-header">
 								        <h4 class="modal-title" id="modalLabel">결재자 선택</h4>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="approverReset();">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								          <span aria-hidden="true">X</span>
 								        </button>
 								      </div>
@@ -217,7 +215,7 @@
 								    <div class="modal-content">
 								      <div class="modal-header">
 								        <h4 class="modal-title" id="modalLabel">참조자 선택</h4>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="referrerReset();">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								          <span aria-hidden="true">X</span>
 								        </button>
 								      </div>
@@ -230,8 +228,10 @@
 <!-- ################################################################################## -->
 								 				<button type="button" class="btn" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
 												<div id="addReferrerModal" class="addReferrer">
-												
-												
+												<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
+													<span class="input-group-text">참조자 : </span>
+													<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
+												</div>
 												</div>
 												
 												
@@ -512,11 +512,11 @@
 	}
 	
 	function referrerReset() {
-		var referrerModal = document.getElementById("referrerModal");
-		var referrer = document.getElementById("referrer");
+		var addReferrerModal = document.getElementById("addReferrerModal");
+		var addReferrerMain = document.getElementById("addReferrerMain");
 		
-		referrerModal.value = "";
-		referrer.value = "";
+		addReferrerModal.innerHTML = "";
+		addReferrerMain.innerHTML = "";
 	}
 </script>
 </html>

@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.RefferrerDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
-import org.erp.egv.sign.model.dto.TemplateDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,9 +1,13 @@
 package org.erp.egv.sign.controller;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.RefferrerDTO;
@@ -11,11 +15,14 @@ import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.dto.TemplateDTO;
 import org.erp.egv.sign.model.service.SignUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/sign/*")
@@ -50,16 +57,10 @@ public class SignUpdateController {
 		
 		/* 결재자 정보 조회 */
 		List<ApproverDTO> approverList = signUpdateService.selectSignApproverList(signCode);
-		for(ApproverDTO x : approverList) {
-			System.out.println("eeeeeeeeeeeeeeee" + x);
-		}
-		//int approverListSize = approverList.size();
 		int approverListSize = approverList.size();
-		System.out.println("approverListSize : " + approverListSize);
 		
 		/* 참조자 정보 조회 */
 		List<RefferrerDTO> refferrerList = signUpdateService.selectSignRefferrerList(signCode);
-		int refferrerListSize = refferrerList.size();
 //		System.out.println(refferrerListSize);
 
 		mv.addObject("empList", empList);
@@ -74,5 +75,43 @@ public class SignUpdateController {
 		return mv;
 	}
 	
+	@PostMapping("detail/signUpdate")
+	public ModelAndView updateSignSaved(ModelAndView mv, HttpServletRequest request, RedirectAttributes rAttr, Principal principal) {
+		
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		
+		int signCode = Integer.valueOf(request.getParameter("signCode"));
+		int tempCode = Integer.valueOf(request.getParameter("template"));
+		String status = request.getParameter("signStatus");
+		String title = request.getParameter("documentTitle");
+		String contents = request.getParameter("documentContent");
+		
+		java.util.Date today = new java.util.Date();		
+		java.sql.Date date = new java.sql.Date(today.getTime());
+		
+		String[] approverList = request.getParameterValues("approverInput");
+		String[] referrerList = request.getParameterValues("referrerInput");
+		
+		System.out.println(signCode);
+		System.out.println(tempCode);
+		System.out.println(status);
+		System.out.println(title);
+		System.out.println(contents);
+		System.out.println(date);
+		System.out.println(Arrays.toString(approverList));
+		System.out.println(Arrays.toString(referrerList));
+		
+		/* 기안서 update */
+		
+		
+		/* 기존 결재자, 참조자 정보 delete */
+		
+		
+		/* 결재자, 참조자 정보 insert */
+
+		
+		mv.setViewName("redirect:/sign/sent/savesign");
+		return mv;
+	}
 
 }

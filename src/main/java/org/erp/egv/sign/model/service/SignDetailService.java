@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.erp.egv.sign.model.dao.SignDetailDAO;
 import org.erp.egv.sign.model.dto.ApproverDTO;
+import org.erp.egv.sign.model.dto.SignCommentDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,17 @@ public class SignDetailService {
 	@Transactional
 	public void returnSign(int signCode, String empCode) {
 		signDAO.returnSign(signCode, empCode);
+	}
+	
+	@Transactional
+	public void insertComment(SignCommentDTO signComment) {
+		signDAO.insertComment(signComment);
+	}
+
+	@Transactional
+	public void deleteComment(int code) {
+		signDAO.deleteComment(code);
+		
 	}
 
 }

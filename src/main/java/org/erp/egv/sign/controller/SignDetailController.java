@@ -1,18 +1,24 @@
 package org.erp.egv.sign.controller;
 
 import java.security.Principal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.sign.model.dto.ApproverDTO;
+import org.erp.egv.sign.model.dto.SignCommentDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.service.SignDetailService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,6 +35,7 @@ public class SignDetailController {
 	public ModelAndView selectSignDetail(ModelAndView mv, @RequestParam("code") String code, Principal principal) {
 		SignDTO sign = signService.selectSign(Integer.valueOf(code));
 		Collections.sort(sign.getApprover());
+		Collections.sort(sign.getComment());
 		
 		for (ApproverDTO app : sign.getApprover()) {
 			if(app.getEmp().getCode().equals(((UserImpl)((Authentication)principal).getPrincipal()).getCode())) {
@@ -40,7 +47,7 @@ public class SignDetailController {
 		
 		if(sign.getStatus().equals("반려")) {
 			if(sign.getEmployee().getCode().equals(((UserImpl)((Authentication)principal).getPrincipal()).getCode())){
-				mv.addObject("status", sign.getStatus());
+				mv.addObject("status", "재기안");
 			}
 		}
 		
@@ -55,18 +62,23 @@ public class SignDetailController {
 		SignDTO sign = signService.selectSign(Integer.valueOf(code));
 		String status = null;
 		Collections.sort(sign.getApprover());
+		Collections.sort(sign.getComment());
 		
 		for (ApproverDTO app : sign.getApprover()) {
 			if(app.getStatus().equals("대기")) {
 				status = "기안";
 			} else {
 				status = null;
+				break;
 			}
 		}
 		
 		mv.addObject("status", status);
 		mv.addObject("sign", sign);
 		mv.setViewName("/sign/detail/detail");
+		
+		SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+		System.out.println(format1.format(sign.getComment().get(0).getDate()));
 		
 		return mv;
 	}
@@ -90,6 +102,31 @@ public class SignDetailController {
 		signService.returnSign(Integer.valueOf(code), ((UserImpl)((Authentication)principal).getPrincipal()).getCode());
 		
 		return "redirect:/sign/received/watingsign";
+	}
+	
+	@PostMapping(value="detail/comment", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public SignCommentDTO insertComment(@RequestParam("code") String code, @RequestParam("comment") String comment, Principal principal) {
+		EmployeeDTO emp = new EmployeeDTO();
+		emp.setCode(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		emp.setName(((UserImpl)((Authentication)principal).getPrincipal()).getName());
+		emp.setEmpPosition(((UserImpl)((Authentication)principal).getPrincipal()).getEmpPosition());
+		SignDTO sign = new SignDTO();
+		sign.setCode(Integer.valueOf(code));
+		
+		SignCommentDTO signComment = new SignCommentDTO(0, comment, new Date(System.currentTimeMillis()), emp, sign);
+		
+		signService.insertComment(signComment);
+		
+		return signComment; 
+	}
+	
+	@GetMapping(value="detail/delete", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String deleteComment(@RequestParam("code") String code) {
+		signService.deleteComment(Integer.valueOf(code));
+		
+		return code;
 	}
 	
 }

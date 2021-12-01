@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Main page of theater management, displaying list of movies.">
+	<meta name="author" content="UnSuk Song">
+	<title>EGV: theater > schedulePremiere</title>
+	<!-- Custom fonts for this template-->
+	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+	
+	<!-- FullCalendar style for this template -->
+	<link href='/css/fullCalendar.main.css' rel='stylesheet' />
+	<script src='/js/fullCalendar.main.js'></script>
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Aside Menu List -->
+		<div id="sidebarMain" class="bg-gradient-info" th:include="common/aside.html"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Header -->
+				<div th:include="common/header.html"></div>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+				
+					<!-- 스케줄러 Card -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">개봉 스케줄</h6>
+						</div>
+						<div class="card-body">
+							<!-- FullCalendar  -->
+							<div id='calendar'></div>
+						</div>
+					</div>
+					
+					<!-- 영화목록 Card -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">영화 목록</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover" id="movieTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>영화제목</th>
+											<th>개봉일자</th>
+											<th>러닝타임</th>
+											<th>등급</th>
+											<th>장르</th>
+											<th>배급사</th>
+											<th>감독</th>
+											<th>국가</th>
+											<th>상영여부</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="movie : ${ movieList }">
+											<td>
+												<a th:text="${ movie.name }"
+													th:href="@{/theater/movie/details(code=${ movie.code })}">
+												</a>
+											</td>
+											<td th:text="${ movie.openingDate }"></td>
+											<td th:text="${ movie.runningTime }"></td>
+											<td th:text="${ movie.grade }"></td>
+											<td th:text="${ movie.genre }"></td>
+											<td th:text="${ movie.distributor }"></td>
+											<td th:text="${ movie.director }"></td>
+											<td th:text="${ movie.country }"></td>
+											<td th:text="${ movie.openingYn }"
+												th:style="|${ movie.openingYn == 'Y' ? 'color: green;' : 'color: red;' } font-weight: bold;|">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer py-3">
+							<!-- 신규 영화 등록 버튼 -->
+							<a href="regist" class="btn btn-primary"> 등록 </a>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<div th:include="common/footer.html"></div>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+
+	<!-- Page level custom scripts -->
+	<script>
+		$(document).ready(function () {
+			$('#movieTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order": [1, 'desc'],	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"lengthChange": false,
+				"lengthMenu": [5]
+			}
+			);
+		});
+	</script>
+
+	<script>
+		const flashMessage = "[[${ flashMessage }]]";
+		console.log(flashMessage);
+
+		if (flashMessage) {
+			alert(flashMessage);
+		}
+	</script>
+	
+	<!-- FullCalendar 함수 모음 -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+			
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView : 'dayGridMonth',
+				selectable: true,
+				locale: 'ko',
+				dayMaxEvents: true,
+				events: [
+					$.ajax({
+						url: "/theater/schedule/premiere/drawCalendar",
+						type: "GET",
+						success: function(data) {
+							
+							for (let i = 0; data.length; i++) {
+								calendar.addEvent({
+									id: data[i]["code"],
+									title: data[i]["name"],
+									start: data[i]["openingDate"]
+								})
+							}
+						},
+		    			error: function(xhr){
+		    				console.log(xhr);
+		    			}
+					})
+				]
+			});
+			calendar.render();
+		});
+	</script>
+</body>
+</html>

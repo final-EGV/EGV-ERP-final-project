@@ -2,15 +2,12 @@ package org.erp.egv.theater.model.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -65,21 +62,12 @@ public class MovieDTO implements Serializable {
 	@Column(name = "OPENING_YN", columnDefinition = "default = 'N'")
 	private String openingYn;
 	
-	// association field right below could be deprecated if useless.
-	@OneToMany(mappedBy = "movieAndScreening")
-	private List<ScreeningScheduleDTO> screeningScheduleList = new ArrayList<>();
-	
-	// association field right below could be deprecated if useless.
-	@OneToMany(mappedBy = "movieAndEvent")
-	private List<EventDTO> eventList = new ArrayList<>();
-
 	public MovieDTO() {
 	}
 
 	public MovieDTO(int code, String name, Date openingDate, int runningTime, String grade, String genre,
 			String distributor, String director, String country, String posterOrigName, String posterUuidName,
-			String posterImgPath, String openingYn, List<ScreeningScheduleDTO> screeningScheduleList,
-			List<EventDTO> eventList) {
+			String posterImgPath, String openingYn) {
 		this.code = code;
 		this.name = name;
 		this.openingDate = openingDate;
@@ -93,8 +81,6 @@ public class MovieDTO implements Serializable {
 		this.posterUuidName = posterUuidName;
 		this.posterImgPath = posterImgPath;
 		this.openingYn = openingYn;
-		this.screeningScheduleList = screeningScheduleList;
-		this.eventList = eventList;
 	}
 
 	public int getCode() {
@@ -201,29 +187,12 @@ public class MovieDTO implements Serializable {
 		this.openingYn = openingYn;
 	}
 
-	public List<ScreeningScheduleDTO> getScreeningScheduleList() {
-		return screeningScheduleList;
-	}
-
-	public void setScreeningScheduleList(List<ScreeningScheduleDTO> screeningScheduleList) {
-		this.screeningScheduleList = screeningScheduleList;
-	}
-
-	public List<EventDTO> getEventList() {
-		return eventList;
-	}
-
-	public void setEventList(List<EventDTO> eventList) {
-		this.eventList = eventList;
-	}
-
 	@Override
 	public String toString() {
 		return "MovieDTO [code=" + code + ", name=" + name + ", openingDate=" + openingDate + ", runningTime="
 				+ runningTime + ", grade=" + grade + ", genre=" + genre + ", distributor=" + distributor + ", director="
 				+ director + ", country=" + country + ", posterOrigName=" + posterOrigName + ", posterUuidName="
-				+ posterUuidName + ", posterImgPath=" + posterImgPath + ", openingYn=" + openingYn
-				+ ", screeningScheduleList=" + screeningScheduleList + ", eventList=" + eventList + "]";
+				+ posterUuidName + ", posterImgPath=" + posterImgPath + ", openingYn=" + openingYn + "]";
 	}
-	
+
 }

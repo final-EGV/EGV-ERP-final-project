@@ -61,4 +61,10 @@ public class MovieService {
 		return movieDAO.inquireSingleMovieByName(movieName);
 	}
 
+	public List<MovieDTO> inquireOnlyYMovieList() {
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		return movieDAO.inquireOnlyYMovieList();
+	}
+
 }

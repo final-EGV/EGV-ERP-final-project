@@ -358,4 +358,13 @@ public class EmpInfoDAO {
 		ParttimeScheduleDTO parttimeScheduleDTO = em.find(ParttimeScheduleDTO.class, code);
 		em.remove(parttimeScheduleDTO);
 	}
+
+	public List<EmployeeDTO> findOutWorkerByCode(String code) {
+		String jpql = "SELECT e FROM EmployeeDTO as e WHERE EMP_CODE is " + code;
+		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
+		List<EmployeeDTO> empList = query.getResultList();
+		
+		return empList;
+	}
+
 }

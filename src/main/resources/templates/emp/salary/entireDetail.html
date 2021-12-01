@@ -61,12 +61,9 @@
 						<tr>
 							<td class="col-1" align="center"><input th:field="*{empInfor.name}" disabled readonly>님의 퇴직금 계산</td>
 						</tr>
-						<!-- <tr>
-							<td class="col-3"><input class="form-control" type="text" th:field="*{empInfor.rank.salary}" disabled readonly></td>
-						</tr> -->
-						
 						<tr>
-							<td class="col-3" align="center">퇴직금 계산식</td>
+						
+							<td class="col-3"><input class="form-control" type="text" th:value="*{payAnnounce}" disabled readonly></td>
 						</tr>
 						
 					</tbody>
@@ -75,10 +72,10 @@
 				</div>
             	</div>
             	<!-- End of Main Content -->
+			</div>
             <!-- Footer -->
             <div th:include="common/footer.html"></div>
             <!-- End of Footer -->
-			</div>
         </div>
         <!-- End of Content Wrapper -->
 

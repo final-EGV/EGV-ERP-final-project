@@ -34,7 +34,7 @@ public class AnnualLeaveDTO implements Serializable{
 	private EmployeeDTO empCode;
 	
 	@Column(name = "AL_YEAR")
-	private Date year;
+	private int year;
 	
 	@Column(name = "AL_COUNT")
 	private int count;
@@ -45,7 +45,7 @@ public class AnnualLeaveDTO implements Serializable{
 	public AnnualLeaveDTO() {
 	}
 
-	public AnnualLeaveDTO(int code, AnnualLeaveCategoryDTO categoryCode, EmployeeDTO empCode, Date year, int count,
+	public AnnualLeaveDTO(int code, AnnualLeaveCategoryDTO categoryCode, EmployeeDTO empCode, int year, int count,
 			int useCount) {
 		this.code = code;
 		this.categoryCode = categoryCode;
@@ -79,11 +79,11 @@ public class AnnualLeaveDTO implements Serializable{
 		this.empCode = empCode;
 	}
 
-	public Date getYear() {
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(Date year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 

@@ -26,10 +26,6 @@ public class AnnualLeaveDTO implements Serializable{
 	private int code;
 	
 	@ManyToOne
-	@JoinColumn(name = "AL_CATEGORY_CODE")
-	private AnnualLeaveCategoryDTO categoryCode;
-	
-	@ManyToOne
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
@@ -45,10 +41,9 @@ public class AnnualLeaveDTO implements Serializable{
 	public AnnualLeaveDTO() {
 	}
 
-	public AnnualLeaveDTO(int code, AnnualLeaveCategoryDTO categoryCode, EmployeeDTO empCode, int year, int count,
+	public AnnualLeaveDTO(int code, EmployeeDTO empCode, int year, int count,
 			int useCount) {
 		this.code = code;
-		this.categoryCode = categoryCode;
 		this.empCode = empCode;
 		this.year = year;
 		this.count = count;
@@ -61,14 +56,6 @@ public class AnnualLeaveDTO implements Serializable{
 
 	public void setCode(int code) {
 		this.code = code;
-	}
-
-	public AnnualLeaveCategoryDTO getCategoryCode() {
-		return categoryCode;
-	}
-
-	public void setCategoryCode(AnnualLeaveCategoryDTO categoryCode) {
-		this.categoryCode = categoryCode;
 	}
 
 	public EmployeeDTO getEmpCode() {
@@ -105,7 +92,7 @@ public class AnnualLeaveDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "AnnualLeaveDTO [code=" + code + ", categoryCode=" + categoryCode + ", empCode=" + empCode + ", year="
+		return "AnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", year="
 				+ year + ", count=" + count + ", useCount=" + useCount + "]";
 	}
 	

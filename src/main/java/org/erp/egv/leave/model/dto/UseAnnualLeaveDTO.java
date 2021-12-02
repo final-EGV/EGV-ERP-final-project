@@ -29,8 +29,15 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
-	@Column(name = "UAL_DATE")
-	private Date date;
+	@ManyToOne
+	@JoinColumn(name = "ANNUAL_LEAVE_CODE")
+	private AnnualLeaveCategoryDTO categoryCode;
+	
+	@Column(name = "UAL_DATE_START")
+	private Date start;
+	
+	@Column(name = "UAL_DATE_END")
+	private Date end;
 	
 	@Column(name = "UAL_CONTENT")
 	private String content;
@@ -38,10 +45,13 @@ public class UseAnnualLeaveDTO implements Serializable{
 	public UseAnnualLeaveDTO() {
 	}
 
-	public UseAnnualLeaveDTO(int code, EmployeeDTO empCode, Date date, String content) {
+	public UseAnnualLeaveDTO(int code, EmployeeDTO empCode, AnnualLeaveCategoryDTO categoryCode, Date start, Date end,
+			String content) {
 		this.code = code;
 		this.empCode = empCode;
-		this.date = date;
+		this.categoryCode = categoryCode;
+		this.start = start;
+		this.end = end;
 		this.content = content;
 	}
 
@@ -61,12 +71,28 @@ public class UseAnnualLeaveDTO implements Serializable{
 		this.empCode = empCode;
 	}
 
-	public Date getDate() {
-		return date;
+	public AnnualLeaveCategoryDTO getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCategoryCode(AnnualLeaveCategoryDTO categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	public String getContent() {
@@ -79,8 +105,9 @@ public class UseAnnualLeaveDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", date=" + date + ", content=" + content
-				+ "]";
+		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", categoryCode=" + categoryCode
+				+ ", start=" + start + ", end=" + end + ", content=" + content + "]";
 	}
+
 	
 }

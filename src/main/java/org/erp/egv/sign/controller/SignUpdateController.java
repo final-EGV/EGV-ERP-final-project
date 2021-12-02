@@ -13,6 +13,7 @@ import org.erp.egv.sign.model.dto.ApproverDTO;
 import org.erp.egv.sign.model.dto.RefferrerDTO;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.dto.TemplateDTO;
+import org.erp.egv.sign.model.service.SignInsertService;
 import org.erp.egv.sign.model.service.SignUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -30,11 +31,13 @@ public class SignUpdateController {
 	
 	private SignUpdateService signUpdateService;
 	private EmpInfoService empInfoService;
+	private SignInsertService signInsertService;
 
 	@Autowired
-	public SignUpdateController(SignUpdateService signUpdateService, EmpInfoService empInfoService) {
+	public SignUpdateController(SignUpdateService signUpdateService, EmpInfoService empInfoService, SignInsertService signInsertService) {
 		this.signUpdateService = signUpdateService;
 		this.empInfoService = empInfoService;
+		this.signInsertService = signInsertService;
 	}
 
 	@GetMapping("detail/signUpdate")
@@ -92,23 +95,67 @@ public class SignUpdateController {
 		String[] approverList = request.getParameterValues("approverInput");
 		String[] referrerList = request.getParameterValues("referrerInput");
 		
-		System.out.println(signCode);
-		System.out.println(tempCode);
-		System.out.println(status);
-		System.out.println(title);
-		System.out.println(contents);
-		System.out.println(date);
-		System.out.println(Arrays.toString(approverList));
-		System.out.println(Arrays.toString(referrerList));
+		TemplateDTO templateDTO = signInsertService.findTemplateByCode(tempCode);
+		EmployeeDTO employeeDTO = empInfoService.empOneRequest(empCode);
+		
+		SignDTO updateSign = new SignDTO();
+		updateSign.setCode(signCode);
+		updateSign.setTemp(templateDTO);
+		updateSign.setEmployee(employeeDTO);
+		updateSign.setDate(date);
+		updateSign.setStatus(status);
+		updateSign.setTitle(title);
+		updateSign.setContents(contents);
 		
 		/* 기안서 update */
+		signUpdateService.updateSign(updateSign);
 		
+		/* 기존 결재자, 참조자 기존 정보 delete */
+		signUpdateService.deleteSignApprover(signCode);
+		signUpdateService.deleteSignRefferrer(signCode);
 		
-		/* 기존 결재자, 참조자 정보 delete */
-		
-		
-		/* 결재자, 참조자 정보 insert */
+		/* 결재자, 참조자 new 정보 insert */
+		/* 결재자 insert */
+		int approverPriority = 1;
+		for (String approver : approverList) {
+			int approverCode = signInsertService.findMaxApproverCode() + 1;
+			
+			String approverEmpCode = approver.substring(4,11);
+			EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
+			
+			ApproverDTO approverDTO = new ApproverDTO();
+			approverDTO.setCode(approverCode);
+			approverDTO.setEmp(approverEmployeeDTO);				
+			approverDTO.setSign(updateSign);
+			approverDTO.setOrder(approverPriority);
+			approverDTO.setStatus("대기");
+			
+//			System.out.println(approverDTO);
+			
+			signInsertService.insertApprover(approverDTO);
+			
+			approverPriority++;
+			approverCode++;
+		}
+		/* 참조자 insert */
+		for(String referrer : referrerList) {
+			int referrerCode = signInsertService.findMaxReferrerCode() + 1;
 
+			String referrerEmpCode = referrer.substring(4,11);
+			EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+			
+			RefferrerDTO refferrerDTO = new RefferrerDTO();
+			refferrerDTO.setCode(referrerCode);
+			refferrerDTO.setEmp(referrerEmployeeDTO);
+			refferrerDTO.setSign(updateSign);
+			refferrerDTO.setReadYN("N");
+			
+//			System.out.println(refferrerDTO);
+
+			signInsertService.insertReferrer(refferrerDTO);
+			
+			referrerCode++;
+		}
 		
 		mv.setViewName("redirect:/sign/sent/savesign");
 		return mv;

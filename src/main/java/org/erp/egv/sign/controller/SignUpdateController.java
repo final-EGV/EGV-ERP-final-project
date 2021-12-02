@@ -86,7 +86,7 @@ public class SignUpdateController {
 		int signCode = Integer.valueOf(request.getParameter("signCode"));
 		int tempCode = Integer.valueOf(request.getParameter("template"));
 		String status = request.getParameter("signStatus");
-		System.out.println("-------status : " + status);
+//		System.out.println("-------status : " + status);
 		String title = request.getParameter("documentTitle");
 		String contents = request.getParameter("documentContent");
 		
@@ -97,7 +97,7 @@ public class SignUpdateController {
 		String[] referrerList = request.getParameterValues("referrerInput");
 		
 		String deleteYn = request.getParameter("deleteDocumentYn");
-		System.out.println("-------deleteYn : " + deleteYn);
+//		System.out.println("-------deleteYn : " + deleteYn);
 
 		if ("N".equals(deleteYn)) {	
 			

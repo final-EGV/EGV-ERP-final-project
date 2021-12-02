@@ -63,5 +63,11 @@ public class SignUpdateDAO {
 		em.createQuery(jpql).setParameter("signCode", signCode).executeUpdate();
 	}
 
+	public void deleteSign(int signCode) {
+
+		String jpql = "DELETE FROM SignDTO as s WHERE s.code = :signCode";
+		em.createQuery(jpql).setParameter("signCode", signCode).executeUpdate();
+	}
+
 
 }

@@ -66,6 +66,13 @@ public class SignUpdateService {
 		signUpdateDAO.deleteSignRefferrer(signCode);
 	}
 
+	/* 임시저장된 기안서 삭제 */
+	@Transactional
+	public void deleteSign(int signCode) {
+		
+		signUpdateDAO.deleteSign(signCode);
+	}
+
 
 	
 

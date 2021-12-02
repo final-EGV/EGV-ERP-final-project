@@ -86,6 +86,7 @@ public class SignUpdateController {
 		int signCode = Integer.valueOf(request.getParameter("signCode"));
 		int tempCode = Integer.valueOf(request.getParameter("template"));
 		String status = request.getParameter("signStatus");
+		System.out.println("-------status : " + status);
 		String title = request.getParameter("documentTitle");
 		String contents = request.getParameter("documentContent");
 		
@@ -95,67 +96,83 @@ public class SignUpdateController {
 		String[] approverList = request.getParameterValues("approverInput");
 		String[] referrerList = request.getParameterValues("referrerInput");
 		
-		TemplateDTO templateDTO = signInsertService.findTemplateByCode(tempCode);
-		EmployeeDTO employeeDTO = empInfoService.empOneRequest(empCode);
-		
-		SignDTO updateSign = new SignDTO();
-		updateSign.setCode(signCode);
-		updateSign.setTemp(templateDTO);
-		updateSign.setEmployee(employeeDTO);
-		updateSign.setDate(date);
-		updateSign.setStatus(status);
-		updateSign.setTitle(title);
-		updateSign.setContents(contents);
-		
-		/* 기안서 update */
-		signUpdateService.updateSign(updateSign);
-		
-		/* 기존 결재자, 참조자 기존 정보 delete */
-		signUpdateService.deleteSignApprover(signCode);
-		signUpdateService.deleteSignRefferrer(signCode);
-		
-		/* 결재자, 참조자 new 정보 insert */
-		/* 결재자 insert */
-		int approverPriority = 1;
-		for (String approver : approverList) {
-			int approverCode = signInsertService.findMaxApproverCode() + 1;
-			
-			String approverEmpCode = approver.substring(4,11);
-			EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
-			
-			ApproverDTO approverDTO = new ApproverDTO();
-			approverDTO.setCode(approverCode);
-			approverDTO.setEmp(approverEmployeeDTO);				
-			approverDTO.setSign(updateSign);
-			approverDTO.setOrder(approverPriority);
-			approverDTO.setStatus("대기");
-			
-//			System.out.println(approverDTO);
-			
-			signInsertService.insertApprover(approverDTO);
-			
-			approverPriority++;
-			approverCode++;
-		}
-		/* 참조자 insert */
-		for(String referrer : referrerList) {
-			int referrerCode = signInsertService.findMaxReferrerCode() + 1;
+		String deleteYn = request.getParameter("deleteDocumentYn");
+		System.out.println("-------deleteYn : " + deleteYn);
 
-			String referrerEmpCode = referrer.substring(4,11);
-			EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+		if ("N".equals(deleteYn)) {	
 			
-			RefferrerDTO refferrerDTO = new RefferrerDTO();
-			refferrerDTO.setCode(referrerCode);
-			refferrerDTO.setEmp(referrerEmployeeDTO);
-			refferrerDTO.setSign(updateSign);
-			refferrerDTO.setReadYN("N");
+			TemplateDTO templateDTO = signInsertService.findTemplateByCode(tempCode);
+			EmployeeDTO employeeDTO = empInfoService.empOneRequest(empCode);
 			
-//			System.out.println(refferrerDTO);
-
-			signInsertService.insertReferrer(refferrerDTO);
+			SignDTO updateSign = new SignDTO();
+			updateSign.setCode(signCode);
+			updateSign.setTemp(templateDTO);
+			updateSign.setEmployee(employeeDTO);
+			updateSign.setDate(date);
+			updateSign.setStatus(status);
+			updateSign.setTitle(title);
+			updateSign.setContents(contents);
 			
-			referrerCode++;
+			/* 기안서 update */
+			signUpdateService.updateSign(updateSign);
+			
+			/* 기존 결재자, 참조자 기존 정보 delete */
+			signUpdateService.deleteSignApprover(signCode);
+			signUpdateService.deleteSignRefferrer(signCode);
+			
+			/* 결재자, 참조자 new 정보 insert */
+			/* 결재자 insert */
+			int approverPriority = 1;
+			for (String approver : approverList) {
+				int approverCode = signInsertService.findMaxApproverCode() + 1;
+				
+				String approverEmpCode = approver.substring(4,11);
+				EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
+				
+				ApproverDTO approverDTO = new ApproverDTO();
+				approverDTO.setCode(approverCode);
+				approverDTO.setEmp(approverEmployeeDTO);				
+				approverDTO.setSign(updateSign);
+				approverDTO.setOrder(approverPriority);
+				approverDTO.setStatus("대기");
+				
+	//			System.out.println(approverDTO);
+				
+				signInsertService.insertApprover(approverDTO);
+				
+				approverPriority++;
+				approverCode++;
+			}
+			/* 참조자 insert */
+			for(String referrer : referrerList) {
+				int referrerCode = signInsertService.findMaxReferrerCode() + 1;
+	
+				String referrerEmpCode = referrer.substring(4,11);
+				EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+				
+				RefferrerDTO refferrerDTO = new RefferrerDTO();
+				refferrerDTO.setCode(referrerCode);
+				refferrerDTO.setEmp(referrerEmployeeDTO);
+				refferrerDTO.setSign(updateSign);
+				refferrerDTO.setReadYN("N");
+				
+	//			System.out.println(refferrerDTO);
+	
+				signInsertService.insertReferrer(refferrerDTO);
+				
+				referrerCode++;
+			}
+			
+		} else {
+			
+			/* 기존 결재자, 참조자 기존 정보 delete */
+			signUpdateService.deleteSignApprover(signCode);
+			signUpdateService.deleteSignRefferrer(signCode);
+			
+			/* 기안서 정보 delete */
+			signUpdateService.deleteSign(signCode);
 		}
+
 		
 		mv.setViewName("redirect:/sign/sent/savesign");
 		return mv;

@@ -76,10 +76,17 @@
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
 										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>&emsp;&emsp;&emsp;&emsp;&emsp;
-										<button type="button" id="deleteBtn" name="deleteBtn" class="btn btn-danger btn-lg" onclick="delete_document();">삭제</button>
+										<button type="button" id="deleteBtn" name="deleteBtn" class="btn btn-danger btn-lg" onclick="delete_document_YN();">삭제</button>
 									</div>
 									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
+									<input type="text" id="deleteDocumentYn" name="deleteDocumentYn" value="N" hidden>
 									<script>
+										function delete_document_YN() {
+											var signStatus = document.getElementById("deleteDocumentYn");
+											signStatus.value = "Y";
+											
+											document.getElementById("saveBtn").click();
+										}
 										function temporarySave() {
 											var signStatus = document.getElementById("signStatus");
 											signStatus.value = "임시저장";

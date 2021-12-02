@@ -108,7 +108,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/emp/list">재직자 관리</a>
                         <a class="collapse-item" href="/emp/outEmpList">퇴직자 관리</a>
-                        <a class="collapse-item" href="/emp/empTestV1">사원관리 테스트</a>
                     </div>
                 </div>
             </li>
@@ -130,11 +129,19 @@
             </li>
 
             <!-- Nav Item - 근무근태 관리 -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/work">
-                    <i class="fas fa-calendar-check"></i>
+            <li class="nav-item" style="margin-bottom : -17px">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWorkAttendance"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-dollar-sign"></i>
                     <span>근무근태 관리</span>
                 </a>
+                <div id="collapseWorkAttendance" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/emp/work">근무근태 관리</a>
+                        <a class="collapse-item" href="#">연차관리</a>
+                    </div>
+                </div>
             </li>
             
             <!-- Nav Item - 근무근태 관리 -->
@@ -211,8 +218,6 @@
                     <span>이벤트 관리</span>
                 </a>
             </li>
-
-
 
             <!-- Divider -->
             <hr class="sidebar-divider">

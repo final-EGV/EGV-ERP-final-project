@@ -38,9 +38,6 @@ public class EmpInfoController {
 		this.empInfoService = empInfoService;
 	}
 
-	@GetMapping("/empTestV1")
-	public void emptest() {}
-	
 	/* 전체 재직 사원조회 */
 	@GetMapping("/list")
 	public ModelAndView empListRequest(ModelAndView mv) {

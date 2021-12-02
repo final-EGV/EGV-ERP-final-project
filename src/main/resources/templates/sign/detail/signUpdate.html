@@ -75,7 +75,8 @@
 									<input type="number" th:value="${ sign.code }" name="signCode" id="signCode" hidden>
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
-										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>&emsp;&emsp;&emsp;&emsp;&emsp;
+										<button type="button" id="deleteBtn" name="deleteBtn" class="btn btn-danger btn-lg" onclick="delete_document();">삭제</button>
 									</div>
 									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
 									<script>

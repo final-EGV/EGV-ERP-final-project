@@ -177,5 +177,44 @@ public class SignUpdateController {
 		mv.setViewName("redirect:/sign/sent/savesign");
 		return mv;
 	}
+	
+	@GetMapping("detail/resign")
+	public ModelAndView reSign(ModelAndView mv, @RequestParam("code") String code, Principal principal) {
+		
+		// 선택한 반려 기안서 코드
+		int signCode = Integer.valueOf(code);
+//		System.out.println(code);
+		
+		/* (모달창에서 사용) 사원정보 조회 */
+		List<EmployeeDTO> empList = empInfoService.empListRequest();
+		
+		/* 선택한 기안서 정보 조회*/
+		SignDTO savedSignDTO = signUpdateService.selectSavedSign(signCode);
+//		System.out.println(savedSignDTO);
+		
+		/* 템플릿 정보 조회 */
+		TemplateDTO templateDTO = savedSignDTO.getTemp();
+//		System.out.println(templateDTO);
+		
+		/* 결재자 정보 조회 */
+		List<ApproverDTO> approverList = signUpdateService.selectSignApproverList(signCode);
+		int approverListSize = approverList.size();
+		
+		/* 참조자 정보 조회 */
+		List<RefferrerDTO> refferrerList = signUpdateService.selectSignRefferrerList(signCode);
+//		System.out.println(refferrerListSize);
+
+		mv.addObject("empList", empList);
+		mv.addObject("template", templateDTO);
+		mv.addObject("sign", savedSignDTO);
+		mv.addObject("approverList", approverList);
+		mv.addObject("approverListSize", approverListSize);
+		mv.addObject("refferrerList", refferrerList);
+		mv.addObject("status", "resign");
+		
+		mv.setViewName("/sign/detail/signUpdate");
+		
+		return mv;
+	}
 
 }

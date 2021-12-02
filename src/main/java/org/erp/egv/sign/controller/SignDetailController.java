@@ -2,9 +2,7 @@ package org.erp.egv.sign.controller;
 
 import java.security.Principal;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.List;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.UserImpl;

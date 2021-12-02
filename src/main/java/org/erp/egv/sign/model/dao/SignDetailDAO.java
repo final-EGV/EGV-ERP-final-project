@@ -31,6 +31,7 @@ public class SignDetailDAO {
 		String jpql = "SELECT a FROM ApproverDTO as a WHERE a.emp.code = :empcode AND a.sign.code = :signcode";
 		ApproverDTO app = em.createQuery(jpql, ApproverDTO.class).setParameter("empcode", empCode).setParameter("signcode", signCode).getSingleResult();
 		app.setStatus("승인");
+		app.setDate(new java.sql.Date(System.currentTimeMillis()));
 		
 		String jpql2 = "SELECT a FROM ApproverDTO as a WHERE a.sign.code = :signcode";
 		List<ApproverDTO> appList = em.createQuery(jpql2, ApproverDTO.class).setParameter("signcode", signCode).getResultList();

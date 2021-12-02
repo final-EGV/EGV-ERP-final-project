@@ -123,7 +123,7 @@
 							        <tbody>
 							            <tr>
 							                <td rowspan="3">기안</td>
-							                <td style="height: 30px;" th:text="${ sign.employee.empPosition }"></td>
+							                <td style="height: 30px;"> [[${ sign.employee.empPosition }]]</td>
 							                <td rowspan="3">결재</td>
 							                <span class="parent" th:each="app:${sign.approver}">
 							                	<td class="parent" th:text="${app.emp.empPosition}"></td>	
@@ -136,9 +136,9 @@
 							                </span>
 							            </tr>
 							            <tr>
-							                <td style="height: 30px;" th:text="${ sign.employee.name }"></td>
+							                <td style="height: 30px;"> [[${ sign.employee.name }]] <p style="margin-bottom: 0px; font-size: 7px;" th:text="${#dates.format(sign.date, 'yyyy-MM-dd HH:mm')}"></p> </td>
 							                <span th:each="app:${sign.approver}">
-							                	<td th:text="${app.emp.name}"></td>	
+							                	<td> [[${app.emp.name}]] <p style="margin-bottom: 0px; font-size: 7px;" th:text="${#dates.format(app.date, 'yyyy-MM-dd HH:mm')}"></p> </td>	
 							                </span>
 							            </tr>
 							        </tbody>
@@ -172,7 +172,7 @@
 								<span th:each="com:${ sign.comment }">
 									<span th:id="|comment${ com.code }|">
 										[[|${ com.emp.empPosition } ${ com.emp.name } &nbsp;&nbsp; |]] &nbsp; 
-										<span th:text="${#dates.format(com.date, 'yyyy-MM-dd MM:HH')}"></span> &nbsp; &nbsp;
+										<span th:text="${#dates.format(com.date, 'yyyy-MM-dd HH:mm')}"></span> &nbsp; &nbsp;
 										<button style="height: 35px;" class="btn btn-outline-dark" type="button" th:onclick="|btn_click(${ com.code })|" th:if="${ com.emp.code } == ${ #authentication.name }">
 											삭제
 										</button>

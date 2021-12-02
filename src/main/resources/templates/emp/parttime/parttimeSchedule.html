@@ -34,45 +34,62 @@
 		클릭시 이벤트 삭제도 가능하게 만듬
 	-->
      <script>
+     /*   Date : 2021/12/01
+ 	    Writer : Hansoo Lee
+ 	    FullCalendar 제어용 함수
+ 	      이벤트 클릭 리스너에 에이작스로 DB삭제 코드와 화면삭제 메소드 넣음
+ 	      Ajax로 Json문자가 반환되어 alert창 띄움
+ 	 */
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
           locale: 'ko',
-          selectable: true,
-
            eventClick : function( Info ) { 
-        	   
         	   if(confirm("진짜 삭제할 꺼야?")){
-
         		   $.ajax({
         				url: "/emp/parttime/delete",
         				type: "post",
         				data: {code : Info.event.id},
         				success: function(data){
         					alert(data);
-        					console.log(data);
         				},
         				error: function(xhr){
         					console.log(xhr);
         				}
         			});
-        	   
         	   Info.event.remove();
         	  }       	   
            },
-          
+           
+           
+       /*  Date : 2021/12/01
+       	 Writer : Hansoo Lee
+         FullCalendar 이벤트 추가 함수
+       	 for in 반복문으로 Ajax로 가져온 데이터 배열을 분해하여 화면에 적용시켜 준다. 
+         FullCalendar Event Parsing 페이지(https://fullcalendar.io/docs/event-parsing)에 따르면
+         end 항목은 exclusive 하므로 end날짜에 하루를 더하여 화면에 새로 파싱해 주었다.
+        */
         events: [
     		$.ajax({
     			url: "/emp/parttime/parttimeScheduleList",
     			success: function(data){
-    				
+    				let color = ['black','blue','DarkGray','Brown','Tomato','Olive','LightSlateGray']; 
     				for (let index in data){
+    					
+    					let plusDay = new Date(data[index]['end']);
+    					if (data[index]['end'] != data[index]['start'] ){
+    					plusDay = new Date(data[index]['end']);
+    					plusDay.setDate(plusDay.getDate() + 1 );
+    					}
+    					
     				calendar.addEvent({
     					id : data[index]['code'],
-    					title : data[index]['title'],
+    					title : data[index]['code'] + ' : '+ data[index]['title'],
     					start : data[index]['start'],
-    					end : data[index]['end']
+    					end : plusDay,
+    					allDay : true,
+    					backgroundColor : color[Math.floor(Math.random()*7)]
     				})
     				}
     			},
@@ -112,10 +129,10 @@
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-					<h1 align="Center">인사 페이지 내용 넣기</h1>
+					<h1 align="Center">아르바이트 일정 등록</h1>
 					
 				<!-- 사원등록 trigger modal 버튼 -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registEmp">
+				<button type="button" id="registSchedule" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registEmp">
 				  아르바이트 스케줄 등록
 				</button>
 					<!-- DataTales -->
@@ -206,7 +223,7 @@
 						<tr>
 							<td class="col-1">이름</td>
 							<td class="col-3">
-							<select class="form-control" th:id="name" name="empCode" aria-label="name" required>
+							<select class="form-control" th:id="name" name="empCode" aria-label="name">
 							</select>
 							</td>
  							<td class="col-1">근무<br>타입</td>
@@ -219,9 +236,9 @@
 						</tr>
 						<tr>
 							<td class="col-1">시작날짜</td>
-							<td class="col-3"><input class="form-control" type="date" name="start" aria-label="startTime" required></td>
+							<td class="col-3"><input class="form-control" id="startTime" type="date" name="start" aria-label="startTime" required></td>
 							<td class="col-1">종료날짜</td>
-							<td class="col-3"><input class="form-control" type="date" name="end" aria-label="endTime" required></td>
+							<td class="col-3"><input class="form-control" id="endTime" type="date" name="end" aria-label="endTime" required></td>
 						</tr>
 					</tbody>
 				</table>
@@ -252,31 +269,60 @@
 	<script src="/js/demo/datatables-demo.js"></script>
 
 	<script>
-
-	</script>
-    <!--  Date : 2021/11/30
-	 	  Writer : Hansoo Lee
-	
-	현재 존재하는 아르바이트생만 조회 및 선택
-	 -->
-	<script>
+    /* Date : 2021/11/30
+     Writer : Hansoo Lee
+     현재 존재하는 아르바이트생만 조회 및 선택
+    */
 	$(function(){
 		$.ajax({
 			url: "/emp/parttimerList",
 			success: function(data){
 				const $empPosition = $("#name");
 				$empPosition.html("");
-				
  				for (let index in data){
 					$empPosition.append($("<option>").val(data[index].code).text(data[index].name));						
 				}
-
 			},
 			error: function(xhr){
 				console.log(xhr);
 			}
 		});
 	});
+
+    
+   /* Date : 2021/12/01
+    Writer : Hansoo Lee
+    현재날짜 조합
+   */
+	$(function(){
+	      let now = new Date();       // 현재시간 생성
+       	  let year = now.getFullYear(); // 년도
+       	  let month = now.getMonth() + 1;  // 월 (월은 +1)
+       	  let date = now.getDate();  // 날짜
+       	  if ( month < 10 ){         // 자리수 맞추기
+       		  month = '0' + month;
+       		  }
+       	  if ( date < 10 ){
+       		  date = '0' + date;
+       		  }
+       	  let nowDay = year + '-' + month + '-' + date;
+       	$('input[name=start]').attr('min', nowDay)
+	});	
+	
+   /* Date : 2021/12/01
+    Writer : Hansoo Lee
+    날짜 선택에 따라 date 활성화 제어
+   */
+	$(function(){
+		   let $inputStartDate = $('input[name=start]');
+		   let $inputEndDate = $('input[name=end]');
+		   $inputStartDate.change(function() {
+		   $inputEndDate.attr('min',$inputStartDate.val())
+		      if ($inputStartDate.val() > $inputEndDate.val() ) {
+		    	  $inputEndDate.val("");
+		    	} 
+		   })
+	});	
 	
 	(function () {
 		  'use strict'
@@ -298,6 +344,6 @@
 		    })
 		})()
 </script>
-	
+
 </body>
 </html>

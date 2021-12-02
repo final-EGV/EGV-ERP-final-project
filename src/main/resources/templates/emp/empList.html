@@ -307,7 +307,6 @@
 			url: "/emp/departmentList",
 			success: function(data){
 				const $dept = $("#dept");
-				console.log(xhr);
 				for (let index in data){
 					$dept.append($("<option>").val(data[index].code).text(data[index].name));					
 				}

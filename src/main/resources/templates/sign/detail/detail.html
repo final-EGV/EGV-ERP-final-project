@@ -132,7 +132,7 @@
 							            <tr>
 							                <td style="height: 70px;"> <img th:src="|/stamp-img/${ sign.employee.stampUuidName }|" style="height: 100px;"> </td>
 							                <span th:each="app:${sign.approver}">
-							                	<td style="height: 100px;"> <img th:if="${app.status == '승인'}" th:src="|/stamp-img/${ app.emp.stampUuidName }|" style="height: 100px;"> <img th:if="${app.status == '반려'}" src="/stamp-img/반려.svg" style="height: 100px;"> </td>	
+							                	<td style="height: 100px;"> <img th:if="${app.status == '승인'}" th:src="|/stamp-img/${ app.emp.stampUuidName }|" style="height: 100px;"> <img th:if="${app.status == '반려'}" src="/stamp-img/reject.svg" style="height: 100px;"> </td>	
 							                </span>
 							            </tr>
 							            <tr>

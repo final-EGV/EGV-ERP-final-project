@@ -14,11 +14,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>
-	if("[[${ param.error }]]" == "fail") {
-		alert("일치하는 사원이 없습니다.");
-	}
-</script>
 
 <div style="text-align: center; margin-top: 150px; margin-bottom: 40px;">
     <a onclick="location.href='/emp/login'"><img src="/img/egv_icon.PNG" style="width: 200px; height: 80px; margin-left: 20px;"/></a>
@@ -125,7 +120,7 @@
 	  				type: "post",
 	  				data: param,
 	  				success: function(data) {
-	  					if(data == null) {
+	  					if(data.code == null) {
 	  						alert("입력하신 정보와 일치하는 사원이 없습니다.");
 	  					} else {
 	  						$("#empcode").text(data.code);

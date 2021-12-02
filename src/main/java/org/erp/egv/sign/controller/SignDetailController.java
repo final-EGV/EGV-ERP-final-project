@@ -79,9 +79,6 @@ public class SignDetailController {
 		mv.addObject("sign", sign);
 		mv.setViewName("/sign/detail/detail");
 		
-		SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-		System.out.println(format1.format(sign.getComment().get(0).getDate()));
-		
 		return mv;
 	}
 	

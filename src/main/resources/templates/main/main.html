@@ -19,6 +19,9 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
     <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
     
@@ -53,23 +56,58 @@
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-key"></i>&nbsp;&nbsp;비밀번호 변경</a>
                     </div>
 
-			<!-- Content Row -->
-
+					<!-- Content Row -->
                     <div class="row">
-
+                    
 					<script>
 						document.addEventListener('DOMContentLoaded', function() {
-					    	var calendarEl = document.getElementById('calendar');
+					    	var calendarEl = document.getElementById('scheduleCalendar');
 					        var calendar = new FullCalendar.Calendar(calendarEl, {
 					        	initialView: 'dayGridMonth',
 					        	locale: 'ko',
 					         	eventClick : function( Info ) { 
-      	   
-					        	} 
-					        }); 
+					         		     	   
+					        	},
+					        	events: [
+					    			$.ajax({
+					    				url: "/schedule/scheduleList",
+					    				success: function(data){
+					    					for (let index in data){
+					    						console.log(index);
+					    						
+					    						let plusDay = new Date(data[index]['endDate']);
+					    						if (data[index]['endDate'] != data[index]['startDate']){
+					    							plusDay = new Date(data[index]['endDate']);
+					    							plusDay.setDate(plusDay.getDate() + 1 );
+					    						}
+					    						
+					    						if (data[index]['schCat']['schCatCode'] == 1) {
+						    						var color = 'DarkGray';
+						    					} else if (data[index]['schCat']['schCatCode'] == 2) {
+						    						var color = 'Brown';
+						    					} else if (data[index]['schCat']['schCatCode'] == 3) {
+						    						var color = 'black';
+						    					} else if (data[index]['schCat']['schCatCode'] == 4) {
+						    						var color = 'LightSlateGray';
+						    					}
+					    						
+					    						calendar.addEvent({
+					    							id : data[index]['schCode'],
+					    							title : data[index]['schCat']['schCatName'],
+					    							start : data[index]['startDate'],
+					    							end : plusDay,
+					    							allDay : true,
+					    							backgroundColor : color
+					    						})
+					    					}
+					    				},
+					    				error: function(xhr){
+					    					console.log(xhr);
+					    				}
+					    			})]
+					        	}); 
 					        calendar.render();
-					      });
-					
+							});
 					    </script>
                         <!-- 일정관리 -->
                         <div class="col-xl-7 col-lg-7">
@@ -89,7 +127,7 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="schedule-area">
-                                        <div id='calendar'><br></div>
+                                        <div id='scheduleCalendar'><br></div>
                                     </div>
                                 </div>
                             </div>
@@ -486,22 +524,22 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript --> 
+    <script src="/js/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages -->
-    <script src="js/sb-admin-2.min.js"></script>
+    <!-- Custom scripts for all pages --> 
+    <script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="js/Chart.min.js"></script>
+    <!-- Page level plugins --> 
+    <script src="/js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
+    <!-- Page level custom scripts --> 
+    <script src="/js/chart-area-demo.js"></script>
+    <script src="/js/chart-pie-demo.js"></script>
 
 </body>
 

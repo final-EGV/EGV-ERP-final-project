@@ -46,4 +46,6 @@ public class ScheduleCategoryDTO implements Serializable {
 	public String toString() {
 		return "ScheduleCategoryDTO [schCatCode=" + schCatCode + ", schCatName=" + schCatName + "]";
 	}
+
+	
 }

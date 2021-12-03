@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -18,10 +21,16 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "ANNUAL_LEAVE")
+@SequenceGenerator(name = "ANNUAL_LEAVE_SEQ_GENERATOR",
+sequenceName = "SEQ_ANNUAL_LEAVE_CODE",
+initialValue = 1, 
+allocationSize = 1)
 public class AnnualLeaveDTO implements Serializable{
 	private static final long serialVersionUID = -8778880747799272707L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator = "ANNUAL_LEAVE_SEQ_GENERATOR")	
 	@Column(name = "AL_CODE")
 	private int code;
 	

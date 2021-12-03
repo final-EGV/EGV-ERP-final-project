@@ -20,9 +20,11 @@ public class MainService {
 	}
 
 	@Transactional
-	public List<ScheduleDTO> selectScheduleList() {
-
-		return mainDAO.selectScheduleList();
+	public List<ScheduleDTO> selectScheduleList(String empCode) {
+		
+		return mainDAO.selectScheduleList(empCode);
 	}
+
+
 
 }

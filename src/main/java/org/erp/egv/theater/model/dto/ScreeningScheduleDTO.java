@@ -96,8 +96,8 @@ public class ScreeningScheduleDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ScreeningScheduleDTO [code=" + code + ", movieAndScreening=" + movieAndScreening + ", theater="
-				+ theater + ", screeningStart=" + screeningStart + ", screeningEnd=" + screeningEnd + "]";
+		return "ScreeningScheduleDTO [code=" + code + ", movieAndScreening=" + movieAndScreening.getName() + ", theater="
+				+ theater.getName() + ", screeningStart=" + screeningStart + ", screeningEnd=" + screeningEnd + "]";
 	}
 
 }

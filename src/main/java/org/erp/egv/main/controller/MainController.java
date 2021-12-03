@@ -27,7 +27,9 @@ public class MainController {
 	@GetMapping(value = {"/", "/main"})
 	public ModelAndView main(ModelAndView mv, Principal principal) {
 		
-		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		if ( principal != null ) {
+			String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		}
 		
 		mv.setViewName("main/main");
 		return mv;

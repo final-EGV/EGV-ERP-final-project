@@ -24,6 +24,15 @@
 <script src="https://kit.fontawesome.com/56b47e1b72.js"
 	crossorigin="anonymous"></script>
 	
+<style>
+	#cmttext {
+  		height:80px; 
+  		margin-right: 25px;
+  		resize: none;
+  		placeholder: "내용을 입력해 주세요.";
+  	}
+</style>
+	
 </head>
 <body id="page-top">
 
@@ -49,11 +58,58 @@
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">[[${ blindPost.title }]]</h6>
 						</div>
-						<div class="card-body">
-						
-							[[${ blindPost.code }]]
-							[[${ blindPost.date }]]
-							[[${ blindPost.content }]]
+						<div class="card-body row">
+							<div class="col-2"></div>
+							<table class="table table-bordered col-8">
+								<tr>
+									<td width="25%;">제목</td>
+									<td th:text="${ blindPost.title }"></td>
+								</tr>
+								<tr>
+									<td>문서번호</td>
+									<td th:text="${ blindPost.code }"></td>
+								</tr>
+								<tr>
+									<td>작성일</td>
+									<td th:text="${ blindPost.date }"></td>
+								</tr>
+							</table>
+							<div class="col-2"></div>
+							<div class="col-2"></div>
+							<div class="col-8" style="border:solid 1px; height: 300px; font-size: 25px;">
+								[[${ blindPost.content }]]	
+							</div>
+							<div class="col-2"></div>
+							<div th:if="${ blindPost.emp.code } == ${ #authentication.name }" class="col-2"></div>
+							<div th:if="${ blindPost.emp.code } == ${ #authentication.name }" class="col-10" style="margin-left: -10px; margin-top: 15px;">
+								<button th:onclick="|location.href='/community/postupdate?code=${ blindPost.code }'|" class="btn btn-primary">수정</button> 
+								<button id="deletebtn" class="btn btn-danger">삭제</button> 
+							</div>
+							
+							<div class="col-2"></div>
+							<div class="col-8" id="commentdiv">
+								<h3 style="text-align: left; margin-top: 30px;">댓글</h3>
+								<textarea class="col-10" id="cmttext" name="cmttext" style="margin-bottom: 10px;"></textarea>
+								<button id="subbtn" class="btn btn-outline-dark" style="margin-top: -90px;">작성하기</button>
+							</div>
+							
+							<div class="col-2"></div><div class="col-2"></div>
+							<div class="col-8" id="commentdiv2">
+								<span th:each="cmt:${ blindPost.cmt }">
+									<span th:id="|comment${ cmt.code }|">
+										익명 &nbsp;&nbsp;&nbsp; 
+										<span th:text="${#dates.format(cmt.date, 'yyyy-MM-dd HH:mm')}"></span> &nbsp; &nbsp;
+										<button style="height: 35px;" class="btn btn-outline-dark" type="button" th:onclick="|btn_click(${ cmt.code })|" th:if="${ cmt.emp.code } == ${ #authentication.name }">
+											삭제
+										</button>
+										<p th:text="${ cmt.contents }"></p>
+										<hr style="margin-top: -10px;">
+									</span>
+								</span>
+								<div>
+								</div>
+							</div>
+							
 							
 						</div>
 					</div>
@@ -125,6 +181,89 @@
 				"order" : [ 1, 'desc' ]
 			}
 			);
+		});
+	</script>
+	
+	<script>
+	function btn_click(a) {
+			const param = {
+				 	code : a
+				}
+			
+			$.ajax({
+  				url: "cmt/delete",
+  				type: "get",
+  				data: param,
+  				success: function(data) {
+  					var asd = '#comment' + data;
+  					
+  					const comdiv = $(asd);
+  					comdiv.remove();
+  					
+  				},
+  				error: function(request, status, error){
+  					alert("code:" + request.status + "\n" 
+  							+ "message:" + request.responseText + "\n"
+  							+ "error:" + error);
+  				}
+  			});	        
+			
+			
+			
+		} 
+	
+		$("#subbtn").click(function() {
+			const param = {
+					comment : $("#cmttext").val(),
+				 	code : "[[${ blindPost.code }]]"
+				}
+			
+			if(param.comment != "") {
+				$.ajax({
+	  				url: "cmt/insert",
+	  				type: "post",
+	  				data: param,
+	  				success: function(data) {
+	  					
+	  					$("#cmttext").val("");
+	  					
+	  					var now = new Date();
+	  					var hour = now.getHours();
+	  					var minutes = now.getMinutes();
+	  					
+	  					var spanid = "<span id='comment" + data.code + "'>"
+	  					var btnid = "<button class='btn btn-outline-dark' onclick='btn_click(" + data.code + ")'>";
+	  					const comdiv = $("#commentdiv2 div");
+	  					plusdiv = $(spanid);
+	  					plusdiv.html("익명 \u00a0\u00a0\u00a0" + data.date + "\u00a0\u00a0"  + hour + ":" + minutes + "\u00a0\u00a0\u00a0");
+	  					comdiv.append(plusdiv);
+	  					
+	  					a = $(btnid).text("삭제")
+	  					p = $("<p>").text(data.contents);
+	  					hr = $("<hr>")
+	  					
+	  					plusdiv.append(a);
+	  					plusdiv.append(p);
+	  					plusdiv.append(hr);
+	  					
+	  				},
+	  				error: function(request, status, error){
+	  					alert("code:" + request.status + "\n" 
+	  							+ "message:" + request.responseText + "\n"
+	  							+ "error:" + error);
+	  				}
+	  			});	        
+			} else {
+				alert("내용을 입력해주세요");
+			}
+        	      
+		});
+		
+		$("#deletebtn").click(function(){
+			var result = confirm("정말 삭제 하시겠습니까?");
+			if(result) {
+				location.href='/community/post/delete?code=[[${blindPost.code}]]';
+			}
 		});
 	</script>
 	

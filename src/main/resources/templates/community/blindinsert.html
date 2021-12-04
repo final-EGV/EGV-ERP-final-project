@@ -55,30 +55,22 @@
 				<div class="container-fluid">
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">익명 게시판</h6>
+							<h6 class="m-0 font-weight-bold text-primary">게시글 추가</h6>
 						</div>
 						<div class="card-body">
-							<div id="btndiv"> <button onclick="location.href='/community/blindinsert'" class="btn btn-outline-dark">작성하기</button> </div>
-							<div class="table-responsive">
-								<table class="table table-bordered" id="tempTable" width="100%" cellspacing="0">
-									<thead>
-										<tr>
-											<th>게시글 코드</th>
-											<th>제목</th>
-											<th>등록일</th>
-										</tr>
-									</thead>
-									<tbody>
-										<span th:each="blind : ${ blindList }">
-											<tr th:onclick="|location.href='/community/detail?code=${blind.code}'|">
-												<td th:text="${ blind.code }"></td>
-												<td th:text="${ blind.title }"></td>
-												<td th:text="${ blind.date }"></td>
-											</tr>
-										</span>
-									</tbody>
-								</table>
-							</div>
+							<form th:if="!${ post }" style="margin-left: 5%;" action="/community/blindinsert" method="post">
+								<h3>제목</h3> <input class="col-4" style="margin-bottom: 30px; height: 40px;" required type="text" name="title">
+								<h3>내용</h3>
+								<textarea class="col-8" required style="height: 200px; margin-bottom: 15px; resize: none;" name="content"></textarea><br>
+								<button class="btn btn-primary" type="submit">저장</button> <button class="btn btn-secondary" type="button" onclick="location.href='/community/blind'">취소</button>
+							</form>
+							<form th:if="${ post }" style="margin-left: 5%;" action="/community/postupdate" method="post">
+								<input type="hidden" th:value="${ post.code }" name="code">
+								<h3>제목</h3> <input th:value="${ post.title }" class="col-4" style="margin-bottom: 30px; height: 40px;" required type="text" name="title">
+								<h3>내용</h3>
+								<textarea th:text="${ post.content }"  class="col-8" required style="height: 200px; margin-bottom: 15px; resize: none;" name="content"></textarea><br>
+								<button class="btn btn-primary" type="submit">저장</button> <button class="btn btn-secondary" type="button" onclick="location.href='/community/blind'">취소</button>
+							</form>
 						</div>
 					</div>
 				</div>

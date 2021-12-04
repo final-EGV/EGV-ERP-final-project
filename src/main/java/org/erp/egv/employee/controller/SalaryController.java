@@ -1,16 +1,17 @@
 package org.erp.egv.employee.controller;
 
+import java.security.Principal;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,6 +87,46 @@ public class SalaryController {
 		mv.addObject("salary", monthSalary);
 		mv.addObject("empInfor", emp);
 		mv.setViewName("emp/salary/salaryDetail");
+		return mv;
+	}
+	
+	/* Date : 2021/12/04
+	 * Writer : JunWoo Kim
+	 * 
+	 * 사원 개인의 월급 확인용 컨트롤러
+	 * (추가 근무를 한 경우가 있다면 수당이 지급되었는지 확인할수도 있다.)
+	 */
+	@GetMapping("/personal")
+	public ModelAndView findSalPersonal(ModelAndView mv, Principal principal) {
+		String code = (((UserImpl)((Authentication)principal).getPrincipal()).getCode());;
+		EmployeeDTO emp = empInfoService.findSalByCode(code);
+		List<WorkDTO> worklist = empInfoService.findWorkByCode(code);
+		int monthSalary = (emp.getRank().getSalary())/12;
+		
+		int hourPay = (((emp.getRank().getSalary())/12)/30)/8;
+		
+		int overWork = 0;
+		for (WorkDTO work : worklist) {
+			if(work.getWorkOver() != null) {
+			overWork += work.getWorkOver();
+			}
+		}
+		
+		int totalPay = 0;
+		if(overWork != 0) {
+			totalPay = (monthSalary + (hourPay * overWork)) * 10000;
+		} else {
+			totalPay = monthSalary * 10000;
+		}
+		
+		String announce = monthSalary + "만원 + " + overWork + "시간 추가수당";
+		
+		mv.addObject("totalPay", totalPay);
+		mv.addObject("work", worklist);
+		mv.addObject("announce", announce);
+		mv.addObject("salary", monthSalary);
+		mv.addObject("empInfor", emp);
+		mv.setViewName("emp/salary/salaryDetailPersonal");
 		return mv;
 	}
 

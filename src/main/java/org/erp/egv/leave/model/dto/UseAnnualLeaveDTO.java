@@ -42,11 +42,14 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@JoinColumn(name = "ANNUAL_LEAVE_CODE")
 	private AnnualLeaveCategoryDTO categoryCode;
 	
-	@Column(name = "UAL_DATE_START")
+	@Column(name = "UAL_START_DATE")
 	private Date start;
 	
-	@Column(name = "UAL_DATE_END")
+	@Column(name = "UAL_END_DATE")
 	private Date end;
+	
+	@Column(name = "TOTAL_DATE")
+	private int total;
 	
 	@Column(name = "UAL_CONTENT")
 	private String content;
@@ -55,12 +58,13 @@ public class UseAnnualLeaveDTO implements Serializable{
 	}
 
 	public UseAnnualLeaveDTO(int code, EmployeeDTO empCode, AnnualLeaveCategoryDTO categoryCode, Date start, Date end,
-			String content) {
+			int total, String content) {
 		this.code = code;
 		this.empCode = empCode;
 		this.categoryCode = categoryCode;
 		this.start = start;
 		this.end = end;
+		this.total = total;
 		this.content = content;
 	}
 
@@ -104,6 +108,14 @@ public class UseAnnualLeaveDTO implements Serializable{
 		this.end = end;
 	}
 
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotalDate(int total) {
+		this.total = total;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -115,7 +127,7 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", categoryCode=" + categoryCode
-				+ ", start=" + start + ", end=" + end + ", content=" + content + "]";
+				+ ", start=" + start + ", end=" + end + ", total=" + total + ", content=" + content + "]";
 	}
 
 	

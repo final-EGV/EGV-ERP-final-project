@@ -43,7 +43,6 @@ CREATE SEQUENCE SEQ_SIGN_COM_CODE;
 CREATE SEQUENCE SEQ_PARTTIME_CODE INCREMENT BY 1 START WITH 101;
 CREATE SEQUENCE SEQ_SAL_CODE;
 CREATE SEQUENCE SEQ_ANNUAL_LEAVE_CODE;
-CREATE SEQUENCE SEQ_AL_CODE;
 CREATE SEQUENCE SEQ_UAL_CODE;
 CREATE SEQUENCE SEQ_DEPT_CODE INCREMENT BY 100 START WITH 100;
 CREATE SEQUENCE SEQ_RANK_CODE INCREMENT BY 100 START WITH 100;
@@ -241,9 +240,9 @@ CREATE TABLE EMPLOYEE (
     PROFILE_ORIG_NAME VARCHAR2(255),
     PROFILE_UUID_NAME VARCHAR2(255),
     PROFILE_IMG_PATH VARCHAR2(255),
-    STAMP_ORIG_NAME	VARCHAR2(255),
-    STAMP_UUID_NAME	VARCHAR2(255),
-    STAMP_IMG_PATH VARCHAR2(255),
+    STAMP_ORIG_NAME	VARCHAR2(255) DEFAULT 'approval.svg',
+    STAMP_UUID_NAME	VARCHAR2(255) DEFAULT 'approval.svg',
+    STAMP_IMG_PATH VARCHAR2(255) DEFAULT 'C:\springbootWork\EGV-ERP-final-project\src\main\resources\static\stamp-img/',
     CONSTRAINT CK_CAREER_YN CHECK(CAREER_YN IN ('Y', 'N')),
     CONSTRAINT CK_OUT_YN CHECK(OUT_YN IN ('Y', 'N')),
     CONSTRAINT PK_EMP_CODE PRIMARY KEY (EMP_CODE),
@@ -289,8 +288,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -301,7 +299,6 @@ VALUES
     100, '시티은행', '1234-12-123456', '김준우',
     '경기도 평택시', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -315,8 +312,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -327,7 +323,6 @@ VALUES
     300, '신한은행', '110-281-480100', '하동훈',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -341,8 +336,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -353,7 +347,6 @@ VALUES
     400, '국민은행', '110-1234-480100', '노홍철',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -367,8 +360,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -379,7 +371,6 @@ VALUES
     200, '신한은행', '110-134-432800', '정형돈',
     '서울시', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -393,8 +384,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -405,7 +395,6 @@ VALUES
     200, '국민은행', '1234-12-123456', '박명수',
     '서울시 강남구', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 INSERT
@@ -418,8 +407,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -430,7 +418,6 @@ VALUES
     400, '국민은행', '723412123456', '유재석',
     '서울시 동작구', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -444,8 +431,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -456,7 +442,6 @@ VALUES
     400, '신한은행', '1234-42-523456', '황광희',
     '서울시 동작구', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -470,8 +455,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -482,7 +466,6 @@ VALUES
     200, '국민은행', '1123-72-54356', '퇴직자01',
     '서울시 관악구', 'Y', SYSDATE,
     '놀고싶어요', NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -496,8 +479,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -508,7 +490,6 @@ VALUES
     400, '신한은행', '112-779-428641', '퇴직자02',
     '서울시 금천구', 'Y', SYSDATE,
     '쉬고싶어요', NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -522,8 +503,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -534,7 +514,6 @@ VALUES
     300, '시티은행', '145-935-795133', '퇴직자03',
     '경기도 고양시', 'Y', SYSDATE,
     '지쳤어요', NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -548,8 +527,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -560,7 +538,6 @@ VALUES
     200, '신한은행', '125-123-123475', '퇴직자04',
     '서울시 강서구', 'Y', SYSDATE,
     '집샀어요', NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -574,8 +551,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -586,7 +562,6 @@ VALUES
     300, '시티은행', '125-778-421655', '퇴직자05',
     '경기도 부천시', 'Y', SYSDATE,
     '코인 대박났어요', NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -600,8 +575,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -612,7 +586,6 @@ VALUES
     400, '신한은행', '110-281-480100', '김주호',
     '서울시 강서구', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -626,8 +599,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -638,7 +610,6 @@ VALUES
     400, '국민은행', '110-879-135497', '알바1',
     '서울시 동작구', DEFAULT, NULL,
     NULL, NULL, NULL,
-    NULL, NULL, NULL,
     NULL, NULL
 );
 
@@ -652,8 +623,7 @@ INSERT
     DEPT_CODE, ACCOUNT_BANK, ACCOUNT_NUM,
     ACCOUNT_HOLDER, ADDRESS, OUT_YN,
     OUT_DATE, OUT_REASON, NOTE,
-    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH,
-    STAMP_ORIG_NAME, STAMP_UUID_NAME, STAMP_IMG_PATH
+    PROFILE_ORIG_NAME, PROFILE_UUID_NAME, PROFILE_IMG_PATH
 )
 VALUES
 (
@@ -663,7 +633,6 @@ VALUES
     '0278963465', '01075648912', 'Alba2@naver.com',
     400, '시티은행', '110-795-246878', '알바2',
     '서울시 용산구', DEFAULT, NULL,
-    NULL, NULL, NULL,
     NULL, NULL, NULL,
     NULL, NULL
 );
@@ -1073,9 +1042,10 @@ CREATE TABLE SCHEDULE (
       SCHEDULE_CODE NUMBER,
       EMP_CODE VARCHAR2(255),
       SCHEDULE_CATEGORY_CODE NUMBER CONSTRAINT NN_SCHEDULE_CATEGORY_CODE NOT NULL,
-      SCHEDULE_DATE DATE CONSTRAINT NN_SCHEDULE_DATE NOT NULL,
-      SCHEDULE_LOC VARCHAR2(255) CONSTRAINT NN_SCHEDULE_LOC NOT NULL,
-      SCHEDULE_CONTENT VARCHAR2(4000) CONSTRAINT NN_SCHEDULE_CONTENT NOT NULL,
+      SCHEDULE_START_DATE DATE CONSTRAINT NN_SCHEDULE_START_DATE NOT NULL,
+      SCHEDULE_END_DATE DATE CONSTRAINT NN_SCHEDULE_END_DATE NOT NULL,
+      SCHEDULE_LOCATION VARCHAR2(255),
+      SCHEDULE_DESC VARCHAR2(4000),
       -- TABLE LEVEL CONSTRAINT
       CONSTRAINT PK_SCHEDULE_CODE PRIMARY KEY(SCHEDULE_CODE),
       CONSTRAINT FK_EMP_CODE5 FOREIGN KEY(EMP_CODE) REFERENCES EMPLOYEE(EMP_CODE),
@@ -1085,10 +1055,51 @@ CREATE TABLE SCHEDULE (
 COMMENT ON COLUMN SCHEDULE.SCHEDULE_CODE IS '개인일정코드';
 COMMENT ON COLUMN SCHEDULE.EMP_CODE IS '사번';
 COMMENT ON COLUMN SCHEDULE.SCHEDULE_CATEGORY_CODE IS '일정구분코드';
-COMMENT ON COLUMN SCHEDULE.SCHEDULE_DATE IS '날짜';
-COMMENT ON COLUMN SCHEDULE.SCHEDULE_LOC IS '장소';
-COMMENT ON COLUMN SCHEDULE.SCHEDULE_CONTENT IS '내용';
+COMMENT ON COLUMN SCHEDULE.SCHEDULE_START_DATE IS '시작일';
+COMMENT ON COLUMN SCHEDULE.SCHEDULE_END_DATE IS '종료일';
+COMMENT ON COLUMN SCHEDULE.SCHEDULE_LOCATION IS '장소';
+COMMENT ON COLUMN SCHEDULE.SCHEDULE_DESC IS '내용';
 
+INSERT INTO SCHEDULE
+(
+  SCHEDULE_CODE, EMP_CODE, SCHEDULE_CATEGORY_CODE
+, SCHEDULE_START_DATE, SCHEDULE_END_DATE, SCHEDULE_LOCATION, SCHEDULE_DESC
+)
+VALUES
+(
+  SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 1
+, '2021-12-13', '2021-12-13', '402호', '근무 스케줄입니다.'
+);
+INSERT INTO SCHEDULE
+(
+  SCHEDULE_CODE, EMP_CODE, SCHEDULE_CATEGORY_CODE
+, SCHEDULE_START_DATE, SCHEDULE_END_DATE, SCHEDULE_LOCATION, SCHEDULE_DESC
+)
+VALUES
+(
+  SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 2
+, '2021-12-15', '2021-12-17', NULL, '휴가 스케줄입니다.'
+);
+INSERT INTO SCHEDULE
+(
+  SCHEDULE_CODE, EMP_CODE, SCHEDULE_CATEGORY_CODE
+, SCHEDULE_START_DATE, SCHEDULE_END_DATE, SCHEDULE_LOCATION, SCHEDULE_DESC
+)
+VALUES
+(
+  SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 3
+, '2021-12-20', '2021-12-20', '더조은', '외근 스케줄입니다.'
+);
+INSERT INTO SCHEDULE
+(
+  SCHEDULE_CODE, EMP_CODE, SCHEDULE_CATEGORY_CODE
+, SCHEDULE_START_DATE, SCHEDULE_END_DATE, SCHEDULE_LOCATION, SCHEDULE_DESC
+)
+VALUES
+(
+  SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 4
+, '2021-12-28', '2021-12-28', '405호', '회의 스케줄입니다.'
+);
 
 /* 인사관리 */
 ---------------------------------------------------PARTTIME_SCHEDULE / 알바스케줄----------------------------
@@ -1180,7 +1191,27 @@ COMMENT ON COLUMN EGV_WORK.WORK_START IS '근무시작시간';
 COMMENT ON COLUMN EGV_WORK.WORK_END IS '근무종료시간';
 COMMENT ON COLUMN EGV_WORK.WORK_OVER IS '초과근무시간';
 
-
+INSERT
+  INTO EGV_WORK
+(
+  WORK_CODE
+, WORKCATEGORY_CODE
+, EMP_CODE
+, WORK_DATE
+, WORK_START
+, WORK_END
+, WORK_OVER
+)
+VALUES
+(
+  SEQ_WORK_CODE.NEXTVAL
+, 2
+, 2021100
+, '2021-12-02'
+, '2021-12-02 18:00'
+, '2021-12-02 21:00'
+, NULL
+);
 ---------------------------------------------------------SALARY / 사원별 개인급여----------------------------
 CREATE TABLE SALARY (
     -- COLUMN LEVEL CONSTRAINT
@@ -1262,18 +1293,15 @@ VALUES
 CREATE TABLE ANNUAL_LEAVE (
     -- COLUMN LEVEL CONSTRAINT
     AL_CODE NUMBER,
-    AL_CATEGORY_CODE NUMBER,
     EMP_CODE VARCHAR2(255),
-    AL_YEAR DATE CONSTRAINT NN_AL_YEAR NOT NULL,
+    AL_YEAR NUMBER CONSTRAINT NN_AL_YEAR NOT NULL,
     AL_COUNT NUMBER CONSTRAINT NN_AL_COUNT NOT NULL,
     AL_USE_COUNT NUMBER CONSTRAINT NN_AL_USE_COUNT NOT NULL,
     -- TABLE LEVEL CONSTRAINT
     CONSTRAINT FK_EMP_CODE3 FOREIGN KEY(EMP_CODE) REFERENCES EMPLOYEE(EMP_CODE),
-    CONSTRAINT PK_AL_CODE PRIMARY KEY(AL_CODE),
-    CONSTRAINT FK_ANNUAL_LEAVE_CODE FOREIGN KEY(AL_CATEGORY_CODE) REFERENCES ANNUAL_LEAVE_CATEGORY(ANNUAL_LEAVE_CODE)
+    CONSTRAINT PK_AL_CODE PRIMARY KEY(AL_CODE)
 );
     COMMENT ON COLUMN ANNUAL_LEAVE.AL_CODE IS '개인연차코드';
-    COMMENT ON COLUMN ANNUAL_LEAVE.AL_CATEGORY_CODE IS '연차카테고리코드';
     COMMENT ON COLUMN ANNUAL_LEAVE.EMP_CODE IS '사번';
     COMMENT ON COLUMN ANNUAL_LEAVE.AL_YEAR IS '해당연도';
     COMMENT ON COLUMN ANNUAL_LEAVE.AL_COUNT IS '해당연도 총연차갯수';
@@ -1283,14 +1311,17 @@ CREATE TABLE ANNUAL_LEAVE (
 CREATE TABLE USE_ANNUAL_LEAVE (
     -- COLUMN LEVEL CONSTRAINT
     UAL_CODE NUMBER,
+    ANNUAL_LEAVE_CODE NUMBER,
     EMP_CODE VARCHAR2(255),
     UAL_DATE DATE CONSTRAINT NN_UAL_DATE NOT NULL,
     UAL_CONTENT VARCHAR2(500),
     -- TABLE LEVEL CONSTRAINT
-    CONSTRAINT PK_UAL_CODE PRIMARY KEY(UAL_CODE),
-    CONSTRAINT FK_EMP_CODE4 FOREIGN KEY(EMP_CODE) REFERENCES EMPLOYEE(EMP_CODE)
+    CONSTRAINT PK_UAL_CODE1 PRIMARY KEY(UAL_CODE),
+    CONSTRAINT FK_EMP_CODE4 FOREIGN KEY(EMP_CODE) REFERENCES EMPLOYEE(EMP_CODE),
+    CONSTRAINT FK_ANNUAL_LEAVE_CODE2 FOREIGN KEY(ANNUAL_LEAVE_CODE) REFERENCES ANNUAL_LEAVE_CATEGORY(ANNUAL_LEAVE_CODE)
 );
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.UAL_CODE IS '연차사용내역코드';
+    COMMENT ON COLUMN USE_ANNUAL_LEAVE.ANNUAL_LEAVE_CODE IS '연차카테고리코드';
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.EMP_CODE IS '사번';
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.UAL_DATE IS '연차사용날짜';
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.UAL_CONTENT IS '연차내용';
@@ -1414,9 +1445,10 @@ VALUES
 , 1
 , 2021100
 , SYSDATE
-, '임시저장'
-, '가가가 직원의 휴가계획서입니다.'
-, '~~~~ 임시 기안서 내용입니다. ~~~'
+, '결재중'
+, '김준우 직원의 휴가계획서입니다.'
+, TO_CLOB('<TABLE border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:none;"><TR><TD colspan="5" width="900" height="150" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre STYLE="text-align:center;"><SPAN STYLE="font-size:20.0pt; line-height:150%;">휴   가   계   획   서</SPAN></pre><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 작성일 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 성  명 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 소  속</SPAN></pre></TD><TD colspan="5" width="613" height="57" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="89" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 기  간</SPAN></pre></TD><TD colspan="5"  width="305" height="89" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><br><pre><SPAN style="font-size: 16px;">               년          월          일부터</SPAN></pre><pre><SPAN style="font-size: 16px;">               년          월          일까지 </SPAN></pre><pre><SPAN style="font-size: 16px;">                                                              (     )일간</SPAN></pre><br></TD></TR>')
+|| TO_CLOB('<TR><TD width="64" height="176" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 사  유</SPAN></pre></TD><TD colspan="5" width="613" height="300" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="81" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 비  고</SPAN></pre></TD><TD colspan="5" width="613" height="81" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD colspan="6" width="677" height="93" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><br><pre><SPAN style="font-size: 16px;">  주  의</SPAN></pre><pre><SPAN>1. 신고서는 휴가의 전일까지 제출하여 주십시오.</SPAN></pre><pre><SPAN>2. 신고서는 자기 소속장의 승인을 얻어 담당부과에 제출하여 주십시오.</SPAN></pre><br></TD></TR></TABLE>')
 );
 INSERT
   INTO SIGN
@@ -1436,8 +1468,8 @@ VALUES
 , 2021100
 , SYSDATE
 , '결재중'
-, '나나나 직원의 시말서입니다.'
-, '~~~~ 임시 시말서 내용입니다. ~~~'
+, '김준우 직원의 시말서입니다.'
+, '<TABLE border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:none;"><TR><TD colspan="6" width="900" height="150" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre STYLE="text-align:center;"><SPAN STYLE="font-size:20.0pt; line-height:150%;">시   말   서</SPAN></pre></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성일 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  성  명  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  소  속</SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  직  위  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="176" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  사  유  </SPAN></pre></TD><TD colspan="5" width="613" height="176" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><div style="height: 300;"><br><br><br><br><br><br><br><br></div><br><pre STYLE="text-align:center;"><SPAN style="font-size: 16px;">상기기록 사실에 허위가 없습니다.</SPAN></pre><br><br><pre STYLE="text-align:right;"><SPAN style="font-size: 16px;">작성자 :          (인)       </SPAN></pre><br><br><br></TD></TR></TABLE>'
 );
 INSERT
   INTO SIGN
@@ -1456,9 +1488,10 @@ VALUES
 , 3
 , 2021100
 , SYSDATE
-, '반려'
-, '다다다 직원의 회의록입니다.'
-, '~~~~ 임시 회의록 내용입니다. ~~~'
+, '결재완료'
+, '김준우 직원의 회의록입니다.'
+, TO_CLOB('<TABLE border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:none;"><TR><TD colspan="6" width="900" height="150" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre STYLE="text-align:center;"><SPAN STYLE="font-size:20.0pt; line-height:150%;">회   의   록</SPAN></pre></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  일  시</SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  장  소  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성일 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성자  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  참석자</SPAN></pre></TD><TD colspan="5" width="613" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  안  건</SPAN></pre></TD>')
+|| TO_CLOB('<TD colspan="5" width="613" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="176" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 회의내용 </SPAN></pre></TD><TD colspan="5" width="613" height="400" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="130" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 결정사항 </SPAN></pre></TD><TD colspan="5" width="613" height="81" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="130" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 특이사항 </SPAN></pre></TD><TD colspan="5" width="613" height="81" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR></TABLE>')
 );
 INSERT
   INTO SIGN
@@ -1477,9 +1510,31 @@ VALUES
 , 4
 , 2021100
 , SYSDATE
-, '결재완료'
-, '라라라 직원의 업무보고서입니다.'
-, '~~~~ 임시 업무보고서 내용입니다. ~~~'
+, '반려'
+, '김준우 직원의 업무보고서입니다.'
+, '<TABLE border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:none;"><TR><TD colspan="6" width="900" height="150" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre STYLE="text-align:center;"><SPAN STYLE="font-size:20.0pt; line-height:150%;">업  무  보  고  서</SPAN></pre></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성일 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성자  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="176" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 업무내용 </SPAN></pre></TD><TD colspan="5" width="613" height="400" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="81" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 특이사항 </SPAN></pre></TD><TD colspan="5" width="613" height="150" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="81" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  비  고</SPAN></pre></TD><TD colspan="5" width="613" height="150" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR></TABLE>'
+);
+
+INSERT
+  INTO SIGN
+(
+  SIGN_CODE
+, TEMP_CODE
+, EMP_CODE
+, SIGN_DATE
+, SIGN_STATUS
+, SIGN_TITLE
+, FILE_CONTENTS
+)
+VALUES
+(
+  SEQ_SIGN_CODE.NEXTVAL
+, 4
+, 2021100
+, SYSDATE
+, '임시저장'
+, '김준우 직원의 업무보고서입니다.'
+, '<TABLE border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;border:none;"><TR><TD colspan="6" width="900" height="150" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 1.1pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre STYLE="text-align:center;"><SPAN STYLE="font-size:20.0pt; line-height:150%;">업  무  보  고  서</SPAN></pre></TD></TR><TR><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성일 </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD><TD width="64" height="50" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  작성자  </SPAN></pre></TD><TD colspan="2" width="280" height="50" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="176" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 업무내용 </SPAN></pre></TD><TD colspan="5" width="613" height="400" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="81" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;"> 특이사항 </SPAN></pre></TD><TD colspan="5" width="613" height="150" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR><TR><TD width="64" height="81" valign="middle" style="border-left:solid #000000 1.1pt;border-right:solid #000000 0.4pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"><pre><SPAN style="font-size: 16px;">  비  고</SPAN></pre></TD><TD colspan="5" width="613" height="150" valign="middle" style="border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 5.1pt 1.4pt 5.1pt"></TD></TR></TABLE>'
 );
 
 ---------------------------------------------------------------REFERRER / 참조자----------------------------
@@ -1513,9 +1568,41 @@ INSERT
 VALUES
 (
   SEQ_REFERRER_CODE.NEXTVAL
+, 2021101
+, 1
+, 'N'
+);
+
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
 , 2021102
 , 1
-, 'Y'
+, 'N'
+);
+
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
+, 2021101
+, 2
+, 'N' 
 );
 
 INSERT
@@ -1545,9 +1632,41 @@ INSERT
 VALUES
 (
   SEQ_REFERRER_CODE.NEXTVAL
+, 2021101
+, 3
+, 'N'
+);
+
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
 , 2021102
 , 3
-, 'N' 
+, 'N'
+);
+
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
+, 2021101
+, 4
+, 'N'
 );
 
 INSERT
@@ -1566,6 +1685,37 @@ VALUES
 , 'N'
 );
 
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
+, 2021101
+, 5
+, 'N'
+);
+
+INSERT
+  INTO REFERRER
+(
+  REFERRER_CODE
+, EMP_CODE
+, SIGN_CODE
+, REFERRER_YN
+)
+VALUES
+(
+  SEQ_REFERRER_CODE.NEXTVAL
+, 2021102
+, 5
+, 'N'
+);
 ---------------------------------------------------------------APPROVER / 결재자----------------------------
 CREATE TABLE APPROVER (
     -- COLUMN LEVEL CONSTRAINT
@@ -1574,6 +1724,7 @@ CREATE TABLE APPROVER (
     SIGN_CODE NUMBER,
     APPROVER_ORDER NUMBER,
     APPROVER_STATUS VARCHAR2(50) DEFAULT '대기' CONSTRAINT NN_APPROVER_STATUS NOT NULL,
+    APPROVER_DATE DATE,
     -- TABLE LEVEL CONSTRAINT
     CONSTRAINT PK_APPROVER_CODE PRIMARY KEY (APPROVER_CODE),
     CONSTRAINT CK_APPROVER_STATUS CHECK (APPROVER_STATUS IN ('대기', '반려', '승인')),
@@ -1581,11 +1732,12 @@ CREATE TABLE APPROVER (
     CONSTRAINT FK_APPROVER_SIGN_CODE FOREIGN KEY (SIGN_CODE) REFERENCES SIGN(SIGN_CODE)
 );
 
-COMMENT ON COLUMN APPROVER.APPROVER_CODE IS '결재코드';
+COMMENT ON COLUMN APPROVER.APPROVER_CODE IS '결재자 코드';
 COMMENT ON COLUMN APPROVER.EMP_CODE IS '결재자 사번';
 COMMENT ON COLUMN APPROVER.SIGN_CODE IS '결재코드';
 COMMENT ON COLUMN APPROVER.APPROVER_ORDER IS '결재 순번';
 COMMENT ON COLUMN APPROVER.APPROVER_STATUS IS '결재 상태';
+COMMENT ON COLUMN APPROVER.APPROVER_DATE IS '결재 일자';
 
 INSERT
   INTO APPROVER
@@ -1599,7 +1751,7 @@ INSERT
 VALUES
 (
   SEQ_APPROVER_CODE.NEXTVAL
-, 2021101
+, 2021103
 , 1
 , 1
 , '대기' 
@@ -1617,10 +1769,48 @@ INSERT
 VALUES
 (
   SEQ_APPROVER_CODE.NEXTVAL
-, 2021101
+, 2021104
+, 1
+, 2
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021105
+, 1
+, 3
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021103
 , 2
 , 1
-, '반려'
+, '승인'
+, SYSDATE
 );
 
 INSERT
@@ -1635,10 +1825,128 @@ INSERT
 VALUES
 (
   SEQ_APPROVER_CODE.NEXTVAL
-, 2021101
+, 2021104
+, 2
+, 2
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021105
+, 2
+, 3
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021103
 , 3
 , 1
-, '승인'
+, '승인' 
+, SYSDATE
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021104
+, 3
+, 2
+, '승인' 
+, SYSDATE
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021105
+, 3
+, 3
+, '승인' 
+, SYSDATE
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021103
+, 4
+, 1
+, '승인' 
+, SYSDATE
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+, APPROVER_DATE
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021104
+, 4
+, 2
+, '반려'
+, SYSDATE
 );
 
 INSERT
@@ -1653,10 +1961,46 @@ INSERT
 VALUES
 (
   SEQ_APPROVER_CODE.NEXTVAL
-, 2021101
+, 2021105
 , 4
+, 3
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021103
+, 5
 , 1
-, '대기'
+, '대기' 
+);
+
+INSERT
+  INTO APPROVER
+(
+  APPROVER_CODE
+, EMP_CODE
+, SIGN_CODE
+, APPROVER_ORDER
+, APPROVER_STATUS
+)
+VALUES
+(
+  SEQ_APPROVER_CODE.NEXTVAL
+, 2021104
+, 5
+, 2
+, '대기' 
 );
 
 -------------------------------------------------------------SIGN_COMMENT / 첨언----------------------------
@@ -1689,9 +2033,27 @@ INSERT
 VALUES
 (
   SEQ_SIGN_COM_CODE.NEXTVAL
-, 2021101
-, 3
-, '다시 수정해서 작성하세요!!'
+, 2021104
+, 4
+, '보고서는 관장님까지 결재 안올려도 돼요'
+, SYSDATE
+);
+
+INSERT
+  INTO SIGN_COMMENT
+(
+  SIGN_COM_CODE
+, EMP_CODE
+, SIGN_CODE
+, SIGN_COM_CONTENTS
+, SIGN_COM_DATE
+)
+VALUES
+(
+  SEQ_SIGN_COM_CODE.NEXTVAL
+, 2021100
+, 4
+, '넵 수정해서 다시 올리겠습니다.'
 , SYSDATE
 );
 
@@ -1875,24 +2237,46 @@ COMMENT ON COLUMN MOVIE.POSTER_UUID_NAME IS '포스터신규명';
 COMMENT ON COLUMN MOVIE.POSTER_IMG_PATH IS '포스터저장경로';
 COMMENT ON COLUMN MOVIE.OPENING_YN IS '우리관개봉여부';
 
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '알 포인트', TO_DATE('2008-08-13'), 108, '15세', '공포',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '알 포인트', TO_DATE('2008-08-13'), 108, '15세', '공포(호러)',
 '시네마 서비스', '공수창', '한국', 'poster_알포인트.png', 'poster_알포인트.png', 'img/poster/', 'N');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03'), 155, '12세', '액션',
-'월트디즈니', '클로이 자오', '미국', 'poster_이터널스.jpg', 'poster_이터널스.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카니지', TO_DATE('2021-10-13'), 97, '15세', '액션',
+'소니 픽처스 코리아', '댄디 서키스', '미국', 'poster_베놈2.jpg', 'poster_베놈2.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '듄', TO_DATE('2021-10-20'), 155, '12세', 'SF',
 '워너 브라더스', '드니 빌뇌브', '미국', 'poster_듄.jpg', 'poster_듄.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고장난 론', TO_DATE('2021-10-27'), 106, '전체', '애니메이션',
 '20세기 폭스', '사라 스미스', '미국', 'poster_고장난_론.png', 'poster_고장난_론.png', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카니지', TO_DATE('2021-10-13'), 97, '15세', '액션',
-'소니 픽처스', '댄디 서키스', '미국', 'poster_베놈2.jpg', 'poster_베놈2.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03'), 155, '12세', '액션',
+'월트 디즈니 컴퍼니 코리아', '클로이 자오', '미국', 'poster_이터널스.jpg', 'poster_이터널스.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '강릉', TO_DATE('2021-11-10'), 119, '청불', '범죄',
 '제이앤씨미디어', '윤영빈', '한국', 'poster_강릉.jpg', 'poster_강릉.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '귀멸의 칼날: 남매의 연', TO_DATE('2021-11-10'), 104, '15세', '애니메이션',
 '도호', '소토자키하루오', '일본', 'poster_귀멸의칼날_남매의연.jpg', 'poster_귀멸의칼날_남매의연.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '유체이탈자', TO_DATE('2021-11-24'), 108, '15세', '판타지',
+'(주)에이비오엔터테인먼트', '윤재근', '한국', 'poster_유체이탈자.jpg', 'poster_유체이탈자.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '연애 빠진 로맨스', TO_DATE('2021-11-24'), 94, '15세', '판타지',
+'CJ ENM', '정가영', '한국', 'poster_연애빠진로맨스.jpg', 'poster_연애빠진로맨스.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '엔칸토: 마법의 세계', TO_DATE('2021-11-24'), 109, '전체', '애니메이션',
+'월트 디즈니 컴퍼니 코리아', '카리스 카스트로 스미스', '미국', 'poster_엔칸토_마법의세계.jpg', 'poster_엔칸토_마법의세계.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고스트버스터즈 라이즈', TO_DATE('2021-12-01'), 124, '12세', '어드벤쳐',
-'소니 픽처스', '제이슨 라이트만', '미국', 'poster_고스트버스터즈_라이즈.jpg', 'poster_고스트버스터즈_라이즈.jpg', 'img/poster/', 'Y');
+'소니 픽처스 코리아', '제이슨 라이트만', '미국', 'poster_고스트버스터즈_라이즈.jpg', 'poster_고스트버스터즈_라이즈.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹메이커', TO_DATE('2021-12-01'), 120, '12세', '드라마',
 '메가박스', '변성현', '한국', 'poster_킹메이커.jpg', 'poster_킹메이커.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '라스트 나잇 인 소호', TO_DATE('2021-12-01'), 116, '청불', '공포(호러)',
+'UPI 코리아', '에드거 라이트', '미국', 'poster_라스트나잇인소호.jpg', 'poster_라스트나잇인소호.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베네데타', TO_DATE('2021-12-01'), 131, '청불', '드라마',
+'팝엔터테인먼트', '폴 버호벤', '프랑스', 'poster_베네데타.jpg', 'poster_베네데타.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '호빗: 다섯 군대 전투', TO_DATE('2021-12-02'), 144, '12세', '어드벤쳐',
+'워너 브라더스', '피터 잭슨', '미국', 'poster_호빗_다섯군대전투.jpg', 'poster_호빗_다섯군대전투.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '해피 아워', TO_DATE('2021-12-09'), 328, '15세', '드라마',
+'(주)트리플픽쳐스', '하마구치 류스케', '일본', 'poster_해피아워.jpg', 'poster_해피아워.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '돈 룩 업', TO_DATE('2021-12-08'), 138, '15세', '코미디',
+'넷플릭스', '아담 맥케이', '미국', 'poster_돈룩업.jpg', 'poster_돈룩업.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '스파이더맨: 노 웨이 홈', TO_DATE('2021-12-15'), 148, '12세', '액션',
+'소니 픽처스 코리아', '존 왓츠', '미국', 'poster_스파이더맨_노웨이홈.jpg', 'poster_스파이더맨_노웨이홈.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '끝없음에 관하여', TO_DATE('2021-12-16'), 76, '12', '기타',
+'찬란', '로이 앤더슨', '스웨덴', 'poster_끝없음에관하여.jpg', 'poster_끝없음에관하여.jpg', 'img/poster/', 'Y');
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹스맨: 퍼스트 에이전트', TO_DATE('2021-12-22'), 131, '청불', '액션',
+'월트 디즈니 컴퍼니 코리아', '매튜 본', '미국', 'poster_킹스맨_퍼스트에이전트.jpg', 'poster_킹스맨_퍼스트에이전트.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '매트릭스: 리저렉션', TO_DATE('2021-12-22'), 140, '15세', 'SF',
 '워너 브라더스', '라나 워쇼스키', '미국', 'poster_매트릭스_리저렉션.jpg', 'poster_매트릭스_리저렉션.jpg', 'img/poster/', 'Y');
 
@@ -1920,25 +2304,37 @@ COMMENT ON COLUMN EVENT.MOVIE_CODE IS '영화코드';
 COMMENT ON COLUMN EVENT.EVENT_PRODUCT IS '이벤트상품';
 
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<이터널스> 현장 증정 이벤트',
-'2021-11-26 00:00', '2021-12-08 00:00', null, 2, '캐릭터 에폭시 마그넷 11종');
+'2021-11-26 00:00', '2021-12-08 00:00', null, 5, '캐릭터 에폭시 마그넷 11종');
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<이터널스> 도전! N차 관람',
-'2021-11-03 00:00', '2021-11-30 00:00', null, 2, '오리지널 굿즈');
+'2021-11-03 00:00', '2021-11-30 00:00', null, 5, '오리지널 굿즈');
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<귀멸의 칼날: 남매의 연> 2주차 현장 경품 증정 이벤트',
 '2021-11-17 00:00', '2021-11-30 00:00', null, 7, 'A3사이즈 포스터');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '[EGV] 백엔드 개발팀 4분기 회식',
+'2021-11-19 18:00', '2021-11-19 20:00', 'EGV', null, null);
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<듄> Signature ART CARD No.50',
 '2021-10-20 00:00', '2021-11-30 00:00', null, 3, '<듄> Signature Art Card');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<엔칸토: 마법의 세계> Signature ART CARD No.53',
+'2021-11-24 00:00', '2021-12-31 00:00', null, 10, '<엔칸토: 마법의 세계> Signature Art Card');
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<고장난 론> Signature ART CARD No.51',
-'2021-10-27 00:00', '2021-11-30 00:00', null, 3, '<고장난 론> Signature Art Card');
-INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<유체이탈자> 무대인사 이벤트',
-'2021-11-27 00:00', '2021-11-27 00:00', '메가박스중앙(주)플러스엠', null, null);
+'2021-10-27 00:00', '2021-11-30 00:00', null, 4, '<고장난 론> Signature Art Card');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<유체이탈자> 개봉 2주차 포스터 증정 이벤트',
+'2021-12-04 00:00', '2021-12-14 00:00', '메가박스중앙(주)플러스엠', 8, 'A3 PET 윤계상 스페셜 포스터');
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<장르만 로맨스> 무대인사 이벤트',
-'2021-11-27 00:00', '2021-11-27 00:00', '넥스트엔터테인먼트월드', null, null);
-INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<연애 빠진 로맨스> 무대인사 이벤트',
-'2021-11-27 00:00', '2021-11-27 00:00', 'CJENM', null, null);
+'2021-11-27 15:10', '2021-11-27 16:10', '넥스트엔터테인먼트월드', null, null);
 INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '[한사랑산악회] 제12회 정기미팅 대관',
 '2021-11-11 18:00', '2021-11-11 21:00', '한사랑산악회', null, null);
-INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '[더조은] 자바A 스마트3회차 수료식',
-'2021-12-08 14:00', '2021-12-08 18:50', '더조은컴퓨터아카데미', null, '수료증과 그의 손에 쥐어지는 합격 목걸이');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<베네베타> 개봉 기념 현장 증정 이벤트',
+'2021-12-01 00:00', '2021-12-12 00:00', null, 14, '<베네베타> 한정판 렌티큘러');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<베네베타> 관람 인증 이벤트',
+'2021-12-01 00:00', '2021-12-14 00:00', null, 14, '<베네베타> 오리지널 포스터(A3)');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<라스트 나잇 인 소호> 개봉 기념 엽서 증정 이벤트',
+'2021-12-01 00:00', '2021-12-15 00:00', null, 13, '<라스트 나잇 인 소호> 스페셜 일러스트 엽서');
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<유체이탈자> 무대인사 이벤트',
+'2021-12-04 16:50', '2021-12-04 17:50', '메가박스중앙(주)플러스엠', 8, null);
+INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '<연애 빠진 로맨스> 무대인사 이벤트',
+'2021-12-05 14:40', '2021-11-27 15:40', 'CJENM', 9, null);
+--INSERT INTO EVENT VALUES(SEQ_EVENT_CODE.NEXTVAL, '[더조은] 자바A 스마트3회차 수료식',
+--TO_TIMESTAMP('2021-12-08 14:00', 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP('2021-12-08 18:50', 'YYYY-MM-DD HH24:MI'), '김용승', null, '수료증과 그들의 손에 쥐어지는 합격 목걸이');
 
 -------------------- 상영 스케줄 SCREENING_SCHEDULE --------------------
 CREATE TABLE SCREENING_SCHEDULE (
@@ -1946,8 +2342,8 @@ CREATE TABLE SCREENING_SCHEDULE (
   SCREENING_CODE NUMBER NOT NULL,
   MOVIE_CODE NUMBER NOT NULL,
   THEATER_CODE NUMBER NOT NULL,
-  SCREENING_START DATE NOT NULL,
-  SCREENING_END DATE NOT NULL,
+  SCREENING_START TIMESTAMP NOT NULL,
+  SCREENING_END TIMESTAMP NOT NULL,
   -- COLUMN LEVEL CONSTRAINT
   CONSTRAINT PK_SCREENING_CODE PRIMARY KEY(SCREENING_CODE),
   CONSTRAINT FK_MOVIE_CODE2 FOREIGN KEY(MOVIE_CODE) REFERENCES MOVIE(MOVIE_CODE),
@@ -1959,3 +2355,91 @@ COMMENT ON COLUMN SCREENING_SCHEDULE.MOVIE_CODE IS '영화코드';
 COMMENT ON COLUMN SCREENING_SCHEDULE.THEATER_CODE IS '상영관코드';
 COMMENT ON COLUMN SCREENING_SCHEDULE.SCREENING_START IS '상영시작기간';
 COMMENT ON COLUMN SCREENING_SCHEDULE.SCREENING_END IS '상영종료기간';
+
+-- 1관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 8, 1,
+TO_TIMESTAMP('2021-12-09 10:30'), TO_TIMESTAMP('2021-12-09 10:30') + INTERVAL '108' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 1,
+TO_TIMESTAMP('2021-12-09 12:48'), TO_TIMESTAMP('2021-12-09 12:48') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 1,
+TO_TIMESTAMP('2021-12-09 15:06'), TO_TIMESTAMP('2021-12-09 15:06') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 1,
+TO_TIMESTAMP('2021-12-09 17:25'), TO_TIMESTAMP('2021-12-09 17:25') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 1,
+TO_TIMESTAMP('2021-12-09 19:44'), TO_TIMESTAMP('2021-12-09 19:44') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 8, 1,
+TO_TIMESTAMP('2021-12-09 22:03'), TO_TIMESTAMP('2021-12-09 22:03') + INTERVAL '108' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 8, 1,
+TO_TIMESTAMP('2021-12-09 00:21'), TO_TIMESTAMP('2021-12-09 00:21') + INTERVAL '108' MINUTE);
+-- 2관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 2,
+TO_TIMESTAMP('2021-12-09 10:35'), TO_TIMESTAMP('2021-12-09 10:35') + INTERVAL '124' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 2,
+TO_TIMESTAMP('2021-12-09 13:09'), TO_TIMESTAMP('2021-12-09 13:09') + INTERVAL '124' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 2,
+TO_TIMESTAMP('2021-12-09 15:43'), TO_TIMESTAMP('2021-12-09 15:43') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 2,
+TO_TIMESTAMP('2021-12-09 17:47'), TO_TIMESTAMP('2021-12-09 17:47') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 2,
+TO_TIMESTAMP('2021-12-09 19:51'), TO_TIMESTAMP('2021-12-09 19:51') + INTERVAL '124' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 2,
+TO_TIMESTAMP('2021-12-09 22:25'), TO_TIMESTAMP('2021-12-09 22:25') + INTERVAL '124' MINUTE);
+-- 3관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 3, 3,
+TO_TIMESTAMP('2021-12-09 11:00'), TO_TIMESTAMP('2021-12-09 11:00') + INTERVAL '155' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 3,
+TO_TIMESTAMP('2021-12-09 13:50'), TO_TIMESTAMP('2021-12-09 13:50') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 13, 3,
+TO_TIMESTAMP('2021-12-09 15:39'), TO_TIMESTAMP('2021-12-09 15:39') + INTERVAL '116' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 3,
+TO_TIMESTAMP('2021-12-09 17:50'), TO_TIMESTAMP('2021-12-09 17:50') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 13, 3,
+TO_TIMESTAMP('2021-12-09 19:39'), TO_TIMESTAMP('2021-12-09 19:39') + INTERVAL '116' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 3, 3,
+TO_TIMESTAMP('2021-12-09 21:50'), TO_TIMESTAMP('2021-12-09 21:50') + INTERVAL '155' MINUTE);
+-- 4관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 15, 4,
+TO_TIMESTAMP('2021-12-09 10:00'), TO_TIMESTAMP('2021-12-09 10:00') + INTERVAL '144' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 14, 4,
+TO_TIMESTAMP('2021-12-09 12:39'), TO_TIMESTAMP('2021-12-09 12:39') + INTERVAL '131' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 12, 4,
+TO_TIMESTAMP('2021-12-09 15:05'), TO_TIMESTAMP('2021-12-09 15:05') + INTERVAL '120' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 13, 4,
+TO_TIMESTAMP('2021-12-09 17:20'), TO_TIMESTAMP('2021-12-09 17:20') + INTERVAL '116' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 4,
+TO_TIMESTAMP('2021-12-09 19:31'), TO_TIMESTAMP('2021-12-09 19:31') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 5, 4,
+TO_TIMESTAMP('2021-12-09 21:20'), TO_TIMESTAMP('2021-12-09 21:20') + INTERVAL '155' MINUTE);
+-- 5관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 5,
+TO_TIMESTAMP('2021-12-09 10:30'), TO_TIMESTAMP('2021-12-09 10:30') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 5,
+TO_TIMESTAMP('2021-12-09 12:34'), TO_TIMESTAMP('2021-12-09 12:34') + INTERVAL '124' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 13, 5,
+TO_TIMESTAMP('2021-12-09 14:53'), TO_TIMESTAMP('2021-12-09 14:53') + INTERVAL '116' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 8, 5,
+TO_TIMESTAMP('2021-12-09 17:04'), TO_TIMESTAMP('2021-12-09 17:04') + INTERVAL '108' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 15, 5,
+TO_TIMESTAMP('2021-12-09 19:07'), TO_TIMESTAMP('2021-12-09 19:07') + INTERVAL '131' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 17, 5,
+TO_TIMESTAMP('2021-12-09 21:33'), TO_TIMESTAMP('2021-12-09 21:33') + INTERVAL '138' MINUTE);
+-- 6관 상영 스케줄
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 5, 6,
+TO_TIMESTAMP('2021-12-09 10:20'), TO_TIMESTAMP('2021-12-09 10:20') + INTERVAL '155' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 6, 6,
+TO_TIMESTAMP('2021-12-09 13:10'), TO_TIMESTAMP('2021-12-09 13:10') + INTERVAL '119' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 6,
+TO_TIMESTAMP('2021-12-09 15:24'), TO_TIMESTAMP('2021-12-09 15:24') + INTERVAL '94' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 10, 6,
+TO_TIMESTAMP('2021-12-09 17:13'), TO_TIMESTAMP('2021-12-09 17:13') + INTERVAL '109' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 11, 6,
+TO_TIMESTAMP('2021-12-09 19:17'), TO_TIMESTAMP('2021-12-09 19:17') + INTERVAL '124' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 12, 6,
+TO_TIMESTAMP('2021-12-09 21:36'), TO_TIMESTAMP('2021-12-09 21:36') + INTERVAL '120' MINUTE);
+INSERT INTO SCREENING_SCHEDULE VALUES (SEQ_SCREENING_CODE.NEXTVAL, 9, 6,
+TO_TIMESTAMP('2021-12-09 23:51'), TO_TIMESTAMP('2021-12-09 23:51') + INTERVAL '94' MINUTE);
+
+INSERT INTO NOTICE (NOTICE_CODE, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, EMP_CODE)
+VALUES (SEQ_NOTICE_CODE.NEXTVAL, '테스트1', '테스트001', '2021-12-13', '2021100');
+
+COMMIT;

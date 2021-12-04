@@ -1,9 +1,11 @@
 package org.erp.egv.main.controller;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.erp.egv.employee.model.dto.UserImpl;
+import org.erp.egv.main.model.dto.ScheduleCategoryDTO;
 import org.erp.egv.main.model.dto.ScheduleDTO;
 import org.erp.egv.main.model.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,19 @@ public class MainController {
 		System.out.println(mainService.selectScheduleList(empCode));
 		
 		return mainService.selectScheduleList(empCode);
+	}
+	
+	@GetMapping(value = "/schedule/scheduleCategoryList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<ScheduleCategoryDTO> scheduleCategoryList() {
+		
+		List<ScheduleCategoryDTO> schCatDTOList = mainService.scheduleCategoryList();
+		
+		for (ScheduleCategoryDTO a : schCatDTOList) {
+			System.out.println(a);
+		}
+		
+		return schCatDTOList;
 	}
 	
 	@GetMapping(value = "/schedule/selectSchedule", produces = "application/json; charset=UTF-8")

@@ -64,30 +64,49 @@
 					        	initialView: 'dayGridMonth',
 					        	locale: 'ko',
 					         	eventClick : function( Info ) { 
+					         		
 					         		$.ajax({
-					    				url: "/schedule/selectSchedule",
-					    				data : {schCode : Info.event.id},
-					    				success: function(data){
-					    					$('#selectSchedule').modal("toggle");
-					    					
-					    					document.getElementById("selectStartDate").value = data['startDate'];
-					    					document.getElementById("selectEndDate").value = data['endDate'];
-					    					//document.getElementById("selectSchLocation").value = data['schLocation'];
-					    					document.getElementById("selectSchLocation").value = data['schLocation'];
-					    					document.getElementById("selectSchDesc").value = data['schDesc'];
-					    					
-					    					
-					    				},
-					    				error: function(xhr){
-					    					console.log(xhr);
-					    				}
-					    			}) 
+					         		    url: "/schedule/selectSchedule",
+					         		    data : {schCode : Info.event.id},
+					         		    success: function(data){
+					         		        $('#selectSchedule').modal("toggle");
+					         		        
+					         		        document.getElementById("selectStartDate").value = data['startDate'];
+					         		        document.getElementById("selectEndDate").value = data['endDate'];
+					         		        $("#selectSchCat").val(data['schCat']['schCatCode']).prop("selected", true);
+					         		        document.getElementById("selectSchLocation").value = data['schLocation'];
+					         		        document.getElementById("selectSchDesc").value = data['schDesc'];
+					         		    },
+					         		    error: function(xhr){
+					         		        console.log(xhr);
+					         		    }
+					         		});
 					         		
 					        	},
 					        	events: [
 					    			$.ajax({
 					    				url: "/schedule/scheduleList",
 					    				success: function(data){
+					    					
+					    					$.ajax({
+							         		    url: "/schedule/scheduleCategoryList",
+							         		    success: function(data){
+							         		        
+							         		        const $selectSchCat = $("#selectSchCat");
+							         		        const $addSchCat = $("#addSchCat");
+								       				$selectSchCat.html("");
+								       				$addSchCat.html("");
+								       				
+								       				for (let index in data){
+								       					$selectSchCat.append($("<option>").val(data[index]['schCatCode']).text(data[index]['schCatName']));
+								       					$addSchCat.append($("<option>").val(data[index]['schCatCode']).text(data[index]['schCatName']));
+								       				}
+							         		    },
+							         		    error: function(xhr){
+							         		        console.log(xhr);
+							         		    }
+							         		});
+					    					
 					    					for (let index in data){
 					    						console.log(index);
 					    						
@@ -175,7 +194,7 @@
 											<tr>
 					 							<td class="col-2">일정구분</td>
 												<td class="col-4">
-												<select class="form-control" name="addSchCat" aria-label="addSchCat">
+												<select class="form-control" name="addSchCat" id="addSchCat">
 												  <!-- ajax -->
 												</select>
 												<td class="col-2">장소</td>
@@ -237,7 +256,8 @@
 									</table>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-							        <button type="submit" class="btn btn-primary">수정하기</button>
+							        <button type="button" class="btn btn-primary">수정하기</button>
+							        <button type="button" class="btn btn-danger">삭제하기</button>
 							      </div>
 								</form>
 						      </div>

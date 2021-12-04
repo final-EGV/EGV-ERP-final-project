@@ -54,31 +54,31 @@
 
                <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                     <h6 class="m-0 font-weight-bold text-primary">사원 연가 목록</h6>
+                     <h6 class="m-0 font-weight-bold text-primary">사원 연가 상세목록</h6>
                   </div>
                   <div class="card-body">
                      <div class="table-responsive">
                         <table class="table table-bordered" id="salaryTable" width="100%" cellspacing="0">
                            <thead>
                               <tr>
-                              	 <th>연가코드</th>
-                                 <th>해당연도</th>
+                              	 <th>사용연가코드</th>
                                  <th>사원</th>
-                                 <th>사번</th>
-                                 <th>총 연가갯수</th>
-                                 <th>연가 사용갯수</th>
-                                 <th>남은 연가갯수</th>
+                                 <th>연차카테고리</th>
+                                 <th>시작일</th>
+                                 <th>종료일</th>
+                                 <th>총 사용일수</th>
+                                 <th>연차 내용</th>
                               </tr>
                            </thead>
                            <tbody>
-                              <tr th:each="leave : ${ leave }">
+                              <tr th:each="leave : ${ usedLeave }">
                               	 <td th:text="${ leave.code }"></td>
-                                 <td th:text="${ leave.year }"></td>
-                                 <td th:text="${ leave.empCode.name }"></td>
-                                 <td th:text="${ leave.empCode.code }"></td>
-                                 <td th:text="${ leave.count }"></td>
-                                 <td th:text="${ leave.useCount }"></td>
-                                 <td th:text="${ leave.count } &#45; ${ leave.useCount }"></td>
+                              	 <td th:text="${ leave.empCode.name }"></td>
+                                 <td th:text="${ leave.categoryCode.type }"></td>
+                                 <td th:text="${ #dates.format(new java.util.Date(leave.start), 'yyyy년MM월dd일') }"></td>
+                                 <td th:text="${ #dates.format(new java.util.Date(leave.end), 'yyyy년MM월dd일') }"></td>
+                                 <td th:text="${ leave.total }"></td>
+                                 <td th:text="${ leave.content }"></td>
                               </tr>
                            </tbody>
                         </table>
@@ -148,31 +148,6 @@
 
 	<!-- Page level custom scripts -->
 	
-	<script>
-		if(document.getElementsByTagName("td")) {
-			const $tds = document.getElementsByTagName("td");
-			for(let i = 0; i < $tds.length; i++) {
-				
-				$tds[i].onmouseenter = function() {
-					this.parentNode.style.backgroundColor = "rgb(153,102,153)";
-					this.parentNode.style.color = "rgb(255,255,204)";
-					this.parentNode.style.cursor = "pointer";
-				}
-				
-				$tds[i].onmouseout = function() {
-					this.parentNode.style.backgroundColor = "white";
-					this.parentNode.style.color = "gray";
-				}
-				
-				$tds[i].onclick = function() {
-					const code = this.parentNode.children[3].innerText;
-					location.href = "Leave/" + code;
-				}
-				
-			}
-			
-		}
-	</script>
 	
 </body>
 </html>

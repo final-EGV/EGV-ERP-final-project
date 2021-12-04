@@ -90,6 +90,12 @@ public class SalaryController {
 		return mv;
 	}
 	
+	/* Date : 2021/12/04
+	 * Writer : JunWoo Kim
+	 * 
+	 * 사원 개인의 월급 확인용 컨트롤러
+	 * (추가 근무를 한 경우가 있다면 수당이 지급되었는지 확인할수도 있다.)
+	 */
 	@GetMapping("/personal")
 	public ModelAndView findSalPersonal(ModelAndView mv, Principal principal) {
 		String code = (((UserImpl)((Authentication)principal).getPrincipal()).getCode());;

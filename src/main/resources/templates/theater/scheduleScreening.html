@@ -300,6 +300,14 @@
 							console.log(scheduleList);
 							
 							for (let i = 0; data.length; i++) {
+								
+								console.log("---< SCHEDULE data from server >---"
+										+ "\n" + "code: " + data[i].code
+										+ "\n" + "movie: " + data[i].movieAndScreening.name
+										+ "\n" + "start: " + data[i].screeningStart
+										+ "\n" + "end: " + data[i].screeningEnd
+										);
+								
 								calendar.addEvent({
 									id: data[i].code,
 									resourceId: data[i].theater.code,

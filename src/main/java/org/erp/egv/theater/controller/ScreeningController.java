@@ -56,7 +56,14 @@ public class ScreeningController {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		return screeningService.inquireAllScreeningScheduleList();
+		List<ScreeningScheduleDTO> scheduleList = screeningService.inquireAllScreeningScheduleList();
+		
+		System.out.println("---< SCHEDULE data from DB >---");
+		for (ScreeningScheduleDTO schedule : scheduleList) {
+			System.out.println(schedule);
+		}
+		
+		return scheduleList;
 	}
 	
 	@PostMapping("/modify")
@@ -75,6 +82,7 @@ public class ScreeningController {
 		java.sql.Timestamp screeningEnd =
 				new java.sql.Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("screeningEnd").replace("T", " ")).getTime());
 		
+		System.out.println("---< SCHEDULE data from Client >---");
 		System.out.println("scheduleCode: " + scheduleCode);
 		System.out.println("movieCode: " + movieCode);
 		System.out.println("theaterCode: " + theaterCode);

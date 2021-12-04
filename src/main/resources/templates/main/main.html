@@ -12,14 +12,14 @@
 
     <title>EGV</title>
 
-    <!-- Custom fonts for this template-->
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+	
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+	
 </head>
 
 <body id="page-top">
@@ -109,7 +110,6 @@
 							         		});
 					    					
 					    					for (let index in data){
-					    						console.log(index);
 					    						
 					    						let plusDay = new Date(data[index]['endDate']);
 					    						if (data[index]['endDate'] != data[index]['startDate']){
@@ -347,8 +347,7 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- 전자결재 -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">전자결재</h6>
                                 </div>
                                 <!-- Card Body -->
@@ -486,6 +485,7 @@
 
     </div>
     <!-- End of Page Wrapper -->
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -512,23 +512,31 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript --> 
-    <script src="/js/jquery.easing.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages --> 
-    <script src="/js/sb-admin-2.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins --> 
-    <script src="/js/Chart.min.js"></script>
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts --> 
-    <script src="/js/chart-area-demo.js"></script>
-    <script src="/js/chart-pie-demo.js"></script>
-
+	<script>
+		$(document).ready(function() {
+			$('#tempTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order" : [ 0, 'desc' ]
+			}
+			);
+		});
+	</script>
 </body>
 
 </html>

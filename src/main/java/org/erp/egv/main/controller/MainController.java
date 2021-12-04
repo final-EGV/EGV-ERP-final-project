@@ -46,7 +46,6 @@ public class MainController {
 		List<SignDTO> signList = signService.selectProgresssignSignList(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
 		
 		mv.addObject("signList", signList);
-		
 		mv.setViewName("main/main");
 		return mv;
 	}

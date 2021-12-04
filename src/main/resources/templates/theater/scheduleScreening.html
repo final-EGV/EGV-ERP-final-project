@@ -98,6 +98,109 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Detailed Schedule Info Modal -->
+	<div class="modal fade" id="scheduleDetails" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalLabel">상영 스케줄 상세 정보</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/theater/schedule/screening/modify" id="schedule-info" method="post">
+						<input type="number" class="form-control" name="code" hidden="true">
+						<table class="table table-bordered text-right table-responsive-md">
+							<tbody>
+								<tr>
+									<td class="col-md-3">영화</td>
+									<td class="col-md-9" colspan="3">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<button class="btn btn-primary" type="button"
+													data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
+											</div>
+											<input type="text" class="form-control" name="movieAndScreening" hidden="true">
+											<input type="text" class="form-control" name="movieName" readonly>
+											<div class="input-group-append">
+												<button class="btn btn-danger" type="button"
+													 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="col-md-3">상영관</td>
+									<td class="col-md-9" colspan="3">
+										<select class="custom-select" id="theater" name="theater">
+											<option value="1">프리미엄 1관</option>
+											<option value="2">프리미엄 2관</option>
+											<option value="3">일반 1관</option>
+											<option value="4">일반 2관</option>
+											<option value="5">일반 3관</option>
+											<option value="6">일반 4관</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="col-md-3">상영 시작시간</td>
+									<td class="col-md-9">
+										<input type="datetime-local" class="form-control" name="screeningStart">
+									</td>
+								</tr>
+								<tr>
+									<td class="col-md-3">상영 종료시간</td>
+									<td class="col-md-9">
+										<input type="datetime-local" class="form-control" name="screeningEnd">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Related Movie Select Modal -->
+	<div class="modal fade" id="movieSelectModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalLabel">관련영화 선택</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-sm table-bordered table-hover" id="movieTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>코드</th>
+								<th>영화제목</th>
+								<th>개봉일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="movie : ${ movieList }" th:onclick="|javascript:selectMovie(this)|">
+								<td th:text="${ movie.code }"></td>
+								<td>
+									<a th:text="${ movie.name }">
+									</a>
+								</td>
+								<td th:text="${ movie.openingDate }"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Bootstrap core JavaScript-->
 	<script src="/js/jquery.min.js"></script>
@@ -110,6 +213,8 @@
 	<script src="/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
 
 	<!-- Page level custom scripts -->
 	<script>
@@ -121,8 +226,25 @@
 		}
 	</script>
 	
+	<script>
+		$(document).ready(function () {
+			$('#movieTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order": [2, 'desc']	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+			}
+			);
+		});
+	</script>
+	
 	<!-- FullCalendar Scheduler 함수 모음 -->
 	<script>
+		var today = new Date();
+		var currTime = ('0' + today.getHours()).slice(-2) + ":" + ('0' + today.getMinutes()).slice(-2);
+		
+		var scheduleList;	// List object from controller
+	
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			
@@ -132,10 +254,10 @@
 				locale: 'ko',
 				contentHeight: 'auto',
 				initialDate: '2021-12-09',
-				scrollTime: '09:00',
+				scrollTime: currTime,
 				views: {
 					resourceTimelineDay: {
-						slotDuration: "00:15"
+						slotDuration: "00:10"
 					}
 				},
 				resourceAreaWidth: '35%',
@@ -155,12 +277,12 @@
 					}
 				],
 				resources: [
-					{id: '1', type: '프리미엄 상영관', theater: '프리미엄1관', occupancy: '24'},
-					{id: '2', type: '프리미엄 상영관', theater: '프리미엄2관', occupancy: '24'},
-					{id: '3', type: '일반 상영관', theater: '일반1관', occupancy: '280'},
-					{id: '4', type: '일반 상영관', theater: '일반2관', occupancy: '280'},
-					{id: '5', type: '일반 상영관', theater: '일반3관', occupancy: '150'},
-					{id: '6', type: '일반 상영관', theater: '일반4관', occupancy: '150'}
+					{id: '1', type: '프리미엄 상영관', theater: '프리미엄 1관', occupancy: '24'},
+					{id: '2', type: '프리미엄 상영관', theater: '프리미엄 2관', occupancy: '24'},
+					{id: '3', type: '일반 상영관', theater: '일반 1관', occupancy: '280'},
+					{id: '4', type: '일반 상영관', theater: '일반 2관', occupancy: '280'},
+					{id: '5', type: '일반 상영관', theater: '일반 3관', occupancy: '150'},
+					{id: '6', type: '일반 상영관', theater: '일반 4관', occupancy: '150'}
 				],
 				events: [
 					$.ajax({
@@ -168,13 +290,16 @@
 						type: "GET",
 						success: function(data) {
 							
+							scheduleList = data;
+							console.log(scheduleList);
+							
 							for (let i = 0; data.length; i++) {
 								calendar.addEvent({
 									id: data[i].code,
-									resourceId: data[i]["theater"]["code"],
-									title: data[i]["movieAndScreening"]["name"],
-									start: data[i]["screeningStart"],
-									end: data[i]["screeningEnd"]
+									resourceId: data[i].theater.code,
+									title: data[i].movieAndScreening.name,
+									start: data[i].screeningStart,
+									end: data[i].screeningEnd
 								})
 							}
 						},
@@ -182,10 +307,53 @@
 							console.log(xhr);
 						}
 					})
-				]
+				],
+				eventClick: function(info) {
+					
+					let schedule = scheduleList[info.event.id - 1];
+					console.log(schedule);
+					
+					let codeInput = document.getElementsByName('code')[0];
+					let movieCodeInput = document.getElementsByName('movieAndScreening')[0];
+					let movieNameInput = document.getElementsByName('movieName')[0];
+					let theaterInput = document.getElementsByName('theater')[0];
+					let startInput = document.getElementsByName('screeningStart')[0];
+					let endInput = document.getElementsByName('screeningEnd')[0];
+					
+					codeInput.value = schedule.code;
+					movieCodeInput.value = schedule.movieAndScreening.code;
+					movieNameInput.value = schedule.movieAndScreening.name;
+					theaterInput.value = schedule.theater.code;
+					startInput.value = schedule.screeningStart.slice(0,16);
+					endInput.value = schedule.screeningEnd.slice(0,16);
+					
+					$('#scheduleDetails').modal('show');
+				}
 			});
 			calendar.render();
 		});
+	</script>
+	<script>
+		/* 관련영화 선택 모달창에서 영화 선택 */
+		function selectMovie(object) {
+			
+			var selectedMovieCode = object.children[0].innerText;
+			var selectedMovieName = object.children[1].innerText;
+			
+			document.getElementsByName('movieAndScreening')[0].value = selectedMovieCode;
+			document.getElementsByName('movieName')[0].value = selectedMovieName;
+			
+			console.log('you picked : (' + document.getElementsByName('movieAndScreening')[0].value + ')'
+					+ document.getElementsByName('movieName')[0].value);
+			
+			$('#movieSelectModal').modal('hide');
+		}
+		
+		/* 선택된 관련영화 지우기 */
+		function emptySelectedMovie() {
+			document.getElementsByName('movieAndScreening')[0].value = '';
+			document.getElementsByName('movieName')[0].value = '';
+		}
 	</script>
 </body>
 </html>

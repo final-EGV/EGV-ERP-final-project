@@ -5,17 +5,31 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
+@SequenceGenerator(
+		name = "SEQ_SCHEDULE_CODE_GEN",
+		sequenceName = "SEQ_SCHEDULE_CODE",
+		initialValue = 1,
+		allocationSize = 1
+		)
+
 @Table(name = "SCHEDULE")
 public class ScheduleDTO implements Serializable {
 	private static final long serialVersionUID = -197097943120510956L;
 
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "SEQ_SCHEDULE_CODE_GEN"
+			)
 	@Column(name = "SCHEDULE_CODE")
 	private int schCode;
 	

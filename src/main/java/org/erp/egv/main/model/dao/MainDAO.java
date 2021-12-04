@@ -38,6 +38,16 @@ public class MainDAO {
 		return scheduleDTO;
 	}
 
+	public ScheduleCategoryDTO selectScheduleCategory(int schCatCode) {
+		ScheduleCategoryDTO schCatDTO = em.find(ScheduleCategoryDTO.class, schCatCode);
+		return schCatDTO;
+	}
+
+	public void insertSchedule(ScheduleDTO newSchedule) {
+		
+		em.persist(newSchedule);
+	}
+
 
 
 }

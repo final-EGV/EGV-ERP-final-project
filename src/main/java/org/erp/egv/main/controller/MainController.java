@@ -1,8 +1,12 @@
 package org.erp.egv.main.controller;
 
 import java.security.Principal;
-import java.util.Arrays;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.main.model.dto.ScheduleCategoryDTO;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MainController {
@@ -38,7 +43,7 @@ public class MainController {
 		return mv;
 	}
 	
-	@PostMapping(value="/")
+	@PostMapping("/")
 	public String redirectMain() {
 		return "redirect:/";
 	}
@@ -48,9 +53,7 @@ public class MainController {
 	public List<ScheduleDTO> selectScheduleList(Principal principal) {
 		
 		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
-		
-		System.out.println(mainService.selectScheduleList(empCode));
-		
+				
 		return mainService.selectScheduleList(empCode);
 	}
 	
@@ -60,10 +63,6 @@ public class MainController {
 		
 		List<ScheduleCategoryDTO> schCatDTOList = mainService.scheduleCategoryList();
 		
-		for (ScheduleCategoryDTO a : schCatDTOList) {
-			System.out.println(a);
-		}
-		
 		return schCatDTOList;
 	}
 	
@@ -72,8 +71,42 @@ public class MainController {
 	public ScheduleDTO selectSchedule(@RequestParam int schCode) {
 		
 		ScheduleDTO scheduleDTO = mainService.selectSchedule(schCode);
-		System.out.println(scheduleDTO);
 		
 		return scheduleDTO;
 	}
+	
+	@PostMapping("/schedule/insertSchedule")
+	public ModelAndView insertSchedule(ModelAndView mv, HttpServletRequest request, RedirectAttributes rAttr, Principal principal) throws ParseException {
+		
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		int schCatCode = Integer.valueOf(request.getParameter("addSchCat"));
+		
+		String startDateString = request.getParameter("addStartDate");
+		String endDateString = request.getParameter("addEndDate");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date startUtilDate = format.parse(startDateString);
+		java.util.Date endUtilDate = format.parse(endDateString);
+		java.sql.Date startDate = new java.sql.Date(startUtilDate.getTime());
+		java.sql.Date endDate = new java.sql.Date(endUtilDate.getTime());
+		
+		String schLocation = request.getParameter("addSchLocation");
+		String schDesc = request.getParameter("addSchDesc");
+		
+		ScheduleCategoryDTO schCatDTO = mainService.selectScheduleCategory(schCatCode);
+		
+		ScheduleDTO newSchedule = new ScheduleDTO();
+		newSchedule.setEmpCode(empCode);
+		newSchedule.setSchCat(schCatDTO);
+		newSchedule.setStartDate(startDate);
+		newSchedule.setEndDate(endDate);
+		newSchedule.setSchLocation(schLocation);
+		newSchedule.setSchDesc(schDesc);
+		
+		/* 신규 일정 등록 */
+		mainService.insertSchedule(newSchedule);
+
+		mv.setViewName("redirect:/main");
+		return mv;
+	}
+	
 }

@@ -99,7 +99,7 @@
 		</div>
 	</div>
 	
-	<!-- Detailed Schedule Info Modal -->
+	<!-- Detailed Schedule Info Display Modal -->
 	<div class="modal fade" id="scheduleDetails" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -111,9 +111,13 @@
 				</div>
 				<div class="modal-body">
 					<form action="/theater/schedule/screening/modify" id="schedule-info" method="post">
-						<input type="number" class="form-control" name="code" hidden="true">
+					
 						<table class="table table-bordered text-right table-responsive-md">
 							<tbody>
+								<tr>
+									<td class="col-md-3">스케줄 코드#</td>
+									<td class="col-md-9" colspan="3"><input type="number" class="form-control" name="code" readonly></td>
+								</tr>
 								<tr>
 									<td class="col-md-3">영화</td>
 									<td class="col-md-9" colspan="3">
@@ -158,10 +162,12 @@
 								</tr>
 							</tbody>
 						</table>
+						
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="submit" class="btn btn-primary" form="schedule-info">적용하기</button>
 				</div>
 			</div>
 		</div>
@@ -251,7 +257,7 @@
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
 				initialView: 'resourceTimelineDay',
-				locale: 'ko',
+				locale: 'en-gb',
 				contentHeight: 'auto',
 				initialDate: '2021-12-09',
 				scrollTime: currTime,
@@ -294,6 +300,14 @@
 							console.log(scheduleList);
 							
 							for (let i = 0; data.length; i++) {
+								
+								console.log("---< SCHEDULE data from server >---"
+										+ "\n" + "code: " + data[i].code
+										+ "\n" + "movie: " + data[i].movieAndScreening.name
+										+ "\n" + "start: " + data[i].screeningStart
+										+ "\n" + "end: " + data[i].screeningEnd
+										);
+								
 								calendar.addEvent({
 									id: data[i].code,
 									resourceId: data[i].theater.code,

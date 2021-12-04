@@ -25,4 +25,17 @@ public class ScreeningDAO {
 		return scheduleList;
 	}
 
+	public void modifySchedule(ScreeningScheduleDTO scheduleFromClient) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		ScreeningScheduleDTO scheduleFromEntity = em.find(ScreeningScheduleDTO.class, scheduleFromClient.getCode());
+		
+		scheduleFromEntity.setMovieAndScreening(scheduleFromClient.getMovieAndScreening());
+		scheduleFromEntity.setTheater(scheduleFromClient.getTheater());
+		scheduleFromEntity.setScreeningStart(scheduleFromClient.getScreeningStart());
+		scheduleFromEntity.setScreeningEnd(scheduleFromClient.getScreeningEnd());
+		
+	}
+
 }

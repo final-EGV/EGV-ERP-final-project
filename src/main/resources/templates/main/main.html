@@ -71,6 +71,7 @@
 					         		    success: function(data){
 					         		        $('#selectSchedule').modal("toggle");
 					         		        
+					         		        document.getElementById("selectSchCode").value = data['schCode'];
 					         		        document.getElementById("selectStartDate").value = data['startDate'];
 					         		        document.getElementById("selectEndDate").value = data['endDate'];
 					         		        $("#selectSchCat").val(data['schCat']['schCatCode']).prop("selected", true);
@@ -183,22 +184,23 @@
 										<tbody>
 											<tr>
 												<td class="col-2">시작일</td>
-												<td class="col-4"><input class="form-control" type="date" name="addStartDate" id="addStartDate" required>
+												<td class="col-4"><input class="form-control" type="date" name="addStartDate" id="addStartDate">
 												  <div class="invalid-feedback">
 											        성명을 입력하세요
 											      </div>
 											      </td>
 												<td class="col-2" width="180">종료일</td>
-												<td class="col-4"><input class="form-control" type="date" name="addEndDate" id="addEndDate" required></td>
+												<td class="col-4"><input class="form-control" type="date" name="addEndDate" id="addEndDate"></td>
 											</tr>
 											<tr>
 					 							<td class="col-2">일정구분</td>
 												<td class="col-4">
-												<select class="form-control" name="addSchCat" id="addSchCat">
-												  <!-- ajax -->
-												</select>
+													<select class="form-control" name="addSchCat" id="addSchCat">
+													  <!-- ajax -->
+													</select>
+												</td>
 												<td class="col-2">장소</td>
-												<td class="col-4"><input class="form-control" type="text" name="addSchLocation" id="addSchLocation" required></td>
+												<td class="col-4"><input class="form-control" type="text" name="addSchLocation" id="addSchLocation"></td>
 											</tr>
 											<tr>
 												<td class="col-2">내용</td>
@@ -226,7 +228,9 @@
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						        <form action="/schedule/updateSchedule" class="needs-validation" method="post" novalidate>
+						        <form action="/schedule/updateSchedule" name="update_schedule_form" class="needs-validation" method="post" novalidate>
+						        	<input type="number" name="selectSchCode" id="selectSchCode" hidden>
+						        	<input type="text" name="deleteSchYn" id="deleteSchYn" value="N" hidden>
 							      	<table class="table table-striped table-bordered text-right col-12">
 										<tbody>
 											<tr>
@@ -243,7 +247,7 @@
 					 							<td class="col-2">일정구분</td>
 												<td class="col-4">
 												<select class="form-control" name="selectSchCat" id="selectSchCat">
-												  <!-- ajax -->
+												  <!-- ajax로 처리 -->
 												</select>
 												<td class="col-2">장소</td>
 												<td class="col-4"><input class="form-control" type="text" name="selectSchLocation" id="selectSchLocation" required></td>
@@ -255,10 +259,34 @@
 										</tbody>
 									</table>
 							      <div class="modal-footer">
-							        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-							        <button type="button" class="btn btn-primary">수정하기</button>
-							        <button type="button" class="btn btn-danger">삭제하기</button>
+								  	<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								  	<button type="button" class="btn btn-primary" id="updateSchBtn" onclick="update_schedule_check();">수정하기</button>
+								  	<button type="button" class="btn btn-danger" id="deleteSchBtn" onclick="delete_schedule_yn();">삭제하기</button>
 							      </div>
+							      <script>
+								      function delete_schedule_yn() {
+											var deleteSchYn = document.getElementById("deleteSchYn");
+											deleteSchYn.value = "Y";
+											
+											document.getElementById("updateSchBtn").click();
+										}
+										function update_schedule_check() {
+											var selectStartDate = document.getElementsByName("selectStartDate");
+											var selectEndDate = document.getElementsByName("selectEndDate");
+											var selectSchCat = document.getElementsByName("selectSchCat");
+											
+											if (!selectStartDate.value) {
+												alert("일정의 시작일을 선택하세요.");
+												return false;
+											}
+											if (!selectEndDate.value) {
+												alert("일정의 종료일을 선택하세요.");
+												return false;
+											}
+											
+											document.update_schedule_form.submit();										
+										}
+							      </script>
 								</form>
 						      </div>
 						    </div>

@@ -40,6 +40,19 @@ public class MainService {
 		return scheduleDTO;
 	}
 
+	@Transactional
+	public ScheduleCategoryDTO selectScheduleCategory(int schCatCode) {
+		ScheduleCategoryDTO schCatDTO = mainDAO.selectScheduleCategory(schCatCode);
+		
+		return schCatDTO;
+	}
+
+	@Transactional
+	public void insertSchedule(ScheduleDTO newSchedule) {
+		
+		mainDAO.insertSchedule(newSchedule);
+	}
+
 
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.erp.egv.main.model.dao.MainDAO;
+import org.erp.egv.main.model.dto.ScheduleCategoryDTO;
 import org.erp.egv.main.model.dto.ScheduleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,20 @@ public class MainService {
 	public List<ScheduleDTO> selectScheduleList(String empCode) {
 		
 		return mainDAO.selectScheduleList(empCode);
+	}
+	
+	@Transactional
+	public List<ScheduleCategoryDTO> scheduleCategoryList() {
+		List<ScheduleCategoryDTO> schCatDTOList = mainDAO.scheduleCategoryList();
+		
+		return schCatDTOList;
+	}
+
+	@Transactional
+	public ScheduleDTO selectSchedule(int schCode) {
+		ScheduleDTO scheduleDTO = mainDAO.selectSchedule(schCode);
+		
+		return scheduleDTO;
 	}
 
 

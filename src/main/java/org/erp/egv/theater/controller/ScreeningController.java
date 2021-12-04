@@ -103,7 +103,7 @@ public class ScreeningController {
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 상영 스케줄 정보 수정을 성공했습니다.");
 		
-		return "redirect:/theater/scheduleScreening";
+		return "redirect:/theater/schedule/screening";
 	}
 	
 	@PostMapping("/delete")

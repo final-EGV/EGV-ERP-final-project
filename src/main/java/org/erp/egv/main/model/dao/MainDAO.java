@@ -23,6 +23,11 @@ public class MainDAO {
 		return scheduleList;
 	}
 
+	public ScheduleDTO selectSchedule(int schCode) {
+		ScheduleDTO scheduleDTO = em.find(ScheduleDTO.class, schCode);
+		return scheduleDTO;
+	}
+
 
 
 }

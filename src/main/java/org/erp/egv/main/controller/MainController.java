@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,5 +50,15 @@ public class MainController {
 		System.out.println(mainService.selectScheduleList(empCode));
 		
 		return mainService.selectScheduleList(empCode);
+	}
+	
+	@GetMapping(value = "/schedule/selectSchedule", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public ScheduleDTO selectSchedule(@RequestParam int schCode) {
+		
+		ScheduleDTO scheduleDTO = mainService.selectSchedule(schCode);
+		System.out.println(scheduleDTO);
+		
+		return scheduleDTO;
 	}
 }

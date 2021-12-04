@@ -25,6 +25,13 @@ public class MainService {
 		return mainDAO.selectScheduleList(empCode);
 	}
 
+	@Transactional
+	public ScheduleDTO selectSchedule(int schCode) {
+		ScheduleDTO scheduleDTO = mainDAO.selectSchedule(schCode);
+		
+		return scheduleDTO;
+	}
+
 
 
 }

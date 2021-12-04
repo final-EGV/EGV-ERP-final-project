@@ -77,10 +77,8 @@ public class ScreeningController {
 		int scheduleCode = Integer.valueOf(request.getParameter("code"));
 		int movieCode = Integer.valueOf(request.getParameter("movieAndScreening"));
 		int theaterCode = Integer.valueOf(request.getParameter("theater"));
-		java.sql.Timestamp screeningStart =
-				new java.sql.Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("screeningStart").replace("T", " ")).getTime());
-		java.sql.Timestamp screeningEnd =
-				new java.sql.Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("screeningEnd").replace("T", " ")).getTime());
+		String screeningStart = request.getParameter("screeningStart");
+		String screeningEnd = request.getParameter("screeningEnd");
 		
 		System.out.println("---< SCHEDULE data from Client >---");
 		System.out.println("scheduleCode: " + scheduleCode);

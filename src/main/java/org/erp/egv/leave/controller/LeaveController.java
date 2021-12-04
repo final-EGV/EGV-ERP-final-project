@@ -30,4 +30,11 @@ public class LeaveController {
 		
 		return mv;
 	}
+	
+	@GetMapping("/Leave")
+	public ModelAndView leaveList(ModelAndView mv) {
+		mv.setViewName("/emp/leave/empLeave");
+		
+		return mv;
+	}
 }

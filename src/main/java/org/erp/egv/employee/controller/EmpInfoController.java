@@ -266,7 +266,7 @@ public class EmpInfoController {
 		return mv;
 	}
 	
-	/* 알바 스케줄 데이터 자져오기*/
+	/* 알바 스케줄 데이터 가져오기*/
 	@GetMapping(value="/parttime/parttimeScheduleList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ParttimeScheduleDTO> parttimeScheduleList() {

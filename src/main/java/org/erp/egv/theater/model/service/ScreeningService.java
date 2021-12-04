@@ -35,4 +35,12 @@ public class ScreeningService {
 		screeningDAO.modifySchedule(scheduleFromClient);
 	}
 
+	@Transactional
+	public void deleteScreeningScheduleByCode(int code) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		screeningDAO.deleteScreeningScheduleByCode(code);
+	}
+
 }

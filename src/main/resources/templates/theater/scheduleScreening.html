@@ -110,7 +110,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="/theater/schedule/screening/modify" id="schedule-info" method="post">
+					<form id="schedule-info" method="post">
 					
 						<table class="table table-bordered text-right table-responsive-md">
 							<tbody>
@@ -151,7 +151,7 @@
 								<tr>
 									<td class="col-md-3">상영 시작시간</td>
 									<td class="col-md-9">
-										<input type="datetime-local" class="form-control" name="screeningStart">
+										<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()">
 									</td>
 								</tr>
 								<tr>
@@ -167,7 +167,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="submit" class="btn btn-primary" form="schedule-info">적용하기</button>
+					<button type="submit" class="btn btn-primary" form="schedule-info" th:formaction="@{/theater/schedule/screening/modify}">적용하기</button>
+					<button type="submit" class="btn btn-danger" form="schedule-info" th:formaction="@{/theater/schedule/screening/delete}">삭제하기</button>
 				</div>
 			</div>
 		</div>
@@ -249,7 +250,16 @@
 		var today = new Date();
 		var currTime = ('0' + today.getHours()).slice(-2) + ":" + ('0' + today.getMinutes()).slice(-2);
 		
+		var movieRunningTime;
+		
 		var scheduleList;	// List object from controller
+		
+		var codeInput = document.getElementsByName('code')[0];
+		var movieCodeInput = document.getElementsByName('movieAndScreening')[0];
+		var movieNameInput = document.getElementsByName('movieName')[0];
+		var theaterInput = document.getElementsByName('theater')[0];
+		var startInput = document.getElementsByName('screeningStart')[0];
+		var endInput = document.getElementsByName('screeningEnd')[0];
 	
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
@@ -297,16 +307,10 @@
 						success: function(data) {
 							
 							scheduleList = data;
+							console.log("event arrived:");
 							console.log(scheduleList);
 							
 							for (let i = 0; data.length; i++) {
-								
-								console.log("---< SCHEDULE data from server >---"
-										+ "\n" + "code: " + data[i].code
-										+ "\n" + "movie: " + data[i].movieAndScreening.name
-										+ "\n" + "start: " + data[i].screeningStart
-										+ "\n" + "end: " + data[i].screeningEnd
-										);
 								
 								calendar.addEvent({
 									id: data[i].code,
@@ -315,7 +319,15 @@
 									start: data[i].screeningStart,
 									end: data[i].screeningEnd
 								})
+								
+								console.log("---< SCHEDULE data from server >---"
+										+ "\n" + "code: " + data[i].code
+										+ "\n" + "movie: " + data[i].movieAndScreening.name
+										+ "\n" + "start: " + data[i].screeningStart
+										+ "\n" + "end: " + data[i].screeningEnd
+										);
 							}
+							calendar.render();
 						},
 						error: function(xhr) {
 							console.log(xhr);
@@ -327,19 +339,14 @@
 					let schedule = scheduleList[info.event.id - 1];
 					console.log(schedule);
 					
-					let codeInput = document.getElementsByName('code')[0];
-					let movieCodeInput = document.getElementsByName('movieAndScreening')[0];
-					let movieNameInput = document.getElementsByName('movieName')[0];
-					let theaterInput = document.getElementsByName('theater')[0];
-					let startInput = document.getElementsByName('screeningStart')[0];
-					let endInput = document.getElementsByName('screeningEnd')[0];
-					
 					codeInput.value = schedule.code;
 					movieCodeInput.value = schedule.movieAndScreening.code;
 					movieNameInput.value = schedule.movieAndScreening.name;
 					theaterInput.value = schedule.theater.code;
 					startInput.value = schedule.screeningStart;
 					endInput.value = schedule.screeningEnd;
+					
+					movieRunningTime = schedule.movieAndScreening.runningTime;
 					
 					$('#scheduleDetails').modal('show');
 				}
@@ -353,6 +360,8 @@
 			
 			var selectedMovieCode = object.children[0].innerText;
 			var selectedMovieName = object.children[1].innerText;
+			movieRunningTime = scheduleList[selectedMovieCode - 1].movieAndScreening.runningTime;
+			console.log("movieRunningTime: " + movieRunningTime);
 			
 			document.getElementsByName('movieAndScreening')[0].value = selectedMovieCode;
 			document.getElementsByName('movieName')[0].value = selectedMovieName;
@@ -360,6 +369,7 @@
 			console.log('you picked : (' + document.getElementsByName('movieAndScreening')[0].value + ')'
 					+ document.getElementsByName('movieName')[0].value);
 			
+			calculateEndTime();
 			$('#movieSelectModal').modal('hide');
 		}
 		
@@ -367,6 +377,39 @@
 		function emptySelectedMovie() {
 			document.getElementsByName('movieAndScreening')[0].value = '';
 			document.getElementsByName('movieName')[0].value = '';
+		}
+		
+		/* 상영 종료 시간 계산하기 */
+		function calculateEndTime() {
+			
+			let calculatedDate = new Date(Date.parse(startInput.value) + movieRunningTime * 60 * 1000);
+			
+			let yearPiece = calculatedDate.getFullYear();
+			
+			let monthPiece = calculatedDate.getMonth() + 1;
+			if (monthPiece < 10) {
+				monthPiece = "0" + monthPiece;
+			}
+			
+			let datePiece = calculatedDate.getDate();
+			if (datePiece < 10) {
+				datePiece = "0" + datePiece;
+			}
+			
+			let hourPiece = calculatedDate.getHours();
+			if (hourPiece < 10) {
+				hourPiece = "0" + hourPiece;
+			}
+			
+			let minutePiece = calculatedDate.getMinutes();
+			if (minutePiece < 10) {
+				minutePiece = "0" + minutePiece;
+			}
+			
+			let endStr = yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
+			console.log(endStr);
+			
+			endInput.value = endStr;
 		}
 	</script>
 </body>

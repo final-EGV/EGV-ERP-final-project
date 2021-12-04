@@ -123,7 +123,7 @@
 							        <tbody>
 							            <tr>
 							                <td rowspan="3">기안</td>
-							                <td style="height: 30px;" th:text="${ sign.employee.empPosition }"></td>
+							                <td style="height: 30px;"> [[${ sign.employee.empPosition }]]</td>
 							                <td rowspan="3">결재</td>
 							                <span class="parent" th:each="app:${sign.approver}">
 							                	<td class="parent" th:text="${app.emp.empPosition}"></td>	
@@ -132,13 +132,13 @@
 							            <tr>
 							                <td style="height: 70px;"> <img th:src="|/stamp-img/${ sign.employee.stampUuidName }|" style="height: 100px;"> </td>
 							                <span th:each="app:${sign.approver}">
-							                	<td style="height: 100px;"> <img th:if="${app.status == '승인'}" th:src="|/stamp-img/${ app.emp.stampUuidName }|" style="height: 100px;"> <img th:if="${app.status == '반려'}" src="/stamp-img/반려.svg" style="height: 100px;"> </td>	
+							                	<td style="height: 100px;"> <img th:if="${app.status == '승인'}" th:src="|/stamp-img/${ app.emp.stampUuidName }|" style="height: 100px;"> <img th:if="${app.status == '반려'}" src="/stamp-img/reject.svg" style="height: 100px;"> </td>	
 							                </span>
 							            </tr>
 							            <tr>
-							                <td style="height: 30px;" th:text="${ sign.employee.name }"></td>
+							                <td style="height: 30px;"> [[${ sign.employee.name }]] <p style="margin-bottom: 0px; font-size: 7px;" th:text="${#dates.format(sign.date, 'yyyy-MM-dd HH:mm')}"></p> </td>
 							                <span th:each="app:${sign.approver}">
-							                	<td th:text="${app.emp.name}"></td>	
+							                	<td> [[${app.emp.name}]] <p style="margin-bottom: 0px; font-size: 7px;" th:text="${#dates.format(app.date, 'yyyy-MM-dd HH:mm')}"></p> </td>	
 							                </span>
 							            </tr>
 							        </tbody>
@@ -172,7 +172,7 @@
 								<span th:each="com:${ sign.comment }">
 									<span th:id="|comment${ com.code }|">
 										[[|${ com.emp.empPosition } ${ com.emp.name } &nbsp;&nbsp; |]] &nbsp; 
-										<span th:text="${#dates.format(com.date, 'yyyy-MM-dd MM:HH')}"></span> &nbsp; &nbsp;
+										<span th:text="${#dates.format(com.date, 'yyyy-MM-dd HH:mm')}"></span> &nbsp; &nbsp;
 										<button style="height: 35px;" class="btn btn-outline-dark" type="button" th:onclick="|btn_click(${ com.code })|" th:if="${ com.emp.code } == ${ #authentication.name }">
 											삭제
 										</button>
@@ -300,11 +300,15 @@
 	  					
 	  					$("#comment").val("");
 	  					
+	  					var now = new Date();
+	  					var hour = now.getHours();
+	  					var minutes = now.getMinutes();
+	  					
 	  					var spanid = "<span id='comment" + data.code + "'>"
 	  					var btnid = "<button class='btn btn-outline-dark' onclick='btn_click(" + data.code + ")'>";
 	  					const comdiv = $("#commentdiv2 div");
 	  					plusdiv = $(spanid);
-	  					plusdiv.html(data.emp.empPosition + "\u00a0" + data.emp.name + "\u00a0\u00a0\u00a0" + data.date + "\u00a0\u00a0\u00a0");
+	  					plusdiv.html(data.emp.empPosition + "\u00a0" + data.emp.name + "\u00a0\u00a0\u00a0" + data.date + "\u00a0\u00a0"  + hour + ":" + minutes + "\u00a0\u00a0\u00a0");
 	  					comdiv.append(plusdiv);
 	  					
 	  					a = $(btnid).text("삭제")
@@ -325,6 +329,29 @@
 			}
         	      
 		});
+	</script>
+	
+	<script type="text/javascript">
+	function is_valid_date(date_str)
+	{
+	    var yyyyMMdd = String(date_str);
+	    var year = yyyyMMdd.substring(0,4);
+	    var month = yyyyMMdd.substring(4,6);
+	    var day = yyyyMMdd.substring(6,8);
+
+	    if (!is_number(date_str) || date_str.length!=8)
+	        return false;
+
+	    if (Number(month)>12 || Number(month)<1)
+	        return false;
+
+	    if (Number(last_day(date_str))<day)
+	        return false;
+
+	    return true;
+	}
+	
+	
 	</script>
 	
 	

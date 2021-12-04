@@ -1,7 +1,7 @@
 package org.erp.egv.theater.model.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,16 +37,16 @@ public class ScreeningScheduleDTO implements Serializable {
 	private TheaterDTO theater;
 	
 	@Column(name = "SCREENING_START")
-	private java.sql.Date screeningStart;
+	private Timestamp screeningStart;
 	
 	@Column(name = "SCREENING_END")
-	private java.sql.Date screeningEnd;
+	private Timestamp screeningEnd;
 
 	public ScreeningScheduleDTO() {
 	}
 
-	public ScreeningScheduleDTO(int code, MovieDTO movieAndScreening, TheaterDTO theater, Date screeningStart,
-			Date screeningEnd) {
+	public ScreeningScheduleDTO(int code, MovieDTO movieAndScreening, TheaterDTO theater, Timestamp screeningStart,
+			Timestamp screeningEnd) {
 		this.code = code;
 		this.movieAndScreening = movieAndScreening;
 		this.theater = theater;
@@ -78,26 +78,26 @@ public class ScreeningScheduleDTO implements Serializable {
 		this.theater = theater;
 	}
 
-	public java.sql.Date getScreeningStart() {
+	public Timestamp getScreeningStart() {
 		return screeningStart;
 	}
 
-	public void setScreeningStart(java.sql.Date screeningStart) {
+	public void setScreeningStart(Timestamp screeningStart) {
 		this.screeningStart = screeningStart;
 	}
 
-	public java.sql.Date getScreeningEnd() {
+	public Timestamp getScreeningEnd() {
 		return screeningEnd;
 	}
 
-	public void setScreeningEnd(java.sql.Date screeningEnd) {
+	public void setScreeningEnd(Timestamp screeningEnd) {
 		this.screeningEnd = screeningEnd;
 	}
 
 	@Override
 	public String toString() {
-		return "ScreeningScheduleDTO [code=" + code + ", movieAndScreening=" + movieAndScreening + ", theater="
-				+ theater + ", screeningStart=" + screeningStart + ", screeningEnd=" + screeningEnd + "]";
+		return "ScreeningScheduleDTO [code=" + code + ", movieAndScreening=" + movieAndScreening.getName() + ", theater="
+				+ theater.getName() + ", screeningStart=" + screeningStart + ", screeningEnd=" + screeningEnd + "]";
 	}
 
 }

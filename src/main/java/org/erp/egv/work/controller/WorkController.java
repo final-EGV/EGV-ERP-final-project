@@ -134,7 +134,7 @@ public class WorkController {
 		List<WorkDTO> workList = workService.workListEmp(code);
 		
 		mv.addObject("workList", workList);
-		mv.setViewName("emp/work/workListEmp");
+		mv.setViewName("redirect:/emp/Work");
 		
 		return mv;
 	}

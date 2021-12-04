@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -18,10 +21,16 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "USE_ANNUAL_LEAVE")
+@SequenceGenerator(name = "UAL_SEQ_GENERATOR",
+sequenceName = "SEQ_UAL_CODE",
+initialValue = 1, 
+allocationSize = 1)
 public class UseAnnualLeaveDTO implements Serializable{
 	private static final long serialVersionUID = 4957149843892985761L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator = "UAL_SEQ_GENERATOR")	
 	@Column(name = "UAL_CODE")
 	private int code;
 	
@@ -29,8 +38,18 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
-	@Column(name = "UAL_DATE")
-	private Date date;
+	@ManyToOne
+	@JoinColumn(name = "ANNUAL_LEAVE_CODE")
+	private AnnualLeaveCategoryDTO categoryCode;
+	
+	@Column(name = "UAL_START_DATE")
+	private Date start;
+	
+	@Column(name = "UAL_END_DATE")
+	private Date end;
+	
+	@Column(name = "TOTAL_DATE")
+	private int total;
 	
 	@Column(name = "UAL_CONTENT")
 	private String content;
@@ -38,10 +57,14 @@ public class UseAnnualLeaveDTO implements Serializable{
 	public UseAnnualLeaveDTO() {
 	}
 
-	public UseAnnualLeaveDTO(int code, EmployeeDTO empCode, Date date, String content) {
+	public UseAnnualLeaveDTO(int code, EmployeeDTO empCode, AnnualLeaveCategoryDTO categoryCode, Date start, Date end,
+			int total, String content) {
 		this.code = code;
 		this.empCode = empCode;
-		this.date = date;
+		this.categoryCode = categoryCode;
+		this.start = start;
+		this.end = end;
+		this.total = total;
 		this.content = content;
 	}
 
@@ -61,12 +84,36 @@ public class UseAnnualLeaveDTO implements Serializable{
 		this.empCode = empCode;
 	}
 
-	public Date getDate() {
-		return date;
+	public AnnualLeaveCategoryDTO getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCategoryCode(AnnualLeaveCategoryDTO categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotalDate(int total) {
+		this.total = total;
 	}
 
 	public String getContent() {
@@ -79,8 +126,9 @@ public class UseAnnualLeaveDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", date=" + date + ", content=" + content
-				+ "]";
+		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", categoryCode=" + categoryCode
+				+ ", start=" + start + ", end=" + end + ", total=" + total + ", content=" + content + "]";
 	}
+
 	
 }

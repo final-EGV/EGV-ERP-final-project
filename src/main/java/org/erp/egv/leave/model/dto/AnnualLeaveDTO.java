@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -18,23 +21,25 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "ANNUAL_LEAVE")
+@SequenceGenerator(name = "ANNUAL_LEAVE_SEQ_GENERATOR",
+sequenceName = "SEQ_ANNUAL_LEAVE_CODE",
+initialValue = 1, 
+allocationSize = 1)
 public class AnnualLeaveDTO implements Serializable{
 	private static final long serialVersionUID = -8778880747799272707L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+	generator = "ANNUAL_LEAVE_SEQ_GENERATOR")	
 	@Column(name = "AL_CODE")
 	private int code;
-	
-	@ManyToOne
-	@JoinColumn(name = "AL_CATEGORY_CODE")
-	private AnnualLeaveCategoryDTO categoryCode;
 	
 	@ManyToOne
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
 	@Column(name = "AL_YEAR")
-	private Date year;
+	private int year;
 	
 	@Column(name = "AL_COUNT")
 	private int count;
@@ -45,10 +50,9 @@ public class AnnualLeaveDTO implements Serializable{
 	public AnnualLeaveDTO() {
 	}
 
-	public AnnualLeaveDTO(int code, AnnualLeaveCategoryDTO categoryCode, EmployeeDTO empCode, Date year, int count,
+	public AnnualLeaveDTO(int code, EmployeeDTO empCode, int year, int count,
 			int useCount) {
 		this.code = code;
-		this.categoryCode = categoryCode;
 		this.empCode = empCode;
 		this.year = year;
 		this.count = count;
@@ -63,14 +67,6 @@ public class AnnualLeaveDTO implements Serializable{
 		this.code = code;
 	}
 
-	public AnnualLeaveCategoryDTO getCategoryCode() {
-		return categoryCode;
-	}
-
-	public void setCategoryCode(AnnualLeaveCategoryDTO categoryCode) {
-		this.categoryCode = categoryCode;
-	}
-
 	public EmployeeDTO getEmpCode() {
 		return empCode;
 	}
@@ -79,11 +75,11 @@ public class AnnualLeaveDTO implements Serializable{
 		this.empCode = empCode;
 	}
 
-	public Date getYear() {
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(Date year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -105,7 +101,7 @@ public class AnnualLeaveDTO implements Serializable{
 
 	@Override
 	public String toString() {
-		return "AnnualLeaveDTO [code=" + code + ", categoryCode=" + categoryCode + ", empCode=" + empCode + ", year="
+		return "AnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", year="
 				+ year + ", count=" + count + ", useCount=" + useCount + "]";
 	}
 	

@@ -38,8 +38,8 @@ public class PremiereController {
 	@GetMapping(value="/drawCalendar", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<MovieDTO> getMovieList() {
+		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		System.out.println("**** 호출됨 ****");
 		
 		return movieService.inquireOnlyYMovieList();
 	}

@@ -2,9 +2,7 @@ package org.erp.egv.sign.controller;
 
 import java.security.Principal;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.List;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.UserImpl;
@@ -78,9 +76,6 @@ public class SignDetailController {
 		mv.addObject("status", status);
 		mv.addObject("sign", sign);
 		mv.setViewName("/sign/detail/detail");
-		
-		SimpleDateFormat format1 = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-		System.out.println(format1.format(sign.getComment().get(0).getDate()));
 		
 		return mv;
 	}

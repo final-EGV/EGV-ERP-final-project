@@ -71,14 +71,22 @@
 						<div class="card-body">
 							<div class="table-responsive">
 								
-								<form action="/sign/detail/signUpdate" method="post" name="sign_form">
+								<form th:if="!${status}" action="/sign/detail/signUpdate" method="post" name="sign_form">
 									<input type="number" th:value="${ sign.code }" name="signCode" id="signCode" hidden>
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
-										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>&emsp;&emsp;&emsp;&emsp;&emsp;
+										<button type="button" id="deleteBtn" name="deleteBtn" class="btn btn-danger btn-lg" onclick="delete_document_YN();">삭제</button>
 									</div>
 									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
+									<input type="text" id="deleteDocumentYn" name="deleteDocumentYn" value="N" hidden>
 									<script>
+										function delete_document_YN() {
+											var signStatus = document.getElementById("deleteDocumentYn");
+											signStatus.value = "Y";
+											
+											document.getElementById("saveBtn").click();
+										}
 										function temporarySave() {
 											var signStatus = document.getElementById("signStatus");
 											signStatus.value = "임시저장";
@@ -145,6 +153,91 @@
 									<!-- <div th:utext="${template.contents}"></div> -->
 									<textarea id="summernote" name="documentContent"></textarea>
 								</form>
+								
+								
+								
+<!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+								
+								
+								
+								<form th:if="${status}" action="/sign/signInsert" method="post" name="sign_form">
+									<div style="width: 27%; float: right;" >
+										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
+									</div>
+									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
+									<script>
+										function temporarySave() {
+											var signStatus = document.getElementById("signStatus");
+											signStatus.value = "임시저장";
+											
+											document.getElementById("saveBtn").click();
+										}
+										function sign_form_check() {
+											var approverFrom = document.getElementsByName("approverInput");
+											var referrerFrom = document.getElementsByName("referrerInput");
+											var titleFrom = document.getElementById("documentTitle");
+											
+											if (!approverFrom[0]) {
+												alert("결재자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!referrerFrom[0]) {
+												alert("잠조자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!titleFrom.value) {
+												alert("제목을 작성해 주세요.");
+												return false;
+											}
+											document.sign_form.submit();										
+										}
+									</script>
+									<br><br>
+									<br>
+									<label>분류 :</label>&emsp;&emsp;&emsp;
+									<select name="template" id="template" style="width: 10%">
+										<!-- ajax로 template 조회 -->
+									</select>
+									<br>
+									<br>
+								 	
+									<label>결재자 :</label>&emsp;
+									<!-- 결제자 modal -->
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
+									<br><br>
+<!-- ################################################################################## -->
+									<div id="addApproverMain" class="addApprover" >
+										<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
+											<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
+											<input type="text" class="form-control" name="approverInput" th:value="|${ approverEmp.emp.name }(${ approverEmp.emp.code })|" readonly>
+										</div>
+									</div>
+									<br>
+								 	<label>참조자 :</label>&emsp;
+									<!-- 결제자 modal -->
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
+								 	<br><br>
+<!-- ################################################################################## -->
+									<div id="addReferrerMain" class="addReferrer">
+										<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
+											<span class="input-group-text">참조자 : </span>
+											<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
+										</div>
+									</div>	
+									<br><br>
+									<div class="input-group mb-3" style="width: 65%;">
+									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
+									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" th:value="${sign.title}">
+									</div>
+									<!-- <div th:utext="${template.contents}"></div> -->
+									<textarea id="summernote" name="documentContent"></textarea>
+								</form>
+								
+								
+<!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+								
+								
 
 								<!-- 결재자 select Modal-->
 								<div class="modal fade" id="selectApprover" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

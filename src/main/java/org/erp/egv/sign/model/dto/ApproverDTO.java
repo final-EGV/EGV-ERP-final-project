@@ -1,6 +1,7 @@
 package org.erp.egv.sign.model.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,9 @@ public class ApproverDTO implements Serializable, Comparable<ApproverDTO> {
 	@Column(name = "APPROVER_STATUS")
 	private String status;
 	
+	@Column(name = "APPROVER_DATE")
+	private java.sql.Date date;
+	
 	@ManyToOne
 	@JoinColumn(name="EMP_CODE")
 	private EmployeeDTO emp; 
@@ -37,10 +41,11 @@ public class ApproverDTO implements Serializable, Comparable<ApproverDTO> {
 	public ApproverDTO() {
 	}
 
-	public ApproverDTO(int code, int order, String status, EmployeeDTO emp, SignDTO sign) {
+	public ApproverDTO(int code, int order, String status, Date date, EmployeeDTO emp, SignDTO sign) {
 		this.code = code;
 		this.order = order;
 		this.status = status;
+		this.date = date;
 		this.emp = emp;
 		this.sign = sign;
 	}
@@ -69,6 +74,14 @@ public class ApproverDTO implements Serializable, Comparable<ApproverDTO> {
 		this.status = status;
 	}
 
+	public java.sql.Date getDate() {
+		return date;
+	}
+
+	public void setDate(java.sql.Date date) {
+		this.date = date;
+	}
+
 	public EmployeeDTO getEmp() {
 		return emp;
 	}
@@ -88,11 +101,11 @@ public class ApproverDTO implements Serializable, Comparable<ApproverDTO> {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "ApproverDTO [code=" + code + ", order=" + order + ", status=" + status + ", emp=" + emp + ", sign="
-				+ sign + "]";
+		return "ApproverDTO [code=" + code + ", order=" + order + ", status=" + status + ", date=" + date + ", emp="
+				+ emp + ", sign=" + sign + "]";
 	}
 
 	@Override

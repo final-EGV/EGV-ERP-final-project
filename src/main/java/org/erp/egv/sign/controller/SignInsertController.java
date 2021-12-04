@@ -118,45 +118,42 @@ private EmpInfoService empInfoService;
 		for (String approver : approverList) {
 			int approverCode = signInsertService.findMaxApproverCode() + 1;
 			
-			if (approver.length() > 5) {
-				String approverEmpCode = approver.substring(4,11);
-				EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
-				
-				ApproverDTO approverDTO = new ApproverDTO();
-				approverDTO.setCode(approverCode);
-				approverDTO.setEmp(approverEmployeeDTO);				
-				approverDTO.setSign(newSignDTO);
-				approverDTO.setOrder(approverPriority);
-				approverDTO.setStatus("대기");
-				
-				System.out.println(approverDTO);
-				
-				signInsertService.insertApprover(approverDTO);
-				
-				approverPriority++;
-				approverCode++;
-			}
+			String approverEmpCode = approver.substring(4,11);
+			EmployeeDTO approverEmployeeDTO = empInfoService.empOneRequest(approverEmpCode);
+			
+			ApproverDTO approverDTO = new ApproverDTO();
+			approverDTO.setCode(approverCode);
+			approverDTO.setEmp(approverEmployeeDTO);				
+			approverDTO.setSign(newSignDTO);
+			approverDTO.setOrder(approverPriority);
+			approverDTO.setStatus("대기");
+			
+//			System.out.println(approverDTO);
+			
+			signInsertService.insertApprover(approverDTO);
+			
+			approverPriority++;
+			approverCode++;
 		}
 		
 		/* 참조자 insert */
 		for(String referrer : referrerList) {
 			int referrerCode = signInsertService.findMaxReferrerCode() + 1;
 
-			if (referrer.length() > 5) {
-				String referrerEmpCode = referrer.substring(4,11);
-				EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
-				
-				RefferrerDTO refferrerDTO = new RefferrerDTO();
-				refferrerDTO.setCode(referrerCode);
-				refferrerDTO.setEmp(referrerEmployeeDTO);
-				refferrerDTO.setSign(newSignDTO);
-				refferrerDTO.setReadYN("N");
-				System.out.println(refferrerDTO);
+			String referrerEmpCode = referrer.substring(4,11);
+			EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+			
+			RefferrerDTO refferrerDTO = new RefferrerDTO();
+			refferrerDTO.setCode(referrerCode);
+			refferrerDTO.setEmp(referrerEmployeeDTO);
+			refferrerDTO.setSign(newSignDTO);
+			refferrerDTO.setReadYN("N");
+			
+//			System.out.println(refferrerDTO);
 
-				signInsertService.insertReferrer(refferrerDTO);
-				
-				referrerCode++;
-			}
+			signInsertService.insertReferrer(refferrerDTO);
+			
+			referrerCode++;
 		}
 
 		mv.setViewName("redirect:/main");

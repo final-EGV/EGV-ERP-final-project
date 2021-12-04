@@ -12,6 +12,8 @@ import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.main.model.dto.ScheduleCategoryDTO;
 import org.erp.egv.main.model.dto.ScheduleDTO;
 import org.erp.egv.main.model.service.MainService;
+import org.erp.egv.sign.model.dto.SignDTO;
+import org.erp.egv.sign.model.service.SignSentSelectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,10 +28,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MainController {
 	
 	private MainService mainService;
+	private SignSentSelectService signService;
 	
 	@Autowired
-	public MainController(MainService mainService) {
+	public MainController(MainService mainService, SignSentSelectService signService) {
 		this.mainService = mainService;
+		this.signService = signService;
 	}
 	
 	@GetMapping(value = {"/", "/main"})
@@ -38,6 +42,10 @@ public class MainController {
 		if ( principal != null ) {
 			String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 		}
+		
+		List<SignDTO> signList = signService.selectProgresssignSignList(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		
+		mv.addObject("signList", signList);
 		
 		mv.setViewName("main/main");
 		return mv;

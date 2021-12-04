@@ -179,7 +179,7 @@
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						        <form action="/schedule/insertSchedule" class="needs-validation" method="post" novalidate>
+						        <form action="/schedule/insertSchedule" name="insert_schedule_form" class="needs-validation" method="post" novalidate>
 							      	<table class="table table-striped table-bordered text-right col-12">
 										<tbody>
 											<tr>
@@ -210,8 +210,25 @@
 									</table>
 							      <div class="modal-footer">
 							        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-							        <button type="submit" class="btn btn-primary">등록하기</button>
+							        <button type="button" class="btn btn-primary" onclick="insert_schedule_check();">등록하기</button>
 							      </div>
+							      <script>
+										function insert_schedule_check() {
+											var addStartDate = document.getElementsByName("addStartDate");
+											var addEndDate = document.getElementsByName("addEndDate");
+											
+											if (!addStartDate[0].value) {
+												alert("일정의 시작일을 선택하세요.");
+												return false;
+											}
+											if (!addEndDate[0].value) {
+												alert("일정의 종료일을 선택하세요.");
+												return false;
+											}
+											
+											document.insert_schedule_form.submit();										
+										}
+							      </script>
 								</form>
 						      </div>
 						    </div>
@@ -273,13 +290,12 @@
 										function update_schedule_check() {
 											var selectStartDate = document.getElementsByName("selectStartDate");
 											var selectEndDate = document.getElementsByName("selectEndDate");
-											var selectSchCat = document.getElementsByName("selectSchCat");
 											
-											if (!selectStartDate.value) {
+											if (!selectStartDate[0].value) {
 												alert("일정의 시작일을 선택하세요.");
 												return false;
 											}
-											if (!selectEndDate.value) {
+											if (!selectEndDate[0].value) {
 												alert("일정의 종료일을 선택하세요.");
 												return false;
 											}

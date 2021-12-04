@@ -21,7 +21,7 @@ import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
 import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
-import org.erp.egv.theater.model.dto.MovieDTO;
+import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.stereotype.Repository;
 
@@ -98,9 +98,16 @@ public class EmpInfoDAO {
 		return nextEmpNum;
 	}
 	
-	/*사원 등록*/
+	/*사원 등록 및 연차 생성*/
 	public void empRegistRequest(EmployeeDTO newEmp) {
 		em.persist(newEmp);
+		
+		AnnualLeaveDTO annualLeaveDTO = new AnnualLeaveDTO();
+		annualLeaveDTO.setEmpCode(newEmp);
+		annualLeaveDTO.setYear(Calendar.getInstance().get(Calendar.YEAR));
+		annualLeaveDTO.setCount(1);
+		annualLeaveDTO.setUseCount(0);
+		em.persist(annualLeaveDTO);
 	}
 	
 	/* Date : 2021/11/25

@@ -24,7 +24,7 @@ public class ScheduleDTO implements Serializable {
 	private ScheduleCategoryDTO schCat;
 	
 	@Column(name = "EMP_CODE")
-	private int empCode;
+	private String empCode;
 	
 //	@Column(name = "SCHEDULE_CATEGORY_CODE")
 //	private int schCatCode;
@@ -43,8 +43,7 @@ public class ScheduleDTO implements Serializable {
 
 	public ScheduleDTO() {
 	}
-
-	public ScheduleDTO(int schCode, ScheduleCategoryDTO schCat, int empCode, Date startDate, Date endDate,
+	public ScheduleDTO(int schCode, ScheduleCategoryDTO schCat, String empCode, Date startDate, Date endDate,
 			String schLocation, String schDesc) {
 		this.schCode = schCode;
 		this.schCat = schCat;
@@ -58,59 +57,45 @@ public class ScheduleDTO implements Serializable {
 	public int getSchCode() {
 		return schCode;
 	}
-
 	public void setSchCode(int schCode) {
 		this.schCode = schCode;
 	}
-
 	public ScheduleCategoryDTO getSchCat() {
 		return schCat;
 	}
-
 	public void setSchCat(ScheduleCategoryDTO schCat) {
 		this.schCat = schCat;
 	}
-
-	public int getEmpCode() {
+	public String getEmpCode() {
 		return empCode;
 	}
-
-	public void setEmpCode(int empCode) {
+	public void setEmpCode(String empCode) {
 		this.empCode = empCode;
 	}
-
 	public java.sql.Date getStartDate() {
 		return startDate;
 	}
-
 	public void setStartDate(java.sql.Date startDate) {
 		this.startDate = startDate;
 	}
-
 	public java.sql.Date getEndDate() {
 		return endDate;
 	}
-
 	public void setEndDate(java.sql.Date endDate) {
 		this.endDate = endDate;
 	}
-
 	public String getSchLocation() {
 		return schLocation;
 	}
-
 	public void setSchLocation(String schLocation) {
 		this.schLocation = schLocation;
 	}
-
 	public String getSchDesc() {
 		return schDesc;
 	}
-
 	public void setSchDesc(String schDesc) {
 		this.schDesc = schDesc;
 	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -121,6 +106,7 @@ public class ScheduleDTO implements Serializable {
 				+ startDate + ", endDate=" + endDate + ", schLocation=" + schLocation + ", schDesc=" + schDesc + "]";
 	}
 
+	
 	
 
 }

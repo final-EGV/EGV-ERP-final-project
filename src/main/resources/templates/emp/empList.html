@@ -37,19 +37,17 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
+
 		<div id="sidebarMain" class="bg-gradient-info"
 			th:include="common/aside.html"></div>
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex">
-
 			<!-- Main Content -->
 			<div id="content">
-
 				<div th:include="common/header.html"></div>
-
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
+				<div class="container-fluid" style="height: 100%">
 				<h1 align="Center">재직자 관리</h1>
 				<!-- 사원등록 trigger modal 버튼 -->
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registEmp">
@@ -86,21 +84,21 @@
 									</tr>
 									</tbody>
 								</table>
-							</div>
-						</div>
+						</div> 
 					</div>
-				<!-- End of Main Content -->
-				<!-- Footer -->
-				<div th:include="common/footer.html"></div>
-				<!-- End of Footer -->
+					
+				</div>
+            	<!-- End of Main Content --> 
 			</div>
-		</div>
-		</div>
-		<!-- End of Content Wrapper -->
-	</div>
-	<!-- End of Page Wrapper -->
-
-	<!-- Scroll to Top Button-->
+			<!-- Footer -->
+ 			<div th:include="common/footer.html" ></div>
+            <!-- End of Footer -->
+			</div>
+        </div> 
+        <!-- End of Content Wrapper -->
+	</div> 
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>

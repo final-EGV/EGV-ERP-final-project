@@ -14,13 +14,15 @@ public class MainDAO {
 	@PersistenceContext
 	EntityManager em;
 
-	public List<ScheduleDTO> selectScheduleList() {
+	public List<ScheduleDTO> selectScheduleList(String empCode) {
 		
-		String jpql = "SELECT s FROM ScheduleDTO as s ORDER BY s.schCode";
+		String jpql = "SELECT s FROM ScheduleDTO as s WHERE empCode = :empCode ORDER BY s.schCode";
 		
-		List<ScheduleDTO> scheduleList = em.createQuery(jpql, ScheduleDTO.class).getResultList();
+		List<ScheduleDTO> scheduleList = em.createQuery(jpql, ScheduleDTO.class).setParameter("empCode", empCode).getResultList();
 		
 		return scheduleList;
 	}
+
+
 
 }

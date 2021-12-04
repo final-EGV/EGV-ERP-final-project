@@ -27,4 +27,12 @@ public class ScreeningService {
 		return screeningDAO.inquireAllScreeningScheduleList();
 	}
 
+	@Transactional
+	public void modifySchedule(ScreeningScheduleDTO scheduleFromClient) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		screeningDAO.modifySchedule(scheduleFromClient);
+	}
+
 }

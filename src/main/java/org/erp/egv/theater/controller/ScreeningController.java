@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -77,10 +78,8 @@ public class ScreeningController {
 		int scheduleCode = Integer.valueOf(request.getParameter("code"));
 		int movieCode = Integer.valueOf(request.getParameter("movieAndScreening"));
 		int theaterCode = Integer.valueOf(request.getParameter("theater"));
-		java.sql.Timestamp screeningStart =
-				new java.sql.Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("screeningStart").replace("T", " ")).getTime());
-		java.sql.Timestamp screeningEnd =
-				new java.sql.Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("screeningEnd").replace("T", " ")).getTime());
+		String screeningStart = request.getParameter("screeningStart");
+		String screeningEnd = request.getParameter("screeningEnd");
 		
 		System.out.println("---< SCHEDULE data from Client >---");
 		System.out.println("scheduleCode: " + scheduleCode);
@@ -104,7 +103,21 @@ public class ScreeningController {
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 상영 스케줄 정보 수정을 성공했습니다.");
 		
-		return "redirect:/theater/scheduleScreening";
+		return "redirect:/theater/schedule/screening";
+	}
+	
+	@PostMapping("/delete")
+	@ResponseBody
+	public ModelAndView deleteScreeningScheduleByCode(ModelAndView mv, RedirectAttributes rAttr, @RequestParam int code) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println("delete code: " + code);
+		screeningService.deleteScreeningScheduleByCode(code);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 상영 스케줄 삭제를 성공했습니다.");
+		mv.setViewName("redirect:/theater/schedule/screening");
+		
+		return mv;
 	}
 	
 }

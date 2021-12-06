@@ -374,4 +374,15 @@ public class EmpInfoDAO {
 		return empList;
 	}
 
+	public String selectEmpPw(String empCode) {
+		String jpql = "SELECT a.pwd FROM EmployeeDTO AS a WHERE a.code = :code";
+		return (String)em.createQuery(jpql).setParameter("code", empCode).getSingleResult();
+	}
+
+	public void changePw(String empCode, String newPw) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, empCode);
+		emp.setPwd(newPw);
+		
+	}
+
 }

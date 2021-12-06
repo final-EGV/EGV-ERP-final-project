@@ -48,6 +48,23 @@ public class MainDAO {
 		em.persist(newSchedule);
 	}
 
+	public void updateSchedule(ScheduleDTO updateSchedule) {
+		
+		ScheduleDTO schedule = em.find(ScheduleDTO.class, updateSchedule.getSchCode());
+		
+		schedule.setSchCat(updateSchedule.getSchCat());
+		schedule.setStartDate(updateSchedule.getStartDate());
+		schedule.setEndDate(updateSchedule.getEndDate());
+		schedule.setSchLocation(updateSchedule.getSchLocation());
+		schedule.setSchDesc(updateSchedule.getSchDesc());
+	}
+
+	public void deleteSchedule(int schCode) {
+		
+		String jpql = "DELETE FROM ScheduleDTO as s WHERE s.schCode = :schCode";
+		em.createQuery(jpql).setParameter("schCode", schCode).executeUpdate();
+	}
+
 
 
 }

@@ -28,6 +28,7 @@ public class EmpInfoService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	@Transactional
 	public List<EmployeeDTO> empListRequest() {
 		System.out.println("서비스로 오나요?");
 		return empInfoDAO.empListRequest();
@@ -205,6 +206,18 @@ public class EmpInfoService {
 
 	public List<EmployeeDTO> findOutWorkerByCode(String code) {
 		return empInfoDAO.findOutWorkerByCode(code);
+	}
+
+	@Transactional
+	public boolean pwMatch(String nowPw, String empCode) {
+		String pw = empInfoDAO.selectEmpPw(empCode);
+		
+		return passwordEncoder.matches(nowPw, pw);
+	}
+
+	@Transactional
+	public void changePw(String newPw, String empCode) {
+		empInfoDAO.changePw(empCode, passwordEncoder.encode(newPw));
 	}
 
 }

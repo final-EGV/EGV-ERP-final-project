@@ -66,7 +66,7 @@
 											<th>사번</th>
 											<th>이름</th>
 											<th>직책</th>
-											<th>집전화번호</th>
+											<th>휴대폰 번호</th>
 											<th>프로필 사진등록</th>
 											<th>퇴사 진행여부</th>
 										</tr>
@@ -76,7 +76,7 @@
  										<td th:class="empCode" th:text="${ emp.code }"></td>
 										<td th:text="${ emp.name }"></td>
 										<td th:text="${ emp.empPosition }"></td>
-										<td th:text="${ emp.phoneHome }"></td>
+										<td th:text="${ emp.phoneMobile }"></td>
 										<td th:unless="${#strings.isEmpty(emp.profileImgName)}" th:text="'유'"></td>
 										<td th:if="${#strings.isEmpty(emp.profileImgName)}" th:text="'무'" th:style="'color: red'"></td>
 										<td th:unless="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'재직중'"></td>

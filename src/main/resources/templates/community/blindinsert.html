@@ -11,18 +11,27 @@
 <meta name="author" content="leesunmin">
 <title>EGV</title>
 <!-- Custom fonts for this template-->
-<link href="css/all.min.css" rel="stylesheet" type="text/css">
+<link href="/css/all.min.css" rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
-<link href="css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <!-- Custom styles for this template-->
 <script src="https://kit.fontawesome.com/56b47e1b72.js"
 	crossorigin="anonymous"></script>
+	
+<style>
+	#btndiv {
+		margin-left: 90%;
+		margin-bottom: 15px;
+		text-align: center;
+	}
+</style>
+	
 </head>
 <body id="page-top">
 
@@ -46,33 +55,22 @@
 				<div class="container-fluid">
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">진행중인 문서 목록</h6>
+							<h6 class="m-0 font-weight-bold text-primary">게시글 추가</h6>
 						</div>
 						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table table-bordered" id="tempTable" width="100%" cellspacing="0">
-									<thead>
-										<tr>
-											<th>결재 코드</th>
-											<th>제목</th>
-											<th>문서 종류</th>
-											<th>기안일</th>
-											<th>상태</th>
-										</tr>
-									</thead>
-									<tbody>
-										<span th:each="sign : ${ signList }">
-											<tr th:onclick="|location.href='/sign/detail/progress?code=${sign.code}'|">
-												<td th:text="${ sign.code }"></td>
-												<td th:text="${ sign.title }"></td>
-												<td th:text="${ sign.temp.name }"></td>
-												<td th:text="${ sign.date }"></td>
-												<td th:text="${ sign.status }"></td>
-											</tr>
-										</span>
-									</tbody>
-								</table>
-							</div>
+							<form th:if="!${ post }" style="margin-left: 5%;" action="/community/blindinsert" method="post">
+								<h3>제목</h3> <input class="col-4" style="margin-bottom: 30px; height: 40px;" required type="text" name="title">
+								<h3>내용</h3>
+								<textarea class="col-8" required style="height: 200px; margin-bottom: 15px; resize: none;" name="content"></textarea><br>
+								<button class="btn btn-primary" type="submit">저장</button> <button class="btn btn-secondary" type="button" onclick="location.href='/community/blind'">취소</button>
+							</form>
+							<form th:if="${ post }" style="margin-left: 5%;" action="/community/postupdate" method="post">
+								<input type="hidden" th:value="${ post.code }" name="code">
+								<h3>제목</h3> <input th:value="${ post.title }" class="col-4" style="margin-bottom: 30px; height: 40px;" required type="text" name="title">
+								<h3>내용</h3>
+								<textarea th:text="${ post.content }"  class="col-8" required style="height: 200px; margin-bottom: 15px; resize: none;" name="content"></textarea><br>
+								<button class="btn btn-primary" type="submit">저장</button> <button class="btn btn-secondary" type="button" onclick="location.href='/community/blind'">취소</button>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -120,18 +118,18 @@
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->
-	<script src="js/jquery.easing.min.js"></script>
+	<script src="/js/jquery.easing.min.js"></script>
 
 	<!-- Custom scripts for all pages-->
-	<script src="js/sb-admin-2.min.js"></script>
+	<script src="/js/sb-admin-2.min.js"></script>
 
 	<!-- Page level plugins -->
-	<script src="js/jquery.dataTablesDefault.min.js"></script>
-	<script src="js/dataTables.bootstrap4.min.js"></script>
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
 	
 	<script>
 		$(document).ready(function() {
@@ -139,7 +137,7 @@
 				language: {
 					url: '/i18n/ko.json'
 				},
-				"order" : [ 0, 'desc' ]
+				"order" : [ 1, 'desc' ]
 			}
 			);
 		});

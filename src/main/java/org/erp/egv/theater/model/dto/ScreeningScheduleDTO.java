@@ -1,7 +1,6 @@
 package org.erp.egv.theater.model.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,16 +36,16 @@ public class ScreeningScheduleDTO implements Serializable {
 	private TheaterDTO theater;
 	
 	@Column(name = "SCREENING_START")
-	private Timestamp screeningStart;
+	private String screeningStart;
 	
 	@Column(name = "SCREENING_END")
-	private Timestamp screeningEnd;
+	private String screeningEnd;
 
 	public ScreeningScheduleDTO() {
 	}
 
-	public ScreeningScheduleDTO(int code, MovieDTO movieAndScreening, TheaterDTO theater, Timestamp screeningStart,
-			Timestamp screeningEnd) {
+	public ScreeningScheduleDTO(int code, MovieDTO movieAndScreening, TheaterDTO theater, String screeningStart,
+			String screeningEnd) {
 		this.code = code;
 		this.movieAndScreening = movieAndScreening;
 		this.theater = theater;
@@ -78,19 +77,19 @@ public class ScreeningScheduleDTO implements Serializable {
 		this.theater = theater;
 	}
 
-	public Timestamp getScreeningStart() {
+	public String getScreeningStart() {
 		return screeningStart;
 	}
 
-	public void setScreeningStart(Timestamp screeningStart) {
+	public void setScreeningStart(String screeningStart) {
 		this.screeningStart = screeningStart;
 	}
 
-	public Timestamp getScreeningEnd() {
+	public String getScreeningEnd() {
 		return screeningEnd;
 	}
 
-	public void setScreeningEnd(Timestamp screeningEnd) {
+	public void setScreeningEnd(String screeningEnd) {
 		this.screeningEnd = screeningEnd;
 	}
 

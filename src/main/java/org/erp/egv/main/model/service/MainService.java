@@ -53,6 +53,18 @@ public class MainService {
 		mainDAO.insertSchedule(newSchedule);
 	}
 
+	@Transactional
+	public void updateSchedule(ScheduleDTO updateSchedule) {
+		
+		mainDAO.updateSchedule(updateSchedule);
+	}
+
+	@Transactional
+	public void deleteSchedule(int schCode) {
+		
+		mainDAO.deleteSchedule(schCode);
+	}
+
 
 
 }

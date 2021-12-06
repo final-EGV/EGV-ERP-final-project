@@ -99,7 +99,7 @@
 								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '재기안' }" th:onclick="|location.href='/sign/detail/resign?code=${sign.code}'|">재기안</button>
 								<button id="canclebtn" class="btn btn-danger" th:if="${ status == '기안' }" th:onclick="|location.href='/sign/detail/cancle?code=${sign.code}'|">기안 취소</button>
 								<button id="approvalbtn" class="btn btn-success" th:if="${ status == '대기'}" th:onclick="|location.href='/sign/detail/approval?code=${sign.code}'|">승인</button>
-								<button id="returnbtn" class="btn btn-danger" th:if="${ status == '대기' }" th:onclick="|location.href='/sign/detail/return?code=${sign.code}'|">반려</button>
+								<button id="returnbtn" class="btn btn-danger" th:if="${ status == '대기' }">반려</button>
 							</div>
 						
 							<div style="margin-top: 50px;">
@@ -313,9 +313,11 @@
 	  					
 	  					a = $(btnid).text("삭제")
 	  					p = $("<p>").text(data.contents);
+	  					hr = $("<hr>")
 	  					
 	  					plusdiv.append(a);
 	  					plusdiv.append(p);
+	  					plusdiv.append(hr);
 	  					
 	  				},
 	  				error: function(request, status, error){
@@ -329,31 +331,13 @@
 			}
         	      
 		});
+		
+		
+		$("#returnbtn").click(function() {
+			var content = prompt("반려 사유를 입력해 주세요", "");
+			location.href='/sign/detail/return?code=[[${sign.code}]]&cmt=' + content;
+		});
 	</script>
-	
-	<script type="text/javascript">
-	function is_valid_date(date_str)
-	{
-	    var yyyyMMdd = String(date_str);
-	    var year = yyyyMMdd.substring(0,4);
-	    var month = yyyyMMdd.substring(4,6);
-	    var day = yyyyMMdd.substring(6,8);
-
-	    if (!is_number(date_str) || date_str.length!=8)
-	        return false;
-
-	    if (Number(month)>12 || Number(month)<1)
-	        return false;
-
-	    if (Number(last_day(date_str))<day)
-	        return false;
-
-	    return true;
-	}
-	
-	
-	</script>
-	
 	
 </body>
 </html>

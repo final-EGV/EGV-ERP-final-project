@@ -208,4 +208,16 @@ public class EmpInfoService {
 		return empInfoDAO.findOutWorkerByCode(code);
 	}
 
+	@Transactional
+	public boolean pwMatch(String nowPw, String empCode) {
+		String pw = empInfoDAO.selectEmpPw(empCode);
+		
+		return passwordEncoder.matches(nowPw, pw);
+	}
+
+	@Transactional
+	public void changePw(String newPw, String empCode) {
+		empInfoDAO.changePw(empCode, passwordEncoder.encode(newPw));
+	}
+
 }

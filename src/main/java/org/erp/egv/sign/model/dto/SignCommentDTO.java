@@ -22,7 +22,6 @@ import org.erp.egv.employee.model.dto.EmployeeDTO;
 		initialValue = 1,
 		allocationSize = 1
 		)
-
 @Table(name = "SIGN_COMMENT")
 public class SignCommentDTO implements Serializable, Comparable<SignCommentDTO> {
 	private static final long serialVersionUID = -7320933195167218723L;

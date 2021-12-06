@@ -1,5 +1,6 @@
 package org.erp.egv.sign.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,7 @@ public class SignDetailDAO {
 		String jpql = "SELECT a FROM ApproverDTO as a WHERE a.emp.code = :empcode AND a.sign.code = :signcode";
 		ApproverDTO app = em.createQuery(jpql, ApproverDTO.class).setParameter("empcode", empCode).setParameter("signcode", signCode).getSingleResult();
 		app.setStatus("반려");
+		app.setDate(new java.sql.Date(System.currentTimeMillis()));
 		app.getSign().setStatus("반려");
 		
 	}

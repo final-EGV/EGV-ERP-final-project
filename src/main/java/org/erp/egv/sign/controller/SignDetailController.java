@@ -95,8 +95,9 @@ public class SignDetailController {
 	}
 	
 	@GetMapping("detail/return")
-	public String returnSign(@RequestParam("code") String code, Principal principal) {
+	public String returnSign(@RequestParam("code") String code, @RequestParam("cmt") String cmt, Principal principal) {
 		signService.returnSign(Integer.valueOf(code), ((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		insertComment(code, "(반려) "+ cmt, principal);
 		
 		return "redirect:/sign/received/watingsign";
 	}

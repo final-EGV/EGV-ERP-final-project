@@ -6,20 +6,33 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 
 @Entity
+@SequenceGenerator(
+		name = "BLIND_POST_SEQ_GEN",
+		sequenceName = "SEQ_POST_CODE",
+		initialValue = 1,
+		allocationSize = 1
+		)
 @Table(name = "BLIND_POST")
 public class BlindPostDTO implements Serializable {
 	private static final long serialVersionUID = 8253210832028247964L;
 
 	@Id
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "BLIND_POST_SEQ_GEN"
+			)
 	@Column(name = "POST_CODE")
 	private int code;
 	

@@ -3,18 +3,23 @@ package org.erp.egv.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.employee.model.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -478,5 +483,27 @@ public class EmpInfoController {
 		return emp;
 		
 	}	
+	
+	@PostMapping("pwchange")
+	public String pwChange(HttpServletRequest request, RedirectAttributes redirect, Principal principal) {
+		String referer = request.getHeader("Referer");		// 접속 경로 얻는 메소드
+		
+		String nowPw = request.getParameter("nowpw");
+		String newPw = request.getParameter("newpw");
+		String checkPw = request.getParameter("checkpw");
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		
+		if(!newPw.equals(checkPw)) {
+			redirect.addFlashAttribute("pwchangeresult", "확인 비밀번호가 일치하지 않습니다.");
+		} else if(!empInfoService.pwMatch(nowPw, empCode)) {
+			redirect.addFlashAttribute("pwchangeresult", "현재 비밀번호가 일치하지 않습니다.");
+		} else {
+			empInfoService.changePw(newPw, empCode);
+			redirect.addFlashAttribute("pwchangeresult", "비밀번호가 변경되었습니다.");
+		}
+		
+		return "redirect:" + referer;
+		
+	}
 	
 }

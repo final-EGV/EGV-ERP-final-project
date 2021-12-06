@@ -24,7 +24,7 @@ public class MovieDAO {
 		for (MovieDTO movie : movieList) {
 			System.out.println(movie);
 		}
-		
+		System.out.println(movieList);
 		return movieList;
 	}
 

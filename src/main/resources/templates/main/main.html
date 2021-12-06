@@ -12,14 +12,14 @@
 
     <title>EGV</title>
 
-    <!-- Custom fonts for this template-->
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+	
+	<!-- Custom styles for this template-->
+	<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+	
 </head>
 
 <body id="page-top">
@@ -65,13 +66,50 @@
 					        	locale: 'ko',
 					         	eventClick : function( Info ) { 
 					         		
+					         		$.ajax({
+					         		    url: "/schedule/selectSchedule",
+					         		    data : {schCode : Info.event.id},
+					         		    success: function(data){
+					         		        $('#selectSchedule').modal("toggle");
+					         		        
+					         		        document.getElementById("selectSchCode").value = data['schCode'];
+					         		        document.getElementById("selectStartDate").value = data['startDate'];
+					         		        document.getElementById("selectEndDate").value = data['endDate'];
+					         		        $("#selectSchCat").val(data['schCat']['schCatCode']).prop("selected", true);
+					         		        document.getElementById("selectSchLocation").value = data['schLocation'];
+					         		        document.getElementById("selectSchDesc").value = data['schDesc'];
+					         		    },
+					         		    error: function(xhr){
+					         		        console.log(xhr);
+					         		    }
+					         		});
+					         		
 					        	},
 					        	events: [
 					    			$.ajax({
 					    				url: "/schedule/scheduleList",
 					    				success: function(data){
+					    					
+					    					$.ajax({
+							         		    url: "/schedule/scheduleCategoryList",
+							         		    success: function(data){
+							         		        
+							         		        const $selectSchCat = $("#selectSchCat");
+							         		        const $addSchCat = $("#addSchCat");
+								       				$selectSchCat.html("");
+								       				$addSchCat.html("");
+								       				
+								       				for (let index in data){
+								       					$selectSchCat.append($("<option>").val(data[index]['schCatCode']).text(data[index]['schCatName']));
+								       					$addSchCat.append($("<option>").val(data[index]['schCatCode']).text(data[index]['schCatName']));
+								       				}
+							         		    },
+							         		    error: function(xhr){
+							         		        console.log(xhr);
+							         		    }
+							         		});
+					    					
 					    					for (let index in data){
-					    						console.log(index);
 					    						
 					    						let plusDay = new Date(data[index]['endDate']);
 					    						if (data[index]['endDate'] != data[index]['startDate']){
@@ -116,7 +154,7 @@
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">나의 일정</h6>
                                     <div class="dropdown no-arrow">
-                                    	<button type="button" id="addScheduleBtn" name="addScheduleBtn" class="btn btn-primary">
+                                    	<button  type="button" data-toggle="modal" data-target="#addSchedule" id="addScheduleBtn" name="addScheduleBtn" class="btn btn-primary">
                                     		<i class="fas fa-plus"></i>&nbsp;&nbsp;신규 일정
                                     	</button>
                                     </div>
@@ -130,8 +168,148 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- ?????? -->
+                        <!-- 스케줄 추가 모달 -->
+					    <div class="modal fade" id="addSchedule" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-lg" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h4 class="modal-title" id="modalLabel">신규일정</h4>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">X</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        <form action="/schedule/insertSchedule" name="insert_schedule_form" class="needs-validation" method="post" novalidate>
+							      	<table class="table table-striped table-bordered text-right col-12">
+										<tbody>
+											<tr>
+												<td class="col-2">시작일</td>
+												<td class="col-4"><input class="form-control" type="date" name="addStartDate" id="addStartDate">
+												  <div class="invalid-feedback">
+											        성명을 입력하세요
+											      </div>
+											      </td>
+												<td class="col-2" width="180">종료일</td>
+												<td class="col-4"><input class="form-control" type="date" name="addEndDate" id="addEndDate"></td>
+											</tr>
+											<tr>
+					 							<td class="col-2">일정구분</td>
+												<td class="col-4">
+													<select class="form-control" name="addSchCat" id="addSchCat">
+													  <!-- ajax -->
+													</select>
+												</td>
+												<td class="col-2">장소</td>
+												<td class="col-4"><input class="form-control" type="text" name="addSchLocation" id="addSchLocation"></td>
+											</tr>
+											<tr>
+												<td class="col-2">내용</td>
+												<td class="col-10" colspan="3"><textarea class="form-control" name="addSchDesc" id="addSchDesc" style="height: 150px;"></textarea></td>
+											</tr >
+										</tbody>
+									</table>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+							        <button type="button" class="btn btn-primary" onclick="insert_schedule_check();">등록하기</button>
+							      </div>
+							      <script>
+										function insert_schedule_check() {
+											var addStartDate = document.getElementsByName("addStartDate");
+											var addEndDate = document.getElementsByName("addEndDate");
+											
+											if (!addStartDate[0].value) {
+												alert("일정의 시작일을 선택하세요.");
+												return false;
+											}
+											if (!addEndDate[0].value) {
+												alert("일정의 종료일을 선택하세요.");
+												return false;
+											}
+											
+											document.insert_schedule_form.submit();										
+										}
+							      </script>
+								</form>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+                        <!-- (eventClick 모달창) 스케줄 조회/수정/삭제 모달 -->
+					    <div class="modal fade" id="selectSchedule" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-lg" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h4 class="modal-title" id="modalLabel">일정관리</h4>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">X</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        <form action="/schedule/updateSchedule" name="update_schedule_form" class="needs-validation" method="post" novalidate>
+						        	<input type="number" name="selectSchCode" id="selectSchCode" hidden>
+						        	<input type="text" name="deleteSchYn" id="deleteSchYn" value="N" hidden>
+							      	<table class="table table-striped table-bordered text-right col-12">
+										<tbody>
+											<tr>
+												<td class="col-2">시작일</td>
+												<td class="col-4"><input class="form-control" type="date" name="selectStartDate" id="selectStartDate" required>
+												  <div class="invalid-feedback">
+											        성명을 입력하세요
+											      </div>
+											      </td>
+												<td class="col-2" width="180">종료일</td>
+												<td class="col-4"><input class="form-control" type="date" name="selectEndDate" id="selectEndDate" required></td>
+											</tr>
+											<tr>
+					 							<td class="col-2">일정구분</td>
+												<td class="col-4">
+												<select class="form-control" name="selectSchCat" id="selectSchCat">
+												  <!-- ajax로 처리 -->
+												</select>
+												<td class="col-2">장소</td>
+												<td class="col-4"><input class="form-control" type="text" name="selectSchLocation" id="selectSchLocation" required></td>
+											</tr>
+											<tr>
+												<td class="col-2">내용</td>
+												<td class="col-10" colspan="3"><textarea class="form-control" name="selectSchDesc" id="selectSchDesc" style="height: 150px;"></textarea></td>
+											</tr >
+										</tbody>
+									</table>
+							      <div class="modal-footer">
+								  	<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								  	<button type="button" class="btn btn-primary" id="updateSchBtn" onclick="update_schedule_check();">수정하기</button>
+								  	<button type="button" class="btn btn-danger" id="deleteSchBtn" onclick="delete_schedule_yn();">삭제하기</button>
+							      </div>
+							      <script>
+								      function delete_schedule_yn() {
+											var deleteSchYn = document.getElementById("deleteSchYn");
+											deleteSchYn.value = "Y";
+											
+											document.getElementById("updateSchBtn").click();
+										}
+										function update_schedule_check() {
+											var selectStartDate = document.getElementsByName("selectStartDate");
+											var selectEndDate = document.getElementsByName("selectEndDate");
+											
+											if (!selectStartDate[0].value) {
+												alert("일정의 시작일을 선택하세요.");
+												return false;
+											}
+											if (!selectEndDate[0].value) {
+												alert("일정의 종료일을 선택하세요.");
+												return false;
+											}
+											
+											document.update_schedule_form.submit();										
+										}
+							      </script>
+								</form>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+                        <!-- 영화 이벤트 -->
                         <div class="col-xl-5 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
@@ -169,29 +347,35 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- 전자결재 -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">전자결재</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <div class="table-responsive">
+										<table class="table table-bordered" id="tempTable" width="100%" cellspacing="0">
+											<thead>
+												<tr>
+													<th>결재 코드</th>
+													<th>제목</th>
+													<th>문서 종류</th>
+													<th>기안일</th>
+													<th>상태</th>
+												</tr>
+											</thead>
+											<tbody>
+												<span th:each="sign : ${ signList }">
+													<tr th:onclick="|location.href='/sign/detail/progress?code=${sign.code}'|">
+														<td th:text="${ sign.code }"></td>
+														<td th:text="${ sign.title }"></td>
+														<td th:text="${ sign.temp.name }"></td>
+														<td th:text="${ sign.date }"></td>
+														<td th:text="${ sign.status }"></td>
+													</tr>
+												</span>
+											</tbody>
+										</table>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -301,6 +485,7 @@
 
     </div>
     <!-- End of Page Wrapper -->
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -327,23 +512,32 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript --> 
-    <script src="/js/jquery.easing.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages --> 
-    <script src="/js/sb-admin-2.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins --> 
-    <script src="/js/Chart.min.js"></script>
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts --> 
-    <script src="/js/chart-area-demo.js"></script>
-    <script src="/js/chart-pie-demo.js"></script>
-
+	<script>
+		$(document).ready(function() {
+			$('#tempTable').DataTable({
+				language: {
+					url: '/i18n/ko.json'
+				},
+				"order" : [ 0, 'desc' ],
+				"lengthMenu": [5]
+			}
+			);
+		});
+	</script>
 </body>
 
 </html>

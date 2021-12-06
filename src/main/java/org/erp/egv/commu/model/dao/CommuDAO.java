@@ -46,6 +46,12 @@ public class CommuDAO {
 		post.setTitle(title);
 		post.setContent(content);
 	}
+
+	public List<BlindPostDTO> selectMyBlindList(String code) {
+		String jpql = "SELECT a FROM BlindPostDTO AS a WHERE a.emp.code = :code";
+		List<BlindPostDTO> list = em.createQuery(jpql, BlindPostDTO.class).setParameter("code", code).getResultList();
+		return list;
+	}
 	
 	
 	

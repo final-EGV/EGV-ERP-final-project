@@ -41,9 +41,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 		/* csrf : 토큰 위조 공격을 막기 위한 것(default가 'on'인 상태) */
 		http.csrf().disable()					// 구현의 편리를 위해 disable로 함
-			.authorizeRequests()				// 요청에 대한 권한 체크를 어떻게 할 것인지
-				.antMatchers("/a").authenticated()					// /menu/**에 대해서는 하나하나 권한을 등록하겠다.
-				.antMatchers("/a").hasRole("Admin")	// hasRole은 ROLE_를 달아주며 ROLE_MEMBER와 일치하면 허용하겠다는 뜻
+			.authorizeRequests()				// 요청에 대한 권한 체크를 어떻게 할 것인지(더 넓은 범위를 아래에 배치해야 함)
+				.antMatchers("/emp/login").permitAll()					// 로그인은 전부 허용
+				.antMatchers("/emp/pwreset").permitAll()
+				.antMatchers("/emp/findid").permitAll()
+//				.antMatchers( "/sign/**").hasAuthority("Admin")			// Admin 권한이 있는 사용자만 접속 허용
+				.antMatchers( "/**").authenticated()					// 인증된 사용자만 모든 접속에 허용
+//				.antMatchers(HttpMethod.GET, "/emp/**").hasRole("Admin")
 //				.antMatchers(HttpMethod.POST, "/").hasRole("a")
 			.and()
 			    .formLogin()												// 로그인 form을 따로 이용해 로그인 처리를 할 것이다.
@@ -58,7 +62,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			    .logoutSuccessUrl("/")			
 			.and()
 				.exceptionHandling()										// exception 핸들링 설정
-				.accessDeniedPage("/common/denied");						// 접근 거부시 경로 설정
+				.accessDeniedPage("/common/denied")						// 접근 거부시 경로 설정
+			.and()
+				.sessionManagement()
+				.invalidSessionUrl("/emp/sign/")
+				.maximumSessions(1)
+				.expiredUrl("/emp/login?out=out");
 	}
 	
 	/* 4. 권한을 획득할 때 인증할 비지니스 로직(DB에서 조회하는 로직)이 어떤 것인지 등록 (Controller없이 어떤 비지니스 로직을 사용할지만 설정하면 된다.) */

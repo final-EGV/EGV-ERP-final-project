@@ -61,4 +61,9 @@ public class CommuService {
 		commudao.updateBlindPost(code, title, content);
 	}
 
+	@Transactional
+	public List<BlindPostDTO> selectMyBlindList(String code) {
+		return commudao.selectMyBlindList(code);
+	}
+
 }

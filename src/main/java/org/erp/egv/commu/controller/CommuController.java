@@ -53,6 +53,15 @@ public class CommuController {
 	@GetMapping("blindinsert")
 	public void blindPostInsert() {}
 	
+	@GetMapping("mine")
+	public ModelAndView blindPostMineSelect(ModelAndView mv, Principal principal) {
+		List<BlindPostDTO> blindList = commuService.selectMyBlindList(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		
+		mv.addObject("blindList", blindList);
+		mv.setViewName("/community/blind");
+		return mv;
+	}
+	
 	@PostMapping("blindinsert")
 	public String blindPostInsert2(HttpServletRequest request, Principal principal) {
 		String title = request.getParameter("title");

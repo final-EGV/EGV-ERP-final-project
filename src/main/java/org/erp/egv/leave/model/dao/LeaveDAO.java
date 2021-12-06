@@ -74,5 +74,14 @@ public class LeaveDAO {
 		leave.setUseCount(leave.getUseCount() + total);
 	}
 
+	public AnnualLeaveDTO selectSingleLeave(String code) {
+		String jpql = "SELECT l FROM AnnualLeaveDTO as l WHERE EMP_CODE is " + code;
+		TypedQuery<AnnualLeaveDTO> query = em.createQuery(jpql, AnnualLeaveDTO.class);
+		AnnualLeaveDTO leave = query.getSingleResult();
+		
+		return leave;
+	}
+	
+
 
 }

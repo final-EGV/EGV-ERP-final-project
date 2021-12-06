@@ -61,4 +61,9 @@ public class LeaveService {
 	public void modifyLeave(String empCode, int total) {
 		leaveDAO.modifyLeave(empCode, total);
 	}
+
+	@Transactional
+	public AnnualLeaveDTO selectSingleLeave(String code) {
+		return leaveDAO.selectSingleLeave(code);
+	}
 }

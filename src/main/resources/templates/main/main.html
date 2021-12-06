@@ -397,13 +397,10 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
+                                            <i class="fas fa-circle text-primary"></i> 사용한 연가
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <i class="fas fa-circle text-success"></i> 남은 연가
                                         </span>
                                     </div>
                                 </div>
@@ -513,10 +510,10 @@
 	<!-- Page level plugins -->
 	<script src="/js/jquery.dataTablesDefault.min.js"></script>
 	<script src="/js/dataTables.bootstrap4.min.js"></script>
-	<script src="/js/chart-pie-demo.js"></script>
 
-	<script>
-		$(document).ready(function() {
+	<script th:inline="javascript">
+	
+	$(document).ready(function() {
 			$('#tempTable').DataTable({
 				language: {
 					url: '/i18n/ko.json'
@@ -526,6 +523,42 @@
 			}
 			);
 		});
+		
+		Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+		Chart.defaults.global.defaultFontColor = '#858796';
+		 
+		
+		var ctx = document.getElementById("myPieChart");
+		var myPieChart = new Chart(ctx, {
+		  type: 'doughnut',
+		  data: {
+		    labels: ["사용한 연가", "남은 연가"],
+		    datasets: [{
+		      data: [ [[${leave.useCount}]] , [[${ leave.count } - ${ leave.useCount }]]],
+		      backgroundColor: ['#4e73df', '#1cc88a'],
+		      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+		      hoverBorderColor: "rgba(234, 236, 244, 1)",
+		    }],
+		  },
+		  options: {
+		    maintainAspectRatio: false,
+		    tooltips: {
+		      backgroundColor: "rgb(255,255,255)",
+		      bodyFontColor: "#858796",
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      xPadding: 15,
+		      yPadding: 15,
+		      displayColors: false,
+		      caretPadding: 10,
+		    },
+		    legend: {
+		      display: false
+		    },
+		    cutoutPercentage: 80,
+		  },
+		});
+
 	</script>
 </body>
 

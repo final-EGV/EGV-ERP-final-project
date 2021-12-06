@@ -120,4 +120,44 @@ public class ScreeningController {
 		return mv;
 	}
 	
+	@GetMapping("/regist")
+	public ModelAndView goScreeningScheduleRegist(ModelAndView mv) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		List<MovieDTO> movieList = movieService.inquireAllMovieList();
+		
+		mv.addObject("movieList", movieList);
+		mv.setViewName("theater/scheduleScreeningRegist");
+		
+		return mv;
+	}
+	
+	@PostMapping("/regist")
+	public String registScreeningSchedule(HttpServletRequest request, RedirectAttributes rAttr) throws UnsupportedEncodingException {
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		int movieCode = Integer.valueOf(request.getParameter("movieAndScreening"));
+		int theaterCode = Integer.valueOf(request.getParameter("theater"));
+		String screeningStart = request.getParameter("screeningStart");
+		String screeningEnd = request.getParameter("screeningEnd");
+		
+		MovieDTO movie = movieService.inquireSingleMovieByCode(movieCode);
+		TheaterDTO theater = theaterService.inquireSingleTheaterByCode(theaterCode);
+		
+		ScreeningScheduleDTO schedule = new ScreeningScheduleDTO();
+		
+		schedule.setMovieAndScreening(movie);
+		schedule.setTheater(theater);
+		schedule.setScreeningStart(screeningStart);
+		schedule.setScreeningEnd(screeningEnd);
+		
+		screeningService.registSchedule(schedule);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 상영 스케줄 등록을 성공했습니다.");
+		
+		return "redirect:/theater/schedule/screening";
+	}
+	
 }

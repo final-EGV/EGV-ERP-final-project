@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Main page of theater management, displaying list of movies.">
 	<meta name="author" content="UnSuk Song">
-	<title>EGV: theater > scheduleScreening</title>
+	<title>EGV: theater > scheduleScreeningRegist</title>
 	<!-- Custom fonts for this template-->
 	<link href="/css/all.min.css" rel="stylesheet" type="text/css">
 	<link
@@ -50,14 +50,68 @@
 					<!-- 스케줄러 Card -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">상영 스케줄</h6>
+							<h6 class="m-0 font-weight-bold text-primary">신규 상영 스케줄 등록</h6>
 						</div>
 						<div class="card-body">
-							<!-- FullCalendar Scheduler -->
+							
+							<!-- FullCalendar Scheduler(조회만 가능) -->
 							<div id='calendar'></div>
+							<br>
+							
+							<form action="/theater/schedule/screening/regist" id="schedule-info" method="post">
+								
+								<table class="table table-bordered text-right table-responsive-md">
+									<tbody>
+										<tr>
+											<td class="col-md-3">영화</td>
+											<td class="col-md-9" colspan="3">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<button class="btn btn-primary" type="button"
+															data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
+													</div>
+													<input type="number" class="form-control" name="movieAndScreening" hidden="true">
+													<input type="text" class="form-control" name="movieName" readonly>
+													<div class="input-group-append">
+														<button class="btn btn-danger" type="button"
+															 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="col-md-3">상영관</td>
+											<td class="col-md-9" colspan="3">
+												<select class="custom-select" id="theater" name="theater">
+													<option value="1">프리미엄 1관</option>
+													<option value="2">프리미엄 2관</option>
+													<option value="3">일반 1관</option>
+													<option value="4">일반 2관</option>
+													<option value="5">일반 3관</option>
+													<option value="6">일반 4관</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="col-md-3">상영 시작시간</td>
+											<td class="col-md-9">
+												<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()">
+											</td>
+										</tr>
+										<tr>
+											<td class="col-md-3">상영 종료시간</td>
+											<td class="col-md-9">
+												<input type="datetime-local" class="form-control" name="screeningEnd">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								
+							</form>
 						</div>
 						<div class="card-footer py-3">
-							<a href="/theater/schedule/screening/regist" class="btn btn-primary"> 등록 </a>
+							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
+							<button type="submit" class="btn btn-primary" form="schedule-info">등록하기</button>
 						</div>
 					</div>
 
@@ -102,80 +156,6 @@
 		</div>
 	</div>
 	
-	<!-- Detailed Schedule Info Display Modal -->
-	<div class="modal fade" id="scheduleDetails" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modalLabel">상영 스케줄 상세 정보</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form id="schedule-info" method="post">
-					
-						<table class="table table-bordered text-right table-responsive-md">
-							<tbody>
-								<tr>
-									<td class="col-md-3">스케줄 코드#</td>
-									<td class="col-md-9" colspan="3"><input type="number" class="form-control" name="code" readonly></td>
-								</tr>
-								<tr>
-									<td class="col-md-3">영화</td>
-									<td class="col-md-9" colspan="3">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<button class="btn btn-primary" type="button"
-													data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
-											</div>
-											<input type="text" class="form-control" name="movieAndScreening" hidden="true">
-											<input type="text" class="form-control" name="movieName" readonly>
-											<div class="input-group-append">
-												<button class="btn btn-danger" type="button"
-													 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="col-md-3">상영관</td>
-									<td class="col-md-9" colspan="3">
-										<select class="custom-select" id="theater" name="theater">
-											<option value="1">프리미엄 1관</option>
-											<option value="2">프리미엄 2관</option>
-											<option value="3">일반 1관</option>
-											<option value="4">일반 2관</option>
-											<option value="5">일반 3관</option>
-											<option value="6">일반 4관</option>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td class="col-md-3">상영 시작시간</td>
-									<td class="col-md-9">
-										<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()">
-									</td>
-								</tr>
-								<tr>
-									<td class="col-md-3">상영 종료시간</td>
-									<td class="col-md-9">
-										<input type="datetime-local" class="form-control" name="screeningEnd">
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="submit" class="btn btn-primary" form="schedule-info" th:formaction="@{/theater/schedule/screening/modify}">적용하기</button>
-					<button type="submit" class="btn btn-danger" form="schedule-info" th:formaction="@{/theater/schedule/screening/delete}">삭제하기</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	<!-- Related Movie Select Modal -->
 	<div class="modal fade" id="movieSelectModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -194,6 +174,7 @@
 								<th>코드</th>
 								<th>영화제목</th>
 								<th>개봉일자</th>
+								<th>러닝타임</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -204,6 +185,7 @@
 									</a>
 								</td>
 								<td th:text="${ movie.openingDate }"></td>
+								<td th:text="${ movie.runningTime }"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -242,28 +224,13 @@
 				language: {
 					url: '/i18n/ko.json'
 				},
-				"order": [2, 'desc']	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"order": [2, 'desc'],	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"autoWidth": false
 			}
 			);
 		});
 	</script>
-	
-	<!-- FullCalendar Scheduler 함수 모음 -->
 	<script>
-		var today = new Date();
-		var currTime = ('0' + today.getHours()).slice(-2) + ":" + ('0' + today.getMinutes()).slice(-2);
-		
-		var movieRunningTime;
-		
-		var scheduleList;	// List object from controller
-		
-		var codeInput = document.getElementsByName('code')[0];
-		var movieCodeInput = document.getElementsByName('movieAndScreening')[0];
-		var movieNameInput = document.getElementsByName('movieName')[0];
-		var theaterInput = document.getElementsByName('theater')[0];
-		var startInput = document.getElementsByName('screeningStart')[0];
-		var endInput = document.getElementsByName('screeningEnd')[0];
-	
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			
@@ -323,54 +290,42 @@
 									end: data[i].screeningEnd
 								})
 								
-								console.log("---< SCHEDULE data from server >---"
-										+ "\n" + "code: " + data[i].code
-										+ "\n" + "movie: " + data[i].movieAndScreening.name
-										+ "\n" + "start: " + data[i].screeningStart
-										+ "\n" + "end: " + data[i].screeningEnd
-										);
 							}
-							calendar.render();
 						},
 						error: function(xhr) {
 							console.log(xhr);
 						}
 					})
-				],
-				eventClick: function(info) {
-					
-					let schedule = scheduleList[info.event.id - 1];
-					console.log(schedule);
-					
-					codeInput.value = schedule.code;
-					movieCodeInput.value = schedule.movieAndScreening.code;
-					movieNameInput.value = schedule.movieAndScreening.name;
-					theaterInput.value = schedule.theater.code;
-					startInput.value = schedule.screeningStart;
-					endInput.value = schedule.screeningEnd;
-					
-					movieRunningTime = schedule.movieAndScreening.runningTime;
-					
-					$('#scheduleDetails').modal('show');
-				}
+				]
 			});
 			calendar.render();
 		});
 	</script>
 	<script>
+		var today = new Date();
+		var currTime = ('0' + today.getHours()).slice(-2) + ":" + ('0' + today.getMinutes()).slice(-2);
+		
+		var movieRunningTime;
+		
+		var startInput = document.getElementsByName('screeningStart')[0];
+		var endInput = document.getElementsByName('screeningEnd')[0];
+		
+		setScreeningStartAsCurrentTime(today);
+		
 		/* 관련영화 선택 모달창에서 영화 선택 */
 		function selectMovie(object) {
 			
 			var selectedMovieCode = object.children[0].innerText;
 			var selectedMovieName = object.children[1].innerText;
+			
 			movieRunningTime = scheduleList[selectedMovieCode - 1].movieAndScreening.runningTime;
-			console.log("movieRunningTime: " + movieRunningTime);
 			
 			document.getElementsByName('movieAndScreening')[0].value = selectedMovieCode;
-			document.getElementsByName('movieName')[0].value = selectedMovieName;
+			document.getElementsByName('movieName')[0].value = selectedMovieName + " (" + movieRunningTime + "분)";
 			
 			console.log('you picked : (' + document.getElementsByName('movieAndScreening')[0].value + ')'
-					+ document.getElementsByName('movieName')[0].value);
+					+ document.getElementsByName('movieName')[0].value
+					+ " " + movieRunningTime + "min");
 			
 			calculateEndTime();
 			$('#movieSelectModal').modal('hide');
@@ -380,39 +335,41 @@
 		function emptySelectedMovie() {
 			document.getElementsByName('movieAndScreening')[0].value = '';
 			document.getElementsByName('movieName')[0].value = '';
+			movieRunningTime = 0;
 		}
 		
 		/* 상영 종료 시간 계산하기 */
 		function calculateEndTime() {
 			
-			let calculatedDate = new Date(Date.parse(startInput.value) + movieRunningTime * 60 * 1000);
+			let calculatedEndDate = new Date(Date.parse(startInput.value) + movieRunningTime * 60 * 1000);
 			
-			let yearPiece = calculatedDate.getFullYear();
+			endInput.value = convertDateToDatetimeLocal(calculatedEndDate);
+		}
+		
+		/* 화면 onload시 상영 시작시간을 현재 시간으로 초기화 */
+		function setScreeningStartAsCurrentTime(today) {
 			
-			let monthPiece = calculatedDate.getMonth() + 1;
-			if (monthPiece < 10) {
-				monthPiece = "0" + monthPiece;
-			}
+			startInput.value = convertDateToDatetimeLocal(today);
+		}
+		
+		/* Date 타입 날짜를 datetime-local 타입에 맞는 String 타입으로 변환 */
+		function convertDateToDatetimeLocal(date) {
 			
-			let datePiece = calculatedDate.getDate();
-			if (datePiece < 10) {
-				datePiece = "0" + datePiece;
-			}
+			let yearPiece = date.getFullYear();
 			
-			let hourPiece = calculatedDate.getHours();
-			if (hourPiece < 10) {
-				hourPiece = "0" + hourPiece;
-			}
+			let monthPiece = date.getMonth() + 1;
+			if (monthPiece < 10) {monthPiece = "0" + monthPiece;}
 			
-			let minutePiece = calculatedDate.getMinutes();
-			if (minutePiece < 10) {
-				minutePiece = "0" + minutePiece;
-			}
+			let datePiece = date.getDate();
+			if (datePiece < 10) {datePiece = "0" + datePiece;}
 			
-			let endStr = yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
-			console.log(endStr);
+			let hourPiece = date.getHours();
+			if (hourPiece < 10) {hourPiece = "0" + hourPiece;}
 			
-			endInput.value = endStr;
+			let minutePiece = date.getMinutes();
+			if (minutePiece < 10) {minutePiece = "0" + minutePiece;}
+			
+			return yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
 		}
 	</script>
 </body>

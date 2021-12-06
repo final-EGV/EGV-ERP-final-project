@@ -54,4 +54,11 @@ public class ScreeningDAO {
 		
 	}
 
+	public void registSchedule(ScreeningScheduleDTO schedule) {
+		
+		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		
+		em.persist(schedule);
+	}
+
 }

@@ -2168,6 +2168,42 @@ COMMENT ON COLUMN BLIND_POST.POST_TITLE IS '게시글제목';
 COMMENT ON COLUMN BLIND_POST.POST_CONTENT IS '게시글내용';
 COMMENT ON COLUMN BLIND_POST.EMP_CODE IS '사번';
 
+INSERT
+  INTO BLIND_POST
+(
+  POST_CODE
+, POST_DATE
+, POST_TITLE
+, POST_CONTENT
+, EMP_CODE
+)
+VALUES
+(
+  SEQ_POST_CODE.NEXTVAL
+, SYSDATE
+, '회사 근처 맛집 추천 부탁드립니다'
+, '회사 근처 점심으로 야무진 곳 있나요??'
+, 2021100
+);
+
+INSERT
+  INTO BLIND_POST
+(
+  POST_CODE
+, POST_DATE
+, POST_TITLE
+, POST_CONTENT
+, EMP_CODE
+)
+VALUES
+(
+  SEQ_POST_CODE.NEXTVAL
+, SYSDATE
+, '꿀팁 하나 드립니다.'
+, '요 앞 둘리명과 9시 넘어서 가면 빵 떨이 묶음으로 파는데 이거 완전 꿀입니다. 참고 하세요'
+, 2021100
+);
+
 ------------------------------------------------------------------COMMENT / 댓글----------------------------
 CREATE TABLE CMT (
   -- COLUMN LEVEL CONSTRAINT
@@ -2188,7 +2224,58 @@ COMMENT ON COLUMN CMT.CMT_DATE IS '작성일자';
 COMMENT ON COLUMN CMT.CMT_CONTENTS IS '댓글내용';
 COMMENT ON COLUMN CMT.EMP_CODE IS '사번';
 
+INSERT
+  INTO CMT
+(
+  CMT_CODE
+, POST_CODE
+, CMT_DATE
+, CMT_CONTENTS
+, EMP_CODE
+)
+VALUES
+(
+  SEQ_CMT_CODE.NEXTVAL
+, 1
+, SYSDATE
+, '중식은 중식이죠 홍콩반점 추천드립니다.'
+, 2021101
+);
 
+INSERT
+  INTO CMT
+(
+  CMT_CODE
+, POST_CODE
+, CMT_DATE
+, CMT_CONTENTS
+, EMP_CODE
+)
+VALUES
+(
+  SEQ_CMT_CODE.NEXTVAL
+, 1
+, SYSDATE
+, '점심은 간단하게 삼겹살이 최고져'
+, 2021102
+);
+INSERT
+  INTO CMT
+(
+  CMT_CODE
+, POST_CODE
+, CMT_DATE
+, CMT_CONTENTS
+, EMP_CODE
+)
+VALUES
+(
+  SEQ_CMT_CODE.NEXTVAL
+, 2
+, SYSDATE
+, '둘리명과.. 9시.. 메모...'
+, 2021101
+);
 
 
 

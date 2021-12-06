@@ -66,10 +66,10 @@ public class LeaveService {
 	public AnnualLeaveDTO selectSingleLeave(String code) {
 		return leaveDAO.selectSingleLeave(code);
 	}
-
+	
 	@Transactional
-	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
-		return leaveDAO.findUseAnnualLeaveList();
+	public List<UseAnnualLeaveDTO> AnnualLeave(String code) {
+		return leaveDAO.AnnualLeave(code);
 	}
 
 }

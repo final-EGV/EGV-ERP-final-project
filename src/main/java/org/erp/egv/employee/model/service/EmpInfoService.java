@@ -183,7 +183,6 @@ public class EmpInfoService {
 		return empInfoDAO.findWorkByCode(code);
 	}
 	
-
 	/* 아르바이트 스케줄 관련 */
 	@Transactional
 	public List<Object> findParttimerList() {

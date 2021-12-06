@@ -19,6 +19,8 @@ import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @DynamicInsert
 @DynamicUpdate
@@ -35,10 +37,12 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@Column(name = "UAL_CODE")
 	private int code;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ANNUAL_LEAVE_CODE")
 	private AnnualLeaveCategoryDTO categoryCode;

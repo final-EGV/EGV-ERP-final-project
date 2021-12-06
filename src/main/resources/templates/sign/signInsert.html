@@ -382,6 +382,7 @@
 						
 					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
+					var myEmpCode = '[[${ empCode }]]';
 					
 					if(!document.getElementById("addApproverModal").innerHTML) {
 						index1 = 1;
@@ -390,7 +391,6 @@
 					if(document.getElementById("addApproverModal").innerHTML) {
 						var s = document.getElementsByName("approverInput");
 						
-						console.log("===============================");
 						for (var i = 0; i < s.length/2; i++) {
 							if(s[i].value == empName+"("+empCode+")") {
 								alert('이미 결재자로 선택된 사원입니다.');
@@ -401,13 +401,17 @@
 					if(document.getElementById("addReferrerModal").innerHTML) {
 						var k = document.getElementsByName("referrerInput");
 						
-						console.log("===============================");
 						for (var i = 0; i < k.length/2; i++) {
 							if(k[i].value == empName+"("+empCode+")") {
 								alert('이미 참조자로 선택된 사원입니다.');
 								return false;
 							}
 						}
+					}
+					
+					if(empCode == myEmpCode) {
+						alert('본인은 결재자로 선택할 수 없습니다.');
+						return false;
 					}
 					
 					$('.addApprover').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">'+index1+'번째 결재자 : </span><input type="text" class="form-control" name="approverInput" value="' + empName+ '('+empCode+')" readonly></div>');
@@ -451,6 +455,7 @@
 					
 					var empCode = this.parentNode.children[0].innerText;
 					var empName = this.parentNode.children[1].innerText;
+					var myEmpCode = '[[${ empCode }]]';
 						
 					if(!document.getElementById("addReferrerModal").innerHTML) {
 						index2 = 1;
@@ -459,7 +464,6 @@
 					if(document.getElementById("addReferrerModal").innerHTML) {
 						var k = document.getElementsByName("referrerInput");
 						
-						console.log("===============================");
 						for (var i = 0; i < k.length/2; i++) {
 							if(k[i].value == empName+"("+empCode+")") {
 								alert('이미 참조자로 선택된 사원입니다.');
@@ -470,13 +474,17 @@
 					if(document.getElementById("addApproverModal").innerHTML) {
 						var s = document.getElementsByName("approverInput");
 						
-						console.log("===============================");
 						for (var i = 0; i < s.length/2; i++) {
 							if(s[i].value == empName+"("+empCode+")") {
 								alert('이미 결재자로 선택된 사원입니다.');
 								return false;
 							}
 						}
+					}
+					
+					if(empCode == myEmpCode) {
+						alert('본인은 참조자로 선택할 수 없습니다.');
+						return false;
 					}
 					
 					$('.addReferrer').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">참조자 : </span><input type="text" class="form-control" name="referrerInput" value="' + empName+ '('+empCode+')" readonly></div>');

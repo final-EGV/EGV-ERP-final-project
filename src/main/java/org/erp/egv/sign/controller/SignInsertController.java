@@ -60,13 +60,16 @@ private EmpInfoService empInfoService;
 	}
 
 	@GetMapping("/signInsert")
-	public ModelAndView signInsert(ModelAndView mv, @RequestParam int code) {
+	public ModelAndView signInsert(ModelAndView mv, @RequestParam int code, Principal principal) {
+		
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
 		
 		TemplateDTO templateDTO = signInsertService.findTemplateByCode(code);
 //		System.out.println(templateDTO);
 		
 		List<EmployeeDTO> empList = empInfoService.empListRequest();
 		
+		mv.addObject("empCode", empCode);
 		mv.addObject("empList", empList);
 		mv.addObject("template", templateDTO);
 		mv.setViewName("/sign/signInsert");

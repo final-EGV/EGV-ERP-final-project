@@ -75,6 +75,14 @@ public class LeaveDAO {
 		leave.setUseCount(leave.getUseCount() + total);
 	}
 
+	public AnnualLeaveDTO selectSingleLeave(String code) {
+		String jpql = "SELECT l FROM AnnualLeaveDTO as l WHERE EMP_CODE is " + code;
+		TypedQuery<AnnualLeaveDTO> query = em.createQuery(jpql, AnnualLeaveDTO.class);
+		AnnualLeaveDTO leave = query.getSingleResult();
+		
+		return leave;
+	}
+	
 	/* 연차 조회 */
 	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
 		String jpql = "SELECT u FROM UseAnnualLeaveDTO as u WHERE u.start IS NOT NULL";
@@ -85,7 +93,5 @@ public class LeaveDAO {
 		
 		return useAnnualLeaveList;
 	}
-
-
 
 }

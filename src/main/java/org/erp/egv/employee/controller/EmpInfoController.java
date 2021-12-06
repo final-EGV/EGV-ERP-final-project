@@ -442,7 +442,7 @@ public class EmpInfoController {
 	}
 	
 	@GetMapping("/login")
-	public void empLogin() { }
+	public void empLogin() {}
 	
 	@GetMapping("/findid")
 	public void findId() { }

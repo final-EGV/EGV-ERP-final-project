@@ -9,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.erp.egv.employee.model.dto.UserImpl;
+import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
+import org.erp.egv.leave.model.service.LeaveService;
 import org.erp.egv.main.model.dto.ScheduleCategoryDTO;
 import org.erp.egv.main.model.dto.ScheduleDTO;
 import org.erp.egv.main.model.service.MainService;
@@ -29,11 +31,13 @@ public class MainController {
 	
 	private MainService mainService;
 	private SignSentSelectService signService;
+	private LeaveService leaveService;
 	
 	@Autowired
-	public MainController(MainService mainService, SignSentSelectService signService) {
+	public MainController(MainService mainService, SignSentSelectService signService, LeaveService leaveService) {
 		this.mainService = mainService;
 		this.signService = signService;
+		this.leaveService = leaveService;
 	}
 	
 	@GetMapping(value = {"/", "/main"})
@@ -44,7 +48,9 @@ public class MainController {
 		}
 		
 		List<SignDTO> signList = signService.selectProgresssignSignList(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		AnnualLeaveDTO leave = leaveService.selectSingleLeave(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
 		
+		mv.addObject("leave", leave);
 		mv.addObject("signList", signList);
 		mv.setViewName("main/main");
 		return mv;

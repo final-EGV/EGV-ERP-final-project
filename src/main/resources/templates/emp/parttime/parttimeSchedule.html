@@ -38,7 +38,7 @@
  	    Writer : Hansoo Lee
  	    FullCalendar 제어용 함수
  	      이벤트 클릭 리스너에 에이작스로 DB삭제 코드와 화면삭제 메소드 넣음
- 	      Ajax로 Json문자가 반환되어 alert창 띄움
+ 	      Ajax로 Json문자가 반환되어 alert창 띄우고 해당 테이블 삭제
  	 */
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -46,13 +46,15 @@
           initialView: 'dayGridMonth',
           locale: 'ko',
            eventClick : function( Info ) { 
-        	   if(confirm("진짜 삭제할 꺼야?")){
+        	   if(confirm("해당 일정을 삭제하시겠습니까?")){
         		   $.ajax({
         				url: "/emp/parttime/delete",
         				type: "post",
         				data: {code : Info.event.id},
         				success: function(data){
         					alert(data);
+        					$('#parttime'+Info.event.id).parent().remove();
+        					
         				},
         				error: function(xhr){
         					console.log(xhr);
@@ -154,7 +156,7 @@
 									</thead>
 									<tbody>
  	 								<tr th:class="empTable" th:each="parttimer : ${parttimer}">
- 										<td th:text="${ parttimer.code }"></td>
+ 										<td th:id="|parttime${ parttimer.code }|" th:text="${ parttimer.code }"></td>
 										<td th:text="${ parttimer.title }"></td>
 										<td th:text="${ parttimer.start }"></td>
 										<td th:text="${ parttimer.end }"></td>

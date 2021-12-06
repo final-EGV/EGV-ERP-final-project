@@ -1,7 +1,6 @@
 package org.erp.egv.main.controller;
 
 import java.security.Principal;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -16,6 +15,8 @@ import org.erp.egv.main.model.dto.ScheduleDTO;
 import org.erp.egv.main.model.service.MainService;
 import org.erp.egv.sign.model.dto.SignDTO;
 import org.erp.egv.sign.model.service.SignSentSelectService;
+import org.erp.egv.theater.model.dto.EventDTO;
+import org.erp.egv.theater.model.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,12 +33,15 @@ public class MainController {
 	private MainService mainService;
 	private SignSentSelectService signService;
 	private LeaveService leaveService;
+	private EventService eventService;
 	
 	@Autowired
-	public MainController(MainService mainService, SignSentSelectService signService, LeaveService leaveService) {
+	public MainController(MainService mainService, SignSentSelectService signService,
+			LeaveService leaveService, EventService eventService) {
 		this.mainService = mainService;
 		this.signService = signService;
 		this.leaveService = leaveService;
+		this.eventService = eventService;
 	}
 	
 	@GetMapping(value = {"/", "/main"})
@@ -49,9 +53,11 @@ public class MainController {
 		
 		List<SignDTO> signList = signService.selectProgresssignSignList(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
 		AnnualLeaveDTO leave = leaveService.selectSingleLeave(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		List<EventDTO> eventList = eventService.inquireAllEventList();
 		
 		mv.addObject("leave", leave);
 		mv.addObject("signList", signList);
+		mv.addObject("eventList", eventList);
 		mv.setViewName("main/main");
 		return mv;
 	}

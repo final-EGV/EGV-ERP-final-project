@@ -28,6 +28,7 @@ public class EmpInfoService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	@Transactional
 	public List<EmployeeDTO> empListRequest() {
 		System.out.println("서비스로 오나요?");
 		return empInfoDAO.empListRequest();

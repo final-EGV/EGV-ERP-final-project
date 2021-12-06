@@ -43,7 +43,7 @@ public class EmpInfoController {
 		this.empInfoService = empInfoService;
 	}
 
-	/* 전체 재직 사원조회 */
+	/* 관리자용 전체 재직 사원조회 */
 	@GetMapping("/list")
 	public ModelAndView empListRequest(ModelAndView mv) {
 		
@@ -54,6 +54,21 @@ public class EmpInfoController {
 		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/emplist");
+		
+		return mv;
+	}
+	
+	/* 일반 사용자용 전체 재직 사원조회 */
+	@GetMapping("/listUs")
+	public ModelAndView empListForUserRequest(ModelAndView mv) {
+		
+		System.out.println("콘트롤러 오나요?");
+		
+		List<EmployeeDTO> empList = empInfoService.empListRequest();
+		
+		
+		mv.addObject("empList", empList);
+		mv.setViewName("emp/emplistUs");
 		
 		return mv;
 	}
@@ -94,6 +109,12 @@ public class EmpInfoController {
 	@ResponseBody
 	public List<EmpRankDTO> findEmpRankList(){
 		return empInfoService.findEmpRankList();
+	}
+	
+	@GetMapping(value = "empList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<EmployeeDTO> findEmpList() {
+		return empInfoService.empListRequest();
 	}
 	
 	
@@ -271,7 +292,7 @@ public class EmpInfoController {
 		return mv;
 	}
 	
-	/* 알바 스케줄 데이터 자져오기*/
+	/* 알바 스케줄 데이터 가져오기*/
 	@GetMapping(value="/parttime/parttimeScheduleList", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<ParttimeScheduleDTO> parttimeScheduleList() {
@@ -421,7 +442,7 @@ public class EmpInfoController {
 	}
 	
 	@GetMapping("/login")
-	public void empLogin() { }
+	public void empLogin() {}
 	
 	@GetMapping("/findid")
 	public void findId() { }

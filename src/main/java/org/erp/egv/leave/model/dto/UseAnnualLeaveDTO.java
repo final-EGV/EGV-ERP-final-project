@@ -3,8 +3,10 @@ package org.erp.egv.leave.model.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "USE_ANNUAL_LEAVE")
 @SequenceGenerator(name = "UAL_SEQ_GENERATOR",
 sequenceName = "SEQ_UAL_CODE",
-initialValue = 1, 
 allocationSize = 1)
 public class UseAnnualLeaveDTO implements Serializable{
 	private static final long serialVersionUID = 4957149843892985761L;
@@ -34,11 +35,11 @@ public class UseAnnualLeaveDTO implements Serializable{
 	@Column(name = "UAL_CODE")
 	private int code;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "EMP_CODE")
 	private EmployeeDTO empCode;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ANNUAL_LEAVE_CODE")
 	private AnnualLeaveCategoryDTO categoryCode;
 	
@@ -124,11 +125,16 @@ public class UseAnnualLeaveDTO implements Serializable{
 		this.content = content;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "UseAnnualLeaveDTO [code=" + code + ", empCode=" + empCode + ", categoryCode=" + categoryCode
-				+ ", start=" + start + ", end=" + end + ", total=" + total + ", content=" + content + "]";
+				+ ", start=" + start + ", end=" + end + ", content=" + content + "]";
 	}
 
+	
 	
 }

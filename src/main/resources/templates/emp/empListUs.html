@@ -23,56 +23,6 @@
 <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
-
-     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'ko',
-        events: [
-    		$.ajax({
-    			url: "/emp/work/annualLeave",
-    			success: function(data){
-    				let color = ['blue']; 
-    				for (let index in data){
-    					
-    					let plusDay = new Date(data[index]['end']);
-    					if (data[index]['end'] != data[index]['start'] ){
-    					plusDay = new Date(data[index]['end']);
-    					plusDay.setDate(plusDay.getDate() + 1 );	
-    					}
-    					
-    				calendar.addEvent({
-    					id : data[index]['code'],
-    					title : data[index]['code'] + ' : '+ data[index]['title'],
-    					start : data[index]['start'],
-    					end : plusDay,
-    					allDay : true,
-    					backgroundColor : color
-    				})
-    				}
-    			},
-    			error: function(xhr){
-    				console.log(xhr);
-    			}
-    		})]
-        }); 
-        calendar.render();
-      });
-
-    </script>
-	<script>
-		const successMessage = "[[${ successMessage }]]";	
-		
-		if(successMessage){
-			alert(successMessage);
-		}
-	</script>
 </head>
 
 <body id="page-top">
@@ -80,38 +30,62 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 
+
 		<div id="sidebarMain" class="bg-gradient-info"
 			th:include="common/aside.html"></div>
 
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex">
-						
 			<!-- Main Content -->
 			<div id="content">
-
 				<div th:include="common/header.html"></div>
-
-					
+				<!-- Begin Page Content -->
+				<div class="container-fluid" style="height: 100%">
+				<h1 align="Center">재직자 목록</h1>
 					<!-- DataTales -->
 					<div class="card mb-4">
 						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary"> 나의 연차 조회 </h6>
+							<h6 class="m-0 font-weight-bold text-primary"> 사원목록 </h6>
 						</div>
-					<div class="card-body">
-						<div id='calendar'><br></div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover" id="dataTable" cellspacing="0">
+									<thead>
+										<tr>
+											<th>사번</th>
+											<th>이름</th>
+											<th>직책</th>
+											<th>휴대폰 번호</th>
+											<th>이메일주소</th>
+											<th>부서명</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr th:class="empTable" th:each="emp : ${ empList }">
+ 										<td th:class="empCode" th:text="${ emp.code }"></td>
+										<td th:text="${ emp.name }"></td>
+										<td th:text="${ emp.empPosition }"></td>
+										<td th:text="${ emp.phoneMobile }"></td>
+										<td th:text="${ emp.email }"></td>
+										<td th:text="${ emp.dept.name }"></td>
+									</tr>
+									</tbody>
+								</table>
+						</div> 
 					</div>
-				<!-- End of Main Content -->
+					
+				</div>
+            	<!-- End of Main Content --> 
 			</div>
 			<!-- Footer -->
-			<div th:include="common/footer.html"></div>
-			<!-- End of Footer -->
-		</div>
-		</div>
-		<!-- End of Content Wrapper -->
-	</div>
-	<!-- End of Page Wrapper -->
-
-	<!-- Scroll to Top Button-->
+ 			<div th:include="common/footer.html" ></div>
+            <!-- End of Footer -->
+			</div>
+        </div> 
+        <!-- End of Content Wrapper -->
+	</div> 
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
@@ -138,6 +112,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!-- Bootstrap core JavaScript-->
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.bundle.min.js"></script>
@@ -154,28 +129,6 @@
 
 	<!-- Page level custom scripts -->
 	<script src="/js/demo/datatables-demo.js"></script>
-
-	<script>
-	(function () {
-		  'use strict'
-
-		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-		  var forms = document.querySelectorAll('.needs-validation')
-
-		  // Loop over them and prevent submission
-		  Array.prototype.slice.call(forms)
-		    .forEach(function (form) {
-		      form.addEventListener('submit', function (event) {
-		        if (!form.checkValidity()) {
-		          event.preventDefault()
-		          event.stopPropagation()
-		        }
-
-		        form.classList.add('was-validated')
-		      }, false)
-		    })
-		})()
-</script>
-
+	
 </body>
 </html>

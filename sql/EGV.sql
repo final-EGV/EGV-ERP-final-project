@@ -391,7 +391,7 @@ VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '박명수',
     'G Park', '7009271234565', SYSDATE,
-    'Y', 200 , '부장',
+    'Y', 100 , '부장',
     '022224444', '01033335555', 'Gpark@naver.com',
     200, '국민은행', '1234-12-123456', '박명수',
     '서울시 강남구', DEFAULT, NULL,

@@ -63,6 +63,12 @@ public class LeaveController {
 		return mv;
 	}
 	
+	/* Date : 2021/12/05
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 기능
+	 * 사원들의 연가세부조회 기능
+	 */
 	@GetMapping("/Leave/{code}")
 	public ModelAndView EmpUsedLeaveList(ModelAndView mv, @PathVariable String code) {
 		List<UseAnnualLeaveDTO> usedLeaveList = leaveService.EmpUsedLeaveList(code);
@@ -75,6 +81,12 @@ public class LeaveController {
 		return mv;
 	}
 	
+	/* Date : 2021/12/06
+	 * Writer : JunWoo Kim
+	 * 
+	 * 인사관리자의 기능
+	 * 사원의 연가 추가 기능 (사원의 사용한 연가 +)
+	 */
 	@PostMapping("/Leave/add")
 	public ModelAndView addLeave(HttpServletRequest request, ModelAndView mv,
 								@Param("category") int category) throws ParseException {

@@ -91,6 +91,12 @@ public class EmpInfoController {
 		return empInfoService.findEmpRankList();
 	}
 	
+	@GetMapping(value = "empList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<EmployeeDTO> findEmpList() {
+		return empInfoService.empListRequest();
+	}
+	
 	
 	/* Date : 2021/11/25
 	 * Writer : Hansoo Lee

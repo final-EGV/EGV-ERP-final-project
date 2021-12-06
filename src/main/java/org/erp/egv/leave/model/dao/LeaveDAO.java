@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.leave.model.dto.AnnualLeaveCategoryDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.leave.model.dto.UseAnnualLeaveDTO;
 import org.springframework.stereotype.Repository;
@@ -46,6 +48,30 @@ public class LeaveDAO {
 		List<UseAnnualLeaveDTO> usedLeaveList = query.getResultList();
 		
 		return usedLeaveList;
+	}
+
+	public EmployeeDTO findEmp(String code) {
+		EmployeeDTO emp = em.find(EmployeeDTO.class, code);
+		
+		return emp;
+	}
+
+	public void addLeave(UseAnnualLeaveDTO leave) {
+		em.persist(leave);
+	}
+
+	public AnnualLeaveCategoryDTO findCategory(int code) {
+		AnnualLeaveCategoryDTO category = em.find(AnnualLeaveCategoryDTO.class, code);
+		
+		return category;
+	}
+
+	public void modifyLeave(String empCode, int total) {
+		String jpql = "SELECT l FROM AnnualLeaveDTO as l WHERE EMP_CODE is " + empCode;
+		TypedQuery<AnnualLeaveDTO> query = em.createQuery(jpql, AnnualLeaveDTO.class);
+		AnnualLeaveDTO leave = query.getSingleResult();
+		
+		leave.setUseCount(leave.getUseCount() + total);
 	}
 
 

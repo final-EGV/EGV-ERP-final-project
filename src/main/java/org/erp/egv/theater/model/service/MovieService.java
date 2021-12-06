@@ -55,13 +55,6 @@ public class MovieService {
 	}
 
 	@Transactional
-	public MovieDTO inquireSingleMovieByName(String movieName) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-
-		return movieDAO.inquireSingleMovieByName(movieName);
-	}
-
-	@Transactional
 	public List<MovieDTO> inquireOnlyYMovieList() {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		

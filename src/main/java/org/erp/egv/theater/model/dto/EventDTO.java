@@ -1,7 +1,6 @@
 package org.erp.egv.theater.model.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,10 +31,10 @@ public class EventDTO implements Serializable {
 	private String name;
 
 	@Column(name = "START_DATETIME")
-	private Timestamp startDatetime;
+	private String startDatetime;
 
 	@Column(name = "END_DATETIME")
-	private Timestamp endDatetime;
+	private String endDatetime;
 
 	@Column(name = "RENTAL_COMPANY", nullable = true)
 	private String rentalCompany;
@@ -50,7 +49,7 @@ public class EventDTO implements Serializable {
 	public EventDTO() {
 	}
 
-	public EventDTO(int code, String name, Timestamp startDatetime, Timestamp endDatetime, String rentalCompany,
+	public EventDTO(int code, String name, String startDatetime, String endDatetime, String rentalCompany,
 			MovieDTO movieAndEvent, String product) {
 		this.code = code;
 		this.name = name;
@@ -77,19 +76,19 @@ public class EventDTO implements Serializable {
 		this.name = name;
 	}
 
-	public Timestamp getStartDatetime() {
+	public String getStartDatetime() {
 		return startDatetime;
 	}
 
-	public void setStartDatetime(Timestamp startDatetime) {
+	public void setStartDatetime(String startDatetime) {
 		this.startDatetime = startDatetime;
 	}
 
-	public Timestamp getEndDatetime() {
+	public String getEndDatetime() {
 		return endDatetime;
 	}
 
-	public void setEndDatetime(Timestamp endDatetime) {
+	public void setEndDatetime(String endDatetime) {
 		this.endDatetime = endDatetime;
 	}
 

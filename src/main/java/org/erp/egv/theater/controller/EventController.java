@@ -1,9 +1,7 @@
 package org.erp.egv.theater.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,25 +58,23 @@ public class EventController {
 	}
 	
 	@PostMapping("/regist")
-	public String registEvent(HttpServletRequest request, RedirectAttributes rAttr)
+	public String registEvent(HttpServletRequest request, RedirectAttributes rAttr,
+			@RequestParam(defaultValue = "0") int movieCode,
+			@RequestParam(required = false) String rentalCompany, 
+			@RequestParam(required = false) String product)
 			throws UnsupportedEncodingException, ParseException {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
 		request.setCharacterEncoding("UTF-8");
 		
 		String eventName = request.getParameter("name");
-		Timestamp startDatetime =
-				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("startDatetime").replace("T", " ")).getTime());
-		Timestamp endDatetime =
-				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("endDatetime").replace("T", " ")).getTime());
-		String movieName = request.getParameter("movieAndEvent");
-		String rentalCompany = request.getParameter("rentalCompany");
-		String product = request.getParameter("product");
+		String startDatetime = request.getParameter("startDatetime");
+		String endDatetime = request.getParameter("endDatetime");
 		
 		System.out.println("eventName: " + eventName);
 		System.out.println("startDatetime: " + startDatetime);
 		System.out.println("endDatetime: " + endDatetime);
-		System.out.println("movieName: " + movieName + ", length: " + movieName.length());
+		System.out.println("movieCode: " + movieCode);
 		System.out.println("rentalCompany: " + rentalCompany);
 		System.out.println("product: " + product);
 		
@@ -90,10 +86,10 @@ public class EventController {
 		event.setRentalCompany(rentalCompany);
 		event.setProduct(product);
 
-		if (!movieName.isEmpty()) {
-			event.setMovieAndEvent(movieService.inquireSingleMovieByName(movieName));
+		if (movieCode != 0) {
+			event.setMovieAndEvent(movieService.inquireSingleMovieByCode(movieCode));
 		}
-		
+
 		eventService.registEvent(event);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 이벤트 정보 등록에 성공했습니다.");
@@ -109,65 +105,51 @@ public class EventController {
 		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		EventDTO event = eventService.inquireSingleEventByCode(code);
 		
-		// type casting: from Timestampt to String, from server to client.
-		String startDatetime = event.getStartDatetime()
-									.toString()
-									.substring(0, 16)
-									.replace(' ', 'T');
-		String endDatetime = event.getEndDatetime()
-									.toString()
-									.substring(0, 16)
-									.replace(' ', 'T');
-		
 		mv.addObject("movieList", movieList);
 		mv.addObject("event", event);
-		mv.addObject("startDatetime", startDatetime);
-		mv.addObject("endDatetime", endDatetime);
 		mv.setViewName("theater/eventDetails");
 		
 		return mv;
 	}
 	
 	@PostMapping("/modify")
-	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr)
+	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr,
+			@RequestParam(defaultValue = "0") int code,
+			@RequestParam(defaultValue = "0") int movieCode,
+			@RequestParam(required = false) String rentalCompany, 
+			@RequestParam(required = false) String product)
 			throws UnsupportedEncodingException, ParseException {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int eventCode = Integer.valueOf(request.getParameter("code"));
 		String eventName = request.getParameter("name");
-		Timestamp startDatetime =
-				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("startDatetime").replace("T", " ")).getTime());
-		Timestamp endDatetime =
-				new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(request.getParameter("endDatetime").replace("T", " ")).getTime());
-		String movieName = request.getParameter("movieAndEvent");
-		String rentalCompany = request.getParameter("rentalCompany");
-		String product = request.getParameter("product");
+		String startDatetime = request.getParameter("startDatetime");
+		String endDatetime = request.getParameter("endDatetime");
 		
-		System.out.println("eventCode: " + eventCode);
+		System.out.println("eventCode: " + code);
 		System.out.println("eventName: " + eventName);
 		System.out.println("startDatetime: " + startDatetime);
 		System.out.println("endDatetime: " + endDatetime);
-		System.out.println("movieName: " + movieName + ", length: " + movieName.length());
+		System.out.println("movieCode: " + movieCode);
 		System.out.println("rentalCompany: " + rentalCompany);
 		System.out.println("product: " + product);
 		
-		EventDTO eventToModify = new EventDTO();
+		EventDTO eventFromClient = new EventDTO();
 		
-		eventToModify.setCode(eventCode);
-		eventToModify.setName(eventName);
-		eventToModify.setStartDatetime(startDatetime);
-		eventToModify.setEndDatetime(endDatetime);
-		eventToModify.setRentalCompany(rentalCompany);
-		eventToModify.setProduct(product);
+		eventFromClient.setCode(code);
+		eventFromClient.setName(eventName);
+		eventFromClient.setStartDatetime(startDatetime);
+		eventFromClient.setEndDatetime(endDatetime);
+		eventFromClient.setRentalCompany(rentalCompany);
+		eventFromClient.setProduct(product);
 
-		if (!movieName.isEmpty()) {
-			eventToModify.setMovieAndEvent(movieService.inquireSingleMovieByName(movieName));
+		if (movieCode != 0) {
+			eventFromClient.setMovieAndEvent(movieService.inquireSingleMovieByCode(movieCode));
 		}
 		
-		eventService.modifyEvent(eventToModify);
+		eventService.modifyEvent(eventFromClient);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 이벤트 정보 수정을 성공했습니다.");
 

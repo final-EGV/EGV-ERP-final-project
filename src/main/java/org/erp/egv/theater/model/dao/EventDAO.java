@@ -41,17 +41,17 @@ public class EventDAO {
 		return event;
 	}
 
-	public void modifyEvent(EventDTO eventToModify) {
+	public void modifyEvent(EventDTO eventFromClient) {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		EventDTO eventFromEntity = em.find(EventDTO.class, eventToModify.getCode());
+		EventDTO eventFromEntity = em.find(EventDTO.class, eventFromClient.getCode());
 		
-		eventFromEntity.setName(eventToModify.getName());
-		eventFromEntity.setStartDatetime(eventToModify.getStartDatetime());
-		eventFromEntity.setEndDatetime(eventToModify.getEndDatetime());
-		eventFromEntity.setMovieAndEvent(eventToModify.getMovieAndEvent());
-		eventFromEntity.setRentalCompany(eventToModify.getRentalCompany());
-		eventFromEntity.setProduct(eventToModify.getProduct());
+		eventFromEntity.setName(eventFromClient.getName());
+		eventFromEntity.setStartDatetime(eventFromClient.getStartDatetime());
+		eventFromEntity.setEndDatetime(eventFromClient.getEndDatetime());
+		eventFromEntity.setMovieAndEvent(eventFromClient.getMovieAndEvent());
+		eventFromEntity.setRentalCompany(eventFromClient.getRentalCompany());
+		eventFromEntity.setProduct(eventFromClient.getProduct());
 		
 	}
 

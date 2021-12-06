@@ -67,8 +67,8 @@
 													th:href="@{/theater/event/details(code=${ event.code })}">
 												</a>
 											</td>
-											<td th:text="${ #dates.format(event.startDatetime, 'yyyy-MM-dd HH:mm') }"></td>
-											<td th:text="${ #dates.format(event.endDatetime, 'yyyy-MM-dd HH:mm') }"></td>
+											<td th:text="${ #strings.replace(event.startDatetime, 'T', ' ') }"></td>
+											<td th:text="${ #strings.replace(event.endDatetime, 'T', ' ') }"></td>
 											<td th:text="${ event.rentalCompany } == null ? '-' : ${ event.rentalCompany }"></td>
 											<td th:if="${ event.movieAndEvent } == null">-</td>
 											<td th:unless="${ event.movieAndEvent } == null">

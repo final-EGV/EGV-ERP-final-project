@@ -41,10 +41,10 @@ public class EventService {
 	}
 
 	@Transactional
-	public void modifyEvent(EventDTO eventToModify) {
+	public void modifyEvent(EventDTO eventFromClient) {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		eventDAO.modifyEvent(eventToModify);
+		eventDAO.modifyEvent(eventFromClient);
 	}
 
 	@Transactional

@@ -1,212 +1,181 @@
 <!DOCTYPE html>
-<html
-	lang="ko"
-	xmlns:th="https://www.thymeleaf.org"
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <title>EGV</title>
+<title>EGV</title>
 
-    <!-- Custom fonts for this template-->
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="/css/all.min.css" rel="stylesheet" type="text/css">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-    <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
+
+     <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          locale: 'ko',
+        events: [
+    		$.ajax({
+    			url: "/emp/work/annualLeave",
+    			success: function(data){
+    				let color = ['blue']; 
+    				for (let index in data){
+    					
+    					let plusDay = new Date(data[index]['end']);
+    					if (data[index]['end'] != data[index]['start'] ){
+    					plusDay = new Date(data[index]['end']);
+    					plusDay.setDate(plusDay.getDate() + 1 );	
+    					}
+    					
+    				calendar.addEvent({
+    					id : data[index]['code'],
+    					title : data[index]['code'] + ' : '+ data[index]['title'],
+    					start : data[index]['start'],
+    					end : plusDay,
+    					allDay : true,
+    					backgroundColor : color
+    				})
+    				}
+    			},
+    			error: function(xhr){
+    				console.log(xhr);
+    			}
+    		})]
+        }); 
+        calendar.render();
+      });
+
+    </script>
+	<script>
+		const successMessage = "[[${ successMessage }]]";	
+		
+		if(successMessage){
+			alert(successMessage);
+		}
+	</script>
 </head>
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
 
-        <div id="sidebarMain" class="bg-gradient-info" th:include="common/aside.html"></div>
+		<div id="sidebarMain" class="bg-gradient-info"
+			th:include="common/aside.html"></div>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex">
+						
+			<!-- Main Content -->
+			<div id="content">
 
-            <!-- Main Content -->
-            <div id="content">
+				<div th:include="common/header.html"></div>
 
-                <div th:include="common/header.html"></div>
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-
-					<!-- Content Row -->
-                    <div class="row">
-                    
-					<script>
-						document.addEventListener('DOMContentLoaded', function() {
-					    	var calendarEl = document.getElementById('scheduleCalendar');
-					        var calendar = new FullCalendar.Calendar(calendarEl, {
-					        	initialView: 'dayGridMonth',
-					        	locale: 'ko',
-					         	eventClick : function( Info ) { 
-					         		
-					        	},
-					        	events: [
-					    			$.ajax({
-					    				url: "/leave/annualLeaveList",
-					    				success: function(data){
-					    					for (let index in data){
-					    						console.log(index);
-					    						
-					    						let plusDay = new Date(data[index]['endDate']);
-					    						if (data[index]['endDate'] != data[index]['startDate']){
-					    							plusDay = new Date(data[index]['endDate']);
-					    							plusDay.setDate(plusDay.getDate() + 1 );
-					    						}
-					    						
-					    						if (data[index]['schCat']['schCatCode'] == 1) {
-						    						var color = 'DarkGray';
-						    					} else if (data[index]['schCat']['schCatCode'] == 2) {
-						    						var color = 'Brown';
-						    					} else if (data[index]['schCat']['schCatCode'] == 3) {
-						    						var color = 'black';
-						    					} else if (data[index]['schCat']['schCatCode'] == 4) {
-						    						var color = 'LightSlateGray';
-						    					}
-					    						
-					    						calendar.addEvent({
-					    							id : data[index]['schCode'],
-					    							title : data[index]['schCat']['schCatName'],
-					    							start : data[index]['startDate'],
-					    							end : plusDay,
-					    							allDay : true,
-					    							backgroundColor : color
-					    						})
-					    					}
-					    				},
-					    				error: function(xhr){
-					    					console.log(xhr);
-					    				}
-					    			})]
-					        	}); 
-					        calendar.render();
-							});
-					    </script>
-                        <!-- 일정관리 -->
-                        <div class="col-xl-7 col-lg-7">
-                            <div class="card shadow mb-4">
-                            
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">연차 관리</h6>
-                                </div>
-                                
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="schedule-area">
-                                        <div id='scheduleCalendar'><br></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-						 <div class="col-xl-5 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">남은 연차 일수</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-                        </div>
 					
-                <!-- /.container-fluid -->
+					<!-- DataTales -->
+					<div class="card mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary"> 나의 연차 조회 </h6>
+						</div>
+					<div class="card-body">
+						<div id='calendar'><br></div>
+					</div>
+				<!-- End of Main Content -->
+			</div>
+			<!-- Footer -->
+			<div th:include="common/footer.html"></div>
+			<!-- End of Footer -->
+		</div>
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
 
-            </div>
-            <!-- End of Main Content -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
 
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
 
-        </div>
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
 
-    </div>
-            <!-- Footer -->
-            <div th:include="common/footer.html"></div>
-            <!-- End of Footer -->
-    <!-- End of Page Wrapper -->
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTables.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    
+	<!-- Page level custom scripts -->
+	<script src="/js/demo/datatables-demo.js"></script>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+	<script>
+	(function () {
+		  'use strict'
 
-    <!-- Core plugin JavaScript --> 
-    <script src="/js/jquery.easing.min.js"></script>
+		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		  var forms = document.querySelectorAll('.needs-validation')
 
-    <!-- Custom scripts for all pages --> 
-    <script src="/js/sb-admin-2.min.js"></script>
+		  // Loop over them and prevent submission
+		  Array.prototype.slice.call(forms)
+		    .forEach(function (form) {
+		      form.addEventListener('submit', function (event) {
+		        if (!form.checkValidity()) {
+		          event.preventDefault()
+		          event.stopPropagation()
+		        }
 
-    <!-- Page level plugins --> 
-    <script src="/js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts --> 
-    <script src="/js/chart-area-demo.js"></script>
-    <script src="/js/chart-pie-demo.js"></script>
+		        form.classList.add('was-validated')
+		      }, false)
+		    })
+		})()
+</script>
 
 </body>
-
 </html>

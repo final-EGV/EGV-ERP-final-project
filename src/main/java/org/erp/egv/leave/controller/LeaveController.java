@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveCategoryDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.employee.model.dto.UserImpl;
@@ -122,6 +123,23 @@ public class LeaveController {
 		mv.setViewName("redirect:/emp/Leave/" + empCode);
 		
 		return mv;
+	}
+	
+	/* 연차 조회 페이지 연결 */
+	@GetMapping("/work/annualLeave")
+	public ModelAndView annualLeave(ModelAndView mv) {
+		
+		List<UseAnnualLeaveDTO> annualLeave = leaveService.findUseAnnualLeaveList();
+		mv.addObject("annualLeave", annualLeave);
+		mv.setViewName("emp/work/annualLeave");
+		return mv;
+	}
+	
+	/* 연차 사용 데이터 가져오기 */
+	@GetMapping(value="/work/annualLeaveList", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
+		return leaveService.findUseAnnualLeaveList();
 	}
 	
 }

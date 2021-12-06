@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveCategoryDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.leave.model.dto.UseAnnualLeaveDTO;
@@ -72,6 +73,17 @@ public class LeaveDAO {
 		AnnualLeaveDTO leave = query.getSingleResult();
 		
 		leave.setUseCount(leave.getUseCount() + total);
+	}
+
+	/* 연차 조회 */
+	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
+		String jpql = "SELECT u FROM UseAnnualLeaveDTO as u WHERE u.start IS NOT NULL";
+		
+		TypedQuery<UseAnnualLeaveDTO> query = em.createQuery(jpql, UseAnnualLeaveDTO.class);
+		List<UseAnnualLeaveDTO> useAnnualLeaveList = query.getResultList();
+		System.out.println(useAnnualLeaveList);
+		
+		return useAnnualLeaveList;
 	}
 
 

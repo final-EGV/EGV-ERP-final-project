@@ -61,4 +61,10 @@ public class LeaveService {
 	public void modifyLeave(String empCode, int total) {
 		leaveDAO.modifyLeave(empCode, total);
 	}
+
+	@Transactional
+	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
+		return leaveDAO.findUseAnnualLeaveList();
+	}
+
 }

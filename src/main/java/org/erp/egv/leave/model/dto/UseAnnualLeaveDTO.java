@@ -62,7 +62,6 @@ public class UseAnnualLeaveDTO implements Serializable{
 			int total, String content) {
 		this.code = code;
 		this.empCode = empCode;
-		this.empName = empName;
 		this.categoryCode = categoryCode;
 		this.start = start;
 		this.end = end;
@@ -84,14 +83,6 @@ public class UseAnnualLeaveDTO implements Serializable{
 
 	public void setEmpCode(EmployeeDTO empCode) {
 		this.empCode = empCode;
-	}
-
-	public EmployeeDTO getEmpName() {
-		return empName;
-	}
-
-	public void setEmpName(EmployeeDTO empName) {
-		this.empName = empName;
 	}
 
 	public AnnualLeaveCategoryDTO getCategoryCode() {

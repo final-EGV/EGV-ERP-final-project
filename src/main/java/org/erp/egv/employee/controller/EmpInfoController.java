@@ -43,7 +43,7 @@ public class EmpInfoController {
 		this.empInfoService = empInfoService;
 	}
 
-	/* 전체 재직 사원조회 */
+	/* 관리자용 전체 재직 사원조회 */
 	@GetMapping("/list")
 	public ModelAndView empListRequest(ModelAndView mv) {
 		
@@ -54,6 +54,21 @@ public class EmpInfoController {
 		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/emplist");
+		
+		return mv;
+	}
+	
+	/* 일반 사용자용 전체 재직 사원조회 */
+	@GetMapping("/listUs")
+	public ModelAndView empListForUserRequest(ModelAndView mv) {
+		
+		System.out.println("콘트롤러 오나요?");
+		
+		List<EmployeeDTO> empList = empInfoService.empListRequest();
+		
+		
+		mv.addObject("empList", empList);
+		mv.setViewName("emp/emplistUs");
 		
 		return mv;
 	}

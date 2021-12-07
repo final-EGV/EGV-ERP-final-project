@@ -43,6 +43,8 @@ public class SignUpdateController {
 	@GetMapping("detail/signUpdate")
 	public ModelAndView selectSignSaved(ModelAndView mv, @RequestParam("code") String code, Principal principal) {
 
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		
 		// 선택한 임시저장 기안서 코드
 		int signCode = Integer.valueOf(code);
 //		System.out.println(code);
@@ -66,6 +68,7 @@ public class SignUpdateController {
 		List<RefferrerDTO> refferrerList = signUpdateService.selectSignRefferrerList(signCode);
 //		System.out.println(refferrerListSize);
 
+		mv.addObject("empCode", empCode);
 		mv.addObject("empList", empList);
 		mv.addObject("template", templateDTO);
 		mv.addObject("sign", savedSignDTO);

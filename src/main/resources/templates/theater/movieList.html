@@ -65,13 +65,16 @@
 									</thead>
 									<tbody>
 										<tr th:each="movie : ${ movieList }">
-											<td>
-												<a th:text="${ movie.name }"
-													th:href="@{/theater/movie/details(code=${ movie.code })}">
+											<td class="text-center">
+												<a th:href="@{/theater/movie/details(code=${ movie.code })}">
+													<img id="posterImgArea" class="img-fluid align-self-center mr-3 img-thumbnail"
+														th:src="|/img/poster/${ movie.posterUuidName }|" width="128px" height="189px"><br><hr>
+													<!-- <span class="badge badge-info" th:text="${ movie.name }"></span> -->
+													<p th:text="${ movie.name }"></p>
 												</a>
 											</td>
 											<td th:text="${ movie.openingDate }"></td>
-											<td th:text="${ movie.runningTime }"></td>
+											<td th:text="|${ movie.runningTime }분|"></td>
 											<td th:text="${ movie.grade }"></td>
 											<td th:text="${ movie.genre }"></td>
 											<td th:text="${ movie.distributor }"></td>
@@ -154,7 +157,8 @@
 				language: {
 					url: '/i18n/ko.json'
 				},
-				"order": [1, 'desc']	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"order": [1, 'desc'],	/* 개봉일자 속성 기준으로 내림차순(최신순) */
+				"lengthMenu": [5]
 			}
 			);
 		});

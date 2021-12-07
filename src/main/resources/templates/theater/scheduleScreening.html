@@ -263,7 +263,10 @@
 		var theaterInput = document.getElementsByName('theater')[0];
 		var startInput = document.getElementsByName('screeningStart')[0];
 		var endInput = document.getElementsByName('screeningEnd')[0];
-	
+		
+		var colorPallet = ['#008C8C', '#0A9696', '#14A0A0', '#1EAAAA', '#28B4B4', '#32BEBE', '#37C3C3', '#3CC8C8', '#41CDCD', '#46D2D2', 
+			'#008080', '#0A8A8A', '#149494', '#1E9E9E', '#28A8A8', '#32B2B2', '#37B7B7', '#3CBCBC', '#41C1C1', '#46C6C6'];
+
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			
@@ -320,7 +323,8 @@
 									resourceId: data[i].theater.code,
 									title: data[i].movieAndScreening.name,
 									start: data[i].screeningStart,
-									end: data[i].screeningEnd
+									end: data[i].screeningEnd,
+									backgroundColor : colorPallet[Math.floor(Math.random()*14)]
 								})
 								
 								console.log("---< SCHEDULE data from server >---"

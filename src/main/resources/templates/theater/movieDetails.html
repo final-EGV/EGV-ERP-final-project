@@ -50,7 +50,7 @@
 						<div class="card-body">
 
 							<!-- 영화 정보 입력 폼 -->
-							<form action="/theater/movie/modify" id="movie-info" method="post" enctype="multipart/form-data">
+							<form action="/theater/movie/modify" class="needs-validation"  id="movie-info" method="post" enctype="multipart/form-data" novalidate>
 
 								<div class="form-row">
 
@@ -76,15 +76,17 @@
 											<div class="form-group col-md-2">
 												<div class="form-group">
 													<label for="movieCode" class="form-label">영화코드#</label>
-													<input type="number" class="form-control" id="movieCode" name="movieCode" readonly
-													th:value="${ movie.code }">
+													<input type="number" class="form-control" id="movieCode" name="movieCode" readonly required
+														th:value="${ movie.code }">
+													<div class="invalid-feedback">영화의 제목을 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-10">
 												<div class="form-group">
 													<label for="movieName" class="form-label">영화제목</label>
-													<input type="text" class="form-control" id="movieName" name="movieName"
-													th:value="${ movie.name }">
+													<input type="text" class="form-control" id="movieName" name="movieName" required
+														th:value="${ movie.name }">
+													<div class="invalid-feedback">영화의 러닝타임을 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
@@ -93,15 +95,17 @@
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="openingDate" class="form-label">개봉일자</label>
-													<input type="date" class="form-control" id="openingDate" name="openingDate"
-													th:value="${ movie.openingDate }">
+													<input type="date" class="form-control" id="openingDate" name="openingDate" required
+														th:value="${ movie.openingDate }">
+													<div class="invalid-feedback">영화의 개봉일자를 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="runningTime" class="form-label">러닝타임</label>
-													<input type="number" class="form-control" id="runningTime" name="runningTime" value="120"
-													th:value="${ movie.runningTime }">
+													<input type="number" class="form-control" id="runningTime" name="runningTime" required
+														th:value="${ movie.runningTime }">
+													<div class="invalid-feedback">영화의 러닝타임을 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
@@ -110,19 +114,20 @@
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="grade" class="form-label">등급</label>
-													<select class="custom-select" id="grade" name="grade">
+													<select class="custom-select" id="grade" name="grade" required>
 														<option value="전체" th:selected="${ movie.grade } == '전체'">전체</option>
 														<option value="12세" th:selected="${ movie.grade } == '12세'">12세</option>
 														<option value="15세" th:selected="${ movie.grade } == '15세'">15세</option>
 														<option value="청불" th:selected="${ movie.grade } == '청불'">청불</option>
 														<option value="제한" th:selected="${ movie.grade } == '제한'">제한</option>
 													</select>
+													<div class="invalid-feedback">영화의 상영등급을 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="genre" class="form-label">장르</label>
-													<select class="custom-select" id="genre" name="genre">
+													<select class="custom-select" id="genre" name="genre" required>
 														<option value="액션" th:selected="${ movie.genre } == '액션'">액션</option>
 														<option value="드라마" th:selected="${ movie.genre } == '드라마'">드라마</option>
 														<option value="애니메이션" th:selected="${ movie.genre } == '애니메이션'">애니메이션</option>
@@ -140,39 +145,44 @@
 														<option value="판타지" th:selected="${ movie.genre } == '판타지'">판타지</option>
 														<option value="기타" th:selected="${ movie.genre } == '기타'">기타</option>
 													</select>
+													<div class="invalid-feedback">영화의 장르를 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="distributor" class="form-label">배급사</label>
-											<input type="text" class="form-control" id="distributor" name="distributor"
-											 th:value="${ movie.distributor }">
+											<input type="text" class="form-control" id="distributor" name="distributor" required
+												th:value="${ movie.distributor }">
+											<div class="invalid-feedback">영화의 배급사를 입력해 주세요.</div>
 										</div>
 
 										<div class="form-row">
 											<div class="form-group col-md-8">
 												<div class="form-group">
 													<label for="director" class="form-label">감독</label>
-													<input type="text" class="form-control" id="director" name="director"
-													th:value="${ movie.director }">
+													<input type="text" class="form-control" id="director" name="director" required
+														th:value="${ movie.director }">
+													<div class="invalid-feedback">영화의 감독을 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-4">
 												<div class="form-group">
 													<label for="country" class="form-label">국가</label>
-													<input type="text" class="form-control" id="country" name="country"
-													th:value="${ movie.country }">
+													<input type="text" class="form-control" id="country" name="country" required
+														th:value="${ movie.country }">
+													<div class="invalid-feedback">영화의 국가를 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
 										
 										<div class="form-group">
 											<label for="openingYn" class="form-label">상영여부</label>
-											<select class="custom-select" id="openingYn" name="openingYn">
+											<select class="custom-select" id="openingYn" name="openingYn" required>
 												<option value="Y" th:selected="${ movie.openingYn } == 'Y'">Y</option>
 												<option value="N" th:selected="${ movie.openingYn } == 'N'">N</option>
 											</select>
+											<div class="invalid-feedback">영화의 상영 여부를 입력해 주세요.</div>
 										</div>
 
 									</div>
@@ -310,6 +320,25 @@
 				}
 			}
 		}
+		
+		/* Bootstrap Validation */
+		(function() {
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms).forEach(function(form) {
+				form.addEventListener('submit', function(event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+
+					form.classList.add('was-validated');
+				}, false)
+			})
+		})()
 	</script>
 
 </body>

@@ -50,7 +50,7 @@
 						<div class="card-body">
 						
 							<!-- 영화 정보 입력 폼 -->
-							<form action="/theater/movie/regist" class="needs-validation" id="movie-info" method="post" enctype="multipart/form-data">
+							<form action="/theater/movie/regist" class="needs-validation" id="movie-info" method="post" enctype="multipart/form-data" novalidate>
 								
 								<div class="form-row">
 
@@ -298,38 +298,26 @@
 					}
 				}
 			}
-		}	
-			
-		(function() {
-			"use strict";
-			window.addEventListener("load", function() {
-				var form = document.querySelectorAll(".needs-validation");
-				form.addEventListener("submit", function(event) {
-					if (form.checkValidity() == false) {
-						event.preventDefault();
-						event.stopPropagation();
-						form.classList.add("was-validated");
-					}
-					
-					// 서버 연동 처리
-				}, false);
-			}, false);
-		}());
+		}
 		
-		/* window.addEventListener('load', () => {
-			const forms = document.getElementsByClassName('validation-form');
-			Array.prototype.filter.call(forms, (form) => {
-				form.addEventListener('submit', function (event) {
-					if (form.checkValidity() === false) {
+		/* Bootstrap Validation */
+		(function() {
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms).forEach(function(form) {
+				form.addEventListener('submit', function(event) {
+					if (!form.checkValidity()) {
 						event.preventDefault();
 						event.stopPropagation();
 					}
-					
-					form.classList.add('was-validated');
-				}, false);
-			});
-		}, false); */
 
+					form.classList.add('was-validated');
+				}, false)
+			})
+		})()
 	</script>
 
 </body>

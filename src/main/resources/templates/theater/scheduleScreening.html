@@ -113,13 +113,13 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="schedule-info" method="post">
+					<form id="schedule-info" class="needs-validation" method="post" novalidate>
 					
 						<table class="table table-bordered text-right table-responsive-md">
 							<tbody>
 								<tr>
 									<td class="col-md-3">스케줄 코드#</td>
-									<td class="col-md-9" colspan="3"><input type="number" class="form-control" name="code" readonly></td>
+									<td class="col-md-9" colspan="3"><input type="number" class="form-control" name="code" readonly required></td>
 								</tr>
 								<tr>
 									<td class="col-md-3">영화</td>
@@ -129,8 +129,9 @@
 												<button class="btn btn-primary" type="button"
 													data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
 											</div>
-											<input type="text" class="form-control" name="movieAndScreening" hidden="true">
-											<input type="text" class="form-control" name="movieName" readonly>
+											<input type="text" class="form-control" name="movieAndScreening" hidden="true" required>
+											<input type="text" class="form-control" name="movieName" readonly required>
+											<div class="invalid-feedback">상영할 영화를 선택해 주세요.</div>
 											<div class="input-group-append">
 												<button class="btn btn-danger" type="button"
 													 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
@@ -141,7 +142,7 @@
 								<tr>
 									<td class="col-md-3">상영관</td>
 									<td class="col-md-9" colspan="3">
-										<select class="custom-select" id="theater" name="theater">
+										<select class="custom-select" id="theater" name="theater" required>
 											<option value="1">프리미엄 1관</option>
 											<option value="2">프리미엄 2관</option>
 											<option value="3">일반 1관</option>
@@ -149,18 +150,21 @@
 											<option value="5">일반 3관</option>
 											<option value="6">일반 4관</option>
 										</select>
+										<div class="invalid-feedback">영화를 상영할 상영관을 선택해 주세요.</div>
 									</td>
 								</tr>
 								<tr>
 									<td class="col-md-3">상영 시작시간</td>
 									<td class="col-md-9">
-										<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()">
+										<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()" required>
+										<div class="invalid-feedback">영화의 상영 시작시간을 입력해 주세요.</div>
 									</td>
 								</tr>
 								<tr>
 									<td class="col-md-3">상영 종료시간</td>
 									<td class="col-md-9">
-										<input type="datetime-local" class="form-control" name="screeningEnd">
+										<input type="datetime-local" class="form-control" name="screeningEnd" required>
+										<div class="invalid-feedback">영화의 상영 종료시간을 입력해 주세요.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -418,6 +422,25 @@
 			
 			endInput.value = endStr;
 		}
+		
+		/* Bootstrap Validation */
+		(function() {
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms).forEach(function(form) {
+				form.addEventListener('submit', function(event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();                            
+					}
+					
+					form.classList.add('was-validated');
+				}, false)
+			})
+		})()
 	</script>
 </body>
 </html>

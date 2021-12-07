@@ -58,7 +58,7 @@
 							<div id='calendar'></div>
 							<br>
 							
-							<form action="/theater/schedule/screening/regist" id="schedule-info" method="post">
+							<form action="/theater/schedule/screening/regist" class="needs-validation" id="schedule-info" method="post" novalidate>
 								
 								<table class="table table-bordered text-right table-responsive-md">
 									<tbody>
@@ -70,8 +70,9 @@
 														<button class="btn btn-primary" type="button"
 															data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
 													</div>
-													<input type="number" class="form-control" name="movieAndScreening" hidden="true">
-													<input type="text" class="form-control" name="movieName" readonly>
+													<input type="number" class="form-control" name="movieAndScreening" hidden="true" required>
+													<input type="text" class="form-control" name="movieName" readonly required>
+													<div class="invalid-feedback">상영할 영화를 선택해 주세요.</div>
 													<div class="input-group-append">
 														<button class="btn btn-danger" type="button"
 															 th:onclick="javascript:emptySelectedMovie()"> 🗑 비우기</button>
@@ -82,7 +83,7 @@
 										<tr>
 											<td class="col-md-3">상영관</td>
 											<td class="col-md-9" colspan="3">
-												<select class="custom-select" id="theater" name="theater">
+												<select class="custom-select" id="theater" name="theater" required>
 													<option value="1">프리미엄 1관</option>
 													<option value="2">프리미엄 2관</option>
 													<option value="3">일반 1관</option>
@@ -90,18 +91,21 @@
 													<option value="5">일반 3관</option>
 													<option value="6">일반 4관</option>
 												</select>
+												<div class="invalid-feedback">영화를 상영할 상영관을 선택해 주세요.</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="col-md-3">상영 시작시간</td>
 											<td class="col-md-9">
-												<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()">
+												<input type="datetime-local" class="form-control" name="screeningStart" onchange="calculateEndTime()" required>
+												<div class="invalid-feedback">영화의 상영 시작시간을 입력해 주세요.</div>
 											</td>
 										</tr>
 										<tr>
 											<td class="col-md-3">상영 종료시간</td>
 											<td class="col-md-9">
-												<input type="datetime-local" class="form-control" name="screeningEnd">
+												<input type="datetime-local" class="form-control" name="screeningEnd" required>
+												<div class="invalid-feedback">영화의 상영 종료시간을 입력해 주세요.</div>
 											</td>
 										</tr>
 									</tbody>
@@ -287,7 +291,8 @@
 									resourceId: data[i].theater.code,
 									title: data[i].movieAndScreening.name,
 									start: data[i].screeningStart,
-									end: data[i].screeningEnd
+									end: data[i].screeningEnd,
+									backgroundColor : colorPallet[Math.floor(Math.random()*14)]
 								})
 								
 							}
@@ -311,6 +316,9 @@
 		var endInput = document.getElementsByName('screeningEnd')[0];
 		
 		setScreeningStartAsCurrentTime(today);
+		
+		var colorPallet = ['#008C8C', '#0A9696', '#14A0A0', '#1EAAAA', '#28B4B4', '#32BEBE', '#37C3C3', '#3CC8C8', '#41CDCD', '#46D2D2', 
+			'#008080', '#0A8A8A', '#149494', '#1E9E9E', '#28A8A8', '#32B2B2', '#37B7B7', '#3CBCBC', '#41C1C1', '#46C6C6'];
 		
 		/* 관련영화 선택 모달창에서 영화 선택 */
 		function selectMovie(object) {
@@ -371,6 +379,25 @@
 			
 			return yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
 		}
+		
+		/* Bootstrap Validation */
+		(function() {
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms).forEach(function(form) {
+				form.addEventListener('submit', function(event) {
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					
+					form.classList.add('was-validated');
+				}, false)
+			})
+		})()
 	</script>
 </body>
 </html>

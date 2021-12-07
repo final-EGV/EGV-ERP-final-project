@@ -151,7 +151,6 @@ private EmpInfoService empInfoService;
 			refferrerDTO.setEmp(referrerEmployeeDTO);
 			refferrerDTO.setSign(newSignDTO);
 			refferrerDTO.setReadYN("N");
-			
 //			System.out.println(refferrerDTO);
 
 			signInsertService.insertReferrer(refferrerDTO);

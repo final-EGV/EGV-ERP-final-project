@@ -78,7 +78,8 @@ public class StampController {
 		}
 		
 		/* 파일명 변경처리 */
-		String originFileName = new String(singleFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+//		String originFileName = new String(singleFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+		String originFileName = new String(singleFile.getOriginalFilename());
 		System.out.println("원본 이름 : " + originFileName);
 		
 		String ext = originFileName.substring(originFileName.lastIndexOf("."));

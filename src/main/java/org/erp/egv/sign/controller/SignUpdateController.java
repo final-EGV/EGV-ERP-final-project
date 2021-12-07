@@ -146,24 +146,27 @@ public class SignUpdateController {
 				approverPriority++;
 				approverCode++;
 			}
-			/* 참조자 insert */
-			for(String referrer : referrerList) {
-				int referrerCode = signInsertService.findMaxReferrerCode() + 1;
-	
-				String referrerEmpCode = referrer.substring(4,11);
-				EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
-				
-				RefferrerDTO refferrerDTO = new RefferrerDTO();
-				refferrerDTO.setCode(referrerCode);
-				refferrerDTO.setEmp(referrerEmployeeDTO);
-				refferrerDTO.setSign(updateSign);
-				refferrerDTO.setReadYN("N");
-				
-	//			System.out.println(refferrerDTO);
-	
-				signInsertService.insertReferrer(refferrerDTO);
-				
-				referrerCode++;
+			
+			if (referrerList != null) {
+				/* 참조자 insert */
+				for(String referrer : referrerList) {
+					int referrerCode = signInsertService.findMaxReferrerCode() + 1;
+		
+					String referrerEmpCode = referrer.substring(4,11);
+					EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+					
+					RefferrerDTO refferrerDTO = new RefferrerDTO();
+					refferrerDTO.setCode(referrerCode);
+					refferrerDTO.setEmp(referrerEmployeeDTO);
+					refferrerDTO.setSign(updateSign);
+					refferrerDTO.setReadYN("N");
+					
+		//			System.out.println(refferrerDTO);
+		
+					signInsertService.insertReferrer(refferrerDTO);
+					
+					referrerCode++;
+				}
 			}
 			
 		} else {

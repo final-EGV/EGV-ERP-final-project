@@ -71,7 +71,8 @@
 						<div class="card-body">
 							<div class="table-responsive">
 								
-								<form th:if="!${status}" action="/sign/detail/signUpdate" method="post" name="sign_form">
+<!-- 							<form th:if="!${status}" action="/sign/detail/signUpdate" method="post" name="sign_form"> -->
+								<form action="/sign/detail/signUpdate" method="post" name="sign_form">
 									<input type="number" th:value="${ sign.code }" name="signCode" id="signCode" hidden>
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
@@ -95,15 +96,10 @@
 										}
 										function sign_form_check() {
 											var approverFrom = document.getElementsByName("approverInput");
-											var referrerFrom = document.getElementsByName("referrerInput");
 											var titleFrom = document.getElementById("documentTitle");
 											
-											if (!approverFrom[0].value) {
+											if (!approverFrom[0]) {
 												alert("결재자를 한명 이상 작성해야 합니다.");
-												return false;
-											}
-											if (!referrerFrom[0].value) {
-												alert("잠조자를 한명 이상 작성해야 합니다.");
 												return false;
 											}
 											if (!titleFrom.value) {
@@ -160,7 +156,7 @@
 								
 								
 								
-								<form th:if="${status}" action="/sign/signInsert" method="post" name="sign_form">
+								<!-- <form th:if="${status}" action="/sign/signInsert" method="post" name="sign_form">
 									<div style="width: 27%; float: right;" >
 										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
 										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
@@ -197,16 +193,16 @@
 									<br>
 									<label>분류 :</label>&emsp;&emsp;&emsp;
 									<select name="template" id="template" style="width: 10%">
-										<!-- ajax로 template 조회 -->
+										ajax로 template 조회
 									</select>
 									<br>
 									<br>
 								 	
 									<label>결재자 :</label>&emsp;
-									<!-- 결제자 modal -->
+									결제자 modal
 								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
 									<br><br>
-<!-- ################################################################################## -->
+##################################################################################
 									<div id="addApproverMain" class="addApprover" >
 										<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
 											<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
@@ -215,10 +211,10 @@
 									</div>
 									<br>
 								 	<label>참조자 :</label>&emsp;
-									<!-- 결제자 modal -->
+									결제자 modal
 								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
 								 	<br><br>
-<!-- ################################################################################## -->
+##################################################################################
 									<div id="addReferrerMain" class="addReferrer">
 										<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
 											<span class="input-group-text">참조자 : </span>
@@ -230,9 +226,9 @@
 									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
 									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" th:value="${sign.title}">
 									</div>
-									<!-- <div th:utext="${template.contents}"></div> -->
+									<div th:utext="${template.contents}"></div>
 									<textarea id="summernote" name="documentContent"></textarea>
-								</form>
+								</form> -->
 								
 								
 <!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
@@ -251,13 +247,6 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-									      		<!-- <div class="input-group mb-3">
-												  	<span class="input-group-text">결재자 순서</span>
-												  	<input type="text" class="form-control" id="approverModal" name="approverModal" readonly>
-												  	결제자 modal&nbsp;&nbsp;
-												  	<button type="button" onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
-												</div> -->
-<!-- ################################################################################## -->
 								 				<button type="button" class="btn"onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
 								 				<div id="addApproverModal" class="addApprover">
 									 				<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
@@ -314,11 +303,6 @@
 								      </div>
 								      <div class="modal-body">
 									      	<div class="card-body">
-											  	<!-- <span class="input-group-text">참조자 목록</span> -->
-											  	<!-- <input type="text" class="form-control" id="referrerModal" name="referrerModal" readonly> -->
-												  	
-											  	<!-- 참조자 modal -->
-<!-- ################################################################################## -->
 								 				<button type="button" class="btn" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
 												<div id="addReferrerModal" class="addReferrer">
 												<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
@@ -326,8 +310,6 @@
 													<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
 												</div>
 												</div>
-												
-												
 												<!-- DataTales Example -->
 							                    <div class="card shadow mb-4">
 							                        <div class="card-header py-3">

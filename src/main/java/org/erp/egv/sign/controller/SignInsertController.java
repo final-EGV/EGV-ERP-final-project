@@ -139,23 +139,26 @@ private EmpInfoService empInfoService;
 			approverCode++;
 		}
 		
-		/* 참조자 insert */
-		for(String referrer : referrerList) {
-			int referrerCode = signInsertService.findMaxReferrerCode() + 1;
-
-			String referrerEmpCode = referrer.substring(4,11);
-			EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+		if (referrerList != null) {
 			
-			RefferrerDTO refferrerDTO = new RefferrerDTO();
-			refferrerDTO.setCode(referrerCode);
-			refferrerDTO.setEmp(referrerEmployeeDTO);
-			refferrerDTO.setSign(newSignDTO);
-			refferrerDTO.setReadYN("N");
+			/* 참조자 insert */
+			for(String referrer : referrerList) {
+				int referrerCode = signInsertService.findMaxReferrerCode() + 1;
+				
+				String referrerEmpCode = referrer.substring(4,11);
+				EmployeeDTO referrerEmployeeDTO = empInfoService.empOneRequest(referrerEmpCode);
+				
+				RefferrerDTO refferrerDTO = new RefferrerDTO();
+				refferrerDTO.setCode(referrerCode);
+				refferrerDTO.setEmp(referrerEmployeeDTO);
+				refferrerDTO.setSign(newSignDTO);
+				refferrerDTO.setReadYN("N");
 //			System.out.println(refferrerDTO);
-
-			signInsertService.insertReferrer(refferrerDTO);
-			
-			referrerCode++;
+				
+				signInsertService.insertReferrer(refferrerDTO);
+				
+				referrerCode++;
+			}
 		}
 
 		mv.setViewName("redirect:/main");

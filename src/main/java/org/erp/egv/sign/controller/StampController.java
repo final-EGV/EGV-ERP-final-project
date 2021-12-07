@@ -64,7 +64,6 @@ public class StampController {
 
 		request.setCharacterEncoding("UTF-8");
 		
-		
 		String root = this.getClass().getResource("/").getPath();
 	    String srcRoot = root.replace("/", "\\").substring(0, root.length() - 15).substring(1).concat("src\\main\\resources\\static\\");
 //	    String targetRoot = root.replace("/", "\\").concat("static\\stamp-img\\");

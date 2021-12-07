@@ -43,10 +43,22 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()					// 구현의 편리를 위해 disable로 함
 			.authorizeRequests()				// 요청에 대한 권한 체크를 어떻게 할 것인지(더 넓은 범위를 아래에 배치해야 함)
 				.antMatchers("/emp/login").permitAll()					// 로그인은 전부 허용
-				.antMatchers("/emp/pwreset").permitAll()
+				.antMatchers("/emp/pwreset").permitAll()				
 				.antMatchers("/emp/findid").permitAll()
-//				.antMatchers( "/sign/**").hasAuthority("Admin")			// Admin 권한이 있는 사용자만 접속 허용
-				.antMatchers( "/**").authenticated()					// 인증된 사용자만 모든 접속에 허용
+				.antMatchers("/emp/list").hasRole("인사담당자")
+                .antMatchers("/emp/outEmpList").hasRole("인사담당자")
+                .antMatchers("/emp/dept").hasRole("인사담당자")
+                .antMatchers("/emp/rank").hasRole("인사담당자")
+                .antMatchers("/emp/work").hasRole("인사담당자")
+                .antMatchers("/emp/Leave").hasRole("인사담당자")
+                .antMatchers("/emp/parttime/parttimeSchedule").hasRole("인사담당자")
+                .antMatchers("/emp/salary/salary").hasRole("인사담당자")
+                .antMatchers("/emp/salary/severancePay").hasRole("인사담당자")
+                .antMatchers("/emp/salary/bankBook").hasRole("인사담당자")
+                .antMatchers("/theater/details").hasRole("영화담당자")
+                .antMatchers("/theater/regist").hasRole("영화담당자")
+                .antMatchers("/theater/**/delete").hasRole("영화담당자")
+				.antMatchers("/**").authenticated()					// 인증된 사용자만 모든 접속에 허용
 //				.antMatchers(HttpMethod.GET, "/emp/**").hasRole("Admin")
 //				.antMatchers(HttpMethod.POST, "/").hasRole("a")
 			.and()

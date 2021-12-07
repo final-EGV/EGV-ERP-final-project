@@ -1,5 +1,9 @@
+
 <!DOCTYPE html>
-<html>
+<html
+	lang="ko"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -93,21 +97,29 @@
 
             <!-- Heading -->
             <div class="sidebar-heading" style="color: white; font-size: 17px;">
-                인사관리
+                인사
             </div>
 
             <!-- Nav Item - 사원관리 -->           
-            <li class="nav-item" style="margin-bottom : -17px">
+            <li class="nav-item" style="margin-bottom : -17px" sec:authorize-expr="hasRole('ROLE_인사담당자')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEmp"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-dollar-sign"></i>
-                    <span>사원관리</span>
+                    <span>인사관리</span>
                 </a>
                 <div id="collapseEmp" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/emp/list">재직자 관리</a>
                         <a class="collapse-item" href="/emp/outEmpList">퇴직자 관리</a>
+                        <a class="collapse-item" href="/emp/dept">부서 관리</a>
+                        <a class="collapse-item" href="/emp/rank">직위직급 관리</a>
+                        <a class="collapse-item" href="/emp/work">근무근태 관리</a>
+                        <a class="collapse-item" href="/emp/Leave">사원연차 관리</a>
+                        <a class="collapse-item" href="/emp/parttime/parttimeSchedule">알바 관리</a>
+                        <a class="collapse-item" href="/emp/salary/salary">급여조회</a>
+                        <a class="collapse-item" href="/emp/salary/severancePay">퇴직금조회</a>
+                        <a class="collapse-item" href="/emp/salary/bankBook">급여통장관리</a>
                     </div>
                 </div>
             </li>
@@ -119,81 +131,31 @@
                     <span>사원조회</span>
                 </a>
             </li>
-
-            <!-- Nav Item - 부서조회 -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/dept">
-                    <i class="fas fa-users"></i>
-                    <span>부서관리</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - 직위직급 -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/rank">
-                    <i class="fas fa-star"></i>
-                    <span>직위직급</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - 근무근태 관리 -->
-            <li class="nav-item" style="margin-bottom : -17px">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseWorkAttendance"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-dollar-sign"></i>
-                    <span>근무근태 관리</span>
-                </a>
-                <div id="collapseWorkAttendance" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/emp/work">근무근태 관리</a>
-                        <a class="collapse-item" href="/emp/leave">연차관리</a>
-                    </div>
-                </div>
-            </li>
             
+            <!-- Nav Item - 개인 연차관리 -->
+            <li class="nav-item" style="height: 40px;">
+                <a class="nav-link collapsed" href="/emp/leave">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>내 연차 스케줄</span>
+                </a>
+            </li>
+
+
             <!-- Nav Item - 근무근태 관리 -->
             <li class="nav-item" style="height: 40px;">
                 <a class="nav-link collapsed" href="/emp/Work">
                     <i class="fas fa-calendar-check"></i>
-                    <span>근무근태</span>
+                    <span>추가근무</span>
                 </a>
             </li>
             
-            <!-- Nav Item - 연차 관리 (관리자) -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/Leave">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>연차 관리(관리자)</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - 알바 관리 -->
-            <li class="nav-item" style="height: 40px;">
-                <a class="nav-link collapsed" href="/emp/parttime/parttimeSchedule">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>알바 관리</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - 급여 관리 -->
+            <!-- Nav Item - 내 급여조회 -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCM"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-dollar-sign"></i>
-                    <span>급여 관리</span>
+                <a class="nav-link collapsed" href="/emp/salary/personal">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>내 급여조회</span>
                 </a>
-                <div id="collapseCM" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/emp/salary/salary">급여조회</a>
-                        <a class="collapse-item" href="/emp/salary/personal">내 급여조회</a>
-                        <a class="collapse-item" href="/emp/salary/severancePay">퇴직금조회</a>
-                        <a class="collapse-item" href="/emp/salary/bankBook">급여통장관리</a>
-                    </div>
-                </div>
             </li>
-
 
 
             <!-- Divider -->

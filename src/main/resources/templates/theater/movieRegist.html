@@ -48,17 +48,18 @@
 							<h6 class="m-0 font-weight-bold text-primary">신규 영화 등록</h6>
 						</div>
 						<div class="card-body">
-
+						
 							<!-- 영화 정보 입력 폼 -->
-							<form action="/theater/movie/regist" id="movie-info" method="post" enctype="multipart/form-data">
-
+							<form action="/theater/movie/regist" class="needs-validation" id="movie-info" method="post" enctype="multipart/form-data">
+								
 								<div class="form-row">
 
 									<div class="form-group col-md-6 px-3">
 										<div class="form-group">
 											<div class="custom-file">
 												<input type="file" class="custom-file-input" id="posterImg"
-													name="posterImg" onchange="fileValidityCheck(this)" accept="image/*">
+													name="posterImg" onchange="fileValidityCheck(this)" accept="image/*" required>
+												<div class="invalid-feedback">업로드할 포스터 이미지 파일을 선택해 주세요.</div>
 												<label class="custom-file-label" for="posterImg">포스터 이미지 파일 선택</label>
 											</div>
 										</div>
@@ -70,22 +71,23 @@
 									<div class="form-group col-md-6 px-3">
 										<div class="form-group">
 											<label for="movieName" class="form-label">영화제목</label>
-											<input type="text" class="form-control" id="movieName" name="movieName">
+											<input type="text" class="form-control" id="movieName" name="movieName" required>
+											<div class="invalid-feedback">영화의 제목을 입력해 주세요.</div>
 										</div>
 
 										<div class="form-row">
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="openingDate" class="form-label">개봉일자</label>
-													<input type="date" class="form-control" id="openingDate"
-														name="openingDate">
+													<input type="date" class="form-control" id="openingDate" name="openingDate" required>
+													<div class="invalid-feedback">영화의 개봉일자를 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="runningTime" class="form-label">러닝타임</label>
-													<input type="number" class="form-control" id="runningTime"
-														name="runningTime" value="120">
+													<input type="number" class="form-control" id="runningTime" name="runningTime" required>
+													<div class="invalid-feedback">영화의 러닝타임을 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
@@ -94,19 +96,20 @@
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="grade" class="form-label">등급</label>
-													<select class="custom-select" id="grade" name="grade">
+													<select class="custom-select" id="grade" name="grade" required>
 														<option value="전체">전체</option>
 														<option value="12세">12세</option>
 														<option value="15세">15세</option>
 														<option value="청불">청불</option>
 														<option value="제한">제한</option>
 													</select>
+													<div class="invalid-feedback">영화의 상영등급을 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-6">
 												<div class="form-group">
 													<label for="genre" class="form-label">장르</label>
-													<select class="custom-select" id="genre" name="genre">
+													<select class="custom-select" id="genre" name="genre" required>
 														<option value="액션">액션</option>
 														<option value="드라마">드라마</option>
 														<option value="애니메이션">애니메이션</option>
@@ -124,43 +127,47 @@
 														<option value="판타지">판타지</option>
 														<option value="기타">기타</option>
 													</select>
+													<div class="invalid-feedback">영화의 장르를 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="distributor" class="form-label">배급사</label>
-											<input type="text" class="form-control" id="distributor" name="distributor">
+											<input type="text" class="form-control" id="distributor" name="distributor" required>
+											<div class="invalid-feedback">영화의 배급사를 입력해 주세요.</div>
 										</div>
 
 										<div class="form-row">
 											<div class="form-group col-md-8">
 												<div class="form-group">
 													<label for="director" class="form-label">감독</label>
-													<input type="text" class="form-control" id="director"
-														name="director">
+													<input type="text" class="form-control" id="director" name="director" required>
+													<div class="invalid-feedback">영화의 감독을 입력해 주세요.</div>
 												</div>
 											</div>
 											<div class="form-group col-md-4">
 												<div class="form-group">
 													<label for="country" class="form-label">국가</label>
-													<input type="text" class="form-control" id="country" name="country">
+													<input type="text" class="form-control" id="country" name="country" required>
+													<div class="invalid-feedback">영화의 국가를 입력해 주세요.</div>
 												</div>
 											</div>
 										</div>
 
 										<div class="form-row">
 											<label for="openingYn" class="form-label">상영여부</label>
-											<select class="custom-select" id="openingYn" name="openingYn">
+											<select class="custom-select" id="openingYn" name="openingYn" required>
 												<option value="Y">Y</option>
 												<option value="N">N</option>
 											</select>
+											<div class="invalid-feedback">영화의 상영 여부를 입력해 주세요.</div>
 										</div>
 
 									</div>
 								</div>
-
 							</form>
+
 						</div>
 						<div class="card-footer py-3">
 							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
@@ -291,7 +298,38 @@
 					}
 				}
 			}
-		}
+		}	
+			
+		(function() {
+			"use strict";
+			window.addEventListener("load", function() {
+				var form = document.querySelectorAll(".needs-validation");
+				form.addEventListener("submit", function(event) {
+					if (form.checkValidity() == false) {
+						event.preventDefault();
+						event.stopPropagation();
+						form.classList.add("was-validated");
+					}
+					
+					// 서버 연동 처리
+				}, false);
+			}, false);
+		}());
+		
+		/* window.addEventListener('load', () => {
+			const forms = document.getElementsByClassName('validation-form');
+			Array.prototype.filter.call(forms, (form) => {
+				form.addEventListener('submit', function (event) {
+					if (form.checkValidity() === false) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					
+					form.classList.add('was-validated');
+				}, false);
+			});
+		}, false); */
+
 	</script>
 
 </body>

@@ -198,6 +198,7 @@
 								<th>코드</th>
 								<th>영화제목</th>
 								<th>개봉일자</th>
+								<th>러닝타임</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -208,6 +209,7 @@
 									</a>
 								</td>
 								<td th:text="${ movie.openingDate }"></td>
+								<td th:text="${ movie.runningTime }"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -317,8 +319,6 @@
 						success: function(data) {
 							
 							scheduleList = data;
-							console.log("event arrived:");
-							console.log(scheduleList);
 							
 							for (let i = 0; data.length; i++) {
 								
@@ -330,15 +330,7 @@
 									end: data[i].screeningEnd,
 									backgroundColor : colorPallet[Math.floor(Math.random()*14)]
 								})
-								
-								console.log("---< SCHEDULE data from server >---"
-										+ "\n" + "code: " + data[i].code
-										+ "\n" + "movie: " + data[i].movieAndScreening.name
-										+ "\n" + "start: " + data[i].screeningStart
-										+ "\n" + "end: " + data[i].screeningEnd
-										);
 							}
-							calendar.render();
 						},
 						error: function(xhr) {
 							console.log(xhr);
@@ -348,16 +340,14 @@
 				eventClick: function(info) {
 					
 					let schedule = scheduleList[info.event.id - 1];
-					console.log(schedule);
+					movieRunningTime = schedule.movieAndScreening.runningTime;
 					
 					codeInput.value = schedule.code;
 					movieCodeInput.value = schedule.movieAndScreening.code;
-					movieNameInput.value = schedule.movieAndScreening.name;
+					movieNameInput.value = schedule.movieAndScreening.name + " (" + movieRunningTime + ")분";
 					theaterInput.value = schedule.theater.code;
 					startInput.value = schedule.screeningStart;
 					endInput.value = schedule.screeningEnd;
-					
-					movieRunningTime = schedule.movieAndScreening.runningTime;
 					
 					$('#scheduleDetails').modal('show');
 				}
@@ -371,14 +361,16 @@
 			
 			var selectedMovieCode = object.children[0].innerText;
 			var selectedMovieName = object.children[1].innerText;
-			movieRunningTime = scheduleList[selectedMovieCode - 1].movieAndScreening.runningTime;
-			console.log("movieRunningTime: " + movieRunningTime);
+			var selectedMovieRuntime = object.children[3].innerText;
+			
+			movieRunningTime = selectedMovieRuntime;
 			
 			document.getElementsByName('movieAndScreening')[0].value = selectedMovieCode;
-			document.getElementsByName('movieName')[0].value = selectedMovieName;
+			document.getElementsByName('movieName')[0].value = selectedMovieName + " (" + movieRunningTime + "분)";
 			
 			console.log('you picked : (' + document.getElementsByName('movieAndScreening')[0].value + ')'
-					+ document.getElementsByName('movieName')[0].value);
+					+ document.getElementsByName('movieName')[0].value
+					+ " " + movieRunningTime + "min");
 			
 			calculateEndTime();
 			$('#movieSelectModal').modal('hide');
@@ -393,34 +385,29 @@
 		/* 상영 종료 시간 계산하기 */
 		function calculateEndTime() {
 			
-			let calculatedDate = new Date(Date.parse(startInput.value) + movieRunningTime * 60 * 1000);
+			let calculatedEndDate = new Date(Date.parse(startInput.value) + movieRunningTime * 60 * 1000);
 			
-			let yearPiece = calculatedDate.getFullYear();
+			endInput.value = convertDateToDatetimeLocal(calculatedEndDate);
+		}
+		
+		/* Date 타입 날짜를 datetime-local 타입에 맞는 String 타입으로 변환 */
+		function convertDateToDatetimeLocal(date) {
 			
-			let monthPiece = calculatedDate.getMonth() + 1;
-			if (monthPiece < 10) {
-				monthPiece = "0" + monthPiece;
-			}
+			let yearPiece = date.getFullYear();
 			
-			let datePiece = calculatedDate.getDate();
-			if (datePiece < 10) {
-				datePiece = "0" + datePiece;
-			}
+			let monthPiece = date.getMonth() + 1;
+			if (monthPiece < 10) {monthPiece = "0" + monthPiece;}
 			
-			let hourPiece = calculatedDate.getHours();
-			if (hourPiece < 10) {
-				hourPiece = "0" + hourPiece;
-			}
+			let datePiece = date.getDate();
+			if (datePiece < 10) {datePiece = "0" + datePiece;}
 			
-			let minutePiece = calculatedDate.getMinutes();
-			if (minutePiece < 10) {
-				minutePiece = "0" + minutePiece;
-			}
+			let hourPiece = date.getHours();
+			if (hourPiece < 10) {hourPiece = "0" + hourPiece;}
 			
-			let endStr = yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
-			console.log(endStr);
+			let minutePiece = date.getMinutes();
+			if (minutePiece < 10) {minutePiece = "0" + minutePiece;}
 			
-			endInput.value = endStr;
+			return yearPiece + "-" + monthPiece + "-" + datePiece + "T" + hourPiece + ":" + minutePiece;
 		}
 		
 		/* Bootstrap Validation */

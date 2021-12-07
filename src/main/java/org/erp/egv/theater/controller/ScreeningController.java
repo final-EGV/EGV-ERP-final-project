@@ -2,7 +2,6 @@ package org.erp.egv.theater.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class ScreeningController {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		List<MovieDTO> movieList = movieService.inquireAllMovieList();
+		List<MovieDTO> movieList = movieService.inquireOnlyYMovieList();
 		
 		mv.addObject("movieList", movieList);
 		mv.setViewName("theater/scheduleScreening");
@@ -125,7 +124,7 @@ public class ScreeningController {
 		
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		List<MovieDTO> movieList = movieService.inquireAllMovieList();
+		List<MovieDTO> movieList = movieService.inquireOnlyYMovieList();
 		
 		mv.addObject("movieList", movieList);
 		mv.setViewName("theater/scheduleScreeningRegist");

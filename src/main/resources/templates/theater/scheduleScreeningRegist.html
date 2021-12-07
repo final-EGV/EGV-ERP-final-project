@@ -281,8 +281,6 @@
 						success: function(data) {
 							
 							scheduleList = data;
-							console.log("event arrived:");
-							console.log(scheduleList);
 							
 							for (let i = 0; data.length; i++) {
 								
@@ -294,7 +292,6 @@
 									end: data[i].screeningEnd,
 									backgroundColor : colorPallet[Math.floor(Math.random()*14)]
 								})
-								
 							}
 						},
 						error: function(xhr) {
@@ -325,8 +322,9 @@
 			
 			var selectedMovieCode = object.children[0].innerText;
 			var selectedMovieName = object.children[1].innerText;
+			var selectedMovieRuntime = object.children[3].innerText;
 			
-			movieRunningTime = scheduleList[selectedMovieCode - 1].movieAndScreening.runningTime;
+			movieRunningTime = selectedMovieRuntime;
 			
 			document.getElementsByName('movieAndScreening')[0].value = selectedMovieCode;
 			document.getElementsByName('movieName')[0].value = selectedMovieName + " (" + movieRunningTime + "분)";

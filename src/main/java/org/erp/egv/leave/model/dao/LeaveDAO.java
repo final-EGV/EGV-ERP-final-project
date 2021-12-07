@@ -11,6 +11,7 @@ import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveCategoryDTO;
 import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.leave.model.dto.UseAnnualLeaveDTO;
+import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -75,23 +76,31 @@ public class LeaveDAO {
 		leave.setUseCount(leave.getUseCount() + total);
 	}
 
-	public AnnualLeaveDTO selectSingleLeave(String code) {
-		String jpql = "SELECT l FROM AnnualLeaveDTO as l WHERE EMP_CODE is " + code;
-		TypedQuery<AnnualLeaveDTO> query = em.createQuery(jpql, AnnualLeaveDTO.class);
-		AnnualLeaveDTO leave = query.getSingleResult();
-		
-		return leave;
-	}
-	
 	/* 연차 조회 */
-	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
-		String jpql = "SELECT u FROM UseAnnualLeaveDTO as u WHERE u.start IS NOT NULL";
-		
+	public List<UseAnnualLeaveDTO> useAnnualLeaveList(String code) {
+		String jpql = "SELECT u FROM UseAnnualLeaveDTO as u WHERE EMP_CODE is " + code;
 		TypedQuery<UseAnnualLeaveDTO> query = em.createQuery(jpql, UseAnnualLeaveDTO.class);
 		List<UseAnnualLeaveDTO> useAnnualLeaveList = query.getResultList();
-		System.out.println(useAnnualLeaveList);
 		
 		return useAnnualLeaveList;
+	}
+	
+	public AnnualLeaveDTO selectSingleLeave(String code) { 
+		String jpql = "SELECT l FROM AnnualLeaveDTO as l WHERE EMP_CODE is " + code; 
+		TypedQuery<AnnualLeaveDTO> query = em.createQuery(jpql, AnnualLeaveDTO.class); 
+		AnnualLeaveDTO leave = query.getSingleResult(); 
+		 
+		return leave; 
+	}
+
+	public List<UseAnnualLeaveDTO> AnnualLeave(String code) {
+		String jpql = "SELECT u FROM UseAnnualLeaveDTO as u WHERE EMP_CODE is " + code;
+		
+		TypedQuery<UseAnnualLeaveDTO> query = em.createQuery(jpql, UseAnnualLeaveDTO.class);
+		List<UseAnnualLeaveDTO> annualLeave = query.getResultList();
+		System.out.println(annualLeave);
+		
+		return annualLeave;
 	}
 
 }

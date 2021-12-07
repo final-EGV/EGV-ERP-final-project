@@ -36,9 +36,9 @@
           locale: 'ko',
         events: [
     		$.ajax({
-    			url: "/emp/work/annualLeave",
+    			url: "leave/annual",
     			success: function(data){
-    				let color = ['blue']; 
+    				let color = ['sky']; 
     				for (let index in data){
     					
     					let plusDay = new Date(data[index]['end']);
@@ -49,7 +49,7 @@
     					
     				calendar.addEvent({
     					id : data[index]['code'],
-    					title : data[index]['code'] + ' : '+ data[index]['title'],
+    					title : data[index]['content'],
     					start : data[index]['start'],
     					end : plusDay,
     					allDay : true,

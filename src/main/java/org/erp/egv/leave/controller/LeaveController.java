@@ -1,5 +1,6 @@
 package org.erp.egv.leave.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,8 +17,10 @@ import org.erp.egv.leave.model.dto.AnnualLeaveDTO;
 import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.leave.model.dto.UseAnnualLeaveDTO;
 import org.erp.egv.leave.model.service.LeaveService;
+import org.erp.egv.work.model.dto.WorkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -125,21 +128,10 @@ public class LeaveController {
 		return mv;
 	}
 	
-	/* 연차 조회 페이지 연결 */
-	@GetMapping("/work/annualLeave")
-	public ModelAndView annualLeave(ModelAndView mv) {
-		
-		List<UseAnnualLeaveDTO> annualLeave = leaveService.findUseAnnualLeaveList();
-		mv.addObject("annualLeave", annualLeave);
-		mv.setViewName("emp/work/annualLeave");
-		return mv;
-	}
-	
-	/* 연차 사용 데이터 가져오기 */
-	@GetMapping(value="/work/annualLeaveList", produces = "application/json; charset=UTF-8")
+	@GetMapping(value="/leave/annual", produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public List<UseAnnualLeaveDTO> findUseAnnualLeaveList() {
-		return leaveService.findUseAnnualLeaveList();
+	public List<UseAnnualLeaveDTO> AnnualLeave(Principal principal) {
+		String empCode = ((UserImpl)((Authentication)principal).getPrincipal()).getCode();
+		return leaveService.AnnualLeave(empCode);
 	}
-	
 }

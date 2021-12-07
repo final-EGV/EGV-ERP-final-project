@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.official.model.dto.OfficialDTO;
 import org.erp.egv.official.model.dto.OfficialFileDTO;
 import org.erp.egv.official.model.service.OfficialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,7 +64,13 @@ public class OfficialController {
 		      Principal principal, RedirectAttributes rttr) throws UnsupportedEncodingException {
 		
 		int nextOfficialCode = officialService.findNextCode();
+		EmployeeDTO emp = new EmployeeDTO();
+		emp.setCode(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
+		
+		
+		
 		official.setCode(nextOfficialCode);
+		official.setEmp(emp);
 		if ( files.get(0).getSize() > 0) {
 		
 		String srcRootPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";

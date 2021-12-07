@@ -1,6 +1,7 @@
 package org.erp.egv.notice.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,9 +11,8 @@ import org.erp.egv.employee.model.dto.UserImpl;
 import org.erp.egv.notice.model.dto.NoticeDTO;
 import org.erp.egv.notice.model.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,9 +52,7 @@ public class NoticeController {
 
 		System.out.println("checkController");
 		System.out.println(noticeCode);
-
 		NoticeDTO noticeDetail = noticeService.selectNoticeDetail(noticeCode);
-
 		mv.addObject("noticeDetail", noticeDetail);
 		mv.setViewName("notice/noticeDetail");
 		return mv;
@@ -64,12 +62,9 @@ public class NoticeController {
 	@GetMapping("/delete")
 	public ModelAndView deleteNotice(ModelAndView mv, RedirectAttributes rAttr, @RequestParam int noticeCode) {
 		System.out.println(noticeCode);
-
 		noticeService.deleteNotice(noticeCode);
-
-		rAttr.addFlashAttribute("flashMessage", noticeCode + "번 영화 삭제를 성공했습니다.");
-
-		mv.setViewName("redirect:list");
+		rAttr.addFlashAttribute("flashMessage", noticeCode + "번 삭제를 성공했습니다.");
+		mv.setViewName("redirect:/community/notice/list");
 
 		return mv;
 	}
@@ -77,9 +72,7 @@ public class NoticeController {
 	/* 공지사항 수정 */
 	public ModelAndView modifyMovie(HttpServletRequest request,
 			ModelAndView mv, RedirectAttributes rAttr) throws UnsupportedEncodingException {
-
 		request.setCharacterEncoding("UTF-8");
-
 		int noticeCode = Integer.valueOf(request.getParameter("noticeCode"));
 		String noticeTitle = request.getParameter("noticeTitle");
 		String insertDate = request.getParameter("insertDate");
@@ -117,9 +110,10 @@ public class NoticeController {
 	}
 
 	@PostMapping("/insert")
-	public ModelAndView insertNotice(ModelAndView mv, HttpServletRequest request, EmployeeDTO empCode)
+	public ModelAndView insertNotice(ModelAndView mv, HttpServletRequest request, Principal principal)
 			throws UnsupportedEncodingException {
-
+		EmployeeDTO emp = new EmployeeDTO();
+		emp.setCode(((UserImpl)((Authentication)principal).getPrincipal()).getCode());
 		request.setCharacterEncoding("UTF-8");
 
 		String title = request.getParameter("title");
@@ -134,17 +128,16 @@ public class NoticeController {
 		System.out.println("userEmpCode : " + userEmpCode);
 
 		NoticeDTO notice = new NoticeDTO();
-		notice.setNoticeCode(1);
 		notice.setTitle(title);
 		notice.setContent(content);
 		notice.setDate(noticeInsertDate);
-		notice.setEmployee(empCode);
+		notice.setEmployee(emp);
 
 		System.out.println(notice);
 
 		noticeService.insertNotice(notice);
 
-		mv.setViewName("redirect:/notice/noticeList");
+		mv.setViewName("redirect:/community/notice/list");
 		return mv;
 
 	}

@@ -74,8 +74,8 @@
 						<div class="card-footer py-3">
 							<!-- 하단 버튼 -->
 							<button type="button" class="btn btn-secondary" th:onclick="history.back(-1)">목록으로</button>
-							<a href="modify" class="btn btn-primary"> 수정 </a>
-							<a th:href="@{/notice/noticeDetail/delete(code=${ noticeDetail.noticeCode })}">
+							<!-- <a href="modify" class="btn btn-primary"> 수정 </a> -->
+							<a th:href="@{/community/notice/delete(noticeCode=${ noticeDetail.noticeCode })}">
 								<button type="button" class="btn btn-danger">삭제하기</button>
 							</a>
 						</div>

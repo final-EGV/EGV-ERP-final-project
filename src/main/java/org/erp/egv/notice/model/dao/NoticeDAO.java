@@ -42,9 +42,6 @@ public class NoticeDAO {
 	}
 
 	public void insertNotice(NoticeDTO newNotice) {
-			EmployeeDTO loginUser = em.find(EmployeeDTO.class, newNotice.getEmployee().getName());
-			newNotice.setEmployee(loginUser);
-
 			em.persist(newNotice);
 	}
 

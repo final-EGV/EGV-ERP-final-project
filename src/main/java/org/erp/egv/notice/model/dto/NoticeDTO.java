@@ -14,15 +14,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity(name="NoticeDTO")
+@DynamicInsert
+@DynamicUpdate
 @SequenceGenerator(name = "NOTICE_SEQ_GENERATOR",
 					sequenceName = "SEQ_NOTICE_CODE",
 					initialValue = 1,
 					allocationSize = 1)
 @Table(name="NOTICE")
 public class NoticeDTO implements Serializable {
-
 	private static final long serialVersionUID = -3486334902118956797L;
 
 	@Id

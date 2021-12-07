@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +53,11 @@ public class EmpInfoController {
 		
 		List<EmployeeDTO> empList = empInfoService.empListRequest();
 		
+		for (EmployeeDTO emp : empList) {
+			if(emp.getEmployeeRoleList().isEmpty()) {
+				emp.setEmployeeRoleList(null);
+			}
+		}
 		
 		mv.addObject("empList", empList);
 		mv.setViewName("emp/emplist");
@@ -515,9 +521,20 @@ public class EmpInfoController {
 	
 	@PostMapping("authority")
 	public ModelAndView empAuthority(ModelAndView mv, @RequestParam String code,  @RequestParam String authority, RedirectAttributes rttr) {
+		EmployeeDTO emp = empInfoService.empOneRequest(code);
+		
+		if(authority.equals("삭제")) {
+			empInfoService.deleteAuthority(emp);
+
+			rttr.addFlashAttribute("successMessage", "권한 설정 완료");
+			mv.setViewName("redirect:/emp/list");
+			
+			return mv;
+		}
+		
 		String aut = "ROLE_" + authority;
 		AuthorityDTO authorit = empInfoService.selectRole(aut);
-		EmployeeDTO emp = empInfoService.empOneRequest(code);
+		
 	
 		if(authorit.getName().equals("ROLE_Admin")) {
 			empInfoService.empAdminAuthority(emp, authorit); 

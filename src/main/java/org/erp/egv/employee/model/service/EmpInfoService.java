@@ -255,4 +255,13 @@ public class EmpInfoService {
 		return empInfoDAO.selectRole(aut);
 	}
 
+	@Transactional
+	public void deleteAuthority(EmployeeDTO emp) {
+		List<EmployeeRoleDTO> roleDTO = empInfoDAO.empAuthority(emp.getCode());
+		for (EmployeeRoleDTO role : roleDTO) {
+			empInfoDAO.removeRole(role.getAuthority().getCode(), role.getEmployee().getCode());
+		}
+		
+	}
+
 }

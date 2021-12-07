@@ -693,20 +693,6 @@ VALUES
 , 'Admin, 인사담당자만 접근할 수 있습니다.'
 );
 
-INSERT
-  INTO AUTHORITY
-(
-  AUTHORITY_CODE
-, AUTHORITY_NAME
-, AUTHORITY_DESC
-)
-VALUES
-(
-  SEQ_AUTHORITY_CODE.NEXTVAL
-, 'ROLE_일반사원'
-, '모두 접근할 수 있습니다.'
-);
-
 --------------------------------------------------EMPLOYEE_AUTHORITY / 회원별권한----------------------------
 CREATE TABLE EMPLOYEE_AUTHORITY (
 	EMP_CODE	VARCHAR2(255) NOT NULL,
@@ -727,7 +713,7 @@ INSERT
 )
 VALUES
 (
-  2021100
+  2021105
 , 1
 );
 
@@ -739,7 +725,7 @@ INSERT
 )
 VALUES
 (
-  2021100
+  2021105
 , 2
 );
 
@@ -751,7 +737,7 @@ INSERT
 )
 VALUES
 (
-  2021100
+  2021105
 , 3
 );
 
@@ -763,19 +749,7 @@ INSERT
 )
 VALUES
 (
-  2021100
-, 4
-);
-
-INSERT
-  INTO EMPLOYEE_AUTHORITY
-(
-  EMP_CODE
-, AUTHORITY_CODE
-)
-VALUES
-(
-  2021101
+  2021104
 , 2
 );
 
@@ -787,32 +761,8 @@ INSERT
 )
 VALUES
 (
-  2021101
-, 4
-);
-
-INSERT
-  INTO EMPLOYEE_AUTHORITY
-(
-  EMP_CODE
-, AUTHORITY_CODE
-)
-VALUES
-(
-  2021102
+  2021103
 , 3
-);
-
-INSERT
-  INTO EMPLOYEE_AUTHORITY
-(
-  EMP_CODE
-, AUTHORITY_CODE
-)
-VALUES
-(
-  2021102
-, 4
 );
 
 ------------------------------------------------------------------MENU / 공통메뉴----------------------------
@@ -958,31 +908,6 @@ VALUES
   3
 , 3
 );
-
-INSERT
-  INTO AUTHORITY_MENU
-(
-  AUTHORITY_CODE
-, MENU_CODE
-)
-VALUES
-(
-  4
-, 1
-);
-
-INSERT
-  INTO AUTHORITY_MENU
-(
-  AUTHORITY_CODE
-, MENU_CODE
-)
-VALUES
-(
-  4
-, 4
-);
-
 
 /* 일정 */
 --------------------------------------------------SCHEDULE_CATEGORY / 일정카테고리----------------------------

@@ -82,11 +82,22 @@
 										<td th:if="${#strings.isEmpty(emp.profileImgName)}" th:text="'무'" th:style="'color: red'"></td>
 										<td th:unless="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'재직중'"></td>
 										<td th:if="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'퇴직 처리중'" th:style="'color: red'"></td>
-										<th sec:authorize-expr="hasRole('ROLE_Admin')" th:if="!${ emp.employeeRoleList[0].getAuthority() }">1</th>
-										<th sec:authorize-expr="hasRole('ROLE_Admin')" th:if="${ emp.employeeRoleList[0].getAuthority() }" th:text="${ emp.employeeRoleList[0].getAuthority().getName() }">테스트</th>
+										<span sec:authorize-expr="hasRole('ROLE_Admin')">
+											<span th:if="!${ #strings.isEmpty(emp.employeeRoleList)}"> 
+												<span th:each="e, a : ${emp.employeeRoleList}">
+													<span th:if="${a.first}">
+														<td th:text="${#strings.replace(e.authority.name, 'ROLE_', '')}"></td>
+													</span>
+	                                        	</span>
+											</span>
+											<span th:if="${ #strings.isEmpty(emp.employeeRoleList)}"> 
+												<td>
+											</span>
+										</span>
 									</tr>
 									</tbody>
 								</table>
+								
 						</div> 
 					</div>
 					

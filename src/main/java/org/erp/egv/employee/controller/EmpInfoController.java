@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.erp.egv.employee.model.dto.AuthorityDTO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -511,5 +512,24 @@ public class EmpInfoController {
 		return "redirect:" + referer;
 		
 	}
+	
+	@PostMapping("authority")
+	public ModelAndView empAuthority(ModelAndView mv, @RequestParam String code,  @RequestParam String authority, RedirectAttributes rttr) {
+		String aut = "ROLE_" + authority;
+		AuthorityDTO authorit = empInfoService.selectRole(aut);
+		EmployeeDTO emp = empInfoService.empOneRequest(code);
+	
+		if(authorit.getName().equals("ROLE_Admin")) {
+			empInfoService.empAdminAuthority(emp, authorit); 
+		} else {
+			empInfoService.empAuthority(emp, authorit);
+		}
+		
+		rttr.addFlashAttribute("successMessage", "권한 설정 완료");
+		mv.setViewName("redirect:/emp/list");
+		
+		return mv;
+	}
+	
 	
 }

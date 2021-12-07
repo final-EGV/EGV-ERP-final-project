@@ -69,6 +69,7 @@
 											<th>휴대폰 번호</th>
 											<th>프로필 사진등록</th>
 											<th>퇴사 진행여부</th>
+											<th sec:authorize-expr="hasRole('ROLE_Admin')">권한</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -81,6 +82,8 @@
 										<td th:if="${#strings.isEmpty(emp.profileImgName)}" th:text="'무'" th:style="'color: red'"></td>
 										<td th:unless="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'재직중'"></td>
 										<td th:if="${not #strings.isEmpty(emp.outDate)} and ${emp.outYN} == 'N'" th:text="'퇴직 처리중'" th:style="'color: red'"></td>
+										<th sec:authorize-expr="hasRole('ROLE_Admin')" th:if="!${ emp.employeeRoleList[0].getAuthority() }">1</th>
+										<th sec:authorize-expr="hasRole('ROLE_Admin')" th:if="${ emp.employeeRoleList[0].getAuthority() }" th:text="${ emp.employeeRoleList[0].getAuthority().getName() }">테스트</th>
 									</tr>
 									</tbody>
 								</table>

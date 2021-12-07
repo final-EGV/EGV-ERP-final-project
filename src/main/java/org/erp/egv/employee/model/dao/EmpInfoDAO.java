@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.erp.egv.employee.model.dto.AuthorityDTO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
@@ -383,6 +384,34 @@ public class EmpInfoDAO {
 		EmployeeDTO emp = em.find(EmployeeDTO.class, empCode);
 		emp.setPwd(newPw);
 		
+	}
+
+	public List<EmployeeRoleDTO> empAuthority(String code) {
+		String jpql = "SELECT a FROM EmployeeRoleDTO AS a WHERE a.employee.code = :code";
+		List<EmployeeRoleDTO> roleList = em.createQuery(jpql, EmployeeRoleDTO.class).setParameter("code", code).getResultList();
+		return roleList;
+	}
+	
+	public AuthorityDTO selectRole(String aut) {
+		String jpql = "SELECT a FROM AuthorityDTO AS a WHERE a.name = :aut";
+		AuthorityDTO authority = em.createQuery(jpql, AuthorityDTO.class).setParameter("aut", aut).getSingleResult();
+		return authority;
+	}
+
+	public void removeRole(int code, String code2) {
+		String jpql = "SELECT a FROM EmployeeRoleDTO AS a WHERE a.employee.code = :code AND a.authority.code = :code2";
+		EmployeeRoleDTO role = em.createQuery(jpql, EmployeeRoleDTO.class).setParameter("code", code2).setParameter("code2", code).getSingleResult();
+		em.remove(role);
+	}
+
+	public void addRole(EmployeeRoleDTO role) {
+		em.persist(role);
+	}
+
+	public List<AuthorityDTO> selectAutority() {
+		String jpql = "SELECT a FROM AuthorityDTO AS a";
+		List<AuthorityDTO> authoList = em.createQuery(jpql, AuthorityDTO.class).getResultList();
+		return authoList;
 	}
 
 }

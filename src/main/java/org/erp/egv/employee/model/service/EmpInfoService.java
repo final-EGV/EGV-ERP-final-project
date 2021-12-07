@@ -5,9 +5,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.erp.egv.employee.model.dao.EmpInfoDAO;
+import org.erp.egv.employee.model.dto.AuthorityDTO;
 import org.erp.egv.employee.model.dto.DepartmentDTO;
 import org.erp.egv.employee.model.dto.EmpRankDTO;
 import org.erp.egv.employee.model.dto.EmployeeDTO;
+import org.erp.egv.employee.model.dto.EmployeeRoleDTO;
 import org.erp.egv.employee.model.dto.ParttimeScheduleDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.work.model.dto.WorkDTO;
@@ -217,6 +219,40 @@ public class EmpInfoService {
 	@Transactional
 	public void changePw(String newPw, String empCode) {
 		empInfoDAO.changePw(empCode, passwordEncoder.encode(newPw));
+	}
+
+	@Transactional
+	public void empAuthority(EmployeeDTO emp, AuthorityDTO authority) {
+		List<EmployeeRoleDTO> roleDTO = empInfoDAO.empAuthority(emp.getCode());
+		for (EmployeeRoleDTO role : roleDTO) {
+			empInfoDAO.removeRole(role.getAuthority().getCode(), role.getEmployee().getCode());
+		}
+		
+		EmployeeRoleDTO role = new EmployeeRoleDTO();
+		role.setAuthority(authority);
+		role.setEmployee(emp);
+		empInfoDAO.addRole(role);
+	}
+
+	@Transactional
+	public void empAdminAuthority(EmployeeDTO emp, AuthorityDTO authority) {
+		List<EmployeeRoleDTO> roleDTO = empInfoDAO.empAuthority(emp.getCode());
+		for (EmployeeRoleDTO role : roleDTO) {
+			empInfoDAO.removeRole(role.getAuthority().getCode(), role.getEmployee().getCode());
+		}
+		List<AuthorityDTO> autho = empInfoDAO.selectAutority();
+		for (int i = 0; i < autho.size(); i++) {
+			EmployeeRoleDTO role = new EmployeeRoleDTO();
+			role.setAuthority(autho.get(i));
+			role.setEmployee(emp);
+			empInfoDAO.addRole(role);
+		}
+		
+	}
+
+	@Transactional
+	public AuthorityDTO selectRole(String aut) {
+		return empInfoDAO.selectRole(aut);
 	}
 
 }

@@ -144,6 +144,7 @@
 				<button class="btn btn-success" onclick="location.href='/emp/list'" type="button">목록으로</button>
 				<button class="btn btn-primary" onclick="openPPWindow()" type="button">프로필 사진등록</button>
 				<button class="btn btn-secondary" type="submit" form="empModifyInfor">회원 정보 수정</button>
+				<button sec:authorize-expr="hasRole('ROLE_Admin')" class="btn btn-info" data-toggle="modal" data-target="#authorityemp">권한 설정</button>
 				<button class="btn btn-danger" data-toggle="modal" data-target="#outEmpModal">퇴사 처리</button>
 				</div>
             	</div> 
@@ -205,6 +206,36 @@
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 		        <button type="button" class="btn btn-danger" onclick="confirmOutModal()">퇴사신청</button>
+		      </div>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+	<div class="modal fade" id="authorityemp" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title" id="modalLabel">권한 설정</h4>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">X</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form action="/emp/authority" id="outForm" method="post">
+	        <input type="hidden" class="form-control" th:field="*{empInfor.code}">
+	        	<p for="formGroupExampleInput2">권한</p> 	
+			  <span class="form-group">
+			    <label style="margin-left: 7%;"><input type="radio" class="form-control" name="authority" value="일반사원"> 일반사원 </label>
+			    <label style="margin-left: 7%;"><input type="radio" class="form-control" name="authority" value="인사담당자" > 인사관리자 </label>
+			    <label style="margin-left: 7%;"><input type="radio" class="form-control" name="authority" value="영화담당자" > 영화관리자 </label>
+			    <label style="margin-left: 8%;"><input type="radio" class="form-control" name="authority" value="Admin"> master </label>
+			  </span>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		        <button type="submit" class="btn btn-info">권한 설정</button>
 		      </div>
 			</form>
 	      </div>

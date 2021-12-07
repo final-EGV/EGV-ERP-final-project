@@ -2275,7 +2275,7 @@ INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카�
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '듄', TO_DATE('2021-10-20'), 155, '12세', 'SF',
 '워너 브라더스', '드니 빌뇌브', '미국', 'poster_듄.jpg', 'poster_듄.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고장난 론', TO_DATE('2021-10-27'), 106, '전체', '애니메이션',
-'20세기 폭스', '사라 스미스', '미국', 'poster_고장난_론.png', 'poster_고장난_론.png', 'img/poster/', 'Y');
+'20세기 폭스', '사라 스미스', '미국', 'poster_고장난_론.jpg', 'poster_고장난_론.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03'), 155, '12세', '액션',
 '월트 디즈니 컴퍼니 코리아', '클로이 자오', '미국', 'poster_이터널스.jpg', 'poster_이터널스.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '강릉', TO_DATE('2021-11-10'), 119, '청불', '범죄',

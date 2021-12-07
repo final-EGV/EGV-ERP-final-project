@@ -188,9 +188,7 @@ public class EmpInfoController {
 	public ModelAndView empOUTRequest(ModelAndView mv, @RequestParam String code,  @RequestParam String reason, RedirectAttributes rttr) {
 		System.out.println("콘트롤러 modify 오나요?");
 		
-		
 		empInfoService.empOUTRequest(code, reason);
-		
 		rttr.addFlashAttribute("successMessage", "퇴사 신청 완료!");
 		mv.setViewName("redirect:/emp/list");
 		
@@ -204,16 +202,9 @@ public class EmpInfoController {
 	 * */
 	@PostMapping("/profilePicInsert")
 	public ModelAndView empProfilePicInsert(ModelAndView mv, @RequestParam String code, @RequestParam("proPicThumb") MultipartFile singleFile,  RedirectAttributes rttr) throws UnsupportedEncodingException {
-		System.out.println("콘트롤러 modify 오나요?");
-		
-		String root = this.getClass().getResource("/").getPath();
+
 		String srcRootPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\";
-		
-		System.out.println(root);
-		System.out.println(srcRootPath);
-		
 		String filePath = srcRootPath + "profileImg/";
-		
 
 		/* 폴더 생성 */
 		File mkdir = new File(filePath);

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>EGV</title>
+
+<!-- Custom fonts for this template-->
+<link href="/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/summernote/summernote-lite.css">
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+
+		<div id="sidebarMain" class="bg-gradient-info"
+			th:include="common/aside.html"></div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex">
+			<!-- Main Content -->
+			<div id="content">
+				<div th:include="common/header.html"></div>
+				<!-- Begin Page Content -->
+				<div class="container-fluid" style="height: 100%">
+				<h1 align="Center">공 문</h1>
+					<!-- DataTales -->
+					<div class="card mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary"> 곰문 내용 </h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<form action="/official/write" method="post" name="officialForm" encType="multipart/form-data" onsubmit="return false">
+								<div class="mb-3">
+								  <label for="formFileMultiple" class="form-label">파일 추가</label>
+								  <input class="form-control" type="file" id="formFileMultiple" name="files" multiple>
+								</div>
+									<div class="mb-3">
+									  <label for="noticeTitlearea" class="form-label">제목</label>
+									  <input type="text" class="form-control" id="officialTitlearea" name="title" placeholder="제목을 입력하세요">
+									</div>
+									<div class="mb-3">
+									  <label for="summernote" class="summernote">내용</label>
+									  <textarea class="summernote" id="summernote" name="content"></textarea>
+									</div>
+								</form>
+								<button class="btn btn-success" onclick="location.href='/official/list'" type="button">목록으로</button>
+								<button class="btn btn-primary" onclick="form_check()" type="button">공문 등록</button>
+							</div> 
+						</div>
+					</div>
+            	<!-- End of Main Content --> 
+				</div>
+			<!-- Footer -->
+ 			<div th:include="common/footer.html" ></div>
+            <!-- End of Footer -->
+		</div>
+       </div> 
+    <!-- End of Content Wrapper -->
+	</div> 
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">Select "Logout" below if you are ready
+					to end your current session.</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">Cancel</button>
+					<a class="btn btn-primary" href="login.html">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap core JavaScript-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
+
+	<!-- Page level plugins -->
+	<script src="/js/jquery.dataTables.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+
+	<!-- Page level custom scripts -->
+	<script src="/js/demo/datatables-demo.js"></script>
+	
+	<!-- summernote-lite -->
+<script src="/summernote/summernote-lite.js"></script>
+<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<script>
+	$(document).ready(function() {
+		$('#summernote').summernote({
+			  height: 500,    
+			  focus: true,                
+			  lang: "ko-KR",			
+			  toolbar: [
+				    ['fontname', ['fontname']],
+				    ['fontsize', ['fontsize']],
+				    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				    ['color', ['forecolor','color']],
+				    ['table', ['table']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']],
+				    ['insert',['picture','link','video']],
+				    ['view', ['fullscreen', 'help']]
+				  ],
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+		});
+		$('#summernote').summernote('fontSize', 20);
+	});
+	
+	function form_check() {
+		let noticeForm = document.querySelector('form[name="officialForm"]');
+		let titleFrom = $('#officialTitlearea');
+/* 		let contentFrom = $('#summernote'); */
+		
+ 		if (!titleFrom.val()) {
+			alert("제목이 없습니다.");
+			return false;
+		}
+ 		
+/*  		체크가 안된다 (태그 때문인가?)
+		if (contentFrom.summernote('isEmpty')) {
+			alert("본문 내용이 없습니다.");
+			return false;
+		}  */
+		
+ 		noticeForm.submit();									
+	}
+	
+	(function () {
+		  'use strict'
+
+		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		  var forms = document.querySelectorAll('.needs-validation')
+
+		  // Loop over them and prevent submission
+		  Array.prototype.slice.call(forms)
+		    .forEach(function (form) {
+		      form.addEventListener('submit', function (event) {
+		        if (!form.checkValidity()) {
+		          event.preventDefault()
+		          event.stopPropagation()
+		        }
+
+		        form.classList.add('was-validated')
+		      }, false)
+		    })
+		})()
+	
+</script>
+	
+</body>
+</html>

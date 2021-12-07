@@ -289,7 +289,6 @@
 			success: function(data){
 				const $empPosition = $("#rank");
 				$empPosition.html("");
-				console.log(data);
 				for (let index in data){
 					$empPosition.append($("<option>").val(data[index].code).text(data[index].name));						
 				}

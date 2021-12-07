@@ -189,6 +189,11 @@
 	
 	<!-- FullCalendar 함수 모음 -->
 	<script>
+		var colorPallet = ['#00BFFF', '#1E90FF', '#0064FF', '#3232FF', '#0064CD', '#483D8B', '#506EA5',
+							'#008080', '#006400', '#4BAF4B', '#46C6C6', '#B9062F', '#FF6EED', '#FF5675',
+							'#FFA500', '#AE905E', '#8B4513', '#FF0000', '#000000', '#828282', '#FF7878',
+							];
+	
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			
@@ -207,7 +212,8 @@
 								calendar.addEvent({
 									id: data[i]["code"],
 									title: data[i]["name"],
-									start: data[i]["openingDate"]
+									start: data[i]["openingDate"],
+									backgroundColor : colorPallet[Math.floor(Math.random()*21)]
 								})
 							}
 						},

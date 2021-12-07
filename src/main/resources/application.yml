@@ -1,6 +1,10 @@
 # server port config
 server:
-  port: 8887
+  port: 8887
+# custom error page config
+  error:    include-exception: true
+    include-stacktrace: ALWAYS
+    whitelabel:      enabled: false
 # oracle driver config
 spring:
   datasource:

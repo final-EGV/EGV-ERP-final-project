@@ -36,4 +36,9 @@ public class OfficialService {
 		return officialDAO.findNextCode();
 	}
 	
+	@Transactional 
+	public void officialDeleteRequest(int code) {
+		officialDAO.officialDeleteRequest(code);
+	}
+	
 }

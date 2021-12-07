@@ -58,6 +58,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .antMatchers("/theater/details").hasRole("영화담당자")
                 .antMatchers("/theater/regist").hasRole("영화담당자")
                 .antMatchers("/theater/**/delete").hasRole("영화담당자")
+                .antMatchers("/official/write").hasAnyRole("인사담당자","영화담당자")
+                .antMatchers("/official/delete").hasAnyRole("인사담당자","영화담당자")
 				.antMatchers("/**").authenticated()					// 인증된 사용자만 모든 접속에 허용
 //				.antMatchers(HttpMethod.GET, "/emp/**").hasRole("Admin")
 //				.antMatchers(HttpMethod.POST, "/").hasRole("a")

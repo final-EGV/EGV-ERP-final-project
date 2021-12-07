@@ -67,8 +67,11 @@
  								<p th:each="link : ${officialDetail.officialFiles}">
 								<a th:href="|/officialFiles/${ link.officialUuidName }|" th:text="${ link.officialOrigName }" download="이한수최고"></a>
 								</p>
+								<form action="/official/delete" id="deleteForm" method="post">
 								<button class="btn btn-success" onclick="location.href='/official/list'" type="button">목록으로</button>
-								<button class="btn btn-danger" onclick="#" type="button">공문 삭제</button>
+								<input type="hidden" class="form-control" th:field="*{officialDetail.code}">
+								<button class="btn btn-danger" type="button" onclick="confirmDelete()" sec:authorize-expr="hasAnyRole('ROLE_인사담당자','ROLE_영화담당자','ROLE_Admin')">공문 삭제</button>
+								</form>
 							</div> 
 						</div>
 					</div>
@@ -129,27 +132,40 @@
 	<!-- summernote-lite -->
 <script src="/summernote/summernote-lite.js"></script>
 <script src="/summernote/lang/summernote-ko-KR.js"></script>
+
+
+
 <script>
-	(function () {
-		  'use strict'
+function confirmDelete() {
+  if (window.confirm("정말 삭제 하시겠습니까?")) {
+  	let deleteForm = document.getElementById('deleteForm')
+  	
+  	deleteForm.submit();
+  	
+  	console.log("확인");
+  } else {
+    console.log("취소. 변화 없음");
+  }
+}
+(function () {
+	  'use strict'
 
-		  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-		  var forms = document.querySelectorAll('.needs-validation')
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  var forms = document.querySelectorAll('.needs-validation')
 
-		  // Loop over them and prevent submission
-		  Array.prototype.slice.call(forms)
-		    .forEach(function (form) {
-		      form.addEventListener('submit', function (event) {
-		        if (!form.checkValidity()) {
-		          event.preventDefault()
-		          event.stopPropagation()
-		        }
+	  // Loop over them and prevent submission
+	  Array.prototype.slice.call(forms)
+	    .forEach(function (form) {
+	      form.addEventListener('submit', function (event) {
+	        if (!form.checkValidity()) {
+	          event.preventDefault()
+	          event.stopPropagation()
+	        }
 
-		        form.classList.add('was-validated')
-		      }, false)
-		    })
-		})()
-	
+	        form.classList.add('was-validated')
+	      }, false)
+	    })
+	})()
 </script>
 	
 </body>

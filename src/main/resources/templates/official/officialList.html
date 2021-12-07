@@ -1,4 +1,4 @@
-m<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -55,7 +55,7 @@ m<!DOCTYPE html>
 							<h6 class="m-0 font-weight-bold text-primary"> 공문 목록 </h6>
 						</div>
 						<div class="card-body">
-		 					<button type="button" class="btn btn-primary" onclick="location.href='/official/officialContext'">
+		 					<button type="button" class="btn btn-primary" onclick="location.href='/official/officialContext'" sec:authorize-expr="hasAnyRole('ROLE_인사담당자','ROLE_영화담당자','ROLE_Admin')">
 							  글쓰기
 							</button>
 							<div class="table-responsive">

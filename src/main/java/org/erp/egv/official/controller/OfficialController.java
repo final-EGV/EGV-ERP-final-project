@@ -137,8 +137,17 @@ public class OfficialController {
 		mv.addObject("officialDetail", officialDetail);
 		mv.setViewName("/official/officialDetail");
 
-		System.out.println(officialDetail);
 		return mv;
 	}
 
+	@PostMapping("/delete")
+	public ModelAndView officialDeleteRequest(ModelAndView mv, @RequestParam int code) {
+
+		officialService.officialDeleteRequest(code);
+		mv.setViewName("redirect:/official/list");
+
+		return mv;
+	}
+	
+	
 }

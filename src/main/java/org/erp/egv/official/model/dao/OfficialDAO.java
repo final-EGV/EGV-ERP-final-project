@@ -35,5 +35,10 @@ public class OfficialDAO {
 		return nextCode;
 	}
 
+	public void officialDeleteRequest(int code) {
+		OfficialDTO official = em.find(OfficialDTO.class, code);
+		em.remove(official);
+	}
+
 
 }

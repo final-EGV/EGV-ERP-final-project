@@ -22,7 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 @Table(name = "ANNUAL_LEAVE")
 @SequenceGenerator(name = "ANNUAL_LEAVE_SEQ_GENERATOR",
-sequenceName = "SEQ_ANNUAL_LEAVE_CODE",
+sequenceName = "SEQ_AL_CODE",
 initialValue = 1, 
 allocationSize = 1)
 public class AnnualLeaveDTO implements Serializable{

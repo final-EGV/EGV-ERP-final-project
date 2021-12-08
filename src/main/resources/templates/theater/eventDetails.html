@@ -88,9 +88,13 @@
 														<button class="btn btn-primary" type="button"
 															data-toggle="modal" data-target="#movieSelectModal"> 🔍 검색 </button>
 													</div>
-													<input type="text" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+													<input type="number" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+														th:if="${ event.movieAndEvent } == null" hidden="true">
+													<input type="number" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+														th:unless="${ event.movieAndEvent } == null" th:value="${ event.movieAndEvent.code }" hidden="true">
+													<input type="text" class="form-control" name="movieName" placeholder="(생략가능)" readonly
 														th:if="${ event.movieAndEvent } == null">
-													<input type="text" class="form-control" name="movieAndEvent" placeholder="(생략가능)" readonly
+													<input type="text" class="form-control" name="movieName" placeholder="(생략가능)" readonly
 														th:unless="${ event.movieAndEvent } == null" th:value="${ event.movieAndEvent.name }">
 													<div class="input-group-append">
 														<button class="btn btn-danger" type="button"
@@ -246,10 +250,14 @@
 		/* 관련영화 선택 모달창에서 영화 선택 */
 		function selectMovie(object) {
 			
+			var selectedMovieCode = object.children[0].innerText;
 			var selectedMovieName = object.children[1].innerText;
 			
-			document.getElementsByName('movieAndEvent')[0].value = selectedMovieName;
-			console.log('you picked : ' + document.getElementsByName('movieAndEvent')[0].value)
+			document.getElementsByName('movieAndEvent')[0].value = selectedMovieCode;
+			document.getElementsByName('movieName')[0].value = selectedMovieName;
+			
+			console.log('you picked : (' + document.getElementsByName('movieAndEvent')[0].value + ')'
+					+ document.getElementsByName('movieName')[0].value);
 			
 			$('#movieSelectModal').modal('hide');
 		}
@@ -257,6 +265,7 @@
 		/* 선택된 관련영화 지우기 */
 		function emptySelectedMovie() {
 			document.getElementsByName('movieAndEvent')[0].value = '';
+			document.getElementsByName('movieName')[0].value = '';
 		}
 		
 		/* Bootstrap Validation */

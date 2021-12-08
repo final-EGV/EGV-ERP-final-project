@@ -74,7 +74,7 @@ public class SalaryController {
 		
 		int totalPay = 0;
 		if(overWork != 0) {
-			totalPay = (monthSalary + (hourPay * overWork)) * 10000;
+			totalPay = (monthSalary + (hourPay * overWork) * 2) * 10000;
 		} else {
 			totalPay = monthSalary * 10000;
 		}

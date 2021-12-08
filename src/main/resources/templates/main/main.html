@@ -407,7 +407,7 @@
                                             <i class="fas fa-circle text-primary"></i> 사용한 연가
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> 남은 연가
+                                            <i class="fas fa-circle text-danger"></i> 남은 연가
                                         </span>
                                     </div>
                                 </div>
@@ -602,8 +602,8 @@
 		    labels: ["사용한 연가", "남은 연가"],
 		    datasets: [{
 		      data: [ [[${leave.useCount}]] , [[${ leave.count } - ${ leave.useCount }]]],
-		      backgroundColor: ['#4e73df', '#1cc88a'],
-		      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+		      backgroundColor: ['#4e73df', '#dc3545'],
+		      hoverBackgroundColor: ['#2e59d9', '#dc3545'],
 		      hoverBorderColor: "rgba(234, 236, 244, 1)",
 		    }],
 		  },

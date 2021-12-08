@@ -335,7 +335,10 @@
 		
 		$("#returnbtn").click(function() {
 			var content = prompt("반려 사유를 입력해 주세요", "");
-			location.href='/sign/detail/return?code=[[${sign.code}]]&cmt=' + content;
+			if(content!=null){
+				location.href='/sign/detail/return?code=[[${sign.code}]]&cmt=' + content;    
+			}
+			
 		});
 	</script>
 	

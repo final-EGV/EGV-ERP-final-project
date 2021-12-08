@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="kimjiwon">
+
+    <title>EGV</title>
+    
+    <!-- Custom fonts for this template-->
+    <link href="/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="https://kit.fontawesome.com/56b47e1b72.js" crossorigin="anonymous"></script>
+    
+    <!-- summernote-lite -->
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+
+	<!-- Core plugin JavaScript-->
+	<script src="/js/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="/js/sb-admin-2.min.js"></script>
+
+	<!-- <!-- Page level plugins -->
+	<script src="/js/jquery.dataTablesDefault.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>
+	
+	<!-- Page level plugins -->
+    <script src="/js/jquery.dataTables.min.js"></script>
+	<script src="/js/dataTables.bootstrap4.min.js"></script>    
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/datatables-demo.js"></script>
+
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebarMain" class="bg-gradient-info" th:include="common/aside.html"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+
+                <div th:include="common/header.html"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+				<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h5 class="m-0 font-weight-bold text-primary">기안서 작성</h5>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								
+								
+								 <form th:if="${status}" action="/sign/signInsert" method="post" name="sign_form">
+									<div style="width: 27%; float: right;" >
+										<button type="button" id="temporarySaveBtn" name="temporarySaveBtn" class="btn btn-dark btn-lg" onclick="temporarySave();">임시저장</button>
+										<button type="button" id="saveBtn" name="saveBtn" class="btn btn-primary btn-lg" onclick="sign_form_check();">저장</button>
+									</div>
+									<input type="text" id="signStatus" name="signStatus" value="결재중" hidden>
+									<script>
+										function temporarySave() {
+											var signStatus = document.getElementById("signStatus");
+											signStatus.value = "임시저장";
+											
+											document.getElementById("saveBtn").click();
+										}
+										function sign_form_check() {
+											var approverFrom = document.getElementsByName("approverInput");
+											var referrerFrom = document.getElementsByName("referrerInput");
+											var titleFrom = document.getElementById("documentTitle");
+											
+											if (!approverFrom[0]) {
+												alert("결재자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!referrerFrom[0]) {
+												alert("잠조자를 한명 이상 작성해야 합니다.");
+												return false;
+											}
+											if (!titleFrom.value) {
+												alert("제목을 작성해 주세요.");
+												return false;
+											}
+											document.sign_form.submit();										
+										}
+									</script>
+									<br><br>
+									<br>
+									<label>분류 :</label>&emsp;&emsp;&emsp;
+									<select name="template" id="template" style="width: 10%">
+										ajax로 template 조회
+									</select>
+									<br>
+									<br>
+								 	
+									<label>결재자 :</label>&emsp;
+									결제자 modal
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectApprover" onclick="approverModalOn();">사원선택</button>
+									<br><br>
+<!-- ################################################################################## -->
+									<div id="addApproverMain" class="addApprover" >
+										<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
+											<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
+											<input type="text" class="form-control" name="approverInput" th:value="|${ approverEmp.emp.name }(${ approverEmp.emp.code })|" readonly>
+										</div>
+									</div>
+									<br>
+								 	<label>참조자 :</label>&emsp;
+									결제자 modal
+								 	<button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#selectReferrer" onclick="referrerModalOn();">사원선택</button>
+								 	<br><br>
+<!-- ################################################################################## -->
+									<div id="addReferrerMain" class="addReferrer">
+										<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
+											<span class="input-group-text">참조자 : </span>
+											<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
+										</div>
+									</div>	
+									<br><br>
+									<div class="input-group mb-3" style="width: 65%;">
+									  	<span class="input-group-text">&nbsp;제&nbsp;&nbsp;목&nbsp;</span>
+									  	<input type="text" class="form-control" id="documentTitle" name="documentTitle" th:value="${sign.title}">
+									</div>
+									<textarea id="summernote" name="documentContent"></textarea>
+								</form>
+								
+								
+<!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+								
+								
+
+								<!-- 결재자 select Modal-->
+								<div class="modal fade" id="selectApprover" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h4 class="modal-title" id="modalLabel">결재자 선택</h4>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">X</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+									      	<div class="card-body">
+								 				<button type="button" class="btn"onclick="approverReset();" style="border: 1px solid blue; color: blue;">초기화하기</button><br>
+								 				<div id="addApproverModal" class="addApprover">
+									 				<div class="input-group mb-3" style="width:350px;" th:each="approverEmp : ${ approverList }">
+														<span class="input-group-text" th:text="|${ approverEmp.order }번째 결재자 : |"></span>
+														<input type="text" class="form-control" name="approverInput" th:value="|${ approverEmp.emp.name }(${ approverEmp.emp.code })|" readonly>
+													</div>
+								 				</div>
+												<!-- DataTales Example -->
+							                    <div class="card shadow mb-4">
+							                        <div class="card-header py-3">
+							                            <h6 class="m-0 font-weight-bold text-primary">사원 목록</h6>
+							                        </div>
+							                        <div class="card-body">
+							                            <div class="table-responsive">
+							                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							                                    <thead>
+																	<tr>
+																		<th>사번</th>
+																		<th>이름</th>
+																		<th>직책</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:class="empTable" th:each="emp : ${ empList }">
+								 										<td th:class="empCode" th:text="${ emp.code }" th:name="approverTd"></td>
+																		<td th:text="${ emp.name }" th:name="approverTd"></td>
+																		<td th:text="${ emp.empPosition }" th:name="approverTd"></td>
+																	</tr>
+																</tbody>
+							                                </table>
+							                            </div>
+							                        </div>
+							                    </div>
+						                    </div>
+									      	
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="approverReset();">취소</button>
+									        <button type="button" class="btn btn-primary" data-dismiss="modal">선택하기</button>
+									      </div>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+								<!-- 참조자 select Modal-->
+								<div class="modal fade" id="selectReferrer" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h4 class="modal-title" id="modalLabel">참조자 선택</h4>
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">X</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+									      	<div class="card-body">
+								 				<button type="button" class="btn" onclick="referrerReset();" style="border: 1px solid blue; color: blue;">초기화하기</button>
+												<div id="addReferrerModal" class="addReferrer">
+												<div class="input-group mb-3" style="width:350px;" th:each="referrerEmp : ${ refferrerList }">
+													<span class="input-group-text">참조자 : </span>
+													<input type="text" class="form-control" name="referrerInput" th:value="|${ referrerEmp.emp.name }(${ referrerEmp.emp.code })|" readonly>
+												</div>
+												</div>
+												<!-- DataTales Example -->
+							                    <div class="card shadow mb-4">
+							                        <div class="card-header py-3">
+							                            <h6 class="m-0 font-weight-bold text-primary">사원 목록</h6>
+							                        </div>
+							                        <div class="card-body">
+							                            <div class="table-responsive">
+							                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							                                    <thead>
+																	<tr>
+																		<th>사번</th>
+																		<th>이름</th>
+																		<th>직책</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr th:class="empTable" th:each="emp : ${ empList }">
+								 										<td th:class="empCode" th:text="${ emp.code }" th:name="referrerTd"></td>
+																		<td th:text="${ emp.name }" th:name="referrerTd"></td>
+																		<td th:text="${ emp.empPosition }" th:name="referrerTd"></td>
+																	</tr>
+																</tbody>
+							                                </table>
+							                            </div>
+							                        </div>
+							                    </div>
+						                    </div>
+									      	
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="referrerReset();">취소</button>
+									        <button type="button" class="btn btn-primary" data-dismiss="modal">선택하기</button>
+									      </div>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            
+            <!-- Footer -->
+            <div th:include="common/footer.html"></div>
+
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+/* input 태그들 설정 */
+
+	// 작성일의 기본값을 오늘로 설정
+	//var now = new Date();
+	//document.getElementById('writeDate').value = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+	//document.getElementById('writeDate').value = now;
+
+	$(function(){
+		
+		/* 템플릿 목록 가져오기 */
+		$.ajax({
+			url: "/sign/signTemplate",
+			success: function(data){
+				const $template = $("#template");
+				$template.html("");
+				
+				const tempCode = "[[${ template.code }]]";
+				
+				for (let index in data){
+					if (tempCode-1 == index) {
+						
+						/* 해당되는 템플릿을 기본값으로 선택 */
+						$template.append($("<option selected>").val(data[index].code).text(data[index].name));	
+						
+					} else {
+						$template.append($("<option>").val(data[index].code).text(data[index].name));						
+					}
+				}
+			},
+			error: function(xhr){
+				console.log(xhr);
+			}
+		});
+		
+		/* summernote 기본 셋팅 */
+		$('#summernote').summernote({
+				lang: "ko-KR",
+				tabsize: 2,
+				width : 1100,
+				toolbar: [
+				    // [groupName, [list of button]]
+				    ['fontname', ['fontname']],
+				    ['fontsize', ['fontsize']],
+				    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				    ['color', ['forecolor','color']],
+				    ['table', ['table']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']],
+				    ['insert',['picture','link','video']],
+				    ['view', ['fullscreen', 'help']]
+				  ],
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+				fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+		});
+		
+		/* 에디터에 template 내용 넣기 */
+		var templateContent = '[[${ sign.contents }]]';
+		
+		var change = templateContent.replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "'").replace(/&nbsp;/gi, "f");
+		console.log(change);        
+		$('#summernote').summernote('code', change);
+		
+	});
+</script>
+<script>
+	var approverListSize = '[[${ approverListSize }]]';
+	 
+	var index1 = parseInt(approverListSize) + 1;
+	function approverModalOn() {
+		
+		if(document.getElementsByName("approverTd")) {
+			
+			const $tds = document.getElementsByName("approverTd");
+			var approverModal = document.getElementById("approverModal");
+			var approver = document.getElementById("approver");
+			
+			for(let i = 0; i < $tds.length; i++) {
+						
+				$tds[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "peachpuff";
+					this.parentNode.style.cursor = "pointer";
+				}
+						
+				$tds[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+				}
+						
+				$tds[i].onclick = function() {
+						
+					var empCode = this.parentNode.children[0].innerText;
+					var empName = this.parentNode.children[1].innerText;
+					var myEmpCode = '[[${ empCode }]]';
+					
+					if(!document.getElementById("addApproverModal").innerHTML) {
+						index1 = 1;
+					}
+					
+					if(document.getElementById("addApproverModal").innerHTML) {
+						var s = document.getElementsByName("approverInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < s.length/2; i++) {
+							if(s[i].value == empName+"("+empCode+")") {
+								alert('이미 결재자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					if(document.getElementById("addReferrerModal").innerHTML) {
+						var k = document.getElementsByName("referrerInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < k.length/2; i++) {
+							if(k[i].value == empName+"("+empCode+")") {
+								alert('이미 참조자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					
+					if(empCode == myEmpCode) {
+						alert('본인은 결재자로 선택할 수 없습니다.');
+						return false;
+					}
+					
+					$('.addApprover').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">'+index1+'번째 결재자 : </span><input type="text" class="form-control" name="approverInput" value="' + empName+ '('+empCode+')" readonly></div>');
+					index1++;
+				}
+			}
+		}
+		return;
+	}
+	
+	function approverReset() {
+		var addApproverModal = document.getElementById("addApproverModal");
+		var addApproverMain = document.getElementById("addApproverMain");
+		
+		addApproverModal.innerHTML = "";
+		addApproverMain.innerHTML = "";
+	}
+</script>
+<script>
+	var index2 = 1;
+	function referrerModalOn() {
+		
+		if(document.getElementsByName("referrerTd")) {
+			
+			const $tds = document.getElementsByName("referrerTd");
+			var referrerModal = document.getElementById("referrerModal");
+			var referrer = document.getElementById("referrer");
+			
+			for(let i = 0; i < $tds.length; i++) {
+						
+				$tds[i].onmouseenter = function() {
+					this.parentNode.style.backgroundColor = "peachpuff";
+					this.parentNode.style.cursor = "pointer";
+				}
+						
+				$tds[i].onmouseout = function() {
+					this.parentNode.style.backgroundColor = "white";
+				}
+						
+				$tds[i].onclick = function() {
+					
+					var empCode = this.parentNode.children[0].innerText;
+					var empName = this.parentNode.children[1].innerText;
+					var myEmpCode = '[[${ empCode }]]';
+						
+					if(!document.getElementById("addReferrerModal").innerHTML) {
+						index2 = 1;
+					}
+					
+					if(document.getElementById("addReferrerModal").innerHTML) {
+						var k = document.getElementsByName("referrerInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < k.length/2; i++) {
+							if(k[i].value == empName+"("+empCode+")") {
+								alert('이미 참조자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					if(document.getElementById("addApproverModal").innerHTML) {
+						var s = document.getElementsByName("approverInput");
+						
+						console.log("===============================");
+						for (var i = 0; i < s.length/2; i++) {
+							if(s[i].value == empName+"("+empCode+")") {
+								alert('이미 결재자로 선택된 사원입니다.');
+								return false;
+							}
+						}
+					}
+					
+					if(empCode == myEmpCode) {
+						alert('본인은 참조자로 선택할 수 없습니다.');
+						return false;
+					}
+					
+					$('.addReferrer').append('<div class="input-group mb-3" style="width:350px;"><span class="input-group-text">참조자 : </span><input type="text" class="form-control" name="referrerInput" value="' + empName+ '('+empCode+')" readonly></div>');
+					index2++;
+
+				}
+			}
+		}
+	}
+	
+	function referrerReset() {
+		var addReferrerModal = document.getElementById("addReferrerModal");
+		var addReferrerMain = document.getElementById("addReferrerMain");
+		
+		addReferrerModal.innerHTML = "";
+		addReferrerMain.innerHTML = "";
+	}
+</script>
+</html>

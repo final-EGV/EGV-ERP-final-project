@@ -218,7 +218,7 @@ public class SignUpdateController {
 		mv.addObject("refferrerList", refferrerList);
 		mv.addObject("status", "resign");
 		
-		mv.setViewName("/sign/detail/signUpdate");
+		mv.setViewName("/sign/detail/resign");
 		
 		return mv;
 	}

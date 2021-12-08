@@ -1,10 +1,9 @@
 # EGV-ERP-final-project
 > 영화관 사업 특화 ERP 시스템
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 ## ℹ️개요
-ERP(Enterprise Resource Planning)란 전사적 자원관리로 회사의 재무, 공급망, 운영, 보고, 인적자원 활동 등 비즈니스 프로세스를 통합 관리하는 소프트웨어입니다. ERP를 도입하지 않은 대부분의 회사는 일정 정도의 재무 및 운영 시스템을 갖추고 있지만 사용하고 있는 대부분의 소프트웨어가 일상적인 업무 프로세스 외에 다른 기능을 지원해주지 못해 미래의 비즈니스 성장에도 도움을 받지 못합니다.
+ERP(Enterprise Resource Planning)란 전사적 자원관리로 회사의 재무, 공급망, 운영, 보고, 인적자원 활동 등 비즈니스 프로세스를 통합 관리하는 소프트웨어입니다. ERP를 도입하지 않은 대부분의 회사는 일정 정도의 재무 및 운영 시스템을 갖추고 있지만 사용하고 있는 대부분의 소프트웨어가 일상적인 업무 프로세스 외에 다른 기능을 지원해주지 못해 미래의 비즈니스 성장에도 도움을 받지 못합니다.  
 EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요한 기능들을 추가로 구현한 영화관 사업 특화 ERP입니다. 개봉 예정 영화들의 정보를 조회해 스케줄링하고, 데일리로 현재 상영중인 영화 스케줄을 작성할 수 있습니다. 더하여 영화관에서 진행하는 이벤트 또한 관리 할 수 있습니다.
 
 
@@ -50,6 +49,12 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 - [jQuery](https://jquery.com/)
 - [summernote](https://summernote.org/)
 
+### Prototyping
+🎨[Figma](https://www.figma.com/file/TgDh6KCUDlAPbqKHxMiEk4/EGV-ERP-Project?node-id=0%3A1)
+
+### Entity Relationship Model
+🔗![ERDCloud](https://github.com/final-EGV/EGV-ERP-final-project/blob/master/docs/images/EGV_ERD_overall_screenshot.png)
+
 
 ## ✨주요 기능
 - 기본 기능
@@ -72,6 +77,7 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 
 ### 커뮤니케이션
 시연 gif 추가 예정
+
 
 ## ✔️Git Commit Message Convention
 ### 기본 포맷

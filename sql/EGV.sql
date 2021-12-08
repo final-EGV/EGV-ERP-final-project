@@ -294,7 +294,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김준우',
-    'JunWoo Kim', '960403-1224565', SYSDATE,
+    'JunWoo Kim', '960403-1224565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0316565514', '01071475514', 'rlawnsdn5514@naver.com',
     100, '시티은행', '1234-12-123456', '김준우',
@@ -318,7 +318,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '하동훈',
-    'DongHoon Ha', '7908201233458', SYSDATE,
+    'DongHoon Ha', '7908201233458', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0314236714', '01010775134', 'hahahaha@naver.com',
     300, '신한은행', '110-281-480100', '하동훈',
@@ -343,7 +343,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '노홍철',
-    'HongChul RHO', '7903311065838', SYSDATE,
+    'HongChul RHO', '7903311065838', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0313047921', '01036894794', 'positive@naver.com',
     400, '국민은행', '110-1234-480100', '노홍철',
@@ -367,7 +367,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '정형돈',
-    'HyungDon Jung', '7802271023128', SYSDATE,
+    'HyungDon Jung', '7802271023128', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 400 , '대리',
     '0317927921', '01023167956', 'hyungdonjung@naver.com',
     200, '신한은행', '110-134-432800', '정형돈',
@@ -391,7 +391,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '박명수',
-    'G Park', '7009271234565', SYSDATE,
+    'G Park', '7009271234565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 200 , '부장',
     '022224444', '01033335555', 'Gpark@naver.com',
     200, '국민은행', '1234-12-123456', '박명수',
@@ -414,7 +414,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '유재석',
-    'Jae_seok Yu', '7209271434565', SYSDATE,
+    'Jae_seok Yu', '7209271434565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 100 , '관장',
     '022224444', '0114112222', 'Jae_seok@naver.com',
     400, '국민은행', '723412123456', '유재석',
@@ -438,7 +438,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '황광희',
-    'KwangHee Hwang', '8808251634565', SYSDATE,
+    'KwangHee Hwang', '8808251634565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 600 , '알바',
     '027228444', '01061117222', 'KwangHH@daum.net',
     400, '신한은행', '1234-42-523456', '황광희',
@@ -582,7 +582,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김주호',
-    'JuHo Kim', '9307181111111', '2021-09-03',
+    'JuHo Kim', '9307181111111', '2021-06-21',
     'Y', 600 , '알바',
     '07087268793', '01021114913', 'kjh00345@gmail.com',
     400, '신한은행', '110-281-480100', '김주호',
@@ -606,7 +606,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바1',
-    'Alba1', '9706241597546', '2021-10-13',
+    'Alba1', '9706241597546', '2021-07-13',
     'Y', 600 , '알바',
     '0245683214', '01011246897', 'Alba1@naver.com',
     400, '국민은행', '110-879-135497', '알바1',
@@ -630,7 +630,7 @@ INSERT
 VALUES
 (
     RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바2',
-    'Alba2', '9504122065798', '2021-09-17',
+    'Alba2', '9504122065798', '2021-08-17',
     'Y', 600 , '알바',
     '0278963465', '01075648912', 'Alba2@naver.com',
     400, '시티은행', '110-795-246878', '알바2',

@@ -2306,8 +2306,8 @@ INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '스파이더맨: 노 웨이 �
 '소니 픽처스 코리아', '존 왓츠', '미국', 'poster_스파이더맨_노웨이홈.jpg', 'poster_스파이더맨_노웨이홈.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '끝없음에 관하여', TO_DATE('2021-12-16'), 76, '12', '기타',
 '찬란', '로이 앤더슨', '스웨덴', 'poster_끝없음에관하여.jpg', 'poster_끝없음에관하여.jpg', 'img/poster/', 'N');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹스맨: 퍼스트 에이전트', TO_DATE('2021-12-22'), 131, '청불', '액션',
-'월트 디즈니 컴퍼니 코리아', '매튜 본', '미국', 'poster_킹스맨_퍼스트에이전트.jpg', 'poster_킹스맨_퍼스트에이전트.jpg', 'img/poster/', 'Y');
+--INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹스맨: 퍼스트 에이전트', TO_DATE('2021-12-22'), 131, '청불', '액션',
+--'월트 디즈니 컴퍼니 코리아', '매튜 본', '미국', 'poster_킹스맨_퍼스트에이전트.jpg', 'poster_킹스맨_퍼스트에이전트.jpg', 'img/poster/', 'Y');
 INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '매트릭스: 리저렉션', TO_DATE('2021-12-22'), 140, '15세', 'SF',
 '워너 브라더스', '라나 워쇼스키', '미국', 'poster_매트릭스_리저렉션.jpg', 'poster_매트릭스_리저렉션.jpg', 'img/poster/', 'Y');
 

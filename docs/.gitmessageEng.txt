@@ -1,0 +1,41 @@
+####################
+# [Subject]
+# 2021/10/DD_HH:MM <type>: <subject>
+##### Subject 50 characters ################# -> |
+
+# [WARNING] LEAVE THE RIGHT BELOW LINE EMPTY!
+
+# [Body Message]
+######## Body 72 characters ####################################### -> |
+
+# Issue Tracker Number or URL with blank line, if required
+#
+####################
+# --- COMMIT END ---
+# <type> List
+# - Feat    : new feature
+# - Fix     : bug fix
+# - Refactor: refactoring production code
+# - Style   : formatting, missing semi colons, etc, no code change
+# - Docs    : changes to documentation
+# - Comment : changes to comment
+# - Rename  : rename files, folders, packages and etc
+# - Remove  : remove files, folders, packages and etc
+# - Add     : add files, folders, packages and etc
+# - Test    : adding or refactoring tests
+#             (no production code change)
+# - Chore   : updating grunt tasks etc
+#             (no production code change)
+# ------------------
+# [Check List]
+# - Capitalize the subject line
+# - Use the imperative mood in the subject line
+# - Do not end the subject line with a period
+# - Separate subject from body with a blank line
+# - Use the body to explain 'WHAT' and 'WHY' rather than 'HOW'
+# - Can use multiple lines with "-" for bullet points in body message
+# ------------------
+# [Template Info]
+# Version: v0.2
+# This template is created by UnSuk Song in 2021/09/05 for semi-project
+####################

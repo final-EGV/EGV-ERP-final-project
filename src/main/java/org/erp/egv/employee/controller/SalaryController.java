@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.transaction.Transactional;
+
 import org.erp.egv.employee.model.dto.EmployeeDTO;
 import org.erp.egv.employee.model.dto.SalaryDTO;
 import org.erp.egv.employee.model.dto.UserImpl;
@@ -164,6 +166,7 @@ public class SalaryController {
 		return mv;
 	}
 	
+	@Transactional
 	@GetMapping("/severancePay/modify")
 	public ModelAndView modifyServerance(ModelAndView mv, @RequestParam("code") String code) {
 		EmployeeDTO emp = empInfoService.empOneRequest(code);
@@ -174,7 +177,7 @@ public class SalaryController {
 		System.out.println("hi" + code);
 		
 		mv.addObject("empList", empList);
-		mv.setViewName("emp/salary/severancePay");
+		mv.setViewName("/emp/empOutList");
 		
 		return mv;
 		

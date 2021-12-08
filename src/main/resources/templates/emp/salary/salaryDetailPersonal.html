@@ -91,9 +91,9 @@
 									<tr th:each="work : ${ work }">
 										<td th:text="${ work.categoryCode.type }"></td>
 										<td th:text="${ work.empCode.name }"></td>
-										<td th:text="${ work.workDate }"></td>
-										<td th:text="${ work.workStart }"></td>
-										<td th:text="${ work.workEnd }"></td>
+										<td th:text="${ #dates.format(new java.util.Date(work.workDate), 'yyyy년MM월dd일') }"></td>
+										<td th:text="${ #dates.format(new java.util.Date(work.workStart), 'yyyy년MM월dd일 HH:mm') }"></td>
+										<td th:text="${ work.workEnd ne null } ? ${ #dates.format(new java.util.Date(work.workEnd), 'yyyy년MM월dd일 HH:mm') } : ${ work.workEnd }"></td>
 										<td th:text="${ work.workOver }"></td>
 									</tr>
 									</tbody>

@@ -111,3 +111,19 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 - 제목과 본문은 빈 공백을 사용하여 구분할 것
 - 본문에서는 '무엇'을 '어떻게' 보다는 '**왜**'라는 이유에 무게를 실어 설명할 것
 - 본문에서 여러 줄을 작성할 때는 `-`을 사용해 작성할 것
+
+### 커밋 메시지 템플릿
+- [한국어.ver](https://github.com/final-EGV/EGV-ERP-final-project/blob/master/docs/.gitmessageKor.txt)
+- [영어.ver](https://github.com/final-EGV/EGV-ERP-final-project/blob/master/docs/.gitmessageEng.txt)
+
+### 템플릿 적용하기
+1. 템플릿 파일을 git 관리하에 있는(`.git` 이 존재하는) 디렉토리에 저장한다.
+2. native git의 --global 레벨의 설정 파일에 작성한 템플릿을 commit template로 적용한다.
+```sh
+// 한글 템플릿을 사용하는 경우
+git config --global commit.template .gitmessageKor.txt
+
+// 영어 템플리을 사용하는 경우
+git config --global commit.template .gitmessageEng.txt
+```
+3. `git commit` 명령어로 커밋하면 해당 템플릿으로 커밋 메시지가 작성된다.

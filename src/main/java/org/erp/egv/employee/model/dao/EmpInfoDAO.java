@@ -243,7 +243,7 @@ public class EmpInfoDAO {
 	}
 
 	public List<EmployeeDTO> severancePayRequest() {
-		String jpql = "SELECT e FROM EmployeeDTO as e where OUT_YN is 'Y'";	
+		String jpql = "SELECT e FROM EmployeeDTO as e where OUT_YN is 'Y' or OUT_DATE is not null";	
 		TypedQuery<EmployeeDTO> query = em.createQuery(jpql, EmployeeDTO.class);
 		List<EmployeeDTO> empList = query.getResultList();
 		

@@ -164,6 +164,22 @@ public class SalaryController {
 		return mv;
 	}
 	
+	@GetMapping("/severancePay/modify")
+	public ModelAndView modifyServerance(ModelAndView mv, @RequestParam("code") String code) {
+		EmployeeDTO emp = empInfoService.empOneRequest(code);
+		emp.setOutYN("Y");
+		
+		List<EmployeeDTO> empList = empInfoService.severancePayRequest();
+		
+		System.out.println("hi" + code);
+		
+		mv.addObject("empList", empList);
+		mv.setViewName("emp/salary/severancePay");
+		
+		return mv;
+		
+	}
+	
 	@GetMapping("/severancePay")	
 	public ModelAndView severancePayRequest(ModelAndView mv) {
 				

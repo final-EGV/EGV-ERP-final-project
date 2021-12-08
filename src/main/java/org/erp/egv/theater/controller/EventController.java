@@ -59,8 +59,8 @@ public class EventController {
 	
 	@PostMapping("/regist")
 	public String registEvent(HttpServletRequest request, RedirectAttributes rAttr,
-			@RequestParam(defaultValue = "0") int movieCode,
-			@RequestParam(required = false) String rentalCompany, 
+			@RequestParam(defaultValue = "0", name = "movieAndEvent") int movieCode,
+			@RequestParam(required = false) String rentalCompany,
 			@RequestParam(required = false) String product)
 			throws UnsupportedEncodingException, ParseException {
 		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
@@ -115,8 +115,8 @@ public class EventController {
 	@PostMapping("/modify")
 	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr,
 			@RequestParam(defaultValue = "0") int code,
-			@RequestParam(defaultValue = "0") int movieCode,
-			@RequestParam(required = false) String rentalCompany, 
+			@RequestParam(defaultValue = "0", name = "movieAndEvent") int movieCode,
+			@RequestParam(required = false) String rentalCompany,
 			@RequestParam(required = false) String product)
 			throws UnsupportedEncodingException, ParseException {
 		

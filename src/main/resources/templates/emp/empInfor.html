@@ -145,7 +145,8 @@
 				<button class="btn btn-primary" onclick="openPPWindow()" type="button">프로필 사진등록</button>
 				<button class="btn btn-secondary" type="submit" form="empModifyInfor">회원 정보 수정</button>
 				<button sec:authorize-expr="hasRole('ROLE_Admin')" class="btn btn-info" data-toggle="modal" data-target="#authorityemp">권한 설정</button>
-				<button class="btn btn-danger" data-toggle="modal" data-target="#outEmpModal">퇴사 처리</button>
+				<button class="btn btn-danger" data-toggle="modal" data-target="#outEmpModal" th:disabled="${not #strings.isEmpty(empInfor.outDate)} and ${empInfor.outYN} == 'N'">퇴사 처리</button>
+				
 				</div>
             	</div> 
             	<!-- End of Main Content -->
@@ -314,7 +315,7 @@
 				}
 			});
 		});
-		
+			
 		(function () {
 			  'use strict'
 

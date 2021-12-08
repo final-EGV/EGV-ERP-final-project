@@ -47,10 +47,6 @@
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        내 정보 수정
-                    </a>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pwchange">
                         <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                         비밀번호 변경
@@ -80,15 +76,15 @@
 	        <form action="/emp/pwchange" method="post">
 			  <div class="form-group">
 			    <label for="formGroupExampleInput">현재 비밀번호</label>
-			    <input type="password" class="form-control" name="nowpw" placeholder="">
+			    <input required="required" type="password" class="form-control" name="nowpw" placeholder="">
 			  </div>
 			  <div class="form-group">
 			    <label for="formGroupExampleInput2">신규 비밀번호</label>
-			    <input type="password" class="form-control" name="newpw" placeholder="">
+			    <input required="required" type="password" class="form-control" name="newpw" placeholder="">
 			  </div>
 			  <div class="form-group">
 			    <label for="formGroupExampleInput3">비밀번호 확인</label>
-			    <input type="password" class="form-control" name="checkpw" placeholder="">
+			    <input required="required" type="password" class="form-control" name="checkpw" placeholder="">
 			  </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>

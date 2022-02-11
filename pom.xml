@@ -13,6 +13,8 @@
 	<version>1.0</version>
 	<name>EGV-ERP-final-project</name>
 	<description>ERP Final Project EGV, engined by SpringBoot</description>
+	<!-- for .jar build -->
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

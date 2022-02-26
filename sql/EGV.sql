@@ -1,3 +1,15 @@
+-- For Oracle Cloud Database ATP
+
+--ALTER SESSION SET NLS_LANGUAGE = 'AMERICAN';
+--ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RR';
+--ALTER SESSION SET NLS_DATE_LANGUAGE = 'AMERICAN';
+--
+--SELECT
+--       *
+--  FROM NLS_SESSION_PARAMETERS
+-- WHERE PARAMETER LIKE '%DATE%'
+--    OR PARAMETER LIKE '%LANG%';
+
 DROP SEQUENCE SEQ_AUTHORITY_CODE;
 DROP SEQUENCE SEQ_MENU_CODE;
 DROP SEQUENCE SEQ_APPROVER_CODE;
@@ -293,7 +305,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김준우',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김준우',
     'JunWoo Kim', '960403-1224565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0316565514', '01071475514', 'rlawnsdn5514@naver.com',
@@ -317,7 +329,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '하동훈',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '하동훈',
     'DongHoon Ha', '7908201233458', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0314236714', '01010775134', 'hahahaha@naver.com',
@@ -342,7 +354,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '노홍철',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '노홍철',
     'HongChul RHO', '7903311065838', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 500 , '사원',
     '0313047921', '01036894794', 'positive@naver.com',
@@ -366,7 +378,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '정형돈',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '정형돈',
     'HyungDon Jung', '7802271023128', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 400 , '대리',
     '0317927921', '01023167956', 'hyungdonjung@naver.com',
@@ -390,7 +402,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '박명수',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '박명수',
     'G Park', '7009271234565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 200 , '부장',
     '022224444', '01033335555', 'Gpark@naver.com',
@@ -413,7 +425,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '유재석',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '유재석',
     'Jae_seok Yu', '7209271434565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 100 , '관장',
     '022224444', '0114112222', 'Jae_seok@naver.com',
@@ -437,7 +449,7 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '황광희',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '황광희',
     'KwangHee Hwang', '8808251634565', TO_DATE('2020-10-25','YYYY-MM-DD'),
     'Y', 600 , '알바',
     '027228444', '01061117222', 'KwangHH@daum.net',
@@ -461,8 +473,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자01',
-    'ByeBye', '8903231387432', '2019-05-13',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자01',
+    'ByeBye', '8903231387432', TO_DATE('2019-05-13', 'YYYY-MM-DD'),
     'N', 600 , '알바',
     '022138784', '01012317832', 'Byebye@naver.com',
     200, '국민은행', '1123-72-54356', '퇴직자01',
@@ -485,8 +497,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자02',
-    'check', '8903231387432', '2020-03-10',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자02',
+    'check', '8903231387432', TO_DATE('2020-03-10', 'YYYY-MM-DD'),
     'N', 200 , '부장',
     '022317846', '01047314568', 'check@naver.com',
     400, '신한은행', '112-779-428641', '퇴직자02',
@@ -509,8 +521,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자03',
-    'movie', '8607131066235', '2018-10-10',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자03',
+    'movie', '8607131066235', TO_DATE('2018-10-10', 'YYYY-MM-DD'),
     'N', 200 , '과장',
     '0235697842', '01087324168', 'movie@naver.com',
     300, '시티은행', '145-935-795133', '퇴직자03',
@@ -533,8 +545,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자04',
-    'mater', '8801031087945', '2019-05-08',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자04',
+    'mater', '8801031087945', TO_DATE('2019-05-08', 'YYYY-MM-DD'),
     'N', 200 , '대리',
     '0226894222', '01078954222', 'master@naver.com',
     200, '신한은행', '125-123-123475', '퇴직자04',
@@ -557,8 +569,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자05',
-    'ironman', '7803061057894', '2019-05-08',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '퇴직자05',
+    'ironman', '7803061057894', TO_DATE('2019-05-08', 'YYYY-MM-DD'),
     'N', 200 , '대리',
     '0226894222', '01078954222', 'ironman@naver.com',
     300, '시티은행', '125-778-421655', '퇴직자05',
@@ -581,8 +593,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김주호',
-    'JuHo Kim', '9307181111111', '2021-06-21',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '김주호',
+    'JuHo Kim', '9307181111111', TO_DATE('2021-06-21', 'YYYY-MM-DD'),
     'Y', 600 , '알바',
     '07087268793', '01021114913', 'kjh00345@gmail.com',
     400, '신한은행', '110-281-480100', '김주호',
@@ -605,8 +617,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바1',
-    'Alba1', '9706241597546', '2021-07-13',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바1',
+    'Alba1', '9706241597546', TO_DATE('2021-07-13', 'YYYY-MM-DD'),
     'Y', 600 , '알바',
     '0245683214', '01011246897', 'Alba1@naver.com',
     400, '국민은행', '110-879-135497', '알바1',
@@ -629,8 +641,8 @@ INSERT
 )
 VALUES
 (
-    RPAD(TO_CHAR(SYSDATE,'YYYY'),7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바2',
-    'Alba2', '9504122065798', '2021-08-17',
+    RPAD(TO_CHAR(SYSDATE,'YYYY')-1,7,'0') + SEQ_EMP_CODE.NEXTVAL, '$2a$10$MkdT31pLLNHkZ7fUGmxzxekKMaUeCbVe2nwMSmDrXQSeyyp.0GNEi', '알바2',
+    'Alba2', '9504122065798', TO_DATE('2021-08-17', 'YYYY-MM-DD'),
     'Y', 600 , '알바',
     '0278963465', '01075648912', 'Alba2@naver.com',
     400, '시티은행', '110-795-246878', '알바2',
@@ -995,7 +1007,7 @@ INSERT INTO SCHEDULE
 VALUES
 (
   SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 1
-, '2021-12-13', '2021-12-13', '402호', '근무 스케줄입니다.'
+, TO_DATE('2021-12-13', 'YYYY-MM-DD'), TO_DATE('2021-12-13', 'YYYY-MM-DD'), '402호', '근무 스케줄입니다.'
 );
 INSERT INTO SCHEDULE
 (
@@ -1005,7 +1017,7 @@ INSERT INTO SCHEDULE
 VALUES
 (
   SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 2
-, '2021-12-15', '2021-12-17', NULL, '휴가 스케줄입니다.'
+, TO_DATE('2021-12-15', 'YYYY-MM-DD'), TO_DATE('2021-12-17', 'YYYY-MM-DD'), NULL, '휴가 스케줄입니다.'
 );
 INSERT INTO SCHEDULE
 (
@@ -1015,7 +1027,7 @@ INSERT INTO SCHEDULE
 VALUES
 (
   SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 3
-, '2021-12-20', '2021-12-20', '더조은', '외근 스케줄입니다.'
+, TO_DATE('2021-12-20', 'YYYY-MM-DD'), TO_DATE('2021-12-20', 'YYYY-MM-DD'), '더조은', '외근 스케줄입니다.'
 );
 INSERT INTO SCHEDULE
 (
@@ -1025,7 +1037,7 @@ INSERT INTO SCHEDULE
 VALUES
 (
   SEQ_SCHEDULE_CODE.NEXTVAL, 2021100, 4
-, '2021-12-28', '2021-12-28', '405호', '회의 스케줄입니다.'
+, TO_DATE('2021-12-28', 'YYYY-MM-DD'), TO_DATE('2021-12-28', 'YYYY-MM-DD'), '405호', '회의 스케줄입니다.'
 );
 
 /* 인사관리 */
@@ -1134,9 +1146,9 @@ VALUES
   SEQ_WORK_CODE.NEXTVAL
 , 2
 , 2021100
-, '2021-12-02'
-, '2021-12-02 18:00'
-, '2021-12-02 21:00'
+, TO_DATE('2021-12-02', 'YYYY-MM-DD')
+, TO_DATE('2021-12-02 18:00', 'YYYY-MM-DD HH24:MI')
+, TO_DATE('2021-12-02 21:00', 'YYYY-MM-DD HH24:MI')
 , NULL
 );
 
@@ -1235,12 +1247,12 @@ CREATE TABLE ANNUAL_LEAVE (
     COMMENT ON COLUMN ANNUAL_LEAVE.AL_COUNT IS '해당연도 총연차갯수';
     COMMENT ON COLUMN ANNUAL_LEAVE.AL_USE_COUNT IS '연차사용갯수';
 
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021100',2021,15,13);
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021101',2021,20,3);
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021102',2021,16,7);
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021103',2021,16,10);
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021104',2021,19,7);
-Insert into EGV.ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021105',2021,20,14);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021100',2021,15,13);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021101',2021,20,3);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021102',2021,16,7);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021103',2021,16,10);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021104',2021,19,7);
+Insert into ANNUAL_LEAVE (AL_CODE,EMP_CODE,AL_YEAR,AL_COUNT,AL_USE_COUNT) values (SEQ_AL_CODE.NEXTVAL,'2021105',2021,20,14);
 
 ---------------------------------------------USE_ANNUAL_LEAVE / 사원별 연차사용내역----------------------------
 CREATE TABLE USE_ANNUAL_LEAVE (
@@ -1265,7 +1277,7 @@ CREATE TABLE USE_ANNUAL_LEAVE (
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.TOTAL_DATE IS '총 연가일수';
     COMMENT ON COLUMN USE_ANNUAL_LEAVE.UAL_CONTENT IS '연차내용';
 
-Insert into EGV.USE_ANNUAL_LEAVE (UAL_CODE,ANNUAL_LEAVE_CODE,EMP_CODE,UAL_START_DATE,UAL_END_DATE,UAL_CONTENT, TOTAL_DATE) values (SEQ_UAL_CODE.NEXTVAL,4,'2021105',to_date('21-12-01','RR-MM-DD'),to_date('21-12-03','RR-MM-DD'),'여름휴가', 3);
+Insert into USE_ANNUAL_LEAVE (UAL_CODE,ANNUAL_LEAVE_CODE,EMP_CODE,UAL_START_DATE,UAL_END_DATE,UAL_CONTENT, TOTAL_DATE) values (SEQ_UAL_CODE.NEXTVAL,4,'2021105',to_date('21-12-01','RR-MM-DD'),to_date('21-12-03','RR-MM-DD'),'여름휴가', 3);
 
 /* 전자결재 */
 -------------------------------------------------------SIGN_TEMPLATE / 결재템플릿----------------------------
@@ -2019,25 +2031,25 @@ COMMENT ON COLUMN OFFICIAL.OFFICIAL_DATE IS '작성일';
 COMMENT ON COLUMN OFFICIAL.EMP_CODE IS '사번';
 
 
-INSERT 
+INSERT
   INTO OFFICIAL 
 VALUES
 (
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '코로나바이러스감염증-19 집단시설·다중이용시설 대응 지침(2판)'
   , '코로나바이러스감염증-19 집단시설·다중이용시설 대응 지침(2판)'
-  , TO_DATE('2020-02-26')
+  , TO_DATE('2020-02-26', 'YYYY-MM-DD')
   , NULL
 );
 
-INSERT 
+INSERT
   INTO OFFICIAL 
 VALUES
 (
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '코로나바이러스감염증-19 사업장 집중관리 지침'
   , '코로나바이러스감염증-19 사업장 집중관리 지침'
-  , TO_DATE('2020-03-18')
+  , TO_DATE('2020-03-18', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2048,7 +2060,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '코로나19(COVID-19) 예방 및 확산방지를 위한 사업장 대응지침(8판)'
   , '코로나19(COVID-19) 예방 및 확산방지를 위한 사업장 대응지침(8판)'
-  , TO_DATE('2020-04-13')
+  , TO_DATE('2020-04-13', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2059,7 +2071,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '코로나19 예방을 위한 시험 방역관리 안내'
   , '코로나19 예방을 위한 시험 방역관리 안내'
-  , TO_DATE('2020-02-26')
+  , TO_DATE('2020-02-26', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2070,7 +2082,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '코로나바이러스감염증-19 대응 집단시설·다중이용시설 소독 안내 (제3-4판)'
   , '코로나바이러스감염증-19 대응 집단시설·다중이용시설 소독 안내 (제3-4판)'
-  , TO_DATE('2020-08-19')
+  , TO_DATE('2020-08-19', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2081,7 +2093,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '사회적 거리두기 조정 내용(10.18 ~ 10.31)'
   , '사회적 거리두기 조정 내용(10.18 ~ 10.31)'
-  , TO_DATE('2021-10-15')
+  , TO_DATE('2021-10-15', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2092,7 +2104,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '단계적 일상회복 1차 개편 주요 방역수칙 1편'
   , '단계적 일상회복 1차 개편 주요 방역수칙 1편  '
-  , TO_DATE('2021-11-02')
+  , TO_DATE('2021-11-02', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2103,7 +2115,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '단계적 일상회복 1차 개편 주요 방역수칙 2편'
   , '단계적 일상회복 1차 개편 주요 방역수칙 2편  '
-  , TO_DATE('2021-11-02')
+  , TO_DATE('2021-11-02', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2114,7 +2126,7 @@ VALUES
   SEQ_OFFICIAL_CODE.NEXTVAL
   , '(종합) 다중이용시설(유흥시설, 경마/경륜/경정/카지노, 노래연습장, 목욕장, 실내체육시설) 방역패스·방역수칙 포스터 5종'
   , '(종합) 다중이용시설(유흥시설, 경마/경륜/경정/카지노, 노래연습장, 목욕장, 실내체육시설) 방역패스·방역수칙 포스터 5종'
-  , TO_DATE('2021-11-24')
+  , TO_DATE('2021-11-24', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2163,7 +2175,7 @@ VALUES
   SEQ_NOTICE_CODE.NEXTVAL
   , '[동영상] QR코드 전자출입명부 사용방법 (국문 버전)'
   , '[동영상] QR코드 전자출입명부 사용방법 (국문 버전)'
-  , TO_DATE('2020-07-21')
+  , TO_DATE('2020-07-21', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2174,7 +2186,7 @@ VALUES
   SEQ_NOTICE_CODE.NEXTVAL
   , '[이미지] 전자출입명부 도입 - 시설 관리자'
   , '[이미지] 전자출입명부 도입 - 시설 관리자'
-  , TO_DATE('2020-07-24')
+  , TO_DATE('2020-07-24', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2185,7 +2197,7 @@ VALUES
   SEQ_NOTICE_CODE.NEXTVAL
   , '[동영상] QR코드 전자출입명부 사용방법 (영문버전)'
   , '[동영상] QR코드 전자출입명부 사용방법 (영문버전)'
-  , TO_DATE('2020-08-13')
+  , TO_DATE('2020-08-13', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2196,7 +2208,7 @@ VALUES
   SEQ_NOTICE_CODE.NEXTVAL
   , '[안내서] 2021년도 수기명부 안내서 및 포스터'
   , '[안내서] 2021년도 수기명부 안내서 및 포스터'
-  , TO_DATE('2021-04-09')
+  , TO_DATE('2021-04-09', 'YYYY-MM-DD')
   , NULL
 );
 
@@ -2408,47 +2420,47 @@ COMMENT ON COLUMN MOVIE.POSTER_UUID_NAME IS '포스터신규명';
 COMMENT ON COLUMN MOVIE.POSTER_IMG_PATH IS '포스터저장경로';
 COMMENT ON COLUMN MOVIE.OPENING_YN IS '우리관개봉여부';
 
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '알 포인트', TO_DATE('2008-08-13'), 108, '15세', '공포(호러)',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '알 포인트', TO_DATE('2008-08-13', 'YYYY-MM-DD'), 108, '15세', '공포(호러)',
 '시네마 서비스', '공수창', '한국', 'poster_알포인트.png', 'poster_알포인트.png', 'img/poster/', 'N');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카니지', TO_DATE('2021-10-13'), 97, '15세', '액션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베놈 2: 렛 데어 비 카니지', TO_DATE('2021-10-13', 'YYYY-MM-DD'), 97, '15세', '액션',
 '소니 픽처스 코리아', '댄디 서키스', '미국', 'poster_베놈2.jpg', 'poster_베놈2.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '듄', TO_DATE('2021-10-20'), 155, '12세', 'SF',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '듄', TO_DATE('2021-10-20', 'YYYY-MM-DD'), 155, '12세', 'SF',
 '워너 브라더스', '드니 빌뇌브', '미국', 'poster_듄.jpg', 'poster_듄.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고장난 론', TO_DATE('2021-10-27'), 106, '전체', '애니메이션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고장난 론', TO_DATE('2021-10-27', 'YYYY-MM-DD'), 106, '전체', '애니메이션',
 '20세기 폭스', '사라 스미스', '미국', 'poster_고장난_론.jpg', 'poster_고장난_론.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03'), 155, '12세', '액션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '이터널스', TO_DATE('2021-11-03', 'YYYY-MM-DD'), 155, '12세', '액션',
 '월트 디즈니 컴퍼니 코리아', '클로이 자오', '미국', 'poster_이터널스.jpg', 'poster_이터널스.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '강릉', TO_DATE('2021-11-10'), 119, '청불', '범죄',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '강릉', TO_DATE('2021-11-10', 'YYYY-MM-DD'), 119, '청불', '범죄',
 '제이앤씨미디어', '윤영빈', '한국', 'poster_강릉.jpg', 'poster_강릉.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '귀멸의 칼날: 남매의 연', TO_DATE('2021-11-10'), 104, '15세', '애니메이션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '귀멸의 칼날: 남매의 연', TO_DATE('2021-11-10', 'YYYY-MM-DD'), 104, '15세', '애니메이션',
 '도호', '소토자키하루오', '일본', 'poster_귀멸의칼날_남매의연.jpg', 'poster_귀멸의칼날_남매의연.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '유체이탈자', TO_DATE('2021-11-24'), 108, '15세', '판타지',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '유체이탈자', TO_DATE('2021-11-24', 'YYYY-MM-DD'), 108, '15세', '판타지',
 '(주)에이비오엔터테인먼트', '윤재근', '한국', 'poster_유체이탈자.jpg', 'poster_유체이탈자.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '연애 빠진 로맨스', TO_DATE('2021-11-24'), 94, '15세', '판타지',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '연애 빠진 로맨스', TO_DATE('2021-11-24', 'YYYY-MM-DD'), 94, '15세', '판타지',
 'CJ ENM', '정가영', '한국', 'poster_연애빠진로맨스.jpg', 'poster_연애빠진로맨스.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '엔칸토: 마법의 세계', TO_DATE('2021-11-24'), 109, '전체', '애니메이션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '엔칸토: 마법의 세계', TO_DATE('2021-11-24', 'YYYY-MM-DD'), 109, '전체', '애니메이션',
 '월트 디즈니 컴퍼니 코리아', '카리스 카스트로 스미스', '미국', 'poster_엔칸토_마법의세계.jpg', 'poster_엔칸토_마법의세계.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고스트버스터즈 라이즈', TO_DATE('2021-12-01'), 124, '12세', '어드벤쳐',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '고스트버스터즈 라이즈', TO_DATE('2021-12-01', 'YYYY-MM-DD'), 124, '12세', '어드벤쳐',
 '소니 픽처스 코리아', '제이슨 라이트만', '미국', 'poster_고스트버스터즈_라이즈.jpg', 'poster_고스트버스터즈_라이즈.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹메이커', TO_DATE('2021-12-01'), 120, '12세', '드라마',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹메이커', TO_DATE('2021-12-01', 'YYYY-MM-DD'), 120, '12세', '드라마',
 '메가박스', '변성현', '한국', 'poster_킹메이커.jpg', 'poster_킹메이커.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '라스트 나잇 인 소호', TO_DATE('2021-12-01'), 116, '청불', '공포(호러)',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '라스트 나잇 인 소호', TO_DATE('2021-12-01', 'YYYY-MM-DD'), 116, '청불', '공포(호러)',
 'UPI 코리아', '에드거 라이트', '미국', 'poster_라스트나잇인소호.jpg', 'poster_라스트나잇인소호.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베네데타', TO_DATE('2021-12-01'), 131, '청불', '드라마',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '베네데타', TO_DATE('2021-12-01', 'YYYY-MM-DD'), 131, '청불', '드라마',
 '팝엔터테인먼트', '폴 버호벤', '프랑스', 'poster_베네데타.jpg', 'poster_베네데타.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '호빗: 다섯 군대 전투', TO_DATE('2021-12-02'), 144, '12세', '어드벤쳐',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '호빗: 다섯 군대 전투', TO_DATE('2021-12-02', 'YYYY-MM-DD'), 144, '12세', '어드벤쳐',
 '워너 브라더스', '피터 잭슨', '미국', 'poster_호빗_다섯군대전투.jpg', 'poster_호빗_다섯군대전투.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '돈 룩 업', TO_DATE('2021-12-08'), 138, '15세', '코미디',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '돈 룩 업', TO_DATE('2021-12-08', 'YYYY-MM-DD'), 138, '15세', '코미디',
 '넷플릭스', '아담 맥케이', '미국', 'poster_돈룩업.jpg', 'poster_돈룩업.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '해피 아워', TO_DATE('2021-12-09'), 328, '15세', '드라마',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '해피 아워', TO_DATE('2021-12-09', 'YYYY-MM-DD'), 328, '15세', '드라마',
 '(주)트리플픽쳐스', '하마구치 류스케', '일본', 'poster_해피아워.jpg', 'poster_해피아워.jpg', 'img/poster/', 'N');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '스파이더맨: 노 웨이 홈', TO_DATE('2021-12-15'), 148, '12세', '액션',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '스파이더맨: 노 웨이 홈', TO_DATE('2021-12-15', 'YYYY-MM-DD'), 148, '12세', '액션',
 '소니 픽처스 코리아', '존 왓츠', '미국', 'poster_스파이더맨_노웨이홈.jpg', 'poster_스파이더맨_노웨이홈.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '끝없음에 관하여', TO_DATE('2021-12-16'), 76, '12', '기타',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '끝없음에 관하여', TO_DATE('2021-12-16', 'YYYY-MM-DD'), 76, '12', '기타',
 '찬란', '로이 앤더슨', '스웨덴', 'poster_끝없음에관하여.jpg', 'poster_끝없음에관하여.jpg', 'img/poster/', 'N');
---INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹스맨: 퍼스트 에이전트', TO_DATE('2021-12-22'), 131, '청불', '액션',
+--INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '킹스맨: 퍼스트 에이전트', TO_DATE('2021-12-22', 'YYYY-MM-DD'), 131, '청불', '액션',
 --'월트 디즈니 컴퍼니 코리아', '매튜 본', '미국', 'poster_킹스맨_퍼스트에이전트.jpg', 'poster_킹스맨_퍼스트에이전트.jpg', 'img/poster/', 'Y');
-INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '매트릭스: 리저렉션', TO_DATE('2021-12-22'), 140, '15세', 'SF',
+INSERT INTO MOVIE VALUES(SEQ_MOVIE_CODE.NEXTVAL, '매트릭스: 리저렉션', TO_DATE('2021-12-22', 'YYYY-MM-DD'), 140, '15세', 'SF',
 '워너 브라더스', '라나 워쇼스키', '미국', 'poster_매트릭스_리저렉션.jpg', 'poster_매트릭스_리저렉션.jpg', 'img/poster/', 'Y');
 
 -------------------- 이벤트 EVENT --------------------

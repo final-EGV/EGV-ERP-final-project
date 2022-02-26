@@ -5,18 +5,18 @@ server:
   error:    include-exception: true
     include-stacktrace: ALWAYS
     whitelabel:      enabled: false
-# oracle driver config
 spring:
+  # oracle driver config
   datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
-    username: EGV
-    password: EGV
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@EGVOracleATP_high?TNS_ADMIN=/home/ubuntu/EGV-jar-deploy/Wallet_EGVOracleATP
+    username: ADMIN
+    password: EGVinoraclecloud1995
   devtools: 
     livereload: 
         enabled: true 
-# jpa config  jpa:    generate-ddl: false
+  # jpa config  jpa:    generate-ddl: false
     show-sql: true
-    database: oracle    database-platform: org.hibernate.dialect.Oracle10gDialect# file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MBlogging:  level:
+    database: oracle    database-platform: org.hibernate.dialect.Oracle12cDialect  # file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MBlogging:  level:
       root: warn
 #    '[org.hibernate]': info

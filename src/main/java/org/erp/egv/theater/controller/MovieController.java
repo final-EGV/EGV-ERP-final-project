@@ -26,17 +26,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/theater/movie")
 public class MovieController {
 	
+	private static final String PATH_OF_MOVIE_POSTER = "static/img/poster/";
+	
 	private MovieService movieService;
+	
+	/**
+	 * Need to know which file separator('/' or '\\') should be used, and to get saving path
+	 * when uploading file according to OS of host PC
+	 *   - windows: alternative target
+	 *   - unix: recommended target
+	 *   - solaris: currently not supported
+	 *   - notSupported: currently not supported
+	 */
+	private boolean isWindows = false;
 	
 	@Autowired
 	public MovieController(MovieService movieService) {
 		this.movieService = movieService;
+		
+		/* Check OS of host PC and initialize member variable */
+		String os = System.getProperty("os.name").toLowerCase();
+		if (os.contains("win")) {
+			this.isWindows = true;
+		}
 	}
 
 	@GetMapping("/list")
 	public ModelAndView inquireAllMovieList(ModelAndView mv) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+							+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		
@@ -49,7 +68,8 @@ public class MovieController {
 	@GetMapping("/regist")
 	public String registMovie() throws UnsupportedEncodingException {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		return "theater/movieRegist";
 	}
@@ -60,11 +80,13 @@ public class MovieController {
 								ModelAndView mv,
 								RedirectAttributes rAttr) throws UnsupportedEncodingException, ParseException {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		/* 1. String type input parameters */
+		/* 1. Verify String type of requested parameters from client browser */
+		/* 1.1 Get requested parameters */
 		String movieName = request.getParameter("movieName");
 		
 		String openingDateString = request.getParameter("openingDate");
@@ -80,7 +102,8 @@ public class MovieController {
 		String country = request.getParameter("country");
 		String openingYn = request.getParameter("openingYn");
 		
-		/* 1-1. test print for requested parameters */
+		/* 1-2. Test print */
+		System.out.println("--------------- Check Requested Parameters ---------------");
 		System.out.println("movieName : " + movieName);
 		System.out.println("openingDate : " + openingDate);
 		System.out.println("runningTime : " + runningTime);
@@ -91,56 +114,68 @@ public class MovieController {
 		System.out.println("country : " + country);
 		System.out.println("openingYn : " + openingYn);
 		
-		// get root path based on this project
+		/* 2. Get the saving path */
+		/* 2-1. Get relative root path based on this project */
+		System.out.println("--------------- File system analyzation ---------------");
 		String root = this.getClass().getResource("/").getPath();
-		String rootPath = root.replace("/", "\\")
-							  .substring(0, root.length() - 15)
-							  .substring(1)
-							  .concat("src\\main\\resources\\static\\");
-		// set save path based on this project
-		String posterImgPath = rootPath + "img/poster/";	// TODO 프로젝트 경로 상 /static 바로 아래부터 시작할 저장 경로
-		System.out.println("저장 경로 : " + posterImgPath);
+		System.out.println("root : " + root);
 		
-		// create folder if doesn't exist
-		File mkdir = new File(posterImgPath);
-		if (!mkdir.exists()) {
-			System.out.println("폴더 생성 : " + mkdir.mkdir());
+		String rootPath = root.concat(PATH_OF_MOVIE_POSTER);
+		
+		/*
+		 * (Alternative)
+		 * Apply proper file separator for Windows server environment, but not recommended.
+		 */
+		if (isWindows) {
+			rootPath = rootPath.replace("/", "\\");
 		}
 		
-		// file name randomization
+		/* 2-2. Set path where a file would be saved, based on this project */
+		String posterImgPath = rootPath;
+		System.out.println("posterImgPath(저장 경로) : " + posterImgPath);
+		
+		/* 2-3. Create directory if saving path doesn't exist */
+		File mkdir = new File(posterImgPath);
+		
+		if (!mkdir.exists()) {
+			System.out.println("Since there is no directory to store the image file, "
+					+ "the directory was created and result is : " + mkdir.mkdirs());
+		}
+		
+		/* 2-4. Randomize file name */
 		String posterOrigName = posterImg.getOriginalFilename();
-		System.out.println("원본 파일명 : " + posterOrigName);
+		System.out.println("Original file name : " + posterOrigName);
 		
 		String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
 		String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
-		System.out.println("변경 파일명 : " + posterUuidName);
+		System.out.println("Randomized file name : " + posterUuidName);
 		
+		/* 3. Save or delete a file */
 		String pathToRedirect = "";
 		
-		// save file & prepare DTO object
 		try {
-			
-			// save file
-			posterImg.transferTo(new File(posterImgPath + "\\" + posterUuidName));
+			/* 3-1. Save the file, if no exceptions occur */
+			posterImg.transferTo(new File(posterImgPath + posterUuidName));
+			System.out.println("File is saved into -> " + posterImgPath + posterUuidName);
 			
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			
-			// delete file
-			new File(posterImgPath + "\\" + posterUuidName).delete();
+			/* 3-2. Delete a file, if any exceptions occur */
+			new File(posterImgPath + posterUuidName).delete();
 			
-			/* 
-			 * FIXME 2021-11-24 Wed 01:45 송언석
-			 * 영화 등록 실패시 작성한 파라미터를 다시 등록 폼으로 갖고 돌아가도록 설정할 예정.
-			 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
-			 */
+			// redirect to movie list if any exceptions occur while saving a file
 			pathToRedirect = "list";
-			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보 등록중"
+			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보를 등록하는 도중에"
 													+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
-													+ " 다시 시도해 주세요.");
+													+ " 다시 시도해 주세요. 불편을 드려 죄송합니다.");
+			
+			mv.setViewName("redirect:" + request.getHeader("Referer"));
+			
+			return mv;
 		}
 		
-		// prepare DTO
+		/* 4. Instantiate MovieDTO */
 		MovieDTO movie = new MovieDTO();
 		
 		movie.setName(movieName);
@@ -155,7 +190,10 @@ public class MovieController {
 		movie.setPosterUuidName(posterUuidName);
 		movie.setPosterImgPath(posterImgPath);
 		movie.setOpeningYn(openingYn);
-		System.out.println(movie);
+		
+		System.out.println("--------------- Entity Created ---------------");
+		System.out.println("Created movie entity : " + movie);
+		System.out.println("----------------------------------------------");
 		
 		movieService.registMovie(movie);
 		
@@ -170,7 +208,8 @@ public class MovieController {
 	@GetMapping("/details")
 	public ModelAndView getDetailsOfSingleMovie(ModelAndView mv, @RequestParam int code) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		MovieDTO movie = movieService.inquireSingleMovieByCode(code);
 		
@@ -187,11 +226,13 @@ public class MovieController {
 									RedirectAttributes rAttr)
 											throws UnsupportedEncodingException, ParseException {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		/* 1. String type input parameters */
+		/* 1. Verify String type of requested parameters from client browser */
+		/* 1.1 Get requested parameters */
 		int movieCode = Integer.valueOf(request.getParameter("movieCode"));
 		String movieName = request.getParameter("movieName");
 		
@@ -208,7 +249,9 @@ public class MovieController {
 		String country = request.getParameter("country");
 		String openingYn = request.getParameter("openingYn");
 		
-		/* 1-1. test print for requested parameters */
+		/* 1-2. Test print */
+		System.out.println("--------------- Check Requested Parameters ---------------");
+		System.out.println("movieCode : " + movieCode);
 		System.out.println("movieName : " + movieName);
 		System.out.println("openingDate : " + openingDate);
 		System.out.println("runningTime : " + runningTime);
@@ -219,8 +262,11 @@ public class MovieController {
 		System.out.println("country : " + country);
 		System.out.println("openingYn : " + openingYn);
 		
-		/* prepare DTO object */
+		/* 2. Prepare original and new Movie DTO */
+		MovieDTO movieOrigin = movieService.inquireSingleMovieByCode(movieCode);
+		System.out.println("original moview entity: " + movieOrigin);
 		MovieDTO movieNew = new MovieDTO();
+		
 		movieNew.setCode(movieCode);
 		movieNew.setName(movieName);
 		movieNew.setOpeningDate(openingDate);
@@ -232,108 +278,98 @@ public class MovieController {
 		movieNew.setCountry(country);
 		movieNew.setOpeningYn(openingYn);
 		
+		movieNew.setPosterOrigName(movieOrigin.getPosterOrigName());
+		movieNew.setPosterUuidName(movieOrigin.getPosterUuidName());
+		movieNew.setPosterImgPath(movieOrigin.getPosterImgPath());
+		
 		String pathToRedirect = "";
 		
-		/* find the entity already exists in persistence context */
-		MovieDTO movieOrigin = movieService.inquireSingleMovieByCode(movieCode);
-		
+		/* 3. Check whether client has uploaded poster image file. */
 		if (!posterImg.isEmpty()) {
 			/*
-			 * When user uploads file
+			 * 4. Check whether client has uploaded the same file with original one
+			 *    [Note that this process is only done by the name of the file!]
 			 */
 			
-			if (posterImg.getOriginalFilename() != movieOrigin.getPosterOrigName()) {
-				/*
-				 * When user uploads a different file from the original file
-				 *   1. upload new poster image file.
-				 *   2. delete the former image file, if above task is successfully done.
-				 */
+			if (!movieOrigin.getPosterOrigName().equals(posterImg.getOriginalFilename())) {
 				
-				/* 1. upload new poster image file */
-				// get root path based on this project
+				/* 4-1. upload new poster image file */
+				/* 4-1-1. Get relative root path on this project */
+				System.out.println("--------------- File system analyzation ---------------");
 				String root = this.getClass().getResource("/").getPath();
-				String rootPath = root.replace("/", "\\")
-									  .substring(0, root.length() - 15)
-									  .substring(1)
-									  .concat("src\\main\\resources\\static\\");
+				System.out.println("root : " + root);
 				
-				// set save path based on this project
-				String posterImgPath = rootPath + "img/poster/";	// TODO 프로젝트 경로상 /static 바로 아래부터 시작할 저장 경로
-				System.out.println("저장 경로 : " + posterImgPath);
+				String rootPath = root.concat(PATH_OF_MOVIE_POSTER);
 				
-				// create folder if doesn't exist
-				File mkdir = new File(posterImgPath);
-				if (!mkdir.exists()) {
-					System.out.println("폴더 생성 : " + mkdir.mkdir());
+				/*
+				 * (Alternative)
+				 * Apply proper file separator for Windows server environment, but not recommended.
+				 */
+				if (isWindows) {
+					rootPath = rootPath.replace("/", "\\");
 				}
 				
-				// randomize file name
+				/* 4-1-2. Set path where a file would be saved, based on this project */
+				String posterImgPath = rootPath;
+				System.out.println("posterImgPath(저장 경로) : " + posterImgPath);
+				
+				/* 4-1-3. Create directory if saving path doesn't exist */
+				File mkdir = new File(posterImgPath);
+				
+				if (!mkdir.exists()) {
+					System.out.println("Since there is no directory to store the image file, "
+							+ "the directory was created and result is : " + mkdir.mkdirs());
+				}
+				
+				/* 4-1-4. Randomize file name */
 				String posterOrigName = posterImg.getOriginalFilename();
-				System.out.println("원본 파일명 : " + posterOrigName);
+				System.out.println("Original file name : " + posterOrigName);
 				
 				String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
 				String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
-				System.out.println("변경 파일명 : " + posterUuidName);
+				System.out.println("Randomized file name : " + posterUuidName);
 				
 				try {
 					
-					// save file
-					posterImg.transferTo(new File(posterImgPath + "\\" + posterUuidName));
-					
-					movieNew.setPosterOrigName(posterOrigName);
-					movieNew.setPosterUuidName(posterUuidName);
-					movieNew.setPosterImgPath(posterImgPath);
+					/* 4-1-5. Save the file, if no exceptions occur */
+					posterImg.transferTo(new File(posterImgPath + posterUuidName));
 					
 				} catch (IllegalStateException | IOException e) {
-					/*
-					 * When any exception occurs during saving file
-					 */
 					
+					/* 4-1-6. Delete a file, if any exceptions occur */
 					e.printStackTrace();
 					
-					// delete file
-					new File(posterImgPath + "\\" + posterUuidName).delete();
+					new File(posterImgPath + posterUuidName).delete();
 					
-					rAttr.addFlashAttribute("flashMessage", "[Error] 포스터 이미지 파일을 업로드하는 도중"
-															+ " 문제가 발생했습니다."
-															+ " 다시 시도해 주세요.");
+					pathToRedirect = "list";
+					rAttr.addFlashAttribute("flashMessage", "[Error] 영화 정보를 수정하는 도중에"
+															+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
+															+ " 다시 시도해 주세요. 불편을 드려 죄송합니다.");
 					
-					/* 
-					 * FIXME 2021-11-26 Fri 02:15 송언석
-					 * 파일 업로드 실패시 작성한 파라미터를 다시 디테일 폼 화면으로 갖고 돌아가도록 설정할 예정.
-					 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
-					 */
-//					pathToRedirect = "backToDetailsPage";
+					mv.setViewName("redirect:" + request.getHeader("Referer"));
 					
+					return mv;
 				}
 				
-				/* 2. delete the former image file, if above task is successfully done. */
-				new File(movieOrigin.getPosterImgPath() + "\\" + movieOrigin.getPosterUuidName()).delete();
+				movieNew.setPosterOrigName(posterOrigName);
+				movieNew.setPosterUuidName(posterUuidName);
+				movieNew.setPosterImgPath(posterImgPath);
+				
+				/* 4-2. Delete original image file, if new image file is successfully saved. */
+				new File(movieOrigin.getPosterImgPath() + movieOrigin.getPosterUuidName()).delete();
 				
 			}
 			
-		} else {
-			/* 
-			 * When user doesn't upload any file, current poster image file info should be remain.
-			 * Find the entity already exists in persistence context,
-			 * get file info, and then apply to new entity.
-			 */
-			
-			movieNew.setPosterOrigName(movieOrigin.getPosterOrigName());
-			movieNew.setPosterUuidName(movieOrigin.getPosterUuidName());
-			movieNew.setPosterImgPath(movieOrigin.getPosterImgPath());
-			
 		}
+		
+		System.out.println("--------------- Entity Created ---------------");
+		System.out.println("Created movie entity : " + movieNew);
+		System.out.println("----------------------------------------------");
 		
 		movieService.modifyMovie(movieNew);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 영화 정보 수정을 성공했습니다.");
 		
-		/* 
-		 * FIXME 2021-11-26 Fri 02:15 송언석
-		 * 파일 업로드 실패시 작성한 파라미터를 다시 디테일 폼 화면으로 갖고 돌아가도록 설정할 예정.
-		 * 현재는 실패하도 다시 영화 리스트로 리다이렉트 되도록 설정.
-		 */
 		pathToRedirect = "list";
 		
 		mv.setViewName("redirect:" + pathToRedirect);
@@ -345,9 +381,15 @@ public class MovieController {
 	public ModelAndView deleteMovieByCode(ModelAndView mv,
 										  RedirectAttributes rAttr,
 										  @RequestParam int code) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		/* delete movie entity and poster image file */
+		MovieDTO movie = movieService.inquireSingleMovieByCode(code);
 		movieService.deleteMovieByCode(code);
+		
+		new File(movie.getPosterImgPath()).delete();
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 영화 삭제를 성공했습니다.");
 		mv.setViewName("redirect:list");

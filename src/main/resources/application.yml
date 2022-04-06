@@ -1,4 +1,4 @@
-# server port config
+# Tomcat server port config
 server:
   port: 8887
 # custom error page config
@@ -9,7 +9,10 @@ spring:
   # oracle driver config
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
+    # URL for Oracle Compute Instance, Ubuntu 20.04
     url: jdbc:oracle:thin:@EGVOracleATP_high?TNS_ADMIN=/home/ubuntu/EGV-jar-deploy/Wallet_EGVOracleATP
+    # URL for MacBook Pro(intel), macOS 12.2.1
+    # url: jdbc:oracle:thin:@EGVOracleATP_high?TNS_ADMIN=/Users/songunsuk/myWorkSpace/auth/Oracle_Cloud/Wallet_EGVOracleATP
     username: ADMIN
     password: EGVinoraclecloud1995
   devtools: 
@@ -17,6 +20,10 @@ spring:
         enabled: true 
   # jpa config  jpa:    generate-ddl: false
     show-sql: true
-    database: oracle    database-platform: org.hibernate.dialect.Oracle12cDialect  # file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MBlogging:  level:
+    open-in-view: false
+    database: oracle    database-platform: org.hibernate.dialect.Oracle12cDialect  # file upload config  servlet:    multipart:      max-file-size: 10MB      max-request-size: 20MB
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .htmllogging:  level:
       root: warn
 #    '[org.hibernate]': info

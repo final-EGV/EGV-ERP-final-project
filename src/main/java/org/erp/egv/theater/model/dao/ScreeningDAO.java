@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.erp.egv.theater.model.dto.ScreeningScheduleDTO;
+import org.erp.egv.theater.entity.ScreeningSchedule;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,35 +14,46 @@ public class ScreeningDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public List<ScreeningScheduleDTO> inquireAllScreeningScheduleList() {
+	public List<ScreeningSchedule> inquireAllScreeningScheduleList() {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		String jpql = "SELECT s FROM ScreeningScheduleDTO s";
+		String jpql = "SELECT s FROM ScreeningSchedule s";
 		
-		List<ScreeningScheduleDTO> scheduleList = em.createQuery(jpql, ScreeningScheduleDTO.class).getResultList();
+		List<ScreeningSchedule> scheduleList = em.createQuery(jpql, ScreeningSchedule.class)
+													.getResultList();
 
 		return scheduleList;
 	}
+	
+	public void registSchedule(ScreeningSchedule schedule) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		em.persist(schedule);
+	}
 
-	public void modifySchedule(ScreeningScheduleDTO scheduleFromClient) {
+	public void modifySchedule(ScreeningSchedule scheduleToUpdate) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		ScreeningScheduleDTO scheduleFromEntity = em.find(ScreeningScheduleDTO.class, scheduleFromClient.getCode());
+		ScreeningSchedule scheduleFromPC = em.find(ScreeningSchedule.class, scheduleToUpdate.getCode());
 		
-		scheduleFromEntity.setMovieAndScreening(scheduleFromClient.getMovieAndScreening());
-		scheduleFromEntity.setTheater(scheduleFromClient.getTheater());
-		scheduleFromEntity.setScreeningStart(scheduleFromClient.getScreeningStart());
-		scheduleFromEntity.setScreeningEnd(scheduleFromClient.getScreeningEnd());
-		
+		scheduleFromPC.update(scheduleToUpdate.getMovie(),
+				scheduleToUpdate.getTheater(),
+				scheduleToUpdate.getScreeningStart(),
+				scheduleToUpdate.getScreeningEnd());
 	}
 
 	public void deleteScreeningScheduleByCode(int code) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		ScreeningScheduleDTO schedule = em.find(ScreeningScheduleDTO.class, code);
+		ScreeningSchedule schedule = em.find(ScreeningSchedule.class, code);
 		
 		if (schedule == null) {
 			System.out.println("[Error] " + code + "번 상영 스케줄은 현재 데이터베이스에 존재하지 않습니다.");
@@ -51,14 +62,6 @@ public class ScreeningDAO {
 		}
 		
 		em.remove(em.contains(schedule) ? schedule : em.merge(schedule));
-		
-	}
-
-	public void registSchedule(ScreeningScheduleDTO schedule) {
-		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		em.persist(schedule);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.erp.egv.theater.model.dto.EventDTO;
+import org.erp.egv.theater.entity.Event;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,51 +14,58 @@ public class EventDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public List<EventDTO> inquireAllEventList() {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+	public List<Event> inquireAllEventList() {
 		
-		String jpql = "SELECT e FROM EventDTO e LEFT JOIN e.movieAndEvent m ORDER BY e.startDatetime DESC";
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		List<EventDTO> eventList = em.createQuery(jpql, EventDTO.class)
-				 					 .getResultList();
+		String jpql = "SELECT e FROM Event e LEFT JOIN e.movie m ORDER BY e.startDatetime DESC";
 		
-		System.out.println("eventList's size: " + eventList.size());
+		List<Event> eventEntityList = em.createQuery(jpql, Event.class)
+				 				  .getResultList();
 		
-		return eventList;
+		return eventEntityList;
 	}
-
-	public void registEvent(EventDTO event) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+	
+	public Event inquireSingleEventByCode(int code) {
 		
-		em.persist(event);
-	}
-
-	public EventDTO inquireSingleEventByCode(int code) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		EventDTO event = em.find(EventDTO.class, code);
+		Event event = em.find(Event.class, code);
 		
 		return event;
 	}
 
-	public void modifyEvent(EventDTO eventFromClient) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+	public void registEvent(Event event) {
 		
-		EventDTO eventFromEntity = em.find(EventDTO.class, eventFromClient.getCode());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		eventFromEntity.setName(eventFromClient.getName());
-		eventFromEntity.setStartDatetime(eventFromClient.getStartDatetime());
-		eventFromEntity.setEndDatetime(eventFromClient.getEndDatetime());
-		eventFromEntity.setMovieAndEvent(eventFromClient.getMovieAndEvent());
-		eventFromEntity.setRentalCompany(eventFromClient.getRentalCompany());
-		eventFromEntity.setProduct(eventFromClient.getProduct());
+		em.persist(event);
+	}
+
+	public void modifyEvent(Event eventToUpdate) {
 		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		Event eventFromPC = em.find(Event.class, eventToUpdate.getCode());
+		
+		eventFromPC.update(eventToUpdate.getName(),
+							eventToUpdate.getStartDatetime(),
+							eventToUpdate.getEndDatetime(),
+							eventToUpdate.getRentalCompany(),
+							eventToUpdate.getMovie(),
+							eventToUpdate.getProduct());
 	}
 
 	public void deleteEventByCode(int code) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		EventDTO event = em.find(EventDTO.class, code);
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		Event event = em.find(Event.class, code);
 		
 		if (event == null) {
 			System.out.println("[Error] " + code + "번 이벤트는 현재 데이터베이스에 존재하지 않습니다.");

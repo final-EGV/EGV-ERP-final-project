@@ -1,9 +1,11 @@
 package org.erp.egv.theater.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.erp.egv.theater.entity.ScreeningSchedule;
 import org.erp.egv.theater.model.dao.ScreeningDAO;
 import org.erp.egv.theater.model.dto.ScreeningScheduleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,32 +24,44 @@ public class ScreeningService {
 	@Transactional
 	public List<ScreeningScheduleDTO> inquireAllScreeningScheduleList() {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		return screeningDAO.inquireAllScreeningScheduleList();
+		List<ScreeningSchedule> screeningScheduleEntityList = screeningDAO.inquireAllScreeningScheduleList();
+		List<ScreeningScheduleDTO> screeningScheduleDtoList = new ArrayList<>();
+		
+		for (ScreeningSchedule entity : screeningScheduleEntityList) {
+			screeningScheduleDtoList.add(entity.toDto());
+		}
+		
+		return screeningScheduleDtoList;
+	}
+	
+	@Transactional
+	public void registSchedule(ScreeningScheduleDTO scheduleDto) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		screeningDAO.registSchedule(scheduleDto.toEntity());
 	}
 
 	@Transactional
-	public void modifySchedule(ScreeningScheduleDTO scheduleFromClient) {
+	public void modifySchedule(ScreeningScheduleDTO scheduleToUpdate) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		screeningDAO.modifySchedule(scheduleFromClient);
+		screeningDAO.modifySchedule(scheduleToUpdate.toEntityWithId());
 	}
 
 	@Transactional
 	public void deleteScreeningScheduleByCode(int code) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		screeningDAO.deleteScreeningScheduleByCode(code);
-	}
-
-	@Transactional
-	public void registSchedule(ScreeningScheduleDTO schedule) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		screeningDAO.registSchedule(schedule);
 	}
 
 }

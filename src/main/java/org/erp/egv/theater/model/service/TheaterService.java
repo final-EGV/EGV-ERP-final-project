@@ -20,8 +20,9 @@ public class TheaterService {
 	@Transactional
 	public TheaterDTO inquireSingleTheaterByCode(int theaterCode) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-				return theaterDAO.inquireSingleTheaterByCode(theaterCode);
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+				return theaterDAO.inquireSingleTheaterByCode(theaterCode).toDto();
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.erp.egv.theater.model.dto.MovieDTO;
+import org.erp.egv.theater.entity.Movie;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,60 +14,75 @@ public class MovieDAO {
 	@PersistenceContext
 	private EntityManager em;
 
-	public List<MovieDTO> inquireAllMovieList() {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		String jpql = "SELECT m FROM MovieDTO m ORDER BY m.openingDate";
+	public List<Movie> inquireAllMovieList() {
 		
-		List<MovieDTO> movieList = em.createQuery(jpql, MovieDTO.class)
-									 .getResultList();
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		for (MovieDTO movie : movieList) {
-			System.out.println(movie);
-		}
-		System.out.println(movieList);
-		return movieList;
+		String jpql = "SELECT m FROM Movie m ORDER BY m.openingDate";
+		
+		List<Movie> movieEntityList = em.createQuery(jpql, Movie.class)
+										.getResultList();
+		
+		return movieEntityList;
+	}
+	
+	public List<Movie> inquireOnlyYMovieList() {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		String jpql = "SELECT m FROM Movie m WHERE m.openingYn = 'Y' ORDER BY m.openingDate";
+		
+		List<Movie> movieEntityList = em.createQuery(jpql, Movie.class)
+									.getResultList();
+		
+		return movieEntityList;
+	}
+	
+	public Movie inquireSingleMovieByCode(int movieCode) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		return em.find(Movie.class, movieCode);
 	}
 
-	public void registMovie(MovieDTO movie) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+	public void registMovie(Movie movie) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		em.persist(movie);
 	}
 
-	public MovieDTO inquireSingleMovieByCode(int movieCode) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+	public void modifyMovie(Movie movieToUpdate) {
 		
-		MovieDTO movie = em.find(MovieDTO.class, movieCode);
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		System.out.println("movie(" + movieCode + ") : " + movie);
+		Movie movieFromPC = em.find(Movie.class, movieToUpdate.getCode());
 		
-		return movie;
-	}
-
-	public void modifyMovie(MovieDTO movieNew) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		MovieDTO movieOrigin = em.find(MovieDTO.class, movieNew.getCode());
-		
-		movieOrigin.setName(movieNew.getName());
-		movieOrigin.setOpeningDate(movieNew.getOpeningDate());
-		movieOrigin.setRunningTime(movieNew.getRunningTime());
-		movieOrigin.setGrade(movieNew.getGrade());
-		movieOrigin.setGenre(movieNew.getGenre());
-		movieOrigin.setDistributor(movieNew.getDistributor());
-		movieOrigin.setDirector(movieNew.getDirector());
-		movieOrigin.setCountry(movieNew.getCountry());
-		movieOrigin.setOpeningYn(movieNew.getOpeningYn());
-		movieOrigin.setPosterOrigName(movieNew.getPosterOrigName());
-		movieOrigin.setPosterUuidName(movieNew.getPosterUuidName());
-		movieOrigin.setPosterImgPath(movieNew.getPosterImgPath());
-		
+		movieFromPC.update(movieToUpdate.getName(),
+							movieToUpdate.getOpeningDate(),
+							movieToUpdate.getRunningTime(),
+							movieToUpdate.getGrade(),
+							movieToUpdate.getGenre(),
+							movieToUpdate.getDistributor(),
+							movieToUpdate.getDirector(),
+							movieToUpdate.getCountry(),
+							movieToUpdate.getPosterOrigName(),
+							movieToUpdate.getPosterUuidName(),
+							movieToUpdate.getPosterImgPath(),
+							movieToUpdate.getOpeningYn());
 	}
 
 	public void deleteMovieByCode(int code) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
 		
-		MovieDTO movie = em.find(MovieDTO.class, code);
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		Movie movie = em.find(Movie.class, code);
 		
 		if (movie == null) {
 			System.out.println("[Error] " + code + "번 영화는 현재 데이터베이스에 존재하지 않습니다.");
@@ -76,20 +91,6 @@ public class MovieDAO {
 		}
 		
 		em.remove(em.contains(movie) ? movie : em.merge(movie));
-	}
-
-	public List<MovieDTO> inquireOnlyYMovieList() {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-
-		String jpql = "SELECT m FROM MovieDTO m WHERE m.openingYn = 'Y' ORDER BY m.openingDate";
-		List<MovieDTO> movieList = em.createQuery(jpql, MovieDTO.class)
-									 .getResultList();
-		
-		for (MovieDTO movie : movieList) {
-			System.out.println(movie);
-		}
-		
-		return movieList;
 	}
 
 }

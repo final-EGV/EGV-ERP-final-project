@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.erp.egv.theater.model.dto.MovieDTO;
 import org.erp.egv.theater.model.dto.ScreeningScheduleDTO;
-import org.erp.egv.theater.model.dto.TheaterDTO;
 import org.erp.egv.theater.model.service.MovieService;
 import org.erp.egv.theater.model.service.ScreeningService;
 import org.erp.egv.theater.model.service.TheaterService;
@@ -40,7 +39,8 @@ public class ScreeningController {
 	@GetMapping("")
 	public ModelAndView goScreeningSchedule(ModelAndView mv) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<MovieDTO> movieList = movieService.inquireOnlyYMovieList();
 		
@@ -54,75 +54,19 @@ public class ScreeningController {
 	@ResponseBody
 	public List<ScreeningScheduleDTO> getScreeningScheduleList() {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<ScreeningScheduleDTO> scheduleList = screeningService.inquireAllScreeningScheduleList();
 		
-		System.out.println("---< SCHEDULE data from DB >---");
-		for (ScreeningScheduleDTO schedule : scheduleList) {
-			System.out.println(schedule);
-		}
-		
 		return scheduleList;
-	}
-	
-	@PostMapping("/modify")
-	public String modifyScreeningScheduleInfo(HttpServletRequest request, RedirectAttributes rAttr)
-			throws UnsupportedEncodingException, ParseException {
-		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		int scheduleCode = Integer.valueOf(request.getParameter("code"));
-		int movieCode = Integer.valueOf(request.getParameter("movieAndScreening"));
-		int theaterCode = Integer.valueOf(request.getParameter("theater"));
-		String screeningStart = request.getParameter("screeningStart");
-		String screeningEnd = request.getParameter("screeningEnd");
-		
-		System.out.println("---< SCHEDULE data from Client >---");
-		System.out.println("scheduleCode: " + scheduleCode);
-		System.out.println("movieCode: " + movieCode);
-		System.out.println("theaterCode: " + theaterCode);
-		System.out.println("screeningStart: " + screeningStart);
-		System.out.println("screeningEnd: " + screeningEnd);
-		
-		MovieDTO movie = movieService.inquireSingleMovieByCode(movieCode);
-		TheaterDTO theater = theaterService.inquireSingleTheaterByCode(theaterCode);
-		
-		ScreeningScheduleDTO scheduleFromClient = new ScreeningScheduleDTO();
-		
-		scheduleFromClient.setCode(scheduleCode);
-		scheduleFromClient.setMovieAndScreening(movie);
-		scheduleFromClient.setTheater(theater);
-		scheduleFromClient.setScreeningStart(screeningStart);
-		scheduleFromClient.setScreeningEnd(screeningEnd);
-		
-		screeningService.modifySchedule(scheduleFromClient);
-		
-		rAttr.addFlashAttribute("flashMessage", "[Success] 상영 스케줄 정보 수정을 성공했습니다.");
-		
-		return "redirect:/theater/schedule/screening";
-	}
-	
-	@PostMapping("/delete")
-	@ResponseBody
-	public ModelAndView deleteScreeningScheduleByCode(ModelAndView mv, RedirectAttributes rAttr, @RequestParam int code) {
-		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		System.out.println("delete code: " + code);
-		screeningService.deleteScreeningScheduleByCode(code);
-		
-		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 상영 스케줄 삭제를 성공했습니다.");
-		mv.setViewName("redirect:/theater/schedule/screening");
-		
-		return mv;
 	}
 	
 	@GetMapping("/regist")
 	public ModelAndView goScreeningScheduleRegist(ModelAndView mv) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<MovieDTO> movieList = movieService.inquireOnlyYMovieList();
 		
@@ -133,30 +77,97 @@ public class ScreeningController {
 	}
 	
 	@PostMapping("/regist")
-	public String registScreeningSchedule(HttpServletRequest request, RedirectAttributes rAttr) throws UnsupportedEncodingException {
+	public String registScreeningSchedule(HttpServletRequest request, RedirectAttributes rAttr)
+			throws UnsupportedEncodingException {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		int movieCode = Integer.valueOf(request.getParameter("movieAndScreening"));
+		int movieCode = Integer.valueOf(request.getParameter("movie"));
 		int theaterCode = Integer.valueOf(request.getParameter("theater"));
 		String screeningStart = request.getParameter("screeningStart");
 		String screeningEnd = request.getParameter("screeningEnd");
 		
-		MovieDTO movie = movieService.inquireSingleMovieByCode(movieCode);
-		TheaterDTO theater = theaterService.inquireSingleTheaterByCode(theaterCode);
+		System.out.println("--------------- Check Requested Parameters ---------------");
+		System.out.println("movieCode: " + movieCode);
+		System.out.println("theaterCode: " + theaterCode);
+		System.out.println("screeningStart: " + screeningStart);
+		System.out.println("screeningEnd: " + screeningEnd);
 		
-		ScreeningScheduleDTO schedule = new ScreeningScheduleDTO();
+		ScreeningScheduleDTO scheduleDto = new ScreeningScheduleDTO();
 		
-		schedule.setMovieAndScreening(movie);
-		schedule.setTheater(theater);
-		schedule.setScreeningStart(screeningStart);
-		schedule.setScreeningEnd(screeningEnd);
+		scheduleDto.setMovie(movieService.inquireSingleMovieByCode(movieCode));
+		scheduleDto.setTheater(theaterService.inquireSingleTheaterByCode(theaterCode));
+		scheduleDto.setScreeningStart(screeningStart);
+		scheduleDto.setScreeningEnd(screeningEnd);
 		
-		screeningService.registSchedule(schedule);
+		System.out.println("------------- ScreeningSchedule DTO Created --------------");
+		System.out.println("Created ScreeningSchedule DTO to insert : " + scheduleDto);
+		System.out.println("----------------------------------------------------------");
+		
+		screeningService.registSchedule(scheduleDto);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 상영 스케줄 등록을 성공했습니다.");
 		
 		return "redirect:/theater/schedule/screening";
+	}
+	
+	@PostMapping("/modify")
+	public String modifyScreeningScheduleInfo(HttpServletRequest request, RedirectAttributes rAttr)
+			throws UnsupportedEncodingException, ParseException {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		int scheduleCode = Integer.valueOf(request.getParameter("code"));
+		int movieCode = Integer.valueOf(request.getParameter("movie"));
+		int theaterCode = Integer.valueOf(request.getParameter("theater"));
+		String screeningStart = request.getParameter("screeningStart");
+		String screeningEnd = request.getParameter("screeningEnd");
+		
+		System.out.println("--------------- Check Requested Parameters ---------------");
+		System.out.println("scheduleCode: " + scheduleCode);
+		System.out.println("movieCode: " + movieCode);
+		System.out.println("theaterCode: " + theaterCode);
+		System.out.println("screeningStart: " + screeningStart);
+		System.out.println("screeningEnd: " + screeningEnd);
+		
+		ScreeningScheduleDTO scheduleToUpdate = new ScreeningScheduleDTO();
+		
+		scheduleToUpdate.setCode(scheduleCode);
+		scheduleToUpdate.setMovie(movieService.inquireSingleMovieByCode(movieCode));
+		scheduleToUpdate.setTheater(theaterService.inquireSingleTheaterByCode(theaterCode));
+		scheduleToUpdate.setScreeningStart(screeningStart);
+		scheduleToUpdate.setScreeningEnd(screeningEnd);
+		
+		System.out.println("------------- ScreeningSchedule DTO Created --------------");
+		System.out.println("Created ScreeningSchedule DTO to update : " + scheduleToUpdate);
+		System.out.println("----------------------------------------------------------");
+		
+		screeningService.modifySchedule(scheduleToUpdate);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] 상영 스케줄 정보 수정을 성공했습니다.");
+		
+		return "redirect:/theater/schedule/screening";
+	}
+	
+	@PostMapping("/delete")
+	@ResponseBody
+	public ModelAndView deleteScreeningScheduleByCode(ModelAndView mv, RedirectAttributes rAttr, @RequestParam int code) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		screeningService.deleteScreeningScheduleByCode(code);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 상영 스케줄 삭제를 성공했습니다.");
+		mv.setViewName("redirect:/theater/schedule/screening");
+		
+		return mv;
 	}
 	
 }

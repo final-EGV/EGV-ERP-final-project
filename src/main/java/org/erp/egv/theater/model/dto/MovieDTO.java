@@ -1,70 +1,38 @@
 package org.erp.egv.theater.model.dto;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import org.erp.egv.theater.entity.Movie;
 
-@Entity
-@Table(name = "MOVIE")
-@SequenceGenerator(name = "MOVIE_SEQ_GENERATOR",
-					sequenceName = "SEQ_MOVIE_CODE",
-					initialValue = 1,
-					allocationSize = 1)
-public class MovieDTO implements Serializable {
-	private static final long serialVersionUID = 5141036429529659038L;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-					generator = "MOVIE_SEQ_GENERATOR")
-	@Column(name = "MOVIE_CODE")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class MovieDTO {
+
 	private int code;
-	
-	@Column(name = "MOVIE_NAME")
 	private String name;
-
-	@Column(name = "OPENING_DATE")
 	private java.sql.Date openingDate;
-
-	@Column(name = "RUNNINGTIME")
 	private int runningTime;
-
-	@Column(name = "GRADE")
 	private String grade;
-
-	@Column(name = "GENRE")
 	private String genre;
-
-	@Column(name = "DISTRIBUTOR")
 	private String distributor;
-
-	@Column(name = "DIRECTOR")
 	private String director;
-
-	@Column(name = "COUNTRY")
 	private String country;
-
-	@Column(name = "POSTER_ORIG_NAME")
 	private String posterOrigName;
-
-	@Column(name = "POSTER_UUID_NAME")
 	private String posterUuidName;
-
-	@Column(name = "POSTER_IMG_PATH")
 	private String posterImgPath;
-
-	@Column(name = "OPENING_YN", columnDefinition = "default = 'N'")
 	private String openingYn;
 	
-	public MovieDTO() {
-	}
-
+	@Builder(builderMethodName = "converter", buildMethodName = "convertToDto")
 	public MovieDTO(int code, String name, Date openingDate, int runningTime, String grade, String genre,
 			String distributor, String director, String country, String posterOrigName, String posterUuidName,
 			String posterImgPath, String openingYn) {
@@ -82,117 +50,64 @@ public class MovieDTO implements Serializable {
 		this.posterImgPath = posterImgPath;
 		this.openingYn = openingYn;
 	}
-
-	public int getCode() {
-		return code;
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is not including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity will remain <code>null</code>.
+	 * <p>
+	 * Use this conversion method when you want to persist new entity into the persistence context,
+	 * or to add new record into the database with given DTO object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, without primary key(@Id).
+	 */
+	public Movie toEntity() {
+		return Movie.converter()
+				.name(name)
+				.openingDate(openingDate)
+				.runningTime(runningTime)
+				.grade(grade)
+				.genre(genre)
+				.distributor(distributor)
+				.director(director)
+				.country(country)
+				.posterOrigName(posterOrigName)
+				.posterUuidName(posterUuidName)
+				.posterImgPath(posterImgPath)
+				.openingYn(openingYn)
+				.convertWithoutId();
 	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public java.sql.Date getOpeningDate() {
-		return openingDate;
-	}
-
-	public void setOpeningDate(java.sql.Date openingDate) {
-		this.openingDate = openingDate;
-	}
-
-	public int getRunningTime() {
-		return runningTime;
-	}
-
-	public void setRunningTime(int runningTime) {
-		this.runningTime = runningTime;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-	public String getDistributor() {
-		return distributor;
-	}
-
-	public void setDistributor(String distributor) {
-		this.distributor = distributor;
-	}
-
-	public String getDirector() {
-		return director;
-	}
-
-	public void setDirector(String director) {
-		this.director = director;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getPosterOrigName() {
-		return posterOrigName;
-	}
-
-	public void setPosterOrigName(String posterOrigName) {
-		this.posterOrigName = posterOrigName;
-	}
-
-	public String getPosterUuidName() {
-		return posterUuidName;
-	}
-
-	public void setPosterUuidName(String posterUuidName) {
-		this.posterUuidName = posterUuidName;
-	}
-
-	public String getPosterImgPath() {
-		return posterImgPath;
-	}
-
-	public void setPosterImgPath(String posterImgPath) {
-		this.posterImgPath = posterImgPath;
-	}
-
-	public String getOpeningYn() {
-		return openingYn;
-	}
-
-	public void setOpeningYn(String openingYn) {
-		this.openingYn = openingYn;
-	}
-
-	@Override
-	public String toString() {
-		return "MovieDTO [code=" + code + ", name=" + name + ", openingDate=" + openingDate + ", runningTime="
-				+ runningTime + ", grade=" + grade + ", genre=" + genre + ", distributor=" + distributor + ", director="
-				+ director + ", country=" + country + ", posterOrigName=" + posterOrigName + ", posterUuidName="
-				+ posterUuidName + ", posterImgPath=" + posterImgPath + ", openingYn=" + openingYn + "]";
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity does not remain <code>null</code>,
+	 * but will be appropriately converted based on the filed value of the given DTO object.
+	 * <p>
+	 * Use this conversion method when you want to update already being managed entity in the
+	 * persistence context, or to update already existing record in the database with given DTO
+	 * object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, with primary key(@Id).
+	 */
+	public Movie toEntityWithId() {
+		return Movie.converter()
+				.code(code)
+				.name(name)
+				.openingDate(openingDate)
+				.runningTime(runningTime)
+				.grade(grade)
+				.genre(genre)
+				.distributor(distributor)
+				.director(director)
+				.country(country)
+				.posterOrigName(posterOrigName)
+				.posterUuidName(posterUuidName)
+				.posterImgPath(posterImgPath)
+				.openingYn(openingYn)
+				.convertWithId();
 	}
 
 }

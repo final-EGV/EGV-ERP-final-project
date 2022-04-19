@@ -1,102 +1,78 @@
 package org.erp.egv.theater.model.dto;
 
-import java.io.Serializable;
+import org.erp.egv.theater.entity.ScreeningSchedule;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "SCREENING_SCHEDULE")
-@SequenceGenerator(name = "SCREENING_SCHEDULE_SEQ_GENERATOR",
-					sequenceName = "SEQ_SCREENING_CODE",
-					initialValue = 1,
-					allocationSize = 1)
-public class ScreeningScheduleDTO implements Serializable {
-	private static final long serialVersionUID = -1950767068130331713L;
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class ScreeningScheduleDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-					generator = "SCREENING_SCHEDULE_SEQ_GENERATOR")
-	@Column(name = "SCREENING_CODE")
 	private int code;
-	
-	@ManyToOne
-	@JoinColumn(name = "MOVIE_CODE")
-	private MovieDTO movieAndScreening;
-	
-	@ManyToOne
-	@JoinColumn(name = "THEATER_CODE")
+	private MovieDTO movie;
 	private TheaterDTO theater;
-	
-	@Column(name = "SCREENING_START")
 	private String screeningStart;
-	
-	@Column(name = "SCREENING_END")
 	private String screeningEnd;
-
-	public ScreeningScheduleDTO() {
-	}
-
-	public ScreeningScheduleDTO(int code, MovieDTO movieAndScreening, TheaterDTO theater, String screeningStart,
+	
+	@Builder(builderMethodName = "converter", buildMethodName = "convertToDto")
+	public ScreeningScheduleDTO(int code, MovieDTO movie, TheaterDTO theater, String screeningStart,
 			String screeningEnd) {
 		this.code = code;
-		this.movieAndScreening = movieAndScreening;
+		this.movie = movie;
 		this.theater = theater;
 		this.screeningStart = screeningStart;
 		this.screeningEnd = screeningEnd;
 	}
-
-	public int getCode() {
-		return code;
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is not including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity will remain <code>null</code>.
+	 * <p>
+	 * Use this conversion method when you want to persist new entity into the persistence context,
+	 * or to add new record into the database with given DTO object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, without primary key(@Id).
+	 */
+	public ScreeningSchedule toEntity() {
+		return ScreeningSchedule.converter()
+				.movie(movie.toEntityWithId())
+				.theater(theater.toEntityWithId())
+				.screeningStart(screeningStart)
+				.screeningEnd(screeningEnd)
+				.convertWithoutId();
 	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public MovieDTO getMovieAndScreening() {
-		return movieAndScreening;
-	}
-
-	public void setMovieAndScreening(MovieDTO movieAndScreening) {
-		this.movieAndScreening = movieAndScreening;
-	}
-
-	public TheaterDTO getTheater() {
-		return theater;
-	}
-
-	public void setTheater(TheaterDTO theater) {
-		this.theater = theater;
-	}
-
-	public String getScreeningStart() {
-		return screeningStart;
-	}
-
-	public void setScreeningStart(String screeningStart) {
-		this.screeningStart = screeningStart;
-	}
-
-	public String getScreeningEnd() {
-		return screeningEnd;
-	}
-
-	public void setScreeningEnd(String screeningEnd) {
-		this.screeningEnd = screeningEnd;
-	}
-
-	@Override
-	public String toString() {
-		return "ScreeningScheduleDTO [code=" + code + ", movieAndScreening=" + movieAndScreening.getName() + ", theater="
-				+ theater.getName() + ", screeningStart=" + screeningStart + ", screeningEnd=" + screeningEnd + "]";
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity does not remain <code>null</code>,
+	 * but will be appropriately converted based on the filed value of the given DTO object.
+	 * <p>
+	 * Use this conversion method when you want to update already being managed entity in the
+	 * persistence context, or to update already existing record in the database with given DTO
+	 * object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, with primary key(@Id).
+	 */
+	public ScreeningSchedule toEntityWithId() {
+		return ScreeningSchedule.converter()
+				.code(code)
+				.movie(movie.toEntityWithId())
+				.theater(theater.toEntityWithId())
+				.screeningStart(screeningStart)
+				.screeningEnd(screeningEnd)
+				.convertWithId();
 	}
 
 }

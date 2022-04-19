@@ -1,126 +1,86 @@
 package org.erp.egv.theater.model.dto;
 
-import java.io.Serializable;
+import org.erp.egv.theater.entity.Event;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "EVENT")
-@SequenceGenerator(name = "EVENT_SEQ_GENERATOR",
-					sequenceName = "SEQ_EVENT_CODE",
-					initialValue = 1,
-					allocationSize = 1)
-public class EventDTO implements Serializable {
-	private static final long serialVersionUID = -4503439553474230425L;
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class EventDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-					generator = "EVENT_SEQ_GENERATOR")
-	@Column(name = "EVENT_CODE")
 	private int code;
-	
-	@Column(name = "EVENT_NAME")
 	private String name;
-
-	@Column(name = "START_DATETIME")
 	private String startDatetime;
-
-	@Column(name = "END_DATETIME")
 	private String endDatetime;
-
-	@Column(name = "RENTAL_COMPANY", nullable = true)
 	private String rentalCompany;
-
-	@ManyToOne
-	@JoinColumn(name = "MOVIE_CODE", nullable = true)
-	private MovieDTO movieAndEvent;
-
-	@Column(name = "EVENT_PRODUCT", nullable = true)
+	private MovieDTO movie;
 	private String product;
-
-	public EventDTO() {
-	}
-
+	
+	@Builder(builderMethodName = "converter", buildMethodName = "convertToDto")
 	public EventDTO(int code, String name, String startDatetime, String endDatetime, String rentalCompany,
-			MovieDTO movieAndEvent, String product) {
+			MovieDTO movie, String product) {
 		this.code = code;
 		this.name = name;
 		this.startDatetime = startDatetime;
 		this.endDatetime = endDatetime;
 		this.rentalCompany = rentalCompany;
-		this.movieAndEvent = movieAndEvent;
+		this.movie = movie;
 		this.product = product;
 	}
 
-	public int getCode() {
-		return code;
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is not including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity will remain <code>null</code>.
+	 * <p>
+	 * Use this conversion method when you want to persist new entity into the persistence context,
+	 * or to add new record into the database with given DTO object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, without primary key(@Id).
+	 */
+	public Event toEntity() {
+		return Event.converter()
+				.name(name)
+				.startDatetime(startDatetime)
+				.endDatetime(endDatetime)
+				.rentalCompany(rentalCompany != null ? rentalCompany : null)
+				.movie(movie != null ? movie.toEntityWithId() : null)
+				.product(product != null ? product : null)
+				.convertWithoutId();
 	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getStartDatetime() {
-		return startDatetime;
-	}
-
-	public void setStartDatetime(String startDatetime) {
-		this.startDatetime = startDatetime;
-	}
-
-	public String getEndDatetime() {
-		return endDatetime;
-	}
-
-	public void setEndDatetime(String endDatetime) {
-		this.endDatetime = endDatetime;
-	}
-
-	public String getRentalCompany() {
-		return rentalCompany;
-	}
-
-	public void setRentalCompany(String rentalCompany) {
-		this.rentalCompany = rentalCompany;
-	}
-
-	public MovieDTO getMovieAndEvent() {
-		return movieAndEvent;
-	}
-
-	public void setMovieAndEvent(MovieDTO movieAndEvent) {
-		this.movieAndEvent = movieAndEvent;
-	}
-
-	public String getProduct() {
-		return product;
-	}
-
-	public void setProduct(String product) {
-		this.product = product;
-	}
-
-	@Override
-	public String toString() {
-		return "EventDTO [code=" + code + ", name=" + name + ", startDatetime=" + startDatetime + ", endDatetime="
-				+ endDatetime + ", rentalCompany=" + rentalCompany + ", movieAndEvent=" + movieAndEvent.getName() + ", product="
-				+ product + "]";
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity does not remain <code>null</code>,
+	 * but will be appropriately converted based on the filed value of the given DTO object.
+	 * <p>
+	 * Use this conversion method when you want to update already being managed entity in the
+	 * persistence context, or to update already existing record in the database with given DTO
+	 * object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, with primary key(@Id).
+	 */
+	public Event toEntityWithId() {
+		return Event.converter()
+				.code(code)
+				.name(name)
+				.startDatetime(startDatetime)
+				.endDatetime(endDatetime)
+				.rentalCompany(rentalCompany != null ? rentalCompany : null)
+				.movie(movie != null ? movie.toEntityWithId() : null)
+				.product(product != null ? product : null)
+				.convertWithId();
 	}
 
 }

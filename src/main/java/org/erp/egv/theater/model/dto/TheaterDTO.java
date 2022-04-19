@@ -1,72 +1,69 @@
 package org.erp.egv.theater.model.dto;
 
-import java.io.Serializable;
+import org.erp.egv.theater.entity.Theater;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "THEATER")
-@SequenceGenerator(name = "THEATER_SEQ_GENERATOR",
-					sequenceName = "SEQ_THEATER_CODE",
-					initialValue = 1,
-					allocationSize = 1)
-public class TheaterDTO implements Serializable {
-	private static final long serialVersionUID = -5999045906549542109L;
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class TheaterDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-					generator = "THEATER_SEQ_GENERATOR")
-	@Column(name = "THEATER_CODE")
 	private int code;
-	
-	@Column(name = "THEATER_NAME")
 	private String name;
-	
-	@Column(name = "OCCUPANCY")
 	private int occupancy;
-
-	public TheaterDTO() {
-	}
-
+	
+	@Builder(builderMethodName = "converter", buildMethodName = "convertToDto")
 	public TheaterDTO(int code, String name, int occupancy) {
 		this.code = code;
 		this.name = name;
 		this.occupancy = occupancy;
 	}
-
-	public int getCode() {
-		return code;
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is not including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity will remain <code>null</code>.
+	 * <p>
+	 * Use this conversion method when you want to persist new entity into the persistence context,
+	 * or to add new record into the database with given DTO object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, without primary key(@Id).
+	 */
+	public Theater toEntity() {
+		return Theater.converter()
+				.name(name)
+				.occupancy(occupancy)
+				.convertWithoutId();
 	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getOccupancy() {
-		return occupancy;
-	}
-
-	public void setOccupancy(int occupancy) {
-		this.occupancy = occupancy;
-	}
-
-	@Override
-	public String toString() {
-		return "TheaterDTO [code=" + code + ", name=" + name + ", occupancy=" + occupancy + "]";
+	
+	/**
+	 * Converts a DTO object to an Entity object.
+	 * <p>
+	 * Notice that this DTO to Entity conversion is including primary key field, therefore the
+	 * <code>@Id</code> annotated column of returned Entity does not remain <code>null</code>,
+	 * but will be appropriately converted based on the filed value of the given DTO object.
+	 * <p>
+	 * Use this conversion method when you want to update already being managed entity in the
+	 * persistence context, or to update already existing record in the database with given DTO
+	 * object.
+	 * 
+	 * @return an Entity mapped by this DTO instance, with primary key(@Id).
+	 */
+	public Theater toEntityWithId() {
+		return Theater.converter()
+				.code(code)
+				.name(name)
+				.occupancy(occupancy)
+				.convertWithId();
 	}
 
 }

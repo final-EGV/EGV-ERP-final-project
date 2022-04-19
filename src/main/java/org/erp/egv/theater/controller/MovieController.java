@@ -26,29 +26,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/theater/movie")
 public class MovieController {
 	
-	private static final String PATH_OF_MOVIE_POSTER = "static/img/poster/";
+	private static final String PATH_TO_SAVE_POSTER_IMG = "static/img/poster/";
 	
 	private MovieService movieService;
 	
-	/**
-	 * Need to know which file separator('/' or '\\') should be used, and to get saving path
-	 * when uploading file according to OS of host PC
-	 *   - windows: alternative target
-	 *   - unix: recommended target
-	 *   - solaris: currently not supported
-	 *   - notSupported: currently not supported
-	 */
-	private boolean isWindows = false;
+	private boolean isHostOsWindows = false;
 	
 	@Autowired
 	public MovieController(MovieService movieService) {
 		this.movieService = movieService;
-		
-		/* Check OS of host PC and initialize member variable */
-		String os = System.getProperty("os.name").toLowerCase();
-		if (os.contains("win")) {
-			this.isWindows = true;
-		}
+		this.isHostOsWindows = isWindows();
 	}
 
 	@GetMapping("/list")
@@ -61,6 +48,20 @@ public class MovieController {
 		
 		mv.addObject("movieList", movieList);
 		mv.setViewName("theater/movieList");
+		
+		return mv;
+	}
+	
+	@GetMapping("/details")
+	public ModelAndView getDetailsOfSingleMovie(ModelAndView mv, @RequestParam int code) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		MovieDTO movieDto = movieService.inquireSingleMovieByCode(code);
+		
+		mv.addObject("movie", movieDto);
+		mv.setViewName("theater/movieDetails");
 		
 		return mv;
 	}
@@ -120,19 +121,19 @@ public class MovieController {
 		String root = this.getClass().getResource("/").getPath();
 		System.out.println("root : " + root);
 		
-		String rootPath = root.concat(PATH_OF_MOVIE_POSTER);
+		String rootPath = root.concat(PATH_TO_SAVE_POSTER_IMG);
 		
 		/*
 		 * (Alternative)
 		 * Apply proper file separator for Windows server environment, but not recommended.
 		 */
-		if (isWindows) {
+		if (isHostOsWindows) {
 			rootPath = rootPath.replace("/", "\\");
 		}
 		
 		/* 2-2. Set path where a file would be saved, based on this project */
 		String posterImgPath = rootPath;
-		System.out.println("posterImgPath(저장 경로) : " + posterImgPath);
+		System.out.println("posterImgPath : " + posterImgPath);
 		
 		/* 2-3. Create directory if saving path doesn't exist */
 		File mkdir = new File(posterImgPath);
@@ -176,26 +177,26 @@ public class MovieController {
 		}
 		
 		/* 4. Instantiate MovieDTO */
-		MovieDTO movie = new MovieDTO();
+		MovieDTO movieDto = new MovieDTO();
 		
-		movie.setName(movieName);
-		movie.setOpeningDate(openingDate);
-		movie.setRunningTime(runningTime);
-		movie.setGrade(grade);
-		movie.setGenre(genre);
-		movie.setDistributor(distributor);
-		movie.setDirector(director);
-		movie.setCountry(country);
-		movie.setPosterOrigName(posterOrigName);
-		movie.setPosterUuidName(posterUuidName);
-		movie.setPosterImgPath(posterImgPath);
-		movie.setOpeningYn(openingYn);
+		movieDto.setName(movieName);
+		movieDto.setOpeningDate(openingDate);
+		movieDto.setRunningTime(runningTime);
+		movieDto.setGrade(grade);
+		movieDto.setGenre(genre);
+		movieDto.setDistributor(distributor);
+		movieDto.setDirector(director);
+		movieDto.setCountry(country);
+		movieDto.setPosterOrigName(posterOrigName);
+		movieDto.setPosterUuidName(posterUuidName);
+		movieDto.setPosterImgPath(posterImgPath);
+		movieDto.setOpeningYn(openingYn);
 		
-		System.out.println("--------------- Entity Created ---------------");
-		System.out.println("Created movie entity : " + movie);
+		System.out.println("------------- Movie DTO Created --------------");
+		System.out.println("Created movie DTO to insert : " + movieDto);
 		System.out.println("----------------------------------------------");
 		
-		movieService.registMovie(movie);
+		movieService.registMovie(movieDto);
 		
 		pathToRedirect = "list";
 		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 영화 정보 등록을 성공했습니다.");
@@ -205,23 +206,9 @@ public class MovieController {
 		return mv;
 	}
 	
-	@GetMapping("/details")
-	public ModelAndView getDetailsOfSingleMovie(ModelAndView mv, @RequestParam int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
-		MovieDTO movie = movieService.inquireSingleMovieByCode(code);
-		
-		mv.addObject("movie", movie);
-		mv.setViewName("theater/movieDetails");
-		
-		return mv;
-	}
-	
 	@PostMapping("/modify")
 	public ModelAndView modifyMovie(HttpServletRequest request,
-									@RequestParam("posterImg") MultipartFile posterImg,
+									@RequestParam("posterImg") MultipartFile posterImgFile,
 									ModelAndView mv,
 									RedirectAttributes rAttr)
 											throws UnsupportedEncodingException, ParseException {
@@ -263,35 +250,35 @@ public class MovieController {
 		System.out.println("openingYn : " + openingYn);
 		
 		/* 2. Prepare original and new Movie DTO */
-		MovieDTO movieOrigin = movieService.inquireSingleMovieByCode(movieCode);
-		System.out.println("original moview entity: " + movieOrigin);
-		MovieDTO movieNew = new MovieDTO();
+		MovieDTO movieOriginal = movieService.inquireSingleMovieByCode(movieCode);
+		System.out.println("original moview entity : " + movieOriginal);
+		MovieDTO movieToUpdate = new MovieDTO();
 		
-		movieNew.setCode(movieCode);
-		movieNew.setName(movieName);
-		movieNew.setOpeningDate(openingDate);
-		movieNew.setRunningTime(runningTime);
-		movieNew.setGrade(grade);
-		movieNew.setGenre(genre);
-		movieNew.setDistributor(distributor);
-		movieNew.setDirector(director);
-		movieNew.setCountry(country);
-		movieNew.setOpeningYn(openingYn);
+		movieToUpdate.setCode(movieCode);
+		movieToUpdate.setName(movieName);
+		movieToUpdate.setOpeningDate(openingDate);
+		movieToUpdate.setRunningTime(runningTime);
+		movieToUpdate.setGrade(grade);
+		movieToUpdate.setGenre(genre);
+		movieToUpdate.setDistributor(distributor);
+		movieToUpdate.setDirector(director);
+		movieToUpdate.setCountry(country);
+		movieToUpdate.setOpeningYn(openingYn);
 		
-		movieNew.setPosterOrigName(movieOrigin.getPosterOrigName());
-		movieNew.setPosterUuidName(movieOrigin.getPosterUuidName());
-		movieNew.setPosterImgPath(movieOrigin.getPosterImgPath());
+		movieToUpdate.setPosterOrigName(movieOriginal.getPosterOrigName());
+		movieToUpdate.setPosterUuidName(movieOriginal.getPosterUuidName());
+		movieToUpdate.setPosterImgPath(movieOriginal.getPosterImgPath());
 		
 		String pathToRedirect = "";
 		
 		/* 3. Check whether client has uploaded poster image file. */
-		if (!posterImg.isEmpty()) {
+		if (!posterImgFile.isEmpty()) {
 			/*
 			 * 4. Check whether client has uploaded the same file with original one
 			 *    [Note that this process is only done by the name of the file!]
 			 */
 			
-			if (!movieOrigin.getPosterOrigName().equals(posterImg.getOriginalFilename())) {
+			if (!movieOriginal.getPosterOrigName().equals(posterImgFile.getOriginalFilename())) {
 				
 				/* 4-1. upload new poster image file */
 				/* 4-1-1. Get relative root path on this project */
@@ -299,13 +286,13 @@ public class MovieController {
 				String root = this.getClass().getResource("/").getPath();
 				System.out.println("root : " + root);
 				
-				String rootPath = root.concat(PATH_OF_MOVIE_POSTER);
+				String rootPath = root.concat(PATH_TO_SAVE_POSTER_IMG);
 				
 				/*
 				 * (Alternative)
 				 * Apply proper file separator for Windows server environment, but not recommended.
 				 */
-				if (isWindows) {
+				if (isHostOsWindows) {
 					rootPath = rootPath.replace("/", "\\");
 				}
 				
@@ -322,7 +309,7 @@ public class MovieController {
 				}
 				
 				/* 4-1-4. Randomize file name */
-				String posterOrigName = posterImg.getOriginalFilename();
+				String posterOrigName = posterImgFile.getOriginalFilename();
 				System.out.println("Original file name : " + posterOrigName);
 				
 				String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
@@ -332,7 +319,7 @@ public class MovieController {
 				try {
 					
 					/* 4-1-5. Save the file, if no exceptions occur */
-					posterImg.transferTo(new File(posterImgPath + posterUuidName));
+					posterImgFile.transferTo(new File(posterImgPath + posterUuidName));
 					
 				} catch (IllegalStateException | IOException e) {
 					
@@ -351,22 +338,22 @@ public class MovieController {
 					return mv;
 				}
 				
-				movieNew.setPosterOrigName(posterOrigName);
-				movieNew.setPosterUuidName(posterUuidName);
-				movieNew.setPosterImgPath(posterImgPath);
+				movieToUpdate.setPosterOrigName(posterOrigName);
+				movieToUpdate.setPosterUuidName(posterUuidName);
+				movieToUpdate.setPosterImgPath(posterImgPath);
 				
 				/* 4-2. Delete original image file, if new image file is successfully saved. */
-				new File(movieOrigin.getPosterImgPath() + movieOrigin.getPosterUuidName()).delete();
+				new File(movieOriginal.getPosterImgPath() + movieOriginal.getPosterUuidName()).delete();
 				
 			}
 			
 		}
 		
 		System.out.println("--------------- Entity Created ---------------");
-		System.out.println("Created movie entity : " + movieNew);
+		System.out.println("Created movie entity to update : " + movieToUpdate);
 		System.out.println("----------------------------------------------");
 		
-		movieService.modifyMovie(movieNew);
+		movieService.modifyMovie(movieToUpdate);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 영화 정보 수정을 성공했습니다.");
 		
@@ -385,11 +372,11 @@ public class MovieController {
 		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
 				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
-		/* delete movie entity and poster image file */
-		MovieDTO movie = movieService.inquireSingleMovieByCode(code);
+		/* delete both movie entity and poster image file */
+		MovieDTO movieToDelete = movieService.inquireSingleMovieByCode(code);
 		movieService.deleteMovieByCode(code);
 		
-		new File(movie.getPosterImgPath()).delete();
+		new File(movieToDelete.getPosterImgPath() + movieToDelete.getPosterUuidName()).delete();
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] " + code + "번 영화 삭제를 성공했습니다.");
 		mv.setViewName("redirect:list");
@@ -397,4 +384,31 @@ public class MovieController {
 		return mv;
 	}
 	
+	/**
+	 * Represents whether the Operating System of server or host computer is Windows or not.
+	 * <p>
+	 * Need to know which file separator(<code>/</code> or <code>\\</code>) should be used,
+	 * when specifying the path where to save and delete files.
+	 * <p>
+	 * The following OSs can be verified, but in this project, it is sufficient to verify whether
+	 * or not is it windows.
+	 * <ul>
+	 *   <li>windows : supported</li>
+	 *   <li>unix : recommended</li>
+	 *   <li>macos : recommended</li>
+	 *   <li>solaris : not supported</li>
+	 * </ul>
+	 * 
+	 * @return true if operating system of host is Windows, false otherwise
+	 */
+	protected boolean isWindows() {
+		
+		String osName = System.getProperty("os.name").toLowerCase();
+		
+		if (osName.contains("win")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

@@ -35,7 +35,8 @@ public class EventController {
 	@GetMapping("/list")
 	public ModelAndView inquireAllEventList(ModelAndView mv) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<EventDTO> eventList = eventService.inquireAllEventList();
 		
@@ -45,62 +46,11 @@ public class EventController {
 		return mv;
 	}
 	
-	@GetMapping("/regist")
-	public ModelAndView registEvent(ModelAndView mv) {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		List<MovieDTO> movieList = movieService.inquireAllMovieList();
-		
-		mv.addObject("movieList", movieList);
-		mv.setViewName("theater/eventRegist");
-		
-		return mv;
-	}
-	
-	@PostMapping("/regist")
-	public String registEvent(HttpServletRequest request, RedirectAttributes rAttr,
-			@RequestParam(defaultValue = "0", name = "movieAndEvent") int movieCode,
-			@RequestParam(required = false) String rentalCompany,
-			@RequestParam(required = false) String product)
-			throws UnsupportedEncodingException, ParseException {
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
-		
-		request.setCharacterEncoding("UTF-8");
-		
-		String eventName = request.getParameter("name");
-		String startDatetime = request.getParameter("startDatetime");
-		String endDatetime = request.getParameter("endDatetime");
-		
-		System.out.println("eventName: " + eventName);
-		System.out.println("startDatetime: " + startDatetime);
-		System.out.println("endDatetime: " + endDatetime);
-		System.out.println("movieCode: " + movieCode);
-		System.out.println("rentalCompany: " + rentalCompany);
-		System.out.println("product: " + product);
-		
-		EventDTO event = new EventDTO();
-		
-		event.setName(eventName);
-		event.setStartDatetime(startDatetime);
-		event.setEndDatetime(endDatetime);
-		event.setRentalCompany(rentalCompany);
-		event.setProduct(product);
-
-		if (movieCode != 0) {
-			event.setMovieAndEvent(movieService.inquireSingleMovieByCode(movieCode));
-		}
-
-		eventService.registEvent(event);
-		
-		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 이벤트 정보 등록에 성공했습니다.");
-
-		return "redirect:list";
-	}
-	
 	@GetMapping("/details")
 	public ModelAndView getDetailsOfSingleEvent(ModelAndView mv, @RequestParam int code) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		EventDTO event = eventService.inquireSingleEventByCode(code);
@@ -112,15 +62,29 @@ public class EventController {
 		return mv;
 	}
 	
-	@PostMapping("/modify")
-	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr,
-			@RequestParam(defaultValue = "0") int code,
-			@RequestParam(defaultValue = "0", name = "movieAndEvent") int movieCode,
+	@GetMapping("/regist")
+	public ModelAndView registEvent(ModelAndView mv) {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		List<MovieDTO> movieList = movieService.inquireAllMovieList();
+		
+		mv.addObject("movieList", movieList);
+		mv.setViewName("theater/eventRegist");
+		
+		return mv;
+	}
+	
+	@PostMapping("/regist")
+	public String registEvent(HttpServletRequest request, RedirectAttributes rAttr,
+			@RequestParam(defaultValue = "0", name = "movieCode") int movieCode,
 			@RequestParam(required = false) String rentalCompany,
 			@RequestParam(required = false) String product)
 			throws UnsupportedEncodingException, ParseException {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
@@ -128,6 +92,56 @@ public class EventController {
 		String startDatetime = request.getParameter("startDatetime");
 		String endDatetime = request.getParameter("endDatetime");
 		
+		System.out.println("--------------- Check Requested Parameters ---------------");
+		System.out.println("name: " + eventName);
+		System.out.println("startDatetime: " + startDatetime);
+		System.out.println("endDatetime: " + endDatetime);
+		System.out.println("movieCode: " + movieCode);
+		System.out.println("rentalCompany: " + rentalCompany);
+		System.out.println("product: " + product);
+		
+		EventDTO eventDto = new EventDTO();
+		
+		eventDto.setName(eventName);
+		eventDto.setStartDatetime(startDatetime);
+		eventDto.setEndDatetime(endDatetime);
+		eventDto.setRentalCompany(rentalCompany);
+		eventDto.setProduct(product);
+
+		// Inquire movie entity, if requested parameter is not empty
+		if (movieCode != 0) {
+			eventDto.setMovie(movieService.inquireSingleMovieByCode(movieCode));
+		}
+		
+		System.out.println("------------------- Event DTO Created --------------------");
+		System.out.println("Created event DTO to insert : " + eventDto);
+		System.out.println("----------------------------------------------------------");
+
+		eventService.registEvent(eventDto);
+		
+		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 이벤트 정보 등록에 성공했습니다.");
+
+		return "redirect:list";
+	}
+	
+	@PostMapping("/modify")
+	public String modifyEvent(HttpServletRequest request, RedirectAttributes rAttr,
+			@RequestParam(defaultValue = "0") int code,
+			@RequestParam(defaultValue = "0", name = "movieCode") int movieCode,
+			@RequestParam(required = false) String rentalCompany,
+			@RequestParam(required = false) String product)
+			throws UnsupportedEncodingException, ParseException {
+		
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		String eventName = request.getParameter("name");
+		String startDatetime = request.getParameter("startDatetime");
+		String endDatetime = request.getParameter("endDatetime");
+		
+		System.out.println("--------------- Check Requested Parameters ---------------");
 		System.out.println("eventCode: " + code);
 		System.out.println("eventName: " + eventName);
 		System.out.println("startDatetime: " + startDatetime);
@@ -136,20 +150,25 @@ public class EventController {
 		System.out.println("rentalCompany: " + rentalCompany);
 		System.out.println("product: " + product);
 		
-		EventDTO eventFromClient = new EventDTO();
+		EventDTO eventToUpdate = new EventDTO();
 		
-		eventFromClient.setCode(code);
-		eventFromClient.setName(eventName);
-		eventFromClient.setStartDatetime(startDatetime);
-		eventFromClient.setEndDatetime(endDatetime);
-		eventFromClient.setRentalCompany(rentalCompany);
-		eventFromClient.setProduct(product);
+		eventToUpdate.setCode(code);
+		eventToUpdate.setName(eventName);
+		eventToUpdate.setStartDatetime(startDatetime);
+		eventToUpdate.setEndDatetime(endDatetime);
+		eventToUpdate.setRentalCompany(rentalCompany);
+		eventToUpdate.setProduct(product);
 
+		// Inquire movie entity, if requested parameter is not empty
 		if (movieCode != 0) {
-			eventFromClient.setMovieAndEvent(movieService.inquireSingleMovieByCode(movieCode));
+			eventToUpdate.setMovie(movieService.inquireSingleMovieByCode(movieCode));
 		}
 		
-		eventService.modifyEvent(eventFromClient);
+		System.out.println("------------------- Event DTO Created --------------------");
+		System.out.println("Created event DTO to update : " + eventToUpdate);
+		System.out.println("----------------------------------------------------------");
+		
+		eventService.modifyEvent(eventToUpdate);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 이벤트 정보 수정을 성공했습니다.");
 
@@ -159,7 +178,8 @@ public class EventController {
 	@GetMapping("/delete")
 	public String deleteEventByCode(RedirectAttributes rAttr, @RequestParam int code) {
 		
-		System.out.println(Thread.currentThread().getStackTrace()[2].getClassName());
+		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
+				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		eventService.deleteEventByCode(code);
 		

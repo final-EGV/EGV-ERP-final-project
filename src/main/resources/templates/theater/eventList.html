@@ -70,10 +70,10 @@
 											<td th:text="${ #strings.replace(event.startDatetime, 'T', ' ') }"></td>
 											<td th:text="${ #strings.replace(event.endDatetime, 'T', ' ') }"></td>
 											<td th:text="${ event.rentalCompany } == null ? '-' : ${ event.rentalCompany }"></td>
-											<td th:if="${ event.movieAndEvent } == null">-</td>
-											<td th:unless="${ event.movieAndEvent } == null">
-												<a th:text="${ event.movieAndEvent.name }"
-													th:href="@{/theater/movie/details(code=${ event.movieAndEvent.code })}">
+											<td th:if="${ event.movie } == null">-</td>
+											<td th:unless="${ event.movie } == null">
+												<a th:text="${ event.movie.name }"
+													th:href="@{/theater/movie/details(code=${ event.movie.code })}">
 												</a>
 											</td>
 											<td th:text="${ event.product } == null ? '-' : ${ event.product }"></td>

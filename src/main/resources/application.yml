@@ -25,5 +25,6 @@ spring:
   thymeleaf:
     prefix: classpath:templates/
     suffix: .htmllogging:  level:
-      root: warn
+    root: warn
+    '[org.erp.egv.aop]': info
 #    '[org.hibernate]': info

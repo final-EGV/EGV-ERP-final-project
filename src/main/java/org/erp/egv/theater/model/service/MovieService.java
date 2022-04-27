@@ -24,9 +24,6 @@ public class MovieService {
 	@Transactional
 	public List<MovieDTO> inquireAllMovieList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		List<Movie> movieEntityList = movieDAO.inquireAllMovieList();
 		List<MovieDTO> movieDtoList = new ArrayList<>();
 		
@@ -39,9 +36,6 @@ public class MovieService {
 	
 	@Transactional
 	public List<MovieDTO> inquireOnlyYMovieList() {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		List<Movie> movieEntityList = movieDAO.inquireOnlyYMovieList();
 		List<MovieDTO> movieDtoList = new ArrayList<>();
@@ -56,17 +50,11 @@ public class MovieService {
 	@Transactional
 	public MovieDTO inquireSingleMovieByCode(int movieCode) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		return movieDAO.inquireSingleMovieByCode(movieCode).toDto();
 	}
 	
 	@Transactional
 	public void registMovie(MovieDTO movieDto) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		movieDAO.registMovie(movieDto.toEntity());
 	}
@@ -74,17 +62,11 @@ public class MovieService {
 	@Transactional
 	public void modifyMovie(MovieDTO movieToUpdate) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		movieDAO.modifyMovie(movieToUpdate.toEntityWithId());
 	}
 
 	@Transactional
 	public void deleteMovieByCode(int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		movieDAO.deleteMovieByCode(code);
 	}

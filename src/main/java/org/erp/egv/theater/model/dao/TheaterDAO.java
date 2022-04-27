@@ -14,9 +14,6 @@ public class TheaterDAO {
 
 	public Theater inquireSingleTheaterByCode(int theaterCode) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		return em.find(Theater.class, theaterCode);
 	}
 

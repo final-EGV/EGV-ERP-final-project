@@ -16,9 +16,6 @@ public class EventDAO {
 	
 	public List<Event> inquireAllEventList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		String jpql = "SELECT e FROM Event e LEFT JOIN e.movie m ORDER BY e.startDatetime DESC";
 		
 		List<Event> eventEntityList = em.createQuery(jpql, Event.class)
@@ -29,9 +26,6 @@ public class EventDAO {
 	
 	public Event inquireSingleEventByCode(int code) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		Event event = em.find(Event.class, code);
 		
 		return event;
@@ -39,16 +33,10 @@ public class EventDAO {
 
 	public void registEvent(Event event) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		em.persist(event);
 	}
 
 	public void modifyEvent(Event eventToUpdate) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		Event eventFromPC = em.find(Event.class, eventToUpdate.getCode());
 		
@@ -62,14 +50,14 @@ public class EventDAO {
 
 	public void deleteEventByCode(int code) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		Event event = em.find(Event.class, code);
 		
+		/*
+		 * Return and terminate current transaction, if there is no entity in
+		 * the persistence context with given @Id. No futhur process is required
+		 * if entity to delete does not exist.
+		 */
 		if (event == null) {
-			System.out.println("[Error] " + code + "번 이벤트는 현재 데이터베이스에 존재하지 않습니다.");
-			
 			return;
 		}
 		

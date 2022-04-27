@@ -25,9 +25,6 @@ public class PremiereController {
 	@GetMapping("")
 	public ModelAndView scheduleMoviePremiere(ModelAndView mv) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		
 		mv.addObject("movieList", movieList);
@@ -39,9 +36,6 @@ public class PremiereController {
 	@GetMapping(value="/drawCalendar", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<MovieDTO> inquireOnlyYMovieList() {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		return movieService.inquireOnlyYMovieList();
 	}

@@ -24,9 +24,6 @@ public class ScreeningService {
 	@Transactional
 	public List<ScreeningScheduleDTO> inquireAllScreeningScheduleList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		List<ScreeningSchedule> screeningScheduleEntityList = screeningDAO.inquireAllScreeningScheduleList();
 		List<ScreeningScheduleDTO> screeningScheduleDtoList = new ArrayList<>();
 		
@@ -40,26 +37,17 @@ public class ScreeningService {
 	@Transactional
 	public void registSchedule(ScreeningScheduleDTO scheduleDto) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		screeningDAO.registSchedule(scheduleDto.toEntity());
 	}
 
 	@Transactional
 	public void modifySchedule(ScreeningScheduleDTO scheduleToUpdate) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		screeningDAO.modifySchedule(scheduleToUpdate.toEntityWithId());
 	}
 
 	@Transactional
 	public void deleteScreeningScheduleByCode(int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		screeningDAO.deleteScreeningScheduleByCode(code);
 	}

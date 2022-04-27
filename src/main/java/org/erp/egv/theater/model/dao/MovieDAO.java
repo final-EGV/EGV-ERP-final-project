@@ -16,9 +16,6 @@ public class MovieDAO {
 
 	public List<Movie> inquireAllMovieList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		String jpql = "SELECT m FROM Movie m ORDER BY m.openingDate";
 		
 		List<Movie> movieEntityList = em.createQuery(jpql, Movie.class)
@@ -28,9 +25,6 @@ public class MovieDAO {
 	}
 	
 	public List<Movie> inquireOnlyYMovieList() {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		String jpql = "SELECT m FROM Movie m WHERE m.openingYn = 'Y' ORDER BY m.openingDate";
 		
@@ -42,24 +36,15 @@ public class MovieDAO {
 	
 	public Movie inquireSingleMovieByCode(int movieCode) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		return em.find(Movie.class, movieCode);
 	}
 
 	public void registMovie(Movie movie) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		em.persist(movie);
 	}
 
 	public void modifyMovie(Movie movieToUpdate) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		Movie movieFromPC = em.find(Movie.class, movieToUpdate.getCode());
 		
@@ -79,14 +64,14 @@ public class MovieDAO {
 
 	public void deleteMovieByCode(int code) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		Movie movie = em.find(Movie.class, code);
 		
+		/*
+		 * Return and terminate current transaction, if there is no entity in
+		 * the persistence context with given @Id. No futhur process is required
+		 * if entity to delete does not exist.
+		 */
 		if (movie == null) {
-			System.out.println("[Error] " + code + "번 영화는 현재 데이터베이스에 존재하지 않습니다.");
-			
 			return;
 		}
 		

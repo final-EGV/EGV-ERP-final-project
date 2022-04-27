@@ -12,17 +12,37 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LoggingMethodInvokeAspect {
-
-	@Before("execution(* org.erp.egv.theater..*DAO.*(..))"
-			+ " || execution(* org.erp.egv.theater..*DAO.*(..))")
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoggingMethodInvokeAspect.class);
+	
+	/**
+	 * A join point is in the business(service) layer, if the method is defined
+	 * in a type in the org.erp.egv.theater.model.service package or any
+	 * sub-packaged under that.
+	 * <p>
+	 * Target methods matched to this pointcut may have an @Service annotation
+	 * defined.
+	 */
+	@Pointcut("within(org.erp.egv.theater.model.service..*)")
+	public void inBusinessLayer() {}
+	
+	/**
+	 * A join point is in the persistence(data access) layer, if the method is
+	 * defined in a type in the org.erp.egv.theater.model.service package or any
+	 * sub-packaged under that.
+	 * <p>
+	 * Target methods matched to this pointcut may have an @Repository
+	 * annotation defined.
+	 */
+	@Pointcut("within(org.erp.egv.theater.model.dao..*)")
+	public void inPersistenceLayer() {}
+	
+	@Before("inBusinessLayer() || inPersistenceLayer()")
 	public void loggingMethodInvoke(JoinPoint jp) {
 		
 		Signature signature = jp.getSignature();
 		
-		Class<? extends Object> targetObjectType = jp.getTarget().getClass();
-		Logger logger = LoggerFactory.getLogger(targetObjectType);
-		
-		logger.info("##### [CALLING] : {}.{}() with arguments {}",
+		LOGGER.info("##### [INVOKED] --> {}.{}() with arguments {}",
 				signature.getDeclaringTypeName(),
 				signature.getName(),
 				jp.getArgs());

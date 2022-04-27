@@ -16,9 +16,6 @@ public class ScreeningDAO {
 	
 	public List<ScreeningSchedule> inquireAllScreeningScheduleList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		String jpql = "SELECT s FROM ScreeningSchedule s";
 		
 		List<ScreeningSchedule> scheduleList = em.createQuery(jpql, ScreeningSchedule.class)
@@ -29,16 +26,10 @@ public class ScreeningDAO {
 	
 	public void registSchedule(ScreeningSchedule schedule) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		em.persist(schedule);
 	}
 
 	public void modifySchedule(ScreeningSchedule scheduleToUpdate) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		ScreeningSchedule scheduleFromPC = em.find(ScreeningSchedule.class, scheduleToUpdate.getCode());
 		
@@ -50,14 +41,14 @@ public class ScreeningDAO {
 
 	public void deleteScreeningScheduleByCode(int code) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		ScreeningSchedule schedule = em.find(ScreeningSchedule.class, code);
 		
+		/*
+		 * Return and terminate current transaction, if there is no entity in
+		 * the persistence context with given @Id. No futhur process is required
+		 * if entity to delete does not exist.
+		 */
 		if (schedule == null) {
-			System.out.println("[Error] " + code + "번 상영 스케줄은 현재 데이터베이스에 존재하지 않습니다.");
-			
 			return;
 		}
 		

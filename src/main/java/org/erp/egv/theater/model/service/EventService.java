@@ -24,9 +24,6 @@ public class EventService {
 	@Transactional
 	public List<EventDTO> inquireAllEventList() {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		List<Event> eventEntityList = eventDAO.inquireAllEventList();
 		List<EventDTO> eventDtoList = new ArrayList<>();
 		
@@ -40,17 +37,11 @@ public class EventService {
 	@Transactional
 	public EventDTO inquireSingleEventByCode(int code) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		return eventDAO.inquireSingleEventByCode(code).toDto();
 	}
 
 	@Transactional
 	public void registEvent(EventDTO eventDto) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		eventDAO.registEvent(eventDto.toEntity());
 	}
@@ -58,17 +49,11 @@ public class EventService {
 	@Transactional
 	public void modifyEvent(EventDTO eventToUpdate) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		eventDAO.modifyEvent(eventToUpdate.toEntityWithId());
 	}
 
 	@Transactional
 	public void deleteEventByCode(int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		eventDAO.deleteEventByCode(code);
 	}

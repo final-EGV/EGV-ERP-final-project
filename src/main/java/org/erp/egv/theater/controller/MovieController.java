@@ -41,9 +41,6 @@ public class MovieController {
 	@GetMapping("/list")
 	public ModelAndView inquireAllMovieList(ModelAndView mv) {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-							+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		List<MovieDTO> movieList = movieService.inquireAllMovieList();
 		
 		mv.addObject("movieList", movieList);
@@ -54,9 +51,6 @@ public class MovieController {
 	
 	@GetMapping("/details")
 	public ModelAndView getDetailsOfSingleMovie(ModelAndView mv, @RequestParam int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		MovieDTO movieDto = movieService.inquireSingleMovieByCode(code);
 		
@@ -69,9 +63,6 @@ public class MovieController {
 	@GetMapping("/regist")
 	public String registMovie() throws UnsupportedEncodingException {
 		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
-		
 		return "theater/movieRegist";
 	}
 	
@@ -80,9 +71,6 @@ public class MovieController {
 								@RequestParam("posterImg") MultipartFile posterImg,
 								ModelAndView mv,
 								RedirectAttributes rAttr) throws UnsupportedEncodingException, ParseException {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
@@ -103,25 +91,8 @@ public class MovieController {
 		String country = request.getParameter("country");
 		String openingYn = request.getParameter("openingYn");
 		
-		/* 1-2. Test print */
-		System.out.println("--------------- Check Requested Parameters ---------------");
-		System.out.println("movieName : " + movieName);
-		System.out.println("openingDate : " + openingDate);
-		System.out.println("runningTime : " + runningTime);
-		System.out.println("grade : " + grade);
-		System.out.println("genre : " + genre);
-		System.out.println("distributor : " + distributor);
-		System.out.println("director : " + director);
-		System.out.println("country : " + country);
-		System.out.println("openingYn : " + openingYn);
-		
 		/* 2. Get the saving path */
 		/* 2-1. Get relative root path based on this project */
-		System.out.println("--------------- File system analyzation ---------------");
-		String root = this.getClass().getResource("/").getPath();
-		System.out.println("root : " + root);
-		
-		String rootPath = root.concat(PATH_TO_SAVE_POSTER_IMG);
 		
 		/*
 		 * (Alternative)
@@ -131,25 +102,18 @@ public class MovieController {
 			rootPath = rootPath.replace("/", "\\");
 		}
 		
-		/* 2-2. Set path where a file would be saved, based on this project */
-		String posterImgPath = rootPath;
-		System.out.println("posterImgPath : " + posterImgPath);
-		
-		/* 2-3. Create directory if saving path doesn't exist */
+		/* 1-2. Make directory if saving path does not exist */
 		File mkdir = new File(posterImgPath);
 		
 		if (!mkdir.exists()) {
-			System.out.println("Since there is no directory to store the image file, "
-					+ "the directory was created and result is : " + mkdir.mkdirs());
+			mkdir.mkdirs();
 		}
 		
 		/* 2-4. Randomize file name */
 		String posterOrigName = posterImg.getOriginalFilename();
-		System.out.println("Original file name : " + posterOrigName);
 		
 		String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
 		String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
-		System.out.println("Randomized file name : " + posterUuidName);
 		
 		/* 3. Save or delete a file */
 		String pathToRedirect = "";
@@ -157,7 +121,6 @@ public class MovieController {
 		try {
 			/* 3-1. Save the file, if no exceptions occur */
 			posterImg.transferTo(new File(posterImgPath + posterUuidName));
-			System.out.println("File is saved into -> " + posterImgPath + posterUuidName);
 			
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
@@ -192,10 +155,7 @@ public class MovieController {
 		movieDto.setPosterImgPath(posterImgPath);
 		movieDto.setOpeningYn(openingYn);
 		
-		System.out.println("------------- Movie DTO Created --------------");
-		System.out.println("Created movie DTO to insert : " + movieDto);
-		System.out.println("----------------------------------------------");
-		
+		/* 3. Call service method with prepared DTO */
 		movieService.registMovie(movieDto);
 		
 		pathToRedirect = "list";
@@ -212,9 +172,6 @@ public class MovieController {
 									ModelAndView mv,
 									RedirectAttributes rAttr)
 											throws UnsupportedEncodingException, ParseException {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		request.setCharacterEncoding("UTF-8");
 		
@@ -236,22 +193,12 @@ public class MovieController {
 		String country = request.getParameter("country");
 		String openingYn = request.getParameter("openingYn");
 		
-		/* 1-2. Test print */
-		System.out.println("--------------- Check Requested Parameters ---------------");
-		System.out.println("movieCode : " + movieCode);
-		System.out.println("movieName : " + movieName);
-		System.out.println("openingDate : " + openingDate);
-		System.out.println("runningTime : " + runningTime);
-		System.out.println("grade : " + grade);
-		System.out.println("genre : " + genre);
-		System.out.println("distributor : " + distributor);
-		System.out.println("director : " + director);
-		System.out.println("country : " + country);
-		System.out.println("openingYn : " + openingYn);
+		/* 1-2. Prepare original and new DTO */
+		/* 1-2-1 Get original Entity */
+		MovieDTO movieOriginal = movieService.inquireSingleMovieByCode(movieCode);	// original DTO
 		
 		/* 2. Prepare original and new Movie DTO */
 		MovieDTO movieOriginal = movieService.inquireSingleMovieByCode(movieCode);
-		System.out.println("original moview entity : " + movieOriginal);
 		MovieDTO movieToUpdate = new MovieDTO();
 		
 		movieToUpdate.setCode(movieCode);
@@ -282,9 +229,8 @@ public class MovieController {
 				
 				/* 4-1. upload new poster image file */
 				/* 4-1-1. Get relative root path on this project */
-				System.out.println("--------------- File system analyzation ---------------");
-				String root = this.getClass().getResource("/").getPath();
-				System.out.println("root : " + root);
+				String posterImgPath = this.getClass().getResource("/").getPath()	// root path
+										.concat(PATH_TO_SAVE_POSTER_IMG);			// static resource path
 				
 				String rootPath = root.concat(PATH_TO_SAVE_POSTER_IMG);
 				
@@ -298,23 +244,19 @@ public class MovieController {
 				
 				/* 4-1-2. Set path where a file would be saved, based on this project */
 				String posterImgPath = rootPath;
-				System.out.println("posterImgPath(저장 경로) : " + posterImgPath);
 				
 				/* 4-1-3. Create directory if saving path doesn't exist */
 				File mkdir = new File(posterImgPath);
 				
 				if (!mkdir.exists()) {
-					System.out.println("Since there is no directory to store the image file, "
-							+ "the directory was created and result is : " + mkdir.mkdirs());
+					mkdir.mkdirs();
 				}
 				
 				/* 4-1-4. Randomize file name */
 				String posterOrigName = posterImgFile.getOriginalFilename();
-				System.out.println("Original file name : " + posterOrigName);
 				
 				String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
 				String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
-				System.out.println("Randomized file name : " + posterUuidName);
 				
 				try {
 					
@@ -349,9 +291,7 @@ public class MovieController {
 			
 		}
 		
-		System.out.println("--------------- Entity Created ---------------");
-		System.out.println("Created movie entity to update : " + movieToUpdate);
-		System.out.println("----------------------------------------------");
+		/* 3. Call service method with prepared DTO */
 		
 		movieService.modifyMovie(movieToUpdate);
 		
@@ -368,9 +308,6 @@ public class MovieController {
 	public ModelAndView deleteMovieByCode(ModelAndView mv,
 										  RedirectAttributes rAttr,
 										  @RequestParam int code) {
-		
-		System.out.println(new Throwable().getStackTrace()[0].getClassName() + "."
-				+ new Throwable().getStackTrace()[0].getMethodName() + "is called");
 		
 		/* delete both movie entity and poster image file */
 		MovieDTO movieToDelete = movieService.inquireSingleMovieByCode(code);

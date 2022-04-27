@@ -13,17 +13,37 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggingMethodTermination {
 
-	@AfterReturning(pointcut = "execution(* org.erp.egv.theater..*Service.*(..))"
-								+ " || execution(* org.erp.egv.theater..*DAO.*(..))",
-					returning = "result")
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoggingMethodTermination.class);
+	
+	/**
+	 * A join point is in the business(service) layer, if the method is defined
+	 * in a type in the org.erp.egv.theater.model.service package or any
+	 * sub-packaged under that.
+	 * <p>
+	 * Target methods matched to this pointcut may have an @Service annotation
+	 * defined.
+	 */
+	@Pointcut("within(org.erp.egv.theater.model.service..*)")
+	public void inBusinessLayer() {}
+	
+	/**
+	 * A join point is in the persistence(data access) layer, if the method is
+	 * defined in a type in the org.erp.egv.theater.model.service package or any
+	 * sub-packaged under that.
+	 * <p>
+	 * Target methods matched to this pointcut may have an @Repository
+	 * annotation defined.
+	 */
+	@Pointcut("within(org.erp.egv.theater.model.dao..*)")
+	public void inPersistenceLayer() {}
+	
+	@AfterReturning(pointcut = "inBusinessLayer() || inPersistenceLayer()",
+			returning = "result")
 	public void loggingMethodTermination(JoinPoint jp, Object result) {
-		
+
 		Signature signature = jp.getSignature();
-		
-		Class<? extends Object> targetObjectType = jp.getTarget().getClass();
-		Logger logger = LoggerFactory.getLogger(targetObjectType);
-		
-		logger.info("##### [ENDDING] : {}.{}() with returning : {}",
+
+		LOGGER.info("##### [TERMINATED] : {}.{}() with returning : {}",
 				signature.getDeclaringTypeName(),
 				signature.getName(),
 				result != null ? result.toString() : null);

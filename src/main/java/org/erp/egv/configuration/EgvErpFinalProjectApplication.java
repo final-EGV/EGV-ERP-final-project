@@ -11,7 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @ComponentScan(basePackages = "org.erp.egv")
 @EntityScan(basePackages = "org.erp.egv")
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class EgvErpFinalProjectApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

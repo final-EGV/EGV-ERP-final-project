@@ -43,7 +43,7 @@ public class LoggingMethodTermination {
 
 		Signature signature = jp.getSignature();
 
-		LOGGER.info("##### [TERMINATED] : {}.{}() with returning : {}",
+		LOGGER.info("##### [TERMINATED] : {}.{}() with returning {}",
 				signature.getDeclaringTypeName(),
 				signature.getName(),
 				result != null ? result.toString() : null);

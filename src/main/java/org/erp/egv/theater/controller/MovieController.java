@@ -68,14 +68,59 @@ public class MovieController {
 	
 	@PostMapping("/regist")
 	public ModelAndView registMovie(HttpServletRequest request,
-								@RequestParam("posterImg") MultipartFile posterImg,
+								@RequestParam("posterImg") MultipartFile posterImgFile,
 								ModelAndView mv,
 								RedirectAttributes rAttr) throws UnsupportedEncodingException, ParseException {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		/* 1. Verify String type of requested parameters from client browser */
-		/* 1.1 Get requested parameters */
+		/* 1. Save or delete file */
+		/* 1-1. Get the saving path with root path and static resource path */
+		String posterImgPath = this.getClass().getResource("/").getPath()	// root path
+								.concat(PATH_TO_SAVE_POSTER_IMG);			// static resource path
+		
+		/*
+		 * (Alternative)
+		 * Apply proper file separator for Windows server environment, but not recommended.
+		 */
+		if (isHostOsWindows) {
+			posterImgPath = posterImgPath.replace("/", "\\");
+		}
+		
+		/* 1-2. Make directory if saving path does not exist */
+		File mkdir = new File(posterImgPath);
+		
+		if (!mkdir.exists()) {
+			mkdir.mkdirs();
+		}
+		
+		/* 1-3. Randomize file name */
+		String posterOrigName = posterImgFile.getOriginalFilename();
+		String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
+		
+		String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
+		
+		try {
+			/* 1-4. Save file, if no exceptions occur */
+			posterImgFile.transferTo(new File(posterImgPath + posterUuidName));
+			
+		} catch (IllegalStateException | IOException e) {
+			/* 1-4. Delete file and redirect to movie list, if any exceptions occur */
+			e.printStackTrace();
+			
+			new File(posterImgPath + posterUuidName).delete();
+			
+			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보를 등록하는 도중에"
+													+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
+													+ " 다시 시도해 주세요. 불편을 드려 죄송합니다.");
+			
+			mv.setViewName("redirect:" + request.getHeader("Referer"));
+			
+			return mv;
+		}
+		
+		/* 2. Instantiate DTO */
+		/* 2-1. Verify request parameter */
 		String movieName = request.getParameter("movieName");
 		
 		String openingDateString = request.getParameter("openingDate");
@@ -91,55 +136,7 @@ public class MovieController {
 		String country = request.getParameter("country");
 		String openingYn = request.getParameter("openingYn");
 		
-		/* 2. Get the saving path */
-		/* 2-1. Get relative root path based on this project */
-		
-		/*
-		 * (Alternative)
-		 * Apply proper file separator for Windows server environment, but not recommended.
-		 */
-		if (isHostOsWindows) {
-			rootPath = rootPath.replace("/", "\\");
-		}
-		
-		/* 1-2. Make directory if saving path does not exist */
-		File mkdir = new File(posterImgPath);
-		
-		if (!mkdir.exists()) {
-			mkdir.mkdirs();
-		}
-		
-		/* 2-4. Randomize file name */
-		String posterOrigName = posterImg.getOriginalFilename();
-		
-		String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
-		String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
-		
-		/* 3. Save or delete a file */
-		String pathToRedirect = "";
-		
-		try {
-			/* 3-1. Save the file, if no exceptions occur */
-			posterImg.transferTo(new File(posterImgPath + posterUuidName));
-			
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-			
-			/* 3-2. Delete a file, if any exceptions occur */
-			new File(posterImgPath + posterUuidName).delete();
-			
-			// redirect to movie list if any exceptions occur while saving a file
-			pathToRedirect = "list";
-			rAttr.addFlashAttribute("flashMessage", "[Error] 신규 영화 정보를 등록하는 도중에"
-													+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
-													+ " 다시 시도해 주세요. 불편을 드려 죄송합니다.");
-			
-			mv.setViewName("redirect:" + request.getHeader("Referer"));
-			
-			return mv;
-		}
-		
-		/* 4. Instantiate MovieDTO */
+		/* 2-2 Instantiate DTO */
 		MovieDTO movieDto = new MovieDTO();
 		
 		movieDto.setName(movieName);
@@ -158,10 +155,9 @@ public class MovieController {
 		/* 3. Call service method with prepared DTO */
 		movieService.registMovie(movieDto);
 		
-		pathToRedirect = "list";
 		rAttr.addFlashAttribute("flashMessage", "[Success] 신규 영화 정보 등록을 성공했습니다.");
 		
-		mv.setViewName("redirect:" + pathToRedirect);
+		mv.setViewName("redirect:list");
 		
 		return mv;
 	}
@@ -175,8 +171,8 @@ public class MovieController {
 		
 		request.setCharacterEncoding("UTF-8");
 		
-		/* 1. Verify String type of requested parameters from client browser */
-		/* 1.1 Get requested parameters */
+		/* 1. Prepare both original DTO and requested DTO */
+		/* 1.1 Verify request parameter */
 		int movieCode = Integer.valueOf(request.getParameter("movieCode"));
 		String movieName = request.getParameter("movieName");
 		
@@ -197,8 +193,7 @@ public class MovieController {
 		/* 1-2-1 Get original Entity */
 		MovieDTO movieOriginal = movieService.inquireSingleMovieByCode(movieCode);	// original DTO
 		
-		/* 2. Prepare original and new Movie DTO */
-		MovieDTO movieOriginal = movieService.inquireSingleMovieByCode(movieCode);
+		/* 1-2-2 Instantiate new DTO to update */
 		MovieDTO movieToUpdate = new MovieDTO();
 		
 		movieToUpdate.setCode(movieCode);
@@ -212,65 +207,59 @@ public class MovieController {
 		movieToUpdate.setCountry(country);
 		movieToUpdate.setOpeningYn(openingYn);
 		
+		// following fields may be updated later.
 		movieToUpdate.setPosterOrigName(movieOriginal.getPosterOrigName());
 		movieToUpdate.setPosterUuidName(movieOriginal.getPosterUuidName());
 		movieToUpdate.setPosterImgPath(movieOriginal.getPosterImgPath());
 		
-		String pathToRedirect = "";
-		
-		/* 3. Check whether client has uploaded poster image file. */
+		/* 2. Save or delete file */
+		/* 2-1. Check whether requested file exists. */
 		if (!posterImgFile.isEmpty()) {
+			
 			/*
-			 * 4. Check whether client has uploaded the same file with original one
+			 * 2-2. Check whether requested file name is different from original one.
+			 *      If they are different, determine that the client has requested a
+			 *      new file and have to replace it.
 			 *    [Note that this process is only done by the name of the file!]
 			 */
-			
 			if (!movieOriginal.getPosterOrigName().equals(posterImgFile.getOriginalFilename())) {
 				
-				/* 4-1. upload new poster image file */
-				/* 4-1-1. Get relative root path on this project */
+				/* 2-3. Replace new poster image file with original one */
+				/* 2-3-1. Get the saving path with root path and static resource path */
 				String posterImgPath = this.getClass().getResource("/").getPath()	// root path
 										.concat(PATH_TO_SAVE_POSTER_IMG);			// static resource path
-				
-				String rootPath = root.concat(PATH_TO_SAVE_POSTER_IMG);
 				
 				/*
 				 * (Alternative)
 				 * Apply proper file separator for Windows server environment, but not recommended.
 				 */
 				if (isHostOsWindows) {
-					rootPath = rootPath.replace("/", "\\");
+					posterImgPath = posterImgPath.replace("/", "\\");
 				}
 				
-				/* 4-1-2. Set path where a file would be saved, based on this project */
-				String posterImgPath = rootPath;
-				
-				/* 4-1-3. Create directory if saving path doesn't exist */
+				/* 2-3-2. Make directory if saving path does not exist */
 				File mkdir = new File(posterImgPath);
 				
 				if (!mkdir.exists()) {
 					mkdir.mkdirs();
 				}
 				
-				/* 4-1-4. Randomize file name */
+				/* 2-3-3. Randomize file name */
 				String posterOrigName = posterImgFile.getOriginalFilename();
-				
 				String extension = posterOrigName.substring(posterOrigName.lastIndexOf("."));
+				
 				String posterUuidName = UUID.randomUUID().toString().replace("-", "") + extension;
 				
 				try {
-					
-					/* 4-1-5. Save the file, if no exceptions occur */
+					/* 2-3-4. Save new file, if no exceptions occur */
 					posterImgFile.transferTo(new File(posterImgPath + posterUuidName));
 					
 				} catch (IllegalStateException | IOException e) {
-					
-					/* 4-1-6. Delete a file, if any exceptions occur */
+					/* 2-3-4. Delete new file and redirect to movie list, if any exceptions occur */
 					e.printStackTrace();
 					
 					new File(posterImgPath + posterUuidName).delete();
 					
-					pathToRedirect = "list";
 					rAttr.addFlashAttribute("flashMessage", "[Error] 영화 정보를 수정하는 도중에"
 															+ " 이미지 파일을 업로드하는데에 문제가 발생했습니다."
 															+ " 다시 시도해 주세요. 불편을 드려 죄송합니다.");
@@ -280,11 +269,12 @@ public class MovieController {
 					return mv;
 				}
 				
+				/* 2-3-5 Update following fields with new file information */
 				movieToUpdate.setPosterOrigName(posterOrigName);
 				movieToUpdate.setPosterUuidName(posterUuidName);
 				movieToUpdate.setPosterImgPath(posterImgPath);
 				
-				/* 4-2. Delete original image file, if new image file is successfully saved. */
+				/* 2-4. Delete original image file, if new image file is successfully saved. */
 				new File(movieOriginal.getPosterImgPath() + movieOriginal.getPosterUuidName()).delete();
 				
 			}
@@ -292,14 +282,11 @@ public class MovieController {
 		}
 		
 		/* 3. Call service method with prepared DTO */
-		
 		movieService.modifyMovie(movieToUpdate);
 		
 		rAttr.addFlashAttribute("flashMessage", "[Success] 영화 정보 수정을 성공했습니다.");
 		
-		pathToRedirect = "list";
-		
-		mv.setViewName("redirect:" + pathToRedirect);
+		mv.setViewName("redirect:list");
 		
 		return mv;
 	}
@@ -338,7 +325,7 @@ public class MovieController {
 	 * 
 	 * @return true if operating system of host is Windows, false otherwise
 	 */
-	protected boolean isWindows() {
+	private boolean isWindows() {
 		
 		String osName = System.getProperty("os.name").toLowerCase();
 		

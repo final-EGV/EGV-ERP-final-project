@@ -259,6 +259,10 @@
 				}, false)
 			})
 		})()
+		
+		/* 페이지 onload시 이벤트 시작일, 종료일을 현재 시간 및 날짜로 설정 */
+		document.getElementsByName("startDatetime")[0].value = new Date().toISOString().slice(0, -8);
+		document.getElementsByName("endDatetime")[0].value = new Date().toISOString().slice(0, -8);
 	</script>
 </body>
 

@@ -82,6 +82,7 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 > 공통 기능을 확인하시려면 다음 샘플 계정을 사용하여 로그인해주시기 바랍니다. 아래 계정에만 샘플 데이터가 준비되어 있습니다.  
 > - 사번(ID) : 2021100  
 > - 비밀번호 : pass01  
+
 ![메인화면](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EA%B3%B5%ED%86%B5%EA%B8%B0%EB%8A%A5_%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4_1.png)
 
 #### 메인 페이지에서 위젯 형식으로 개인 일정과 영화관의 일정을 모두 확인 가능
@@ -107,6 +108,7 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 | ![빠른정렬](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%98%81%ED%99%94_%EA%B8%B0%EB%8A%A5%EA%B5%AC%ED%98%84_1.gif) | ![빠른검색](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%98%81%ED%99%94_%EA%B8%B0%EB%8A%A5%EA%B5%AC%ED%98%84_2.gif) |
 
 #### 현재 시간에 맞춰 자동으로 상영 스케줄을 조회
+!(상영 스케줄 조회)[https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%83%81%EC%98%81%EC%8A%A4%EC%BC%80%EC%A4%84_%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4_1.png]
 
 #### 영화 러닝타임을 상영 종료 시간에 반영하여 자동 계산
 | 상영 스케줄 등록시                                                                                                                                                                                                                                        | 상영 스케줄 수정시                                                                                                                                                                                                                                        |
@@ -117,6 +119,7 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 > 영화관 관리 기능에 한하여 서버 로깅 기능이 구현되어 있습니다. 즉, `/org/erp/egv/theater` 이하 패키지에 속한 bean들에 한하여 로그를 기록합니다.
 - Spring AOP 기술을 사용해 부가 기능인 로깅 기능을 주요 기능에서 분리
 - 요청 및 응답에 대한 정보, MVC 패턴 상에서 메소드의 호출과 종료를 기록
+
 ![로깅 다이어그램](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EB%A1%9C%EA%B9%85_%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
 ![실제 서버 로깅](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EB%A1%9C%EA%B9%85_%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7.png)
 

@@ -98,10 +98,6 @@ public class LoggingAllRequestAspect {
 		
 		return ipAddress;
 	}
-	
-//	private String getRequestIpAddress() {
-//		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getRemoteAddr();
-//	}
 
 	/**
 	 * Get request URL from current join point and target object.

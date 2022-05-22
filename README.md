@@ -108,7 +108,7 @@ EGV는 기본적인 ERP의 기능들 뿐만 아니라 영화관 운영에 필요
 | ![빠른정렬](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%98%81%ED%99%94_%EA%B8%B0%EB%8A%A5%EA%B5%AC%ED%98%84_1.gif) | ![빠른검색](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%98%81%ED%99%94_%EA%B8%B0%EB%8A%A5%EA%B5%AC%ED%98%84_2.gif) |
 
 #### 현재 시간에 맞춰 자동으로 상영 스케줄을 조회
-!(상영 스케줄 조회)[https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%83%81%EC%98%81%EC%8A%A4%EC%BC%80%EC%A4%84_%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4_1.png]
+![상영 스케줄 조회](https://github.com/final-EGV/EGV-ERP-final-project/blob/unsuk-oracle-cloud-deploy/docs/images/%EC%98%81%ED%99%94%EA%B4%80%EA%B4%80%EB%A6%AC_%EC%83%81%EC%98%81%EC%8A%A4%EC%BC%80%EC%A4%84_%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4_1.png)
 
 #### 영화 러닝타임을 상영 종료 시간에 반영하여 자동 계산
 | 상영 스케줄 등록시                                                                                                                                                                                                                                        | 상영 스케줄 수정시                                                                                                                                                                                                                                        |
